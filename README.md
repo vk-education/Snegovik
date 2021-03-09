@@ -5,3 +5,6 @@
 ## Команда авторов
 
 - [Чернышев Андрей](https://github.com/rei98able)
+
+
+- [Парамонова Анна](https://github.com/ananasann)
