@@ -5,7 +5,7 @@
 ## Команда авторов
 
 - [Чернышев Андрей](https://github.com/rei98able)
-
+- [Киреева Ольга](https://github.com/olya2808)
 - [Маякова Ульяна](https://github.com/UlyanaMayakova)
 - [Парамонова Анна](https://github.com/ananasann)
 
