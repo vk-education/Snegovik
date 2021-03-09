@@ -6,4 +6,4 @@
 
 - [Чернышев Андрей](https://github.com/rei98able)
 
-- [Маякова Ульяна] (https://github.com/UlyanaMayakova)
+- [Маякова Ульяна](https://github.com/UlyanaMayakova)
