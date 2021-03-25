@@ -25,25 +25,26 @@
 17-->G:\applications kotlin\KinotechAppv1\app\src\main\AndroidManifest.xml:9:9-54
 18        android:supportsRtl="true"
 18-->G:\applications kotlin\KinotechAppv1\app\src\main\AndroidManifest.xml:10:9-35
-19        android:theme="@style/Theme.KinotechAppV1" >
-19-->G:\applications kotlin\KinotechAppv1\app\src\main\AndroidManifest.xml:11:9-51
-20        <activity
-20-->G:\applications kotlin\KinotechAppv1\app\src\main\AndroidManifest.xml:12:9-20:20
-21            android:name="com.kinotech.kinotechappv1.MainActivity"
-21-->G:\applications kotlin\KinotechAppv1\app\src\main\AndroidManifest.xml:13:13-41
-22            android:label="@string/app_name" >
-22-->G:\applications kotlin\KinotechAppv1\app\src\main\AndroidManifest.xml:14:13-45
-23            <intent-filter>
-23-->G:\applications kotlin\KinotechAppv1\app\src\main\AndroidManifest.xml:15:13-19:29
-24                <action android:name="android.intent.action.MAIN" />
-24-->G:\applications kotlin\KinotechAppv1\app\src\main\AndroidManifest.xml:16:17-69
-24-->G:\applications kotlin\KinotechAppv1\app\src\main\AndroidManifest.xml:16:25-66
-25
-26                <category android:name="android.intent.category.LAUNCHER" />
-26-->G:\applications kotlin\KinotechAppv1\app\src\main\AndroidManifest.xml:18:17-77
-26-->G:\applications kotlin\KinotechAppv1\app\src\main\AndroidManifest.xml:18:27-74
-27            </intent-filter>
-28        </activity>
-29    </application>
-30
-31</manifest>
+19        android:testOnly="true"
+20        android:theme="@style/Theme.KinotechAppV1" >
+20-->G:\applications kotlin\KinotechAppv1\app\src\main\AndroidManifest.xml:11:9-51
+21        <activity
+21-->G:\applications kotlin\KinotechAppv1\app\src\main\AndroidManifest.xml:12:9-20:20
+22            android:name="com.kinotech.kinotechappv1.MainActivity"
+22-->G:\applications kotlin\KinotechAppv1\app\src\main\AndroidManifest.xml:13:13-41
+23            android:label="@string/app_name" >
+23-->G:\applications kotlin\KinotechAppv1\app\src\main\AndroidManifest.xml:14:13-45
+24            <intent-filter>
+24-->G:\applications kotlin\KinotechAppv1\app\src\main\AndroidManifest.xml:15:13-19:29
+25                <action android:name="android.intent.action.MAIN" />
+25-->G:\applications kotlin\KinotechAppv1\app\src\main\AndroidManifest.xml:16:17-69
+25-->G:\applications kotlin\KinotechAppv1\app\src\main\AndroidManifest.xml:16:25-66
+26
+27                <category android:name="android.intent.category.LAUNCHER" />
+27-->G:\applications kotlin\KinotechAppv1\app\src\main\AndroidManifest.xml:18:17-77
+27-->G:\applications kotlin\KinotechAppv1\app\src\main\AndroidManifest.xml:18:27-74
+28            </intent-filter>
+29        </activity>
+30    </application>
+31
+32</manifest>
