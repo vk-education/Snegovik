@@ -1,0 +1,2 @@
+include ':app'
+rootProject.name = "Kinotech App v1"
