@@ -1,0 +1,2 @@
+com/kinotech/kinotechappv1/BuildConfig.java
+ com.kinotech.kinotechappv1.BuildConfig
