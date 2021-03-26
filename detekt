@@ -13,7 +13,7 @@ if [ ! -f "$DETEKT_BIN" ]; then
   chmod a+x $DETEKT_BIN
 fi
 
-if [ $CI ]; then
+if [ "$CI" ]; then
   export REVIEWDOG_GITHUB_API_TOKEN="${GITHUB_TOKEN}"
   $DETEKT_BIN --config .github/workflows/assets/detekt.yml --report xml:detekt_report.xml
 
