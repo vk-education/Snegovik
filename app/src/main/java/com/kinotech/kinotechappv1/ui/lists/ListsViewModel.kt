@@ -1,13 +1,13 @@
-package com.kinotech.kinotechappv1.ui.dashboard
+package com.kinotech.kinotechappv1.ui.lists
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 
-class DashboardViewModel : ViewModel() {
+class ListsViewModel : ViewModel() {
 
     private val _text = MutableLiveData<String>().apply {
-        value = "This is dashboard Fragment"
+        value = "Тут будут списки"
     }
     val text: LiveData<String> = _text
 }
