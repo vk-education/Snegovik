@@ -1,4 +1,4 @@
-package com.kinotech.kinotechappv1.ui.dashboard
+package com.kinotech.kinotechappv1.ui.lists
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -8,22 +8,26 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.RecyclerView
 import com.kinotech.kinotechappv1.R
 
-class DashboardFragment : Fragment() {
+class ListsFragment : Fragment() {
 
-    private lateinit var dashboardViewModel: DashboardViewModel
+    private lateinit var listsViewModel: ListsViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        dashboardViewModel =
-            ViewModelProvider(this).get(DashboardViewModel::class.java)
-        val root = inflater.inflate(R.layout.fragment_dashboard, container, false)
-        val textView: TextView = root.findViewById(R.id.text_dashboard)
-        dashboardViewModel.text.observe(
+        listsViewModel =
+            ViewModelProvider(this).get(ListsViewModel::class.java)
+        val root = inflater.inflate(R.layout.fragment_lists, container, false)
+
+        val recyclerView: RecyclerView = root.findViewById(R.id.recyclerview)
+
+        val textView: TextView = root.findViewById(R.id.text_lists)
+        listsViewModel.text.observe(
             viewLifecycleOwner,
             Observer {
                 textView.text = it
