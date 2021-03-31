@@ -24,12 +24,6 @@
         tools:layout="@layout/fragment_lists" />
 
     <fragment
-        android:id="@+id/navigation_notifications"
-        android:name="com.kinotech.kinotechappv1.ui.notifications.NotificationsFragment"
-        android:label="@string/title_notifications"
-        tools:layout="@layout/fragment_notifications" />
-
-    <fragment
             android:id="@+id/navigation_profile"
             android:name="com.kinotech.kinotechappv1.ui.profile.ProfileFragment"
             android:label="@string/title_profile"
