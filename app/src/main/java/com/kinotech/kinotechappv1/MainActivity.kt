@@ -6,7 +6,6 @@ import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
-import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.kinotech.kinotechappv1.ui.feed.FeedFragment
@@ -39,35 +38,35 @@ class MainActivity : AppCompatActivity() {
     @SuppressLint("RestrictedApi")
     private val onNavigationItemSelectedListener =
         BottomNavigationView.OnNavigationItemSelectedListener { item ->
-        when (item.itemId) {
-            R.id.navigation_feed -> {
-                createCustomActionBarParams(item.title as String)
-                val feedFragment = FeedFragment()
-                openFragment(feedFragment)
-                return@OnNavigationItemSelectedListener true
+            when (item.itemId) {
+                R.id.navigation_feed -> {
+                    createCustomActionBarParams(item.title as String)
+                    val feedFragment = FeedFragment()
+                    openFragment(feedFragment)
+                    return@OnNavigationItemSelectedListener true
+                }
+                R.id.navigation_search -> {
+                    createCustomActionBarParams(item.title as String)
+                    val searchFragment = SearchFragment()
+                    openFragment(searchFragment)
+                    return@OnNavigationItemSelectedListener true
+                }
+                R.id.navigation_dashboard -> {
+                    createCustomActionBarParams(item.title as String)
+                    val listsFragment = ListsFragment()
+                    openFragment(listsFragment)
+                    return@OnNavigationItemSelectedListener true
+                }
+                R.id.navigation_profile -> {
+                    toolbar.hide()
+                    supportActionBar!!.setShowHideAnimationEnabled(false)
+                    val profileFragment = ProfileFragment()
+                    openFragment(profileFragment)
+                    return@OnNavigationItemSelectedListener true
+                }
             }
-            R.id.navigation_search -> {
-                createCustomActionBarParams(item.title as String)
-                val searchFragment = SearchFragment()
-                openFragment(searchFragment)
-                return@OnNavigationItemSelectedListener true
-            }
-            R.id.navigation_dashboard -> {
-                createCustomActionBarParams(item.title as String)
-                val listsFragment = ListsFragment()
-                openFragment(listsFragment)
-                return@OnNavigationItemSelectedListener true
-            }
-            R.id.navigation_profile -> {
-                toolbar.hide()
-                supportActionBar!!.setShowHideAnimationEnabled(false)
-                val profileFragment = ProfileFragment()
-                openFragment(profileFragment)
-                return@OnNavigationItemSelectedListener true
-            }
+            false
         }
-        false
-    }
 
     private fun openFragment(fragment: Fragment) {
         val transaction = supportFragmentManager.beginTransaction()
