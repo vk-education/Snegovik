@@ -13,7 +13,7 @@ import com.kinotech.kinotechappv1.ui.feed.FeedFragment
 import com.kinotech.kinotechappv1.ui.lists.ListsFragment
 import com.kinotech.kinotechappv1.ui.profile.ProfileFragment
 import com.kinotech.kinotechappv1.ui.search.SearchFragment
-open class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity() {
     lateinit var toolbar: ActionBar
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,7 +37,8 @@ open class MainActivity : AppCompatActivity() {
     }
 
     @SuppressLint("RestrictedApi")
-    private val onNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
+    private val onNavigationItemSelectedListener =
+        BottomNavigationView.OnNavigationItemSelectedListener { item ->
         when (item.itemId) {
             R.id.navigation_feed -> {
                 createCustomActionBarParams(item.title as String)
