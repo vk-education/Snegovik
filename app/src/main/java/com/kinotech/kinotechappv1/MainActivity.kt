@@ -25,14 +25,14 @@ class MainActivity : AppCompatActivity() {
     }
 
     @SuppressLint("RestrictedApi")
-    private fun createCustomActionBarParams(title_fragment: String) {
+    private fun createCustomActionBarParams(titleFragment: String) {
         toolbar = supportActionBar!!
         toolbar.show()
         toolbar.setShowHideAnimationEnabled(false)
         toolbar.displayOptions = ActionBar.DISPLAY_SHOW_CUSTOM
         toolbar.setCustomView(R.layout.action_bar_title)
         val textView: TextView = toolbar.customView.findViewById(R.id.display_title)
-        textView.text = title_fragment
+        textView.text = titleFragment
     }
 
     @SuppressLint("RestrictedApi")
