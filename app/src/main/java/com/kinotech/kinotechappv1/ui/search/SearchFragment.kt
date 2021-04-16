@@ -27,6 +27,7 @@ class SearchFragment : Fragment() {
                 textView.text = it
             }
         )
+
         return root
     }
 }
