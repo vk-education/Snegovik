@@ -5,7 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import com.kinotech.kinotechappv1.R
 import com.kinotech.kinotechappv1.ui.feed.PostNewList
 
-class NewListPostRepositoryImpl : NewListPostRepository{
+class NewListPostRepositoryImpl : NewListPostRepository {
 
     private var postsNL = listOf(
         PostNewList(
