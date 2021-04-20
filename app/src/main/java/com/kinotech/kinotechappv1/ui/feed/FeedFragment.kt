@@ -25,10 +25,11 @@ class FeedFragment : Fragment() {
                 viewModel.likedById(post.id)
             }
 
-            override fun onAdd(post: PostNewList) {
-                TODO()
-            }
-        })
+//            override fun onAdd(post: PostNewList) {
+//                TODO()
+//            }
+        }
+        )
 
         binding.feedRV.adapter = adapter
         viewModel.newListPosts.observe(viewLifecycleOwner) { post ->
