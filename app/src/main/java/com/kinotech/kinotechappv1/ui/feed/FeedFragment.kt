@@ -20,15 +20,16 @@ class FeedFragment : Fragment() {
         val binding = FragmentFeedBinding.inflate(inflater, container, false)
 
         val viewModel: FeedViewModel by viewModels()
-        val adapter = PostNewListAdapter(object : OnInteractionListener {
-            override fun onLike(post: PostNewList) {
-                viewModel.likedById(post.id)
-            }
+        val adapter = PostNewListAdapter(
+            object : OnInteractionListener {
+                override fun onLike(post: PostNewList) {
+                    viewModel.likedById(post.id)
+                }
 
 //            override fun onAdd(post: PostNewList) {
 //                TODO()
 //            }
-        }
+            }
         )
 
         binding.feedRV.adapter = adapter
@@ -39,4 +40,3 @@ class FeedFragment : Fragment() {
         return binding.root
     }
 }
-
