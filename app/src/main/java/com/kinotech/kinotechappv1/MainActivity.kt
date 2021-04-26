@@ -1,4 +1,5 @@
 package com.kinotech.kinotechappv1
+
 import android.annotation.SuppressLint
 import android.os.Bundle
 import android.widget.TextView
@@ -12,6 +13,7 @@ import com.kinotech.kinotechappv1.ui.feed.FeedFragment
 import com.kinotech.kinotechappv1.ui.lists.ListsFragment
 import com.kinotech.kinotechappv1.ui.profile.ProfileFragment
 import com.kinotech.kinotechappv1.ui.search.SearchFragment
+
 class MainActivity : AppCompatActivity() {
     lateinit var toolbar: ActionBar
     override fun onCreate(savedInstanceState: Bundle?) {
