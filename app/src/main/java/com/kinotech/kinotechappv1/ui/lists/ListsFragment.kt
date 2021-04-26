@@ -44,16 +44,24 @@ class ListsFragment : Fragment() {
         fun generateListOfMovie(): List<ListsOfMovie> {
             return listOf(
                 ListsOfMovie(
-                    "Создать список", "сорс", "https://cdn25.img.ria.ru/images/156087/28/1560872802_0:778:1536:1642_600x0_80_0_0_606c2d47b6d37951adc9eaf750de22f0.jpg"
+                    "Создать список",
+                    "сорс",
+                    "https://cdn25.img.ria.ru/images/156087/28/1560872802_0:778:1536:1642_600x0_80_0_0_606c2d47b6d37951adc9eaf750de22f0.jpg"
                 ),
                 ListsOfMovie(
-                    "Понравились", "5 фильмов", "https://cdn25.img.ria.ru/images/156087/28/1560872802_0:778:1536:1642_600x0_80_0_0_606c2d47b6d37951adc9eaf750de22f0.jpg"
+                    "Понравились",
+                    "5 фильмов",
+                    "https://cdn25.img.ria.ru/images/156087/28/1560872802_0:778:1536:1642_600x0_80_0_0_606c2d47b6d37951adc9eaf750de22f0.jpg"
                 ),
                 ListsOfMovie(
-                    "Какое-то название", "7 фильмов", "https://cdn25.img.ria.ru/images/156087/28/1560872802_0:778:1536:1642_600x0_80_0_0_606c2d47b6d37951adc9eaf750de22f0.jpg"
+                    "Какое-то название",
+                    "7 фильмов",
+                    "https://cdn25.img.ria.ru/images/156087/28/1560872802_0:778:1536:1642_600x0_80_0_0_606c2d47b6d37951adc9eaf750de22f0.jpg"
                 ),
                 ListsOfMovie(
-                    "Хорошо похотать", "10 фильмов", "https://cdn25.img.ria.ru/images/156087/28/1560872802_0:778:1536:1642_600x0_80_0_0_606c2d47b6d37951adc9eaf750de22f0.jpg"
+                    "Хорошо похотать",
+                    "10 фильмов",
+                    "https://cdn25.img.ria.ru/images/156087/28/1560872802_0:778:1536:1642_600x0_80_0_0_606c2d47b6d37951adc9eaf750de22f0.jpg"
                 )
             )
         }

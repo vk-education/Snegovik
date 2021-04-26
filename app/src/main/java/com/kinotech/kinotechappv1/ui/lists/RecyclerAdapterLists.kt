@@ -13,7 +13,8 @@ import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.bumptech.glide.request.RequestOptions
 import com.kinotech.kinotechappv1.R
 
-public class RecyclerAdapterLists(val context: Context) : RecyclerView.Adapter<RecyclerAdapterLists.MyViewHolder>() {
+public class RecyclerAdapterLists(val context: Context) :
+    RecyclerView.Adapter<RecyclerAdapterLists.MyViewHolder>() {
 
     var listsOfMovie: List<ListsOfMovie> = listOf()
 
@@ -31,9 +32,9 @@ public class RecyclerAdapterLists(val context: Context) : RecyclerView.Adapter<R
         holder.bind(lists)
 
         // holder.imgList.setImageResource(listsOfMovie.)
-       /* Glide.with(context).load(listsOfMovie.get(position).imgList)
-            .apply(RequestOptions().centerCrop())
-            .into(holder.imgList)*/
+        /* Glide.with(context).load(listsOfMovie.get(position).imgList)
+             .apply(RequestOptions().centerCrop())
+             .into(holder.imgList)*/
     }
 
     fun setMovieListItems(movieList: List<ListsOfMovie>) {
