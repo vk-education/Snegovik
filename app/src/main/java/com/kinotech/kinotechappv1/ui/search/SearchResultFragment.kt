@@ -27,21 +27,24 @@ class SearchResultFragment : Fragment() {
         val call = request.findMovies(getString(R.string.api_key), "Побег")
         call.enqueue(
             object : Callback<SearchResults> {
-            override fun onFailure(call: Call<SearchResults>, t: Throwable) {
-                Log.d("fail", "onFailure: ")
-            }
+                override fun onFailure(call: Call<SearchResults>, t: Throwable) {
+                    Log.d("fail", "onFailure: ")
+                }
 
-            override fun onResponse(call: Call<SearchResults>, response: Response<SearchResults>) {
-                if (response.isSuccessful) {
-                    progressBar.visibility = View.GONE
-                    recyclerView.apply {
-                        setHasFixedSize(true)
-                        layoutManager = LinearLayoutManager(context)
-                        adapter = MoviesAdapter(response.body()!!.results)
+                override fun onResponse(
+                    call: Call<SearchResults>,
+                    response: Response<SearchResults>
+                ) {
+                    if (response.isSuccessful) {
+                        progressBar.visibility = View.GONE
+                        recyclerView.apply {
+                            setHasFixedSize(true)
+                            layoutManager = LinearLayoutManager(context)
+                            adapter = MoviesAdapter(response.body()!!.results)
+                        }
                     }
                 }
             }
-        }
         )
         return root
     }
