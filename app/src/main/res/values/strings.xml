@@ -5,6 +5,12 @@
     <string name="title_dashboard">Списки</string>
     <string name="title_search">Поиск</string>
     <string name="title_profile">Профиль</string>
+    <string name="maybe_youll_like">Возможно, Вам понравится</string>
+    <string name="watch_new_film">Посмотрите новый фильм</string>
+    <string name="subscribe_friends_updates">Подписывайтесь на обновления друзей!</string>
+    <string name="next">Далее</string>
+    <string name="share_movies">Делитесь любимыми фильмами и сериалами!</string>
+    <string name="login_with_google">Войти с помощью Google</string>
     <string name="input_film_name">Введите название фильма/сериала...</string>
     <string name="find_button">Найти!</string>
     <string name="guide_text_search">Ищите любимые фильмы
