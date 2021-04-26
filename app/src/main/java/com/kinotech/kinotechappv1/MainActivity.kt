@@ -1,4 +1,5 @@
 package com.kinotech.kinotechappv1
+
 import android.annotation.SuppressLint
 import android.os.Bundle
 import android.widget.TextView
@@ -14,7 +15,7 @@ import com.kinotech.kinotechappv1.ui.profile.ProfileFragment
 import com.kinotech.kinotechappv1.ui.search.SearchFragment
 
 class MainActivity : AppCompatActivity() {
-    private lateinit var toolbar: ActionBar
+    lateinit var toolbar: ActionBar
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -52,8 +53,8 @@ class MainActivity : AppCompatActivity() {
                     openFragment(searchFragment)
                     return@OnNavigationItemSelectedListener true
                 }
-                R.id.navigation_dashboard -> {
-                    createCustomActionBarParams(getString(R.string.title_dashboard))
+                R.id.navigation_lists -> {
+                    createCustomActionBarParams(item.title as String)
                     val listsFragment = ListsFragment()
                     openFragment(listsFragment)
                     return@OnNavigationItemSelectedListener true
