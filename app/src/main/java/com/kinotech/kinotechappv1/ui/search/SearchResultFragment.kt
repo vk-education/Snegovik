@@ -25,7 +25,8 @@ class SearchResultFragment : Fragment() {
         val progressBar: ProgressBar = root.findViewById(R.id.progress_bar)
         val recyclerView: RecyclerView = root.findViewById(R.id.recyclerView)
         val call = request.findMovies(getString(R.string.api_key), "Побег")
-        call.enqueue(object : Callback<SearchResults> {
+        call.enqueue(
+            object : Callback<SearchResults> {
             override fun onFailure(call: Call<SearchResults>, t: Throwable) {
                 Log.d("fail", "onFailure: ")
             }
