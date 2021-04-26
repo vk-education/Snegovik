@@ -31,18 +31,18 @@ class SearchFragment : Fragment() {
         searchView.findViewById<TextView>(androidx.appcompat.R.id.search_src_text)
             .setTextSize(16F)
         searchView.setQueryHint(getString(R.string.input_film_name))
-        submitBtn.setOnClickListener({
+        submitBtn.setOnClickListener {
             searchView.clearFocus()
             openSearchResultFragment(SearchResultFragment())
-        })
-        closeBtn.setOnClickListener({
+        }
+        closeBtn.setOnClickListener {
             if (searchView.query.length == 0) {
                 searchView.isIconified = true
             } else {
                 searchView.setQuery("", false)
                 searchView.clearFocus()
             }
-        })
+        }
         return root
     }
 
