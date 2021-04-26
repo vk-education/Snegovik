@@ -23,7 +23,8 @@ class SearchFragment : Fragment() {
     ): View? {
         val root = inflater.inflate(R.layout.fragment_search, container, false)
         val searchView = root.findViewById<SearchView>(R.id.textView_search)
-        val closeBtn: ImageView = searchView.findViewById<ImageView>(androidx.appcompat.R.id.search_close_btn)
+        val closeBtn: ImageView =
+            searchView.findViewById<ImageView>(androidx.appcompat.R.id.search_close_btn)
         val submitBtn: AppCompatButton = root.findViewById(R.id.find_button)
         searchView.findViewById<LinearLayout>(androidx.appcompat.R.id.search_plate)
             .setBackgroundColor(Color.TRANSPARENT)
