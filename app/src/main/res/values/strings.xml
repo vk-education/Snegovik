@@ -2,7 +2,7 @@
     <string name="app_name">Kinotech App v1</string>
     <string name="api_key">6b189dca-0b75-4223-9fac-c89f2d2ec5a2</string>
     <string name="title_feed">Лента</string>
-    <string name="title_dashboard">Списки</string>
+    <string name="title_lists">Списки</string>
     <string name="title_search">Поиск</string>
     <string name="title_profile">Профиль</string>
     <string name="maybe_youll_like">Возможно, Вам понравится</string>

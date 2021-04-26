@@ -54,6 +54,8 @@ class MainActivity : AppCompatActivity() {
                 }
                 R.id.navigation_dashboard -> {
                     createCustomActionBarParams(getString(R.string.title_dashboard))
+                R.id.navigation_lists -> {
+                    createCustomActionBarParams(item.title as String)
                     val listsFragment = ListsFragment()
                     openFragment(listsFragment)
                     return@OnNavigationItemSelectedListener true
