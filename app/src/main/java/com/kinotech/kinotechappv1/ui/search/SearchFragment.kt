@@ -14,8 +14,8 @@ import androidx.fragment.app.Fragment
 import com.kinotech.kinotechappv1.R
 
 class SearchFragment : Fragment() {
-    private lateinit var searchViewModel: SearchViewModel
-    private lateinit var searchView: SearchView
+    //    private lateinit var searchViewModel: SearchViewModel
+//    private lateinit var searchView: SearchView
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -23,33 +23,34 @@ class SearchFragment : Fragment() {
     ): View? {
         val root = inflater.inflate(R.layout.fragment_search, container, false)
         val searchView = root.findViewById<SearchView>(R.id.textView_search)
-        val closeBtn: ImageView = searchView.findViewById<ImageView>(androidx.appcompat.R.id.search_close_btn)
+        val closeBtn: ImageView =
+            searchView.findViewById(androidx.appcompat.R.id.search_close_btn)
         val submitBtn: AppCompatButton = root.findViewById(R.id.find_button)
         searchView.findViewById<LinearLayout>(androidx.appcompat.R.id.search_plate)
             .setBackgroundColor(Color.TRANSPARENT)
         searchView.findViewById<TextView>(androidx.appcompat.R.id.search_src_text)
-            .setTextSize(16F)
-        searchView.setQueryHint(getString(R.string.input_film_name))
-        submitBtn.setOnClickListener({
+//        .textSize = 16F
+        searchView.queryHint = getString(R.string.input_film_name)
+        submitBtn.setOnClickListener {
             searchView.clearFocus()
             openSearchResultFragment(SearchResultFragment())
-        })
-        closeBtn.setOnClickListener({
-            if (searchView.query.length == 0) {
+        }
+        closeBtn.setOnClickListener {
+            if (searchView.query.isEmpty()) {
                 searchView.isIconified = true
             } else {
                 searchView.setQuery("", false)
                 searchView.clearFocus()
             }
-        })
+        }
         return root
     }
 
-    private fun onQueryTextSubmit(): Boolean {
-        searchView.clearFocus()
-        openSearchResultFragment(SearchResultFragment())
-        return true
-    }
+//    private fun onQueryTextSubmit(): Boolean {
+//        searchView.clearFocus()
+//        openSearchResultFragment(SearchResultFragment())
+//        return true
+//    }
 
     private fun openSearchResultFragment(fragment: Fragment) {
         val transaction = activity?.supportFragmentManager?.beginTransaction()
