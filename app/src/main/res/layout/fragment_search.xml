@@ -51,9 +51,9 @@
 
     <androidx.appcompat.widget.SearchView
             android:id="@+id/textView_search"
-            android:text="@string/input_film_name"
+            android:hint="@string/input_film_name"
             android:fontFamily="@font/rubik_bold"
-            android:textSize="13sp"
+            android:textSize="16sp"
             android:textColor="@color/grey"
             android:background="@drawable/rectangle"
             android:layout_width="wrap_content"
