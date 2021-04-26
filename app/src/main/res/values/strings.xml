@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">Kinotech App v1</string>
     <string name="title_feed">Лента</string>
-    <string name="title_dashboard">Списки</string>
+    <string name="title_lists">Списки</string>
     <string name="title_search">Поиск</string>
     <string name="title_profile">Профиль</string>
 </resources>

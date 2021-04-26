@@ -51,7 +51,7 @@ class MainActivity : AppCompatActivity() {
                     openFragment(searchFragment)
                     return@OnNavigationItemSelectedListener true
                 }
-                R.id.navigation_dashboard -> {
+                R.id.navigation_lists -> {
                     createCustomActionBarParams(item.title as String)
                     val listsFragment = ListsFragment()
                     openFragment(listsFragment)

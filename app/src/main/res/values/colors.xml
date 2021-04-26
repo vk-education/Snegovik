@@ -4,9 +4,11 @@
     <color name="red_400">#E56A76</color>
     <color name="red_500">#8B2128</color>
     <color name="red_700">#CD424C</color>
+    <color name="red_50">#80DD3E4F</color>
     <color name="teal_200">#FF03DAC5</color>
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#C4C4C4</color>
     <color name="white_full">#FFFFFF</color>
+    <color name="white_text">#F6F6F6</color>
 </resources>

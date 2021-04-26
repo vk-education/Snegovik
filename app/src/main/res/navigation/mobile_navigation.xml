@@ -18,9 +18,9 @@
         tools:layout="@layout/fragment_search" />
 
     <fragment
-        android:id="@+id/navigation_dashboard"
+        android:id="@+id/navigation_lists"
         android:name="com.kinotech.kinotechappv1.ui.lists.ListsFragment"
-        android:label="@string/title_dashboard"
+        android:label="@string/title_lists"
         tools:layout="@layout/fragment_lists" />
 
     <fragment
