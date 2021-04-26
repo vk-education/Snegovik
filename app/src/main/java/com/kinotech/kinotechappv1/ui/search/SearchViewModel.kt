@@ -6,8 +6,5 @@ import androidx.lifecycle.ViewModel
 
 class SearchViewModel : ViewModel() {
 
-    private val _text = MutableLiveData<String>().apply {
-        value = "Ищите любимые фильмы и сериалы с помощью поиска наверху!"
-    }
-    val text: LiveData<String> = _text
+
 }
