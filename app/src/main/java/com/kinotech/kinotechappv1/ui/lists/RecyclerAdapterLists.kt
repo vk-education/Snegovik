@@ -53,13 +53,10 @@ public class RecyclerAdapterLists(val context: Context) :
             filmCount.text = lists.filmCount
             val imgList: String = lists.imgList
             Log.d("tag", "karkar" + imgList)
-            var requestOptions = RequestOptions()
-            requestOptions = requestOptions.transform(RoundedCorners(180))
             Glide
                 // .with(itemView.context)
                 .with(itemView.context)
                 .load(imgList)
-                // .apply(requestOptions)
                 .error(R.drawable.ic_home_black_24dp)
                 .into(imgListH)
         }
