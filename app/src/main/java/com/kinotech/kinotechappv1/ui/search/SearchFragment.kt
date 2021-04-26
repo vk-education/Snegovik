@@ -28,15 +28,14 @@ class SearchFragment : Fragment() {
         val submitBtn: AppCompatButton = root.findViewById(R.id.find_button)
         searchView.findViewById<LinearLayout>(androidx.appcompat.R.id.search_plate)
             .setBackgroundColor(Color.TRANSPARENT)
-        searchView.findViewById<TextView>(androidx.appcompat.R.id.search_src_text)
-            .setTextSize(16F)
-        searchView.setQueryHint(getString(R.string.input_film_name))
+        searchView.findViewById<TextView>(androidx.appcompat.R.id.search_src_text).textSize = 16F
+        searchView.queryHint = getString(R.string.input_film_name)
         submitBtn.setOnClickListener {
             searchView.clearFocus()
             openSearchResultFragment(SearchResultFragment())
         }
         closeBtn.setOnClickListener {
-            if (searchView.query.length == 0) {
+            if (searchView.query.isEmpty()) {
                 searchView.isIconified = true
             } else {
                 searchView.setQuery("", false)
