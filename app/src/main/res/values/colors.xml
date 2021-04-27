@@ -13,4 +13,6 @@
     <color name="another_white">#F6F6F6</color>
     <color name="white_full">#FFFFFF</color>
     <color name="white_text">#F6F6F6</color>
+    <color name="grey_for_search_result">#ECE0E0</color>
+    <color name="red_for_tabs">#DD3E4F</color>
 </resources>
