@@ -34,10 +34,26 @@ class SearchFragment : Fragment() {
             androidx.appcompat.R.id.search_src_text
         ).textSize = textSizeF
         searchView.queryHint = getString(R.string.input_film_name)
-        submitBtn.setOnClickListener {
-            searchView.clearFocus()
-            openSearchResultFragment(SearchResultFragment())
-        }
+
+        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener{
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                searchView.clearFocus()
+                if (query != null) {
+                    Log.d("cout", "onQueryTextSubmit: $query")
+                    openSearchResultFragment(SearchResultFragment(query))
+                }
+                return false
+            }
+            override fun onQueryTextChange(newText: String?): Boolean {
+                if (newText!= null) {
+                    submitBtn.setOnClickListener {
+                        searchView.clearFocus()
+                        openSearchResultFragment(SearchResultFragment(newText))
+                    }
+                }
+                return true
+            }
+        })
         closeBtn.setOnClickListener {
             if (searchView.query.isEmpty()) {
                 searchView.isIconified = true
