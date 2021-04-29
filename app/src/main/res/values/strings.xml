@@ -14,6 +14,13 @@
     <string name="input_film_name">Введите название фильма/сериала...</string>
     <string name="find_button">Найти!</string>
     <string name="guide_text_search">Ищите любимые фильмы
-и сериалы с помощью поиска  наверху!</string>
+            и сериалы с помощью поиска  наверху!</string>
+    <string name="director">Режиссёр:</string>
+    <string name="roles">В главных ролях:</string>
+    <string name="kinopoisk">Кинопоиск:</string>
+    <string name="imdb">IMDB:</string>
+    <string name="description">Описание</string>
+    <string name="rate_film">Оцените фильм:</string>
+    <string name="ten">/10</string>
 
 </resources>
