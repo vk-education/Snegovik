@@ -12,7 +12,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="16dp"
             android:src="@drawable/ic_arrow_back"
-            android:background="transparent"
+            android:background="@android:color/transparent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
 
@@ -208,92 +208,92 @@
             android:background="@drawable/border"
             app:layout_constraintVertical_bias="0.1">
 
-    <TextView
-            android:id="@+id/description"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/description"
-            android:fontFamily="@font/rubik_bold"
-            android:textSize="18sp"
-            android:textColor="@color/white_full"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+        <TextView
+                android:id="@+id/description"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/description"
+                android:fontFamily="@font/rubik_bold"
+                android:textSize="18sp"
+                android:textColor="@color/white_full"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-            android:id="@+id/filmDescription"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="16dp"
-            android:layout_marginTop="16dp"
-            app:layout_constraintStart_toStartOf="@id/description"
-            tools:text="Бухгалтер Энди Дюфрейн обвинён в убийстве собственной жены и её любовника.
+        <TextView
+                android:id="@+id/filmDescription"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="16dp"
+                android:layout_marginTop="16dp"
+                app:layout_constraintStart_toStartOf="@id/description"
+                tools:text="Бухгалтер Энди Дюфрейн обвинён в убийстве собственной жены и её любовника.
             \nОказавшись в тюрьме под названием Шоушенк, он сталкивается с жестокостью и беззаконием, царящими по обе стороны решётки..."
-            app:layout_constraintTop_toBottomOf="@id/description"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:fontFamily="@font/rubik_bold"
-            android:textSize="14sp"
-            android:textColor="@color/white_full" />
+                app:layout_constraintTop_toBottomOf="@id/description"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:fontFamily="@font/rubik_bold"
+                android:textSize="14sp"
+                android:textColor="@color/white_full" />
 
-    <TextView
-            android:id="@+id/rateFilm"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/filmDescription"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:text="@string/rate_film"
-            android:fontFamily="@font/rubik_bold"
-            android:textSize="18sp"
-            android:textColor="@color/white_full"
-            android:layout_margin="20dp" />
+        <TextView
+                android:id="@+id/rateFilm"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/filmDescription"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:text="@string/rate_film"
+                android:fontFamily="@font/rubik_bold"
+                android:textSize="18sp"
+                android:textColor="@color/white_full"
+                android:layout_margin="20dp" />
 
-    <TextView
-            android:id="@+id/userRate"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/rubik_bold"
-            android:textSize="18sp"
-            android:textColor="@color/red_700"
-            tools:text="9"
-            android:layout_marginTop="16dp"
-            app:layout_constraintHorizontal_chainStyle="packed"
-            app:layout_constraintTop_toBottomOf="@id/rateFilm"
-            app:layout_constraintStart_toStartOf="@id/rateFilm"
-            app:layout_constraintEnd_toStartOf="@id/outOfTen" />
+        <TextView
+                android:id="@+id/userRate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/rubik_bold"
+                android:textSize="18sp"
+                android:textColor="@color/red_700"
+                tools:text="9"
+                android:layout_marginTop="16dp"
+                app:layout_constraintHorizontal_chainStyle="packed"
+                app:layout_constraintTop_toBottomOf="@id/rateFilm"
+                app:layout_constraintStart_toStartOf="@id/rateFilm"
+                app:layout_constraintEnd_toStartOf="@id/outOfTen" />
 
-    <TextView
-            android:id="@+id/outOfTen"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/rubik_bold"
-            android:textSize="18sp"
-            android:textColor="@color/white_full"
-            android:text="@string/ten"
-            android:layout_marginTop="16dp"
-            app:layout_constraintTop_toBottomOf="@id/rateFilm"
-            app:layout_constraintStart_toEndOf="@id/userRate"
-            app:layout_constraintEnd_toEndOf="@id/rateFilm" />
+        <TextView
+                android:id="@+id/outOfTen"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/rubik_bold"
+                android:textSize="18sp"
+                android:textColor="@color/white_full"
+                android:text="@string/ten"
+                android:layout_marginTop="16dp"
+                app:layout_constraintTop_toBottomOf="@id/rateFilm"
+                app:layout_constraintStart_toEndOf="@id/userRate"
+                app:layout_constraintEnd_toEndOf="@id/rateFilm" />
 
-    <ImageButton
-            android:id="@+id/likeFilm"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ic_like_40dp"
-            android:background="transparent"
-            android:layout_marginBottom="16dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/userRate"
-            app:layout_constraintEnd_toStartOf="@id/addFilm" />
+        <ImageButton
+                android:id="@+id/likeFilm"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_like_40dp"
+                android:background="@android:color/transparent"
+                android:layout_marginBottom="16dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/userRate"
+                app:layout_constraintEnd_toStartOf="@id/addFilm" />
 
-    <ImageButton
-            android:id="@+id/addFilm"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ic_add_40dp"
-            android:background="transparent"
-            app:layout_constraintTop_toTopOf="@id/likeFilm"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/likeFilm" />
+        <ImageButton
+                android:id="@+id/addFilm"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_add_40dp"
+                android:background="@android:color/transparent"
+                app:layout_constraintTop_toTopOf="@id/likeFilm"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/likeFilm" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
