@@ -1,4 +1,5 @@
 package com.kinotech.kinotechappv1
+
 import android.annotation.SuppressLint
 import android.os.Bundle
 import android.widget.TextView
