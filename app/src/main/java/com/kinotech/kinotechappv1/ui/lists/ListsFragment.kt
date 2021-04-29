@@ -1,6 +1,7 @@
 package com.kinotech.kinotechappv1.ui.lists
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,7 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.kinotech.kinotechappv1.R
 
-class ListsFragment : Fragment() {
+class ListsFragment : Fragment(), RecyclerAdapterLists.MyClickListener {
 
     private lateinit var listsViewModel: ListsViewModel
 
@@ -41,27 +42,26 @@ class ListsFragment : Fragment() {
     override fun onResume() {
         super.onResume()
 
-        fun generateListOfMovie(): List<ListsOfMovie> {
+        fun generateListOfMovie(): List<AnyItemInAdapterList> {
             return listOf(
-                ListsOfMovie(
+                AnyItemInAdapterList.ButtonCreateList(
                     "Создать список",
-                    "сорс",
                     "https://cdn25.img.ria.ru/images/156087/28/1560872802_0:778:1536:" +
                         ".1642_600x0_80_0_0_606c2d47b6d37951adc9eaf750de22f0.jpg"
                 ),
-                ListsOfMovie(
+                AnyItemInAdapterList.ButtonShowList(
                     "Понравились",
                     "5 фильмов",
                     "https://cdn25.img.ria.ru/images/156087/28/1560872802_0:778:153" +
                         ".6:1642_600x0_80_0_0_606c2d47b6d37951adc9eaf750de22f0.jpg"
                 ),
-                ListsOfMovie(
+                AnyItemInAdapterList.ButtonShowList(
                     "Какое-то название",
                     "7 фильмов",
                     "https://cdn25.img.ria.ru/images/156087/28/1560872802_0:778:1536:164" +
                         ".2_600x0_80_0_0_606c2d47b6d37951adc9eaf750de22f0.jpg"
                 ),
-                ListsOfMovie(
+                AnyItemInAdapterList.ButtonShowList(
                     "Хорошо похотать",
                     "10 фильмов",
                     "https://cdn25.img.ria.ru/images/156087/28/1560872802_0:778:1536:1" +
@@ -74,11 +74,18 @@ class ListsFragment : Fragment() {
         recyclerView.layoutManager = LinearLayoutManager(this)
         recyclerView.adapter = recyclerAdapter*/
 
-        getContext()?.let { normalnyContext ->
-            recyclerAdapter = RecyclerAdapterLists(normalnyContext)
+        context?.let { normalnyContext ->
+            recyclerAdapter = RecyclerAdapterLists(normalnyContext,this)
             recyclerView.layoutManager = LinearLayoutManager(context)
             recyclerView.adapter = recyclerAdapter
         }
         recyclerAdapter.setMovieListItems(generateListOfMovie())
+
+
     }
+
+    override fun onItemClick(item: AnyItemInAdapterList?) {
+        Log.d("tag14536", "chek $item")
+    }
+
 }
