@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/red_400">
@@ -51,9 +52,33 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/ic_right_dot"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/loginBtn" />
+            app:layout_constraintTop_toBottomOf="@id/loginBtn"
+            app:layout_constraintBottom_toTopOf="@+id/cardViewSignB"/>
+            <!--app:layout_constraintBottom_toBottomOf="parent"-->
+
+
+    <androidx.cardview.widget.CardView
+            android:id="@+id/cardViewSignB"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            app:layout_constraintTop_toBottomOf="@id/right_dot"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:cardCornerRadius="50dp"
+            tools:ignore="MissingConstraints"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:cardBackgroundColor="@color/red_500">
+
+        <com.google.android.gms.common.SignInButton
+
+                android:id="@+id/sign_in_button"
+                android:layout_width="132dp"
+                android:layout_height="62dp"
+                android:layout_gravity="center" />
+
+    </androidx.cardview.widget.CardView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
