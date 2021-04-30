@@ -59,32 +59,6 @@ public class RecyclerAdapterLists(val context: Context, val clickListener: MyCli
         notifyDataSetChanged()
     }
 
-    /*class MyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-
-        fun bind(lists: ButtonShowList, clickListener: MyClickListener) {
-            val itemTitle: TextView = itemView.findViewById(R.id.item_title)
-            val filmCount: TextView = itemView.findViewById(R.id.film_count)
-            val imgListH: ImageView = itemView.findViewById(R.id.img_list)
-
-            var mclickListener: MyClickListener = clickListener
-            itemTitle.text = lists.itemTitle
-            filmCount.text = lists.filmCount
-            val imgList: String = lists.imgList
-            Log.d("tag", "karkar" + imgList)
-            Glide
-                // .with(itemView.context)
-                .with(itemView.context)
-                .load(imgList)
-                .error(R.drawable.ic_home_black_24dp)
-                .into(imgListH)
-
-            itemView.setOnClickListener(View.OnClickListener {
-                mclickListener.onItemClick(
-                    lists
-                )
-            })
-        }
-    }*/
 
     sealed class MyViewHolder(
         container: ViewGroup,
@@ -108,7 +82,7 @@ public class RecyclerAdapterLists(val context: Context, val clickListener: MyCli
                     // .with(itemView.context)
                     .with(itemView.context)
                     .load(imgList)
-                    .error(R.drawable.ic_home_black_24dp)
+                    .error(R.drawable.ic_add_24)
                     .into(imgListH)
 
                 itemView.setOnClickListener(View.OnClickListener {
@@ -137,7 +111,7 @@ public class RecyclerAdapterLists(val context: Context, val clickListener: MyCli
                     // .with(itemView.context)
                     .with(itemView.context)
                     .load(imgList)
-                    .error(R.drawable.ic_home_black_24dp)
+                    .error(R.drawable.ic_like_24)
                     .into(imgListH)
 
                 itemView.setOnClickListener(View.OnClickListener {
