@@ -25,7 +25,7 @@ class AuthActivity : AppCompatActivity() {
     private lateinit var serverClientId: String
     private lateinit var signInButton: SignInButton
     private lateinit var mSignInClient: GoogleSignInClient
-    var currAcc: GoogleSignInAccount? = null
+    private var currAcc: GoogleSignInAccount? = null
     private lateinit var idTokenAcc: String
     private lateinit var flipper: ViewFlipper
     private lateinit var animFlipInForward: Animation
@@ -57,7 +57,7 @@ class AuthActivity : AppCompatActivity() {
         signInButton = findViewById(R.id.sign_in_button)
         signInButton.setOnClickListener {
             val intent: Intent = mSignInClient.signInIntent
-            startActivityForResult(intent, Companion.RC_SIGN_IN)
+            startActivityForResult(intent, RC_SIGN_IN)
         }
     }
 
