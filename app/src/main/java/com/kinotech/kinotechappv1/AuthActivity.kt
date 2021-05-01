@@ -18,10 +18,13 @@ import com.google.android.gms.tasks.Task
 
 class AuthActivity : AppCompatActivity() {
 
+    companion object {
+        private const val RC_SIGN_IN = 9001
+    }
+
     private lateinit var serverClientId: String
     private lateinit var signInButton: SignInButton
     private lateinit var mSignInClient: GoogleSignInClient
-    private val RC_SIGN_IN = 9001
     var currAcc: GoogleSignInAccount? = null
     private lateinit var idTokenAcc: String
     private lateinit var flipper: ViewFlipper
@@ -54,7 +57,7 @@ class AuthActivity : AppCompatActivity() {
         signInButton = findViewById(R.id.sign_in_button)
         signInButton.setOnClickListener {
             val intent: Intent = mSignInClient.signInIntent
-            startActivityForResult(intent, RC_SIGN_IN)
+            startActivityForResult(intent, Companion.RC_SIGN_IN)
         }
     }
 
@@ -124,5 +127,6 @@ class AuthActivity : AppCompatActivity() {
                 Log.w("TAG", "Google sign in failed $e")
             }
         }
+
     }
 }
