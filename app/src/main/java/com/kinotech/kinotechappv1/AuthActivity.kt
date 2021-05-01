@@ -9,7 +9,6 @@ import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import android.widget.ViewFlipper
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.size
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
@@ -31,7 +30,6 @@ class AuthActivity : AppCompatActivity() {
     private lateinit var animFlipInBackward: Animation
     private lateinit var animFlipOutBackward: Animation
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.loading_screens)
@@ -52,7 +50,6 @@ class AuthActivity : AppCompatActivity() {
                 .requestEmail()
                 .build()
         mSignInClient = GoogleSignIn.getClient(this, gso)
-
 
         signInButton = findViewById(R.id.sign_in_button)
         signInButton.setOnClickListener {
