@@ -1,7 +1,8 @@
 <resources>
     <string name="app_name">Kinotech App v1</string>
+    <string name="api_key">6b189dca-0b75-4223-9fac-c89f2d2ec5a2</string>
     <string name="title_feed">Лента</string>
-    <string name="title_dashboard">Списки</string>
+    <string name="title_lists">Списки</string>
     <string name="title_search">Поиск</string>
     <string name="title_profile">Профиль</string>
     <string name="title_profile_name">Имя профиля</string>
@@ -10,4 +11,22 @@
     <string name="title_subscriptions">0\nподписки</string>
     <string name="title_change_profile">Изменить профиль</string>
     <string name="title_show_all">Показать все</string>
+    <string name="maybe_youll_like">Возможно, Вам понравится</string>
+    <string name="watch_new_film">Посмотрите новый фильм</string>
+    <string name="subscribe_friends_updates">Подписывайтесь на обновления друзей!</string>
+    <string name="next">Далее</string>
+    <string name="share_movies">Делитесь любимыми фильмами и сериалами!</string>
+    <string name="login_with_google">Войти с помощью Google</string>
+    <string name="input_film_name">Введите название фильма/сериала...</string>
+    <string name="find_button">Найти!</string>
+    <string name="guide_text_search">Ищите любимые фильмы
+и сериалы с помощью поиска  наверху!</string>
+    <string name="server_client_id">1096042858796-qtkubuc2p5adcpbiq5utv9vnasnamksr.apps.googleusercontent.com</string>
+    <string name="director">Режиссёр:</string>
+    <string name="roles">В главных ролях:</string>
+    <string name="kinopoisk">Кинопоиск:</string>
+    <string name="imdb">IMDB:</string>
+    <string name="description">Описание</string>
+    <string name="rate_film">Оцените фильм:</string>
+    <string name="ten">/10</string>
 </resources>

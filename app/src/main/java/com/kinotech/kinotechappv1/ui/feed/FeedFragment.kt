@@ -4,31 +4,39 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
-import com.kinotech.kinotechappv1.R
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.observe
+import com.kinotech.kinotechappv1.databinding.FragmentFeedBinding
+import com.kinotech.kinotechappv1.ui.feed.recyclerview.PostNewListAdapter
 
 class FeedFragment : Fragment() {
-
-    private lateinit var feedViewModel: FeedViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        feedViewModel =
-            ViewModelProvider(this).get(FeedViewModel::class.java)
-        val root = inflater.inflate(R.layout.fragment_feed, container, false)
-        val textView: TextView = root.findViewById(R.id.text_feed)
-        feedViewModel.text.observe(
-            viewLifecycleOwner,
-            Observer {
-                textView.text = it
+        val binding = FragmentFeedBinding.inflate(inflater, container, false)
+
+        val viewModel: FeedViewModel by viewModels()
+        val adapter = PostNewListAdapter(
+            object : OnInteractionListener {
+                override fun onLike(post: PostNewList) {
+                    viewModel.likedById(post.id)
+                }
+
+//            override fun onAdd(post: PostNewList) {
+//                TODO()
+//            }
             }
         )
-        return root
+
+        binding.feedRV.adapter = adapter
+        viewModel.newListPosts.observe(viewLifecycleOwner) { post ->
+            adapter.submitList(post)
+        }
+
+        return binding.root
     }
 }

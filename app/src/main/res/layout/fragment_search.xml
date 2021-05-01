@@ -8,21 +8,22 @@
     android:background="#ED959E">
 
     <TextView
-        android:id="@+id/text_search"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="50dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="40dp"
-        android:textAlignment="gravity"
-        android:fontFamily="@font/rubik_bold"
-        android:textSize="20sp"
-        android:textColor="@color/white_full"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.8" />
+            android:id="@+id/text_search"
+            android:text="@string/guide_text_search"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="50dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="40dp"
+            android:textAlignment="gravity"
+            android:fontFamily="@font/rubik_bold"
+            android:textSize="20sp"
+            android:textColor="@color/white_full"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.8" />
 
     <ImageView
             android:id="@+id/imageView1"
@@ -38,6 +39,50 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.35"
+             />
+
+    <FrameLayout
+            android:id="@+id/frameLayout"
+            android:layout_width="match_parent"
+            android:layout_height="530dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+    <androidx.appcompat.widget.SearchView
+            android:id="@+id/textView_search"
+            android:hint="@string/input_film_name"
+            android:fontFamily="@font/rubik_bold"
+            android:textSize="16sp"
+            android:textColor="@color/grey"
+            android:background="@drawable/rectangle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="40dp"
+            android:layout_marginStart="37dp"
+            android:gravity="center"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:searchIcon="@null"
+            app:iconifiedByDefault="false"
             />
+
+    <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/find_button"
+            android:layout_width="65dp"
+            android:layout_height="32dp"
+            android:background="@drawable/rectangle_red"
+            android:layout_marginStart="5dp"
+            android:layout_marginTop="100dp"
+            android:text="@string/find_button"
+            android:fontFamily="@font/rubik_bold"
+            android:textSize="13sp"
+            android:textColor="@color/white_full"
+            android:textAllCaps="false"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintHorizontal_bias="0.885" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

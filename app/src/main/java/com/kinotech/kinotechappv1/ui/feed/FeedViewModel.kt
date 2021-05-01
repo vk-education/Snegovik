@@ -1,13 +1,12 @@
 package com.kinotech.kinotechappv1.ui.feed
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.kinotech.kinotechappv1.ui.feed.repository.NewListPostRepository
+import com.kinotech.kinotechappv1.ui.feed.repository.NewListPostRepositoryImpl
 
 class FeedViewModel : ViewModel() {
 
-    private val _text = MutableLiveData<String>().apply {
-        value = "Скоро здесь будет красивая лента"
-    }
-    val text: LiveData<String> = _text
+    private val repository: NewListPostRepository = NewListPostRepositoryImpl()
+    val newListPosts = repository.getAll()
+    fun likedById(id: Int) = repository.likedById(id)
 }
