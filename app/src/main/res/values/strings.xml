@@ -5,7 +5,7 @@
     <string name="title_search">Поиск</string>
     <string name="title_profile">Профиль</string>
     <string name="title_profile_name">Имя профиля</string>
-    <string name="title_lists">0\nсписки</string>
+    <string name="title_playlists">0\nсписки</string>
     <string name="title_subscribers">0\nподписчики</string>
     <string name="title_subscriptions">0\nподписки</string>
     <string name="title_change_profile">Изменить профиль</string>

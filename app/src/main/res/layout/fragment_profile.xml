@@ -28,7 +28,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAlignment="center"
-                android:text="@string/title_lists"
+                android:text="@string/title_playlists"
                 android:textColor="@color/white_full"
                 android:textStyle="bold"
                 android:textSize="12sp"
