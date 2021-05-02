@@ -59,7 +59,6 @@ public class RecyclerAdapterLists(val context: Context, val clickListener: MyCli
         notifyDataSetChanged()
     }
 
-
     sealed class MyViewHolder(
         container: ViewGroup,
         layoutResId: Int
@@ -85,11 +84,13 @@ public class RecyclerAdapterLists(val context: Context, val clickListener: MyCli
                     .error(R.drawable.ic_add_24)
                     .into(imgListH)
 
-                itemView.setOnClickListener(View.OnClickListener {
-                    clickListener.onItemClick(
-                        lists
-                    )
-                })
+                itemView.setOnClickListener(
+                    View.OnClickListener {
+                        clickListener.onItemClick(
+                            lists
+                        )
+                    }
+                )
             }
         }
 
@@ -102,7 +103,6 @@ public class RecyclerAdapterLists(val context: Context, val clickListener: MyCli
                 val filmCount: TextView = itemView.findViewById(R.id.film_count)
                 val imgListH: ImageView = itemView.findViewById(R.id.img_list)
 
-
                 itemTitle.text = (lists as AnyItemInAdapterList.ButtonShowList).itemTitle
                 filmCount.text = lists.filmCount
                 val imgList: String = lists.imgList
@@ -114,13 +114,14 @@ public class RecyclerAdapterLists(val context: Context, val clickListener: MyCli
                     .error(R.drawable.ic_like_24)
                     .into(imgListH)
 
-                itemView.setOnClickListener(View.OnClickListener {
-                    clickListener.onItemClick(
-                        lists
-                    )
-                })
+                itemView.setOnClickListener(
+                    View.OnClickListener {
+                        clickListener.onItemClick(
+                            lists
+                        )
+                    }
+                )
             }
         }
     }
 }
-

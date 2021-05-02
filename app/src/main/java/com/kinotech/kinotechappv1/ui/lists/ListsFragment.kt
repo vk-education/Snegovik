@@ -6,9 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
-import android.view.inputmethod.EditorInfo
 import android.widget.Button
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -16,9 +14,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.kinotech.kinotechappv1.R
 import com.kinotech.kinotechappv1.ui.lists.CustomDialog.FullNameListener
 
-
 class ListsFragment : Fragment(), RecyclerAdapterLists.MyClickListener {
-
 
     private lateinit var listsViewModel: ListsViewModel
 
@@ -69,54 +65,51 @@ class ListsFragment : Fragment(), RecyclerAdapterLists.MyClickListener {
         )
     )
 
-
-override fun onResume() {
-    super.onResume()
+    override fun onResume() {
+        super.onResume()
 
     /*recyclerAdapter = RecyclerAdapterLists(getContext())
     recyclerView.layoutManager = LinearLayoutManager(this)
     recyclerView.adapter = recyclerAdapter*/
 
-    context?.let { normalnyContext ->
-        recyclerAdapter = RecyclerAdapterLists(normalnyContext, this)
-        recyclerView.layoutManager = LinearLayoutManager(context)
-        recyclerView.adapter = recyclerAdapter
+        context?.let { normalnyContext ->
+            recyclerAdapter = RecyclerAdapterLists(normalnyContext, this)
+            recyclerView.layoutManager = LinearLayoutManager(context)
+            recyclerView.adapter = recyclerAdapter
+        }
+        recyclerAdapter.setMovieListItems(listOfMovie)
+        activity?.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN)
     }
-    recyclerAdapter.setMovieListItems(listOfMovie)
-    activity?.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN)
-}
 
-override fun onItemClick(item: AnyItemInAdapterList?) {
-    Log.d("tag14536", "chek $item")
-    when (item) {
-        is AnyItemInAdapterList.ButtonCreateList -> {
-            val listener: FullNameListener = object : FullNameListener {
-                override fun fullNameEntered(fullName: String) {
+    override fun onItemClick(item: AnyItemInAdapterList?) {
+        Log.d("tag14536", "chek $item")
+        when (item) {
+            is AnyItemInAdapterList.ButtonCreateList -> {
+                val listener: FullNameListener = object : FullNameListener {
+                    override fun fullNameEntered(fullName: String) {
                     /*Toast.makeText(
                         context,
                         "Full name: $fullName", Toast.LENGTH_LONG
                     ).show()*/
-                    val list = listOfMovie.apply {
-                        add(
-                            AnyItemInAdapterList.ButtonShowList(
-                                fullName,
-                                "0 фильмов",
-                                "https://cdn25.img.ria.ru/images/156087/28/156087280" +
-                                    ".2_0:778:1536:1642_600x0_80_0_0_606c2d47b6d37951adc9eaf7" +
-                                    ".50de22f0.jpg"
+                        val list = listOfMovie.apply {
+                            add(
+                                AnyItemInAdapterList.ButtonShowList(
+                                    fullName,
+                                    "0 фильмов",
+                                    "https://cdn25.img.ria.ru/images/156087/28/156087280" +
+                                        ".2_0:778:1536:1642_600x0_80_0_0_606c2d47b6d37951adc9eaf7" +
+                                        ".50de22f0.jpg"
+                                )
                             )
-                        )
+                        }
+                        recyclerAdapter.setMovieListItems(list)
                     }
-                    recyclerAdapter.setMovieListItems(list)
                 }
+                val dialog = context?.let { CustomDialog(it, listener) }
+                dialog?.show()
             }
-            val dialog = context?.let { CustomDialog(it, listener) }
-            dialog?.show()
-        }
-        is AnyItemInAdapterList.ButtonShowList -> {
+            is AnyItemInAdapterList.ButtonShowList -> {
+            }
         }
     }
-
-}
-
 }
