@@ -8,16 +8,131 @@
         android:background="@color/red_400">
 
         <TextView
-            android:id="@+id/text_profile"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="8dp"
-            android:textAlignment="center"
-            android:textSize="20sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+                android:id="@+id/text_profile"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="8dp"
+                android:text="@string/title_profile_name"
+                android:textColor="@color/white_full"
+                android:textStyle="bold"
+                android:textSize="22sp"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                android:layout_marginTop="60dp"
+                android:layout_marginStart ="200dp"/>
+
+
+        <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/lists"
+                app:layout_constraintHorizontal_chainStyle="spread_inside"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAlignment="center"
+                android:text="@string/title_lists"
+                android:textColor="@color/white_full"
+                android:textStyle="bold"
+                android:textSize="12sp"
+                android:background="@android:color/transparent"
+                android:textAllCaps="false"
+                app:layout_constraintTop_toBottomOf = "@id/text_profile"
+                app:layout_constraintLeft_toLeftOf="@id/text_profile"
+                app:layout_constraintRight_toLeftOf="@+id/subscribers"
+                tools:ignore="SmallSp" />
+
+        <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/subscribers"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAlignment="center"
+                android:text="@string/title_subscribers"
+                android:textColor="@color/white_full"
+                android:textStyle="bold"
+                android:textSize="12sp"
+                android:background="@android:color/transparent"
+                android:textAllCaps="false"
+                app:layout_constraintTop_toBottomOf = "@id/text_profile"
+                app:layout_constraintLeft_toRightOf="@id/lists"
+                app:layout_constraintRight_toLeftOf="@+id/subscriptions"
+                tools:ignore="SmallSp" />
+
+        <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/subscriptions"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAlignment="center"
+                android:text="@string/title_subscriptions"
+                android:textColor="@color/white_full"
+                android:textStyle="bold"
+                android:textSize="12sp"
+                android:background="@android:color/transparent"
+                android:textAllCaps="false"
+                app:layout_constraintTop_toBottomOf = "@id/text_profile"
+                app:layout_constraintLeft_toRightOf="@id/subscribers"
+                app:layout_constraintRight_toRightOf="@id/text_profile"
+                tools:ignore="SmallSp" />
+
+        <ImageView
+                android:id="@+id/photo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                android:layout_marginTop="30dp"
+                android:layout_marginStart="30dp"
+                tools:ignore="ContentDescription" />
+
+        <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/image_exit"
+                android:background="@drawable/ic_baseline_exit_to_app_24"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                />
+
+        <ImageView
+                android:id="@+id/dashed"
+                android:layout_width="match_parent"
+                android:layout_height="5dp"
+                android:src="@drawable/dashed_line"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                android:layout_marginTop="226dp"
+                tools:ignore="ContentDescription" />
+
+        <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/change_profile"
+                android:layout_width="171dp"
+                android:layout_height="25dp"
+                android:textColor="@color/white_full"
+                android:textStyle="bold"
+                android:textAllCaps="false"
+                android:textSize="14sp"
+                android:textAlignment="center"
+                android:text="@string/title_change_profile"
+                android:background="@drawable/subscribe"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                android:layout_marginTop="175dp"
+                android:layout_marginStart="7dp" />
+
+        <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/subscribe_button"
+                android:layout_width="115dp"
+                android:layout_height="25dp"
+                android:textColor="@color/white_full"
+                android:textStyle="bold"
+                android:textAllCaps="false"
+                android:textSize="14sp"
+                android:textAlignment="center"
+                android:text="@string/title_show_all"
+                android:background="@drawable/subscribe"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                android:layout_marginTop="650dp"
+                android:layout_marginStart="11dp" />
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>
