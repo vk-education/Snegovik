@@ -37,11 +37,12 @@
                 android:textSize="24sp"
                 android:textAlignment="center" />
 
-        <ImageView
+        <ImageButton
                 android:id="@+id/left_dot"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/ic_left_dot"
+                android:background="@android:color/transparent"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -96,11 +97,12 @@
                 android:textColor="@color/white_full"
                 android:background="@drawable/button_border" />
 
-        <ImageView
+        <ImageButton
                 android:id="@+id/right_dot"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/ic_right_dot"
+                android:background="@android:color/transparent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/loginBtn"
