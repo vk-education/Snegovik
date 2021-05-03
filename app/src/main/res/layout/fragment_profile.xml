@@ -22,7 +22,7 @@
                 android:layout_marginStart ="200dp"/>
 
 
-        <androidx.appcompat.widget.AppCompatButton
+        <TextView
                 android:id="@+id/lists"
                 app:layout_constraintHorizontal_chainStyle="spread_inside"
                 android:layout_width="wrap_content"
@@ -32,14 +32,12 @@
                 android:textColor="@color/white_full"
                 android:textStyle="bold"
                 android:textSize="12sp"
-                android:background="@android:color/transparent"
-                android:textAllCaps="false"
                 app:layout_constraintTop_toBottomOf = "@id/text_profile"
                 app:layout_constraintLeft_toLeftOf="@id/text_profile"
                 app:layout_constraintRight_toLeftOf="@+id/subscribers"
                 tools:ignore="SmallSp" />
 
-        <androidx.appcompat.widget.AppCompatButton
+        <TextView
                 android:id="@+id/subscribers"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -48,14 +46,12 @@
                 android:textColor="@color/white_full"
                 android:textStyle="bold"
                 android:textSize="12sp"
-                android:background="@android:color/transparent"
-                android:textAllCaps="false"
                 app:layout_constraintTop_toBottomOf = "@id/text_profile"
                 app:layout_constraintLeft_toRightOf="@id/lists"
                 app:layout_constraintRight_toLeftOf="@+id/subscriptions"
                 tools:ignore="SmallSp" />
 
-        <androidx.appcompat.widget.AppCompatButton
+        <TextView
                 android:id="@+id/subscriptions"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -64,8 +60,6 @@
                 android:textColor="@color/white_full"
                 android:textStyle="bold"
                 android:textSize="12sp"
-                android:background="@android:color/transparent"
-                android:textAllCaps="false"
                 app:layout_constraintTop_toBottomOf = "@id/text_profile"
                 app:layout_constraintLeft_toRightOf="@id/subscribers"
                 app:layout_constraintRight_toRightOf="@id/text_profile"
