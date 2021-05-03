@@ -4,13 +4,13 @@
     <string name="title_dashboard">Списки</string>
     <string name="title_search">Поиск</string>
     <string name="title_profile">Профиль</string>
-    <string name="title_profile_name">Имя профиля</string>
-    <string name="title_playlists">0\nсписки</string>
-    <string name="title_subscribers">0\nподписчики</string>
-    <string name="title_subscriptions">0\nподписки</string>
-    <string name="title_change_profile">Изменить профиль</string>
-    <string name="title_show_all">Показать все</string>
-    <string name="title_change_photo">Изменить фото профиля</string>
-    <string name="title_change_name">Изменить имя профиля</string>
-    <string name="title_save">Сохранить</string>
+    <string name="profile_name_string">Имя профиля</string>
+    <string name="playlists_string">0\nсписки</string>
+    <string name="subscribers_string">0\nподписчики</string>
+    <string name="subscriptions_string">0\nподписки</string>
+    <string name="change_profile_string">Изменить профиль</string>
+    <string name="show_all_string">Показать все</string>
+    <string name="change_photo_string">Изменить фото профиля</string>
+    <string name="change_name_string">Изменить имя профиля</string>
+    <string name="save_string">Сохранить</string>
 </resources>
