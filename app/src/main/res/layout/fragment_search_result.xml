@@ -3,7 +3,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/red_200"
-        android:layout_gravity="center">
+        android:layout_gravity="center"
+        android:id="@+id/search_result_layout">
 
     <TextView
             android:layout_width="wrap_content"

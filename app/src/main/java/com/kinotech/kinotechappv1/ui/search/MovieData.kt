@@ -8,19 +8,29 @@ data class SimpleResult(
     val nameRu: String,
     val genres: List<Genres>,
     val year: String,
-    val posterUrlPreview: String
+    val posterUrlPreview: String,
+    val filmId: Int
 )
 
 data class Genres(
     val genre : String
 )
 
-data class FullResult(
-    val filmId: Int,
-    val posterUrlPreview: String,
-    val genres: List<String>,
-    val year: String,
+data class DescriptionRatingResults(
+    val data : Description,
+    val rating : Rating
+)
+
+data class Description(
+    val description : String
+)
+
+data class Rating(
+    val rating : Double,
+    val ratingImdb : Double
+)
+
+data class Staff(
     val nameRu: String,
-    val voteAverage: Double,
-    val voteCount: Int
+    val professionKey : String
 )

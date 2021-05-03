@@ -10,6 +10,7 @@ import android.view.WindowManager
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.appcompat.app.ActionBar
 import androidx.appcompat.widget.AppCompatButton
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
@@ -34,7 +35,6 @@ class SearchFragment : Fragment() {
             androidx.appcompat.R.id.search_src_text
         ).textSize = textSizeF
         searchView.queryHint = getString(R.string.input_film_name)
-
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener{
             override fun onQueryTextSubmit(query: String?): Boolean {
                 searchView.clearFocus()
@@ -70,7 +70,6 @@ class SearchFragment : Fragment() {
         val transaction = activity?.supportFragmentManager?.beginTransaction()
         activity?.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN)
         transaction?.replace(R.id.frameLayout, fragment)
-        transaction?.disallowAddToBackStack()
         transaction?.commit()
     }
 }
