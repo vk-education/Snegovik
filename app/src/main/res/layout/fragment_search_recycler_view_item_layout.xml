@@ -1,53 +1,90 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
         android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:background="@color/red_200">
 
     <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="10dp">
+            android:layout_marginBottom="5dp"
+            app:cardCornerRadius="10dp"
+            android:background="@color/red_200"
+            app:cardPreventCornerOverlap="false">
 
         <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="match_parent"
+                android:background="@color/red_200">
+
+            <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/rectangle_search_result">
+
+            <!--<androidx.cardview.widget.CardView
+                    android:layout_width="40dp"
+                    android:layout_height="60dp"
+                    app:cardCornerRadius="15dp"
+                    android:layout_marginStart="10dp"
+                    app:cardBackgroundColor="@android:color/transparent">
 
             <ImageView
-                    android:layout_width="match_parent"
-                    android:layout_height="200dp"
-                    android:layout_centerHorizontal="true"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
                     android:id="@+id/movie_photo"
-                    android:contentDescription="Movie Image" />
+                    android:layout_gravity="center"
+                    android:contentDescription="@string/movie_image_content" />
+            </androidx.cardview.widget.CardView>-->
 
+            <ImageView
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:id="@+id/movie_photo"
+                    android:layout_gravity="center"
+                    android:contentDescription="@string/movie_image_content" />
             <TextView
-                    android:layout_below="@+id/movie_photo"
+                    android:layout_toEndOf="@+id/movie_photo"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:ellipsize="end"
                     android:id="@+id/movie_title"
-                    android:layout_margin="5dp"
-                    android:textSize="15sp"
-                    android:text="Title : "/>
+                    android:textSize="13sp"
+                    android:fontFamily="@font/rubik_bold"
+                    android:textColor="@color/white_full"
+                    android:layout_marginTop="5dp"
+                    android:maxLines="1" />
+
+            <TextView
+                    android:layout_toEndOf="@+id/movie_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="5dp"
+                    android:id="@+id/movie_year"
+                    android:textSize="13sp"
+                    android:maxLines="1"
+                    android:ellipsize="end"
+                    android:fontFamily="@font/rubik_bold"
+                    android:textColor="@color/grey_for_search_result"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="5dp" />
 
             <TextView
                     android:layout_below="@+id/movie_title"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/movie_year"
-                    android:layout_margin="5dp"
-                    android:text="Year: "/>
-
-            <TextView
-                    android:layout_below="@+id/movie_year"
+                    android:layout_toEndOf="@+id/movie_photo"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/movie_genres"
-                    android:textSize="15sp"
-                    android:layout_margin="5dp"
-                    android:text="Genres : "/>
+                    android:textSize="13sp"
+                    android:fontFamily="@font/rubik_bold"
+                    android:textColor="@color/grey_for_search_result"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginTop="20dp"/>
 
-
+            </RelativeLayout>
         </RelativeLayout>
 
     </androidx.cardview.widget.CardView>

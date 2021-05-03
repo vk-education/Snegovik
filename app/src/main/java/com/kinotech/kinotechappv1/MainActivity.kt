@@ -6,6 +6,7 @@ import android.widget.TextView
 import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
 import androidx.navigation.findNavController
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -70,6 +71,17 @@ class MainActivity : AppCompatActivity() {
             false
         }
 
+    override fun onBackPressed() {
+        val fm = fragmentManager
+        if (fm != null) {
+            if (fm.backStackEntryCount > 0) {
+                fm.popBackStack()
+            } else {
+                toolbar.show()
+                super.onBackPressed()
+            }
+        }
+    }
     private fun openFragment(fragment: Fragment) {
         val transaction = supportFragmentManager.beginTransaction()
         transaction.replace(R.id.container, fragment)
