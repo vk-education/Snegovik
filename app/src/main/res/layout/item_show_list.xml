@@ -58,6 +58,7 @@
                 android:layout_marginTop="20dp"
                 android:layout_marginBottom="20dp"
                 app:layout_constraintCircleRadius="180dp"
+                android:background="@color/red_700"
                 android:foreground="@drawable/rounded_fg"/>
 
 
