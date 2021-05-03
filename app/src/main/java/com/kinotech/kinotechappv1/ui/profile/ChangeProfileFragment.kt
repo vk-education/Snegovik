@@ -13,7 +13,7 @@ import android.app.Activity;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 
-class ProfileFragment : Fragment() {
+class ChangeProfileFragment : Fragment() {
 
     private lateinit var profileViewModel: ProfileViewModel
 
@@ -24,7 +24,7 @@ class ProfileFragment : Fragment() {
     ): View? {
         profileViewModel =
             ViewModelProvider(this).get(ProfileViewModel::class.java)
-        val root = inflater.inflate(R.layout.fragment_profile, container, false)
+        val binding = inflater.inflate(R.layout.change_profile, container, false)
         /*val textView = root.findViewById<TextView>(R.id.text_profile)
         profileViewModel.text.observe(
             viewLifecycleOwner,
@@ -32,7 +32,6 @@ class ProfileFragment : Fragment() {
                 textView.text = it
             }
         )*/
-
-        return root
+        return binding
     }
 }
