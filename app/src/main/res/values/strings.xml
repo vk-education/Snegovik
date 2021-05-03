@@ -1,6 +1,5 @@
 <resources>
     <string name="app_name">Kinotech App v1</string>
-    <string name="api_key">6b189dca-0b75-4223-9fac-c89f2d2ec5a2</string>
     <string name="title_feed">Лента</string>
     <string name="title_lists">Списки</string>
     <string name="title_search">Поиск</string>
@@ -25,5 +24,13 @@
     <string name="ten">/10</string>
     <string name="search_result">Результаты поиска</string>
     <string name="movie_image_content">Movie Image</string>
-
+    <string name="profile_name_string">Имя профиля</string>
+    <string name="playlists_string">0\nсписки</string>
+    <string name="subscribers_string">0\nподписчики</string>
+    <string name="subscriptions_string">0\nподписки</string>
+    <string name="change_profile_string">Изменить профиль</string>
+    <string name="show_all_string">Показать все</string>
+    <string name="change_photo_string">Изменить фото профиля</string>
+    <string name="change_name_string">Изменить имя профиля</string>
+    <string name="save_string">Сохранить</string>
 </resources>
