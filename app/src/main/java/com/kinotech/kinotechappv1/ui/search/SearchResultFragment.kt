@@ -5,6 +5,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.WindowManager
 import android.widget.ProgressBar
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -14,7 +15,8 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class SearchResultFragment : Fragment() {
+class SearchResultFragment(s : String) : Fragment() {
+    private val result = s
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -24,11 +26,13 @@ class SearchResultFragment : Fragment() {
         val request = ServiceBuilder.buildService(APIEndpoints::class.java)
         val progressBar: ProgressBar = root.findViewById(R.id.progress_bar)
         val recyclerView: RecyclerView = root.findViewById(R.id.recyclerView)
-        val call = request.findMovies(getString(R.string.api_key), "Побег")
+        val call = request.findMovies(result, "1")
+        Log.d("cout", call.toString())
         call.enqueue(
             object : Callback<SearchResults> {
                 override fun onFailure(call: Call<SearchResults>, t: Throwable) {
-                    Log.d("fail", "onFailure: ")
+                    Log.d("cout", "onFailure: ")
+                    Log.d("cout", "onFailure:$t ")
                 }
 
                 override fun onResponse(
@@ -37,10 +41,13 @@ class SearchResultFragment : Fragment() {
                 ) {
                     if (response.isSuccessful) {
                         progressBar.visibility = View.GONE
+                        Log.d("cout", "on response")
                         recyclerView.apply {
                             setHasFixedSize(true)
                             layoutManager = LinearLayoutManager(context)
-                            adapter = MoviesAdapter(response.body()!!.results)
+                            Log.d("cout", "response is ${response.body()}")
+                            Log.d("cout", "before adapter")
+                            adapter = MoviesAdapter(response.body()!!.films)
                         }
                     }
                 }
