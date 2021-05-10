@@ -54,11 +54,10 @@ class MoviesViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         itemView.setOnClickListener {
             val activity : AppCompatActivity = itemView.context as AppCompatActivity
             val transaction = activity.supportFragmentManager.beginTransaction()
-            transaction.replace(R.id.container, FilmPageFragment(movie.filmId))
+            transaction.replace(R.id.container, FilmPageFragment(movie))
             transaction.addToBackStack(null)
             transaction.commit()
         }
-
         }
 
     }
