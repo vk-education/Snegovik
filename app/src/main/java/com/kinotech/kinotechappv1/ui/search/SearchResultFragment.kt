@@ -8,14 +8,18 @@ import android.view.ViewGroup
 import android.view.WindowManager
 import android.widget.ProgressBar
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.kinotech.kinotechappv1.R
+import kotlinx.coroutines.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class SearchResultFragment(s : String) : Fragment() {
+class SearchResultFragment(s: String) : Fragment() {
     private val result = s
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -23,36 +27,22 @@ class SearchResultFragment(s : String) : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val root = inflater.inflate(R.layout.fragment_search_result, container, false)
-        val request = ServiceBuilder.buildService(APIEndpoints::class.java)
         val progressBar: ProgressBar = root.findViewById(R.id.progress_bar)
         val recyclerView: RecyclerView = root.findViewById(R.id.recyclerView)
-        val call = request.findMovies(result, "1")
-        Log.d("cout", call.toString())
-        call.enqueue(
-            object : Callback<SearchResults> {
-                override fun onFailure(call: Call<SearchResults>, t: Throwable) {
-                    Log.d("cout", "onFailure: ")
-                    Log.d("cout", "onFailure:$t ")
-                }
-
-                override fun onResponse(
-                    call: Call<SearchResults>,
-                    response: Response<SearchResults>
-                ) {
-                    if (response.isSuccessful) {
-                        progressBar.visibility = View.GONE
-                        Log.d("cout", "on response")
-                        recyclerView.apply {
-                            setHasFixedSize(true)
-                            layoutManager = LinearLayoutManager(context)
-                            Log.d("cout", "response is ${response.body()}")
-                            Log.d("cout", "before adapter")
-                            adapter = MoviesAdapter(response.body()!!.films)
-                        }
+        val viewModel = ViewModelProviders.of(this).get(RequestViewModel::class.java)
+        lifecycleScope.launch {
+            viewModel.searchFilms(result)
+            viewModel.getFilms().observe(viewLifecycleOwner,
+                { filmsT ->
+                    progressBar.visibility = View.GONE
+                    recyclerView.apply {
+                        setHasFixedSize(true)
+                        layoutManager = LinearLayoutManager(context)
+                        Log.d("cout", "response is $filmsT")
+                        adapter = MoviesAdapter(filmsT)
                     }
-                }
-            }
-        )
+                })
+        }
         return root
     }
 }

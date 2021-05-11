@@ -4,12 +4,6 @@
     <string name="title_lists">Списки</string>
     <string name="title_search">Поиск</string>
     <string name="title_profile">Профиль</string>
-    <string name="title_profile_name">Имя профиля</string>
-    <string name="title_count_sub">0\nсписки</string>
-    <string name="title_subscribers">0\nподписчики</string>
-    <string name="title_subscriptions">0\nподписки</string>
-    <string name="title_change_profile">Изменить профиль</string>
-    <string name="title_show_all">Показать все</string>
     <string name="maybe_youll_like">Возможно, Вам понравится</string>
     <string name="watch_new_film">Посмотрите новый фильм</string>
     <string name="subscribe_friends_updates">Подписывайтесь на обновления друзей!</string>

@@ -9,17 +9,18 @@
         android:background="@color/red_400">
 
     <ImageView
-            android:id="@+id/change_photo"
+            android:id="@+id/changePhoto"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"
-            android:layout_marginTop="120dp"
-            android:layout_marginStart="146dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/changePhotoButton"
+            android:background="@drawable/rounded_fg"
             tools:ignore="ContentDescription" />
 
     <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/change_photo_button"
+            android:id="@+id/changePhotoButton"
             android:layout_width="214dp"
             android:layout_height="20dp"
             android:textColor="@color/white_full"

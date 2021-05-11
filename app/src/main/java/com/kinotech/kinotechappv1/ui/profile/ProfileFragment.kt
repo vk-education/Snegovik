@@ -22,7 +22,7 @@ import com.kinotech.kinotechappv1.R
 
 class ProfileFragment : Fragment() {
 
-    private lateinit var photoAcc: ImageView
+    lateinit var photoAcc: ImageView
     private lateinit var nickName: TextView
     private lateinit var signOut: Button
     private lateinit var mSignInClient: GoogleSignInClient
@@ -44,7 +44,7 @@ class ProfileFragment : Fragment() {
             }
         )*/
         val root = inflater.inflate(R.layout.fragment_profile, container, false)
-        signOut = root.findViewById<Button>(R.id.image_exit)
+        signOut = root.findViewById(R.id.image_exit)
         nickName = root.findViewById(R.id.text_profile)
         photoAcc = root.findViewById(R.id.photo)
 
@@ -79,14 +79,12 @@ class ProfileFragment : Fragment() {
                 .requestEmail()
                 .build()
         mSignInClient = context?.let { GoogleSignIn.getClient(it, gso) }!!
-        signOut.setOnClickListener(
-            View.OnClickListener() {
-                mSignInClient.signOut()
-                val intent: Intent = Intent(context, AuthActivity::class.java)
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-                startActivity(intent)
-            }
-        )
+        signOut.setOnClickListener {
+            mSignInClient.signOut()
+            val intent = Intent(context, AuthActivity::class.java)
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+            startActivity(intent)
+        }
     }
 
     private fun bind(acc: GoogleSignInAccount?) {
