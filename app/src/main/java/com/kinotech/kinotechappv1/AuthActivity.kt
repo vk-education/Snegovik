@@ -7,6 +7,9 @@ import android.view.GestureDetector
 import android.view.MotionEvent
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
+import android.widget.Button
+import android.widget.ImageButton
+import android.widget.ImageView
 import android.widget.ViewFlipper
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.gms.auth.api.signin.GoogleSignIn
@@ -18,17 +21,22 @@ import com.google.android.gms.tasks.Task
 
 class AuthActivity : AppCompatActivity() {
 
+    companion object {
+        private const val RC_SIGN_IN = 9001
+    }
+
     private lateinit var serverClientId: String
     private lateinit var signInButton: SignInButton
     private lateinit var mSignInClient: GoogleSignInClient
-    private val RC_SIGN_IN = 9001
-    var currAcc: GoogleSignInAccount? = null
+    private var currAcc: GoogleSignInAccount? = null
     private lateinit var idTokenAcc: String
     private lateinit var flipper: ViewFlipper
     private lateinit var animFlipInForward: Animation
     private lateinit var animFlipOutForward: Animation
     private lateinit var animFlipInBackward: Animation
     private lateinit var animFlipOutBackward: Animation
+    private lateinit var rightDot: ImageButton
+    private lateinit var leftDot: ImageButton
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -55,6 +63,16 @@ class AuthActivity : AppCompatActivity() {
         signInButton.setOnClickListener {
             val intent: Intent = mSignInClient.signInIntent
             startActivityForResult(intent, RC_SIGN_IN)
+        }
+
+        leftDot = findViewById(R.id.left_dot)
+        leftDot.setOnClickListener {
+            swipeLeft()
+        }
+
+        rightDot = findViewById(R.id.right_dot)
+        rightDot.setOnClickListener {
+            swipeRight()
         }
     }
 
@@ -124,5 +142,6 @@ class AuthActivity : AppCompatActivity() {
                 Log.w("TAG", "Google sign in failed $e")
             }
         }
+
     }
 }

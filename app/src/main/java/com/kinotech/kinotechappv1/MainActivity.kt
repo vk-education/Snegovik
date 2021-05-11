@@ -16,7 +16,7 @@ import com.kinotech.kinotechappv1.ui.profile.ProfileFragment
 import com.kinotech.kinotechappv1.ui.search.SearchFragment
 
 class MainActivity : AppCompatActivity() {
-    lateinit var toolbar: ActionBar
+    private lateinit var toolbar: ActionBar
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
