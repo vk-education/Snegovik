@@ -3,7 +3,6 @@ package com.kinotech.kinotechappv1.ui.lists
 import android.content.Context
 import android.util.Log
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
@@ -12,35 +11,35 @@ import com.bumptech.glide.Glide
 import com.kinotech.kinotechappv1.R
 import kotlin.reflect.KClass
 
-public class RecyclerAdapterLists(val context: Context, val clickListener: MyClickListener) :
+class RecyclerAdapterLists(val context: Context, private val clickListener: MyClickListener) :
     RecyclerView.Adapter<RecyclerAdapterLists.MyViewHolder>() {
 
-    fun unreachable(): Nothing = throw Exception()
-    fun <E : Enum<E>> KClass<E>.enumValues(): Array<out E> = java.enumConstants ?: unreachable()
-    fun <E : Enum<E>> KClass<E>.enumValue(ordinal: Int): E = enumValues()[ordinal]
-    inline fun <reified E : Enum<E>> enumValueOf(ordinal: Int): E = E::class.enumValue(ordinal)
+    private fun unreachable(): Nothing = throw Exception()
+    private fun <E : Enum<E>> KClass<E>.enumValues(): Array<out E> = java.enumConstants ?: unreachable()
+    private fun <E : Enum<E>> KClass<E>.enumValue(ordinal: Int): E = enumValues()[ordinal]
+    private inline fun <reified E : Enum<E>> enumValueOf(ordinal: Int): E = E::class.enumValue(ordinal)
 
     val Context.layoutInflater: LayoutInflater get() = LayoutInflater.from(this)
-    var listsOfMovie: List<AnyItemInAdapterList> = listOf()
+    private var listsOfMovie: List<AnyItemInAdapterList> = listOf()
 
     interface MyClickListener {
         fun onItemClick(item: AnyItemInAdapterList?)
     }
 
     override fun getItemViewType(position: Int): Int =
-        when (listsOfMovie.get(position)) {
-            is AnyItemInAdapterList.ButtonCreateList -> ReyclerViewItemType.ButtonCreateList
-            is AnyItemInAdapterList.ButtonShowList -> ReyclerViewItemType.ButtonShowList
+        when (listsOfMovie[position]) {
+            is AnyItemInAdapterList.ButtonCreateList -> RecyclerViewItemType.ButtonCreateList
+            is AnyItemInAdapterList.ButtonShowList -> RecyclerViewItemType.ButtonShowList
         }.ordinal
 
-    internal enum class ReyclerViewItemType {
+    internal enum class RecyclerViewItemType {
         ButtonCreateList, ButtonShowList
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder =
-        when (enumValueOf<ReyclerViewItemType>(viewType)) {
-            ReyclerViewItemType.ButtonCreateList -> MyViewHolder.CreateViewHolder(parent)
-            ReyclerViewItemType.ButtonShowList -> MyViewHolder.ShowViewHolder(parent)
+        when (enumValueOf<RecyclerViewItemType>(viewType)) {
+            RecyclerViewItemType.ButtonCreateList -> MyViewHolder.CreateViewHolder(parent)
+            RecyclerViewItemType.ButtonShowList -> MyViewHolder.ShowViewHolder(parent)
         }
     /* val view = LayoutInflater.from(parent.context).inflate(R.layout.list_item, parent, false)
      return MyViewHolder(view)*/
@@ -84,13 +83,11 @@ public class RecyclerAdapterLists(val context: Context, val clickListener: MyCli
                     .error(R.drawable.ic_add_24)
                     .into(imgListH)
 
-                itemView.setOnClickListener(
-                    View.OnClickListener {
-                        clickListener.onItemClick(
-                            lists
-                        )
-                    }
-                )
+                itemView.setOnClickListener {
+                    clickListener.onItemClick(
+                        lists
+                    )
+                }
             }
         }
 
@@ -106,7 +103,7 @@ public class RecyclerAdapterLists(val context: Context, val clickListener: MyCli
                 itemTitle.text = (lists as AnyItemInAdapterList.ButtonShowList).itemTitle
                 filmCount.text = lists.filmCount
                 val imgList: String = lists.imgList
-                Log.d("tag", "karkar" + imgList)
+                Log.d("tag", "karkar$imgList")
                 Glide
                     // .with(itemView.context)
                     .with(itemView.context)
@@ -114,13 +111,11 @@ public class RecyclerAdapterLists(val context: Context, val clickListener: MyCli
                     .error(R.drawable.ic_like_24)
                     .into(imgListH)
 
-                itemView.setOnClickListener(
-                    View.OnClickListener {
-                        clickListener.onItemClick(
-                            lists
-                        )
-                    }
-                )
+                itemView.setOnClickListener {
+                    clickListener.onItemClick(
+                        lists
+                    )
+                }
             }
         }
     }
