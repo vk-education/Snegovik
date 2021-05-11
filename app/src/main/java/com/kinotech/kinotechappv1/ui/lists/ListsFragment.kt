@@ -93,6 +93,7 @@ class ListsFragment : Fragment(), RecyclerAdapterLists.MyClickListener {
                     ).show()*/
                         val list = listOfMovie.apply {
                             add(
+                                2,
                                 AnyItemInAdapterList.ButtonShowList(
                                     fullName,
                                     "0 фильмов",
