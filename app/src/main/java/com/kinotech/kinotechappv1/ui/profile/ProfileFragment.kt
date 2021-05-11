@@ -10,6 +10,7 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
 import com.google.android.gms.auth.api.signin.GoogleSignIn
@@ -26,6 +27,7 @@ class ProfileFragment : Fragment() {
     private lateinit var signOut: Button
     private lateinit var mSignInClient: GoogleSignInClient
     private lateinit var profileViewModel: ProfileViewModel
+
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -45,7 +47,27 @@ class ProfileFragment : Fragment() {
         signOut = root.findViewById<Button>(R.id.image_exit)
         nickName = root.findViewById(R.id.text_profile)
         photoAcc = root.findViewById(R.id.photo)
+
+//        val change = inflater.inflate(R.layout.change_profile, container, false)
+//        photoAcc = change.findViewById(R.id.change_photo)
+
+        var button = root.findViewById<Button>(R.id.change_profile_button)
+        button.setOnClickListener{
+            loadfragment()
+        }
         return root
+    }
+    private fun loadfragment(){
+        val transaction = activity?.supportFragmentManager?.beginTransaction()
+        if (transaction != null) {
+            transaction.replace(R.id.container, ChangeProfileFragment())
+        }
+        if (transaction != null) {
+            transaction.disallowAddToBackStack()
+        }
+        if (transaction != null) {
+            transaction.commit()
+        }
     }
 
     override fun onResume() {
@@ -80,3 +102,4 @@ class ProfileFragment : Fragment() {
         }
     }
 }
+
