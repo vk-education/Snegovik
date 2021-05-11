@@ -1,18 +1,13 @@
 package com.kinotech.kinotechappv1.ui.search
 
-import android.app.Activity
 import android.content.Context
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.WindowManager
-import android.widget.AdapterView
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.kinotech.kinotechappv1.R
@@ -52,13 +47,11 @@ class MoviesViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         }
 
         itemView.setOnClickListener {
-            val activity : AppCompatActivity = itemView.context as AppCompatActivity
+            val activity: AppCompatActivity = itemView.context as AppCompatActivity
             val transaction = activity.supportFragmentManager.beginTransaction()
             transaction.replace(R.id.container, FilmPageFragment(movie))
             transaction.addToBackStack(null)
             transaction.commit()
         }
-        }
-
     }
-
+}

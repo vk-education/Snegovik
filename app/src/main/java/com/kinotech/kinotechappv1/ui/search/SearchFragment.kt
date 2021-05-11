@@ -34,7 +34,7 @@ class SearchFragment : Fragment() {
             R.id.search_src_text
         ).textSize = textSizeF
         searchView.queryHint = getString(R.string.input_film_name)
-        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener{
+        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
                 searchView.clearFocus()
                 if (query != null) {
@@ -44,7 +44,7 @@ class SearchFragment : Fragment() {
                 return false
             }
             override fun onQueryTextChange(newText: String?): Boolean {
-                if (newText!= null) {
+                if (newText != null) {
                     submitBtn.setOnClickListener {
                         searchView.clearFocus()
                         openSearchResultFragment(SearchResultFragment(newText))
@@ -63,7 +63,6 @@ class SearchFragment : Fragment() {
         }
         return root
     }
-
 
     private fun openSearchResultFragment(fragment: Fragment) {
         val transaction = activity?.supportFragmentManager?.beginTransaction()

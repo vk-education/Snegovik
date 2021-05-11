@@ -1,6 +1,5 @@
 package com.kinotech.kinotechappv1.ui.search
 
-import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -43,7 +42,8 @@ class FilmPageFragment(movie: SimpleResult) : Fragment() {
         Log.d("cout2", "movieId: $movieId")
         lifecycleScope.launch {
             viewModel.searchDescriptionRating(movieId)
-            viewModel.getDescriptionRatingResults().observe(viewLifecycleOwner,
+            viewModel.getDescriptionRatingResults().observe(
+                viewLifecycleOwner,
                 { descriptionRatingResults_t ->
                     val description = descriptionRatingResults_t?.data?.description
                     val ratingKP = descriptionRatingResults_t?.rating?.rating
@@ -58,11 +58,12 @@ class FilmPageFragment(movie: SimpleResult) : Fragment() {
                             )
                         }
                     }
-
-                })
+                }
+            )
 
             viewModel.searchStaff(movieId)
-            viewModel.getStaffResults().observe(viewLifecycleOwner,
+            viewModel.getStaffResults().observe(
+                viewLifecycleOwner,
                 { staffT ->
                     val directors = ArrayList<String>()
                     val actors = ArrayList<String>()
@@ -71,7 +72,8 @@ class FilmPageFragment(movie: SimpleResult) : Fragment() {
                         setStaff(root, directors, actors)
                     }
                     Log.d("cout2", "$actors")
-                })
+                }
+            )
         }
         lifecycleScope.launch {
             setMovieData(root)
@@ -143,7 +145,5 @@ class FilmPageFragment(movie: SimpleResult) : Fragment() {
         filmGenres.text = movieInfo.genres.joinToString { genres: Genres ->
             genres.genre
         }
-
     }
 }
-

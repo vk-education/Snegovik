@@ -7,9 +7,7 @@ import android.view.GestureDetector
 import android.view.MotionEvent
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
-import android.widget.Button
 import android.widget.ImageButton
-import android.widget.ImageView
 import android.widget.ViewFlipper
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.gms.auth.api.signin.GoogleSignIn
@@ -142,6 +140,5 @@ class AuthActivity : AppCompatActivity() {
                 Log.w("TAG", "Google sign in failed $e")
             }
         }
-
     }
 }

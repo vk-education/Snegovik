@@ -6,16 +6,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-//import androidx.lifecycle.Observer
-//import androidx.lifecycle.ViewModelProvider
+// import androidx.lifecycle.Observer
+// import androidx.lifecycle.ViewModelProvider
 import android.app.Activity
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
-import android.widget.ImageView
 import android.widget.Toast
 import androidx.core.content.PermissionChecker
-import com.kinotech.kinotechappv1.R
 import com.kinotech.kinotechappv1.databinding.ChangeProfileBinding
 
 class ChangeProfileFragment : Fragment() {
@@ -40,12 +38,13 @@ class ChangeProfileFragment : Fragment() {
         binding.changePhotoButton.setOnClickListener {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                 if (context?.let { it1 ->
-                        PermissionChecker.checkSelfPermission(
+                    PermissionChecker.checkSelfPermission(
                             it1,
                             Manifest.permission.READ_EXTERNAL_STORAGE
                         )
-                    } ==
-                    PackageManager.PERMISSION_DENIED) {
+                } ==
+                    PackageManager.PERMISSION_DENIED
+                ) {
 
                     val permissions = arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE)
                     requestPermissions(permissions, PERMISSION_CODE)

@@ -5,19 +5,14 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.WindowManager
 import android.widget.ProgressBar
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.kinotech.kinotechappv1.R
 import kotlinx.coroutines.*
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 
 class SearchResultFragment(s: String) : Fragment() {
     private val result = s
@@ -32,7 +27,8 @@ class SearchResultFragment(s: String) : Fragment() {
         val viewModel = ViewModelProviders.of(this).get(RequestViewModel::class.java)
         lifecycleScope.launch {
             viewModel.searchFilms(result)
-            viewModel.getFilms().observe(viewLifecycleOwner,
+            viewModel.getFilms().observe(
+                viewLifecycleOwner,
                 { filmsT ->
                     progressBar.visibility = View.GONE
                     recyclerView.apply {
@@ -41,7 +37,8 @@ class SearchResultFragment(s: String) : Fragment() {
                         Log.d("cout", "response is $filmsT")
                         adapter = MoviesAdapter(filmsT)
                     }
-                })
+                }
+            )
         }
         return root
     }
