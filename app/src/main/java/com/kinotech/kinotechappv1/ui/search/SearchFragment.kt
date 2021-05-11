@@ -24,14 +24,14 @@ class SearchFragment : Fragment() {
         val root = inflater.inflate(R.layout.fragment_search, container, false)
         val searchView = root.findViewById<SearchView>(R.id.textView_search)
         val closeBtn: ImageView =
-            searchView.findViewById(androidx.appcompat.R.id.search_close_btn)
+            searchView.findViewById(R.id.search_close_btn)
         val submitBtn: AppCompatButton = root.findViewById(R.id.find_button)
         val textSizeF = 16F
         activity?.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN)
-        searchView.findViewById<LinearLayout>(androidx.appcompat.R.id.search_plate)
+        searchView.findViewById<LinearLayout>(R.id.search_plate)
             .setBackgroundColor(Color.TRANSPARENT)
         searchView.findViewById<TextView>(
-            androidx.appcompat.R.id.search_src_text
+            R.id.search_src_text
         ).textSize = textSizeF
         searchView.queryHint = getString(R.string.input_film_name)
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener{
