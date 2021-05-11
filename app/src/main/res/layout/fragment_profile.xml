@@ -5,6 +5,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".ui.profile.ProfileFragment"
+        android:id="@+id/profile_lay"
         android:background="@color/red_400">
 
         <TextView
@@ -17,9 +18,9 @@
                 android:textStyle="bold"
                 android:textSize="22sp"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
                 android:layout_marginTop="60dp"
-                android:layout_marginStart ="200dp"/>
+                android:layout_marginStart ="220dp"/>
 
 
         <TextView
@@ -32,6 +33,7 @@
                 android:textColor="@color/white_full"
                 android:textStyle="bold"
                 android:textSize="12sp"
+                android:padding="2dp"
                 app:layout_constraintTop_toBottomOf = "@id/text_profile"
                 app:layout_constraintLeft_toLeftOf="@id/text_profile"
                 app:layout_constraintRight_toLeftOf="@+id/subscribers"
@@ -46,6 +48,7 @@
                 android:textColor="@color/white_full"
                 android:textStyle="bold"
                 android:textSize="12sp"
+                android:padding="2dp"
                 app:layout_constraintTop_toBottomOf = "@id/text_profile"
                 app:layout_constraintLeft_toRightOf="@id/lists"
                 app:layout_constraintRight_toLeftOf="@+id/subscriptions"
@@ -60,6 +63,7 @@
                 android:textColor="@color/white_full"
                 android:textStyle="bold"
                 android:textSize="12sp"
+                android:padding="2dp"
                 app:layout_constraintTop_toBottomOf = "@id/text_profile"
                 app:layout_constraintLeft_toRightOf="@id/subscribers"
                 app:layout_constraintRight_toRightOf="@id/text_profile"
@@ -67,11 +71,13 @@
 
         <ImageView
                 android:id="@+id/photo"
-                android:layout_width="93dp"
-                android:layout_height="95dp"
+                android:layout_width="124dp"
+                android:layout_height="124dp"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintStart_toStartOf="@id/change_profile_button"
+                app:layout_constraintEnd_toEndOf="@id/change_profile_button"
                 android:layout_marginTop="30dp"
+                android:foreground="@drawable/photo"
                 tools:ignore="ContentDescription" />
 
         <androidx.appcompat.widget.AppCompatButton
@@ -91,12 +97,12 @@
                 android:layout_height="5dp"
                 android:src="@drawable/dashed_line"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
                 android:layout_marginTop="226dp"
                 tools:ignore="ContentDescription" />
 
         <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/change_profile"
+                android:id="@+id/change_profile_button"
                 android:layout_width="171dp"
                 android:layout_height="25dp"
                 android:textColor="@color/white_full"

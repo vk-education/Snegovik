@@ -31,6 +31,6 @@
     <string name="change_profile_string">Изменить профиль</string>
     <string name="show_all_string">Показать все</string>
     <string name="change_photo_string">Изменить фото профиля</string>
-    <string name="change_name_string">Изменить имя профиля</string>
+    <string name="change_name_string">Новое имя профиля</string>
     <string name="save_string">Сохранить</string>
 </resources>
