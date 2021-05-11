@@ -8,6 +8,30 @@
         android:id="@+id/change_profile_lay"
         android:background="@color/red_400">
 
+    <TextView
+            android:id="@+id/change_profile_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            app:layout_constraintTop_toTopOf="@id/backBtn_ch"
+            app:layout_constraintBottom_toBottomOf="@id/backBtn_ch"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            tools:text="@string/change_profile_title_string"
+            android:fontFamily="@font/rubik_bold"
+            android:textSize="21sp"
+            android:textColor="@color/white_full" />
+
+    <ImageButton
+            android:id="@+id/backBtn_ch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:src="@drawable/ic_arrow_back"
+            android:background="@android:color/transparent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
     <ImageView
             android:id="@+id/changePhoto"
             android:layout_width="wrap_content"
@@ -22,9 +46,9 @@
     <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/changePhotoButton"
             android:layout_width="214dp"
-            android:layout_height="20dp"
+            android:layout_height="23dp"
             android:textColor="@color/white_full"
-            android:textStyle="bold"
+            android:fontFamily="@font/rubik_bold"
             android:textAllCaps="false"
             android:textSize="14sp"
             android:textAlignment="center"
@@ -47,17 +71,19 @@
             android:layout_marginTop="368dp"
             android:hint="@string/change_name_string"
             android:gravity="center"
-            android:textStyle="bold"
+            android:fontFamily="@font/rubik_bold"
             android:textSize="14sp"
-            android:textColorHint="@android:color/white"
-            android:backgroundTint="@android:color/white" />
+            android:textCursorDrawable="@color/white_full"
+            android:textColorHint="@color/white_full"
+            android:textColor="@color/white_full"
+            android:backgroundTint="@color/white_full" />
 
     <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/save_button"
             android:layout_width="124dp"
             android:layout_height="35dp"
             android:textColor="@color/white_full"
-            android:textStyle="bold"
+            android:fontFamily="@font/rubik_bold"
             android:textAllCaps="false"
             android:textSize="14sp"
             android:textAlignment="center"

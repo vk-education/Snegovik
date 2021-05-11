@@ -48,9 +48,6 @@ class ProfileFragment : Fragment() {
         nickName = root.findViewById(R.id.text_profile)
         photoAcc = root.findViewById(R.id.photo)
 
-//        val change = inflater.inflate(R.layout.change_profile, container, false)
-//        photoAcc = change.findViewById(R.id.change_photo)
-
         var button = root.findViewById<Button>(R.id.change_profile_button)
         button.setOnClickListener{
             loadfragment()
@@ -58,14 +55,10 @@ class ProfileFragment : Fragment() {
         return root
     }
     private fun loadfragment(){
-        val transaction = activity?.supportFragmentManager?.beginTransaction()
+        val transaction = activity?.getSupportFragmentManager()?.beginTransaction()
         if (transaction != null) {
             transaction.replace(R.id.container, ChangeProfileFragment())
-        }
-        if (transaction != null) {
             transaction.disallowAddToBackStack()
-        }
-        if (transaction != null) {
             transaction.commit()
         }
     }
