@@ -19,7 +19,7 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class SearchResultFragment(s : String) : Fragment() {
+class SearchResultFragment(s: String) : Fragment() {
     private val result = s
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -30,10 +30,10 @@ class SearchResultFragment(s : String) : Fragment() {
         val progressBar: ProgressBar = root.findViewById(R.id.progress_bar)
         val recyclerView: RecyclerView = root.findViewById(R.id.recyclerView)
         val viewModel = ViewModelProviders.of(this).get(RequestViewModel::class.java)
-        lifecycleScope.launch{
+        lifecycleScope.launch {
             viewModel.searchFilms(result)
             viewModel.getFilms().observe(viewLifecycleOwner,
-                {filmsT ->
+                { filmsT ->
                     progressBar.visibility = View.GONE
                     recyclerView.apply {
                         setHasFixedSize(true)
