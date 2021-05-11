@@ -9,11 +9,16 @@ data class SimpleResult(
     val genres: List<Genres>,
     val year: String,
     val posterUrlPreview: String,
-    val filmId: Int
+    val filmId: Int,
+    val countries: List<Countries>
 )
 
 data class Genres(
     val genre : String
+)
+
+data class Countries(
+    val country: String
 )
 
 data class DescriptionRatingResults(

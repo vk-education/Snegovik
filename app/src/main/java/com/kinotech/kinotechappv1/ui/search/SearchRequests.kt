@@ -4,6 +4,9 @@ import android.util.Log
 import android.view.View
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.recyclerview.widget.LinearLayoutManager
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -11,14 +14,34 @@ import retrofit2.Response
 
 class SearchRequests {
     private val request = ServiceBuilder.buildService(APIEndpoints::class.java)
-    private val staff : MutableLiveData<List<Staff>>? = null
-    private val descriptionRatingResults : MutableLiveData<DescriptionRatingResults>? = null
+    private val films = MutableLiveData<List<SimpleResult>>()
+    private val staff = MutableLiveData<List<Staff>>()
+    private val descriptionRatingResults = MutableLiveData<DescriptionRatingResults>()
 
-    private fun searchRecyclerView(){
+    suspend fun searchMovie(result : String) = withContext(Dispatchers.IO){
+        val call = request.findMovies(result, "1")
+        Log.d("cout", call.toString())
+        call.enqueue(
+            object : Callback<SearchResults> {
+                override fun onFailure(call: Call<SearchResults>, t: Throwable) {
+                    Log.d("cout", "onFailure: ")
+                    Log.d("cout", "onFailure:$t ")
+                }
 
+                override fun onResponse(
+                    call: Call<SearchResults>,
+                    response: Response<SearchResults>
+                ) {
+                    if (response.isSuccessful) {
+                        Log.d("cout", "on response")
+                        Log.d("cout", "response is ${response.body()}")
+                        films.postValue(response.body()!!.films)
+                    }
+                }
+            }
+        )
     }
-
-    fun searchStaff(movieId : Int){
+    suspend fun searchStaff(movieId : Int) = withContext(Dispatchers.IO){
         val callStaff = request.findMovieStaff(movieId)
         callStaff.enqueue(
             object : Callback<List<Staff>> {
@@ -32,12 +55,13 @@ class SearchRequests {
                 ) {
                     if (response.isSuccessful) {
                         Log.d("cout", "on response")
-                        staff?.postValue(response.body()!!)
+                        staff.postValue(response.body()!!)
+                        Log.d("cout2", "on response2 $staff")
                     }
                 }
             })
     }
-    fun searchDescriptionRating(movieId: Int){
+    suspend fun searchDescriptionRating(movieId: Int) = withContext(Dispatchers.IO){
         val filmData = request.findMovieById(movieId, "RATING")
         Log.d("cout2", "on response$movieId")
         filmData.enqueue(
@@ -51,9 +75,9 @@ class SearchRequests {
                     response2: Response<DescriptionRatingResults>
                 ) {
                     if (response2.isSuccessful) {
-                        Log.d("cout2", "on response")
-                        descriptionRatingResults?.postValue(response2.body()!!)
-                        Log.d("cout2", "on response2 $descriptionRatingResults")
+                        Log.d("cout2", "on response ${response2.body()!!}")
+                        descriptionRatingResults.postValue(response2.body()!!)
+
                     }
                 }
 
@@ -61,12 +85,16 @@ class SearchRequests {
         )
     }
 
-    fun getStaff(): MutableLiveData<List<Staff>>? {
+    fun getStaff(): MutableLiveData<List<Staff>> {
         return staff
     }
 
-    fun getDescriptionRating(): MutableLiveData<DescriptionRatingResults>? {
+    fun getDescriptionRating(): MutableLiveData<DescriptionRatingResults> {
         return descriptionRatingResults
+    }
+
+    fun getFilms(): MutableLiveData<List<SimpleResult>>{
+        return films
     }
 
 }
