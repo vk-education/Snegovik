@@ -6,13 +6,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-//import androidx.lifecycle.Observer
-//import androidx.lifecycle.ViewModelProvider
 import android.app.Activity
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
-import android.widget.ImageView
 import android.widget.Toast
 import androidx.core.content.PermissionChecker
 import com.kinotech.kinotechappv1.R
@@ -27,6 +24,8 @@ class ChangeProfileFragment : Fragment() {
 
     //    private lateinit var profileViewModel: ProfileViewModel
     private lateinit var binding: ChangeProfileBinding
+//    private var prefs: SharedPreferences? =
+//        activity?.getSharedPreferences("preference", Context.MODE_PRIVATE)
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -35,7 +34,7 @@ class ChangeProfileFragment : Fragment() {
     ): View {
 //        profileViewModel =
 //            ViewModelProvider(this).get(ProfileViewModel::class.java)
-        binding = ChangeProfileBinding.inflate(inflater, container, false)
+//        binding = ChangeProfileBinding.inflate(inflater, container, false)
 
         binding.changePhotoButton.setOnClickListener {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -58,10 +57,17 @@ class ChangeProfileFragment : Fragment() {
         }
 
         binding.saveButton.setOnClickListener {
-
+            loadFragment()
         }
 
         return binding.root
+    }
+
+    private fun loadFragment() {
+        val transaction = activity?.supportFragmentManager?.beginTransaction()
+        transaction?.replace(R.id.container, ProfileFragment())
+        transaction?.disallowAddToBackStack()
+        transaction?.commit()
     }
 
     private fun openGallery() {
@@ -91,7 +97,9 @@ class ChangeProfileFragment : Fragment() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == Activity.RESULT_OK && requestCode == REQUEST_CODE) {
-            binding.changePhoto.setImageURI(data?.data)
+            val uri = data?.data
+            binding.changePhoto.setImageURI(uri)
+//            prefs?.edit()?.putString("profilePic", uri.toString())?.apply()
         }
     }
 }
