@@ -22,12 +22,11 @@ import com.kinotech.kinotechappv1.R
 
 class ProfileFragment : Fragment() {
 
-    lateinit var photoAcc: ImageView
+    private lateinit var photoAcc: ImageView
     private lateinit var nickName: TextView
     private lateinit var signOut: Button
     private lateinit var mSignInClient: GoogleSignInClient
     private lateinit var profileViewModel: ProfileViewModel
-
 
     override fun onCreateView(
         inflater: LayoutInflater,

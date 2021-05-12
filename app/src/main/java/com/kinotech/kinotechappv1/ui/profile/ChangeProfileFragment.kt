@@ -56,6 +56,11 @@ class ChangeProfileFragment : Fragment() {
                 openGallery()
             }
         }
+
+        binding.saveButton.setOnClickListener {
+
+        }
+
         return binding.root
     }
 
@@ -87,7 +92,6 @@ class ChangeProfileFragment : Fragment() {
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == Activity.RESULT_OK && requestCode == REQUEST_CODE) {
             binding.changePhoto.setImageURI(data?.data)
-            ProfileFragment().photoAcc.setImageURI(data?.data)
         }
     }
 }
