@@ -5,74 +5,94 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".ui.profile.ChangeProfileFragment"
+        android:id="@+id/change_profile_lay"
         android:background="@color/red_400">
+
+    <TextView
+            android:id="@+id/change_profile_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            app:layout_constraintTop_toTopOf="@id/backBtnСh"
+            app:layout_constraintBottom_toBottomOf="@id/backBtnСh"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            tools:text="@string/change_profile_title_string"
+            android:fontFamily="@font/rubik_bold"
+            android:textSize="21sp"
+            android:textColor="@color/white_full" />
+
+    <ImageButton
+            android:id="@+id/backBtnСh"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:src="@drawable/ic_arrow_back"
+            android:background="@android:color/transparent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
 
     <ImageView
             android:id="@+id/changePhoto"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="160dp"
+            android:layout_height="160dp"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBottom_toTopOf="@id/changePhotoButton"
-            android:background="@drawable/rounded_fg"
-            tools:ignore="ContentDescription" />
+            android:foreground="@drawable/rounded_fg"
+            tools:ignore="ContentDescription"
+            android:scaleType="centerCrop" />
 
     <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/changePhotoButton"
             android:layout_width="214dp"
-            android:layout_height="18dp"
+            android:layout_height="23dp"
             android:textColor="@color/white_full"
-            android:textStyle="bold"
+            android:fontFamily="@font/rubik_bold"
             android:textAllCaps="false"
             android:textSize="14sp"
             android:textAlignment="center"
             android:text="@string/change_photo_string"
             android:background="@drawable/subscribe"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"
-            android:layout_marginTop="248dp"
-            android:layout_marginStart="96dp" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="248dp" />
 
-    <TextView
-            android:id="@+id/change_name"
+    <EditText
+            android:id="@+id/changeName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textAlignment="center"
-            android:text="@string/change_name_string"
-            android:textColor="@color/white_full"
-            android:textStyle="bold"
-            android:textSize="16sp"
+            android:inputType="textPersonName"
+            android:ems="15"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginTop="376dp"
-            android:layout_marginStart="112dp" />
-
-    <ImageView
-            android:id="@+id/solid"
-            android:layout_width="300dp"
-            android:layout_height="5dp"
-            android:src="@drawable/solid_line"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"
-            android:layout_marginTop="400dp"
-            tools:ignore="ContentDescription"
-            android:layout_marginStart="52dp" />
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="368dp"
+            android:hint="@string/change_name_string"
+            android:gravity="center"
+            android:fontFamily="@font/rubik_bold"
+            android:textSize="14sp"
+            android:textCursorDrawable="@color/white_full"
+            android:textColorHint="@color/white_full"
+            android:textColor="@color/white_full"
+            android:backgroundTint="@color/white_full" />
 
     <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/save_button"
+            android:id="@+id/saveButton"
             android:layout_width="124dp"
             android:layout_height="35dp"
             android:textColor="@color/white_full"
-            android:textStyle="bold"
+            android:fontFamily="@font/rubik_bold"
             android:textAllCaps="false"
             android:textSize="14sp"
             android:textAlignment="center"
             android:text="@string/save_string"
             android:background="@drawable/save"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"
-            android:layout_marginTop="588dp"
-            android:layout_marginStart="140dp" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="588dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

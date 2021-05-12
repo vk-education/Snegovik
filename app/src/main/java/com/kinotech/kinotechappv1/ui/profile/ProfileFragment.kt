@@ -21,11 +21,13 @@ import com.kinotech.kinotechappv1.R
 
 class ProfileFragment : Fragment() {
 
-    lateinit var photoAcc: ImageView
+    private lateinit var photoAcc: ImageView
     private lateinit var nickName: TextView
     private lateinit var signOut: Button
     private lateinit var mSignInClient: GoogleSignInClient
     private lateinit var profileViewModel: ProfileViewModel
+//    private var prefs: SharedPreferences? =
+//        activity?.getSharedPreferences("preference", Context.MODE_PRIVATE)
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -43,9 +45,35 @@ class ProfileFragment : Fragment() {
         )*/
         val root = inflater.inflate(R.layout.fragment_profile, container, false)
         signOut = root.findViewById(R.id.image_exit)
-        nickName = root.findViewById(R.id.text_profile)
+        nickName = root.findViewById(R.id.textProfile)
         photoAcc = root.findViewById(R.id.photo)
+//        val picture_ctx = GoogleSignIn.getLastSignedInAccount(context)
+//        val picture = picture_ctx?.photoUrl
+        val button = root.findViewById<Button>(R.id.change_profile_button)
+        button.setOnClickListener {
+            loadfragment()
+            var displayMessage = arguments?.getString("message")
+            //root.findViewById<Button>(R.id.textProfile).text = displayMessage
+
+        }
+
+//        val uri = prefs?.getString("profilePic", "")
+//        photoAcc.setImageURI(uri?.toUri())
+
+//        val change = inflater.inflate(R.layout.change_profile, container, false)
+//        photoAcc = change.findViewById(R.id.change_photo)
+
         return root
+    }
+
+    private fun loadfragment() {
+        val transaction = activity?.getSupportFragmentManager()?.beginTransaction()
+        if (transaction != null) {
+            transaction.replace(R.id.container, ChangeProfileFragment())
+            transaction.disallowAddToBackStack()
+            transaction.commit()
+        }
+
     }
 
     override fun onResume() {
