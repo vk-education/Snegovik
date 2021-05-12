@@ -13,8 +13,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center"
-            app:layout_constraintTop_toTopOf="@id/backBtn_ch"
-            app:layout_constraintBottom_toBottomOf="@id/backBtn_ch"
+            app:layout_constraintTop_toTopOf="@id/backBtnСh"
+            app:layout_constraintBottom_toBottomOf="@id/backBtnСh"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             tools:text="@string/change_profile_title_string"
@@ -23,7 +23,7 @@
             android:textColor="@color/white_full" />
 
     <ImageButton
-            android:id="@+id/backBtn_ch"
+            android:id="@+id/backBtnСh"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="16dp"
@@ -61,7 +61,7 @@
             android:layout_marginTop="248dp" />
 
     <EditText
-            android:id="@+id/change_name"
+            android:id="@+id/changeName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:inputType="textPersonName"

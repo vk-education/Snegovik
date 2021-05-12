@@ -12,6 +12,7 @@ import android.app.Activity
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
+import android.util.Log
 import android.widget.Button
 import android.widget.ImageButton
 import android.widget.ImageView
@@ -19,6 +20,8 @@ import android.widget.Toast
 import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.PermissionChecker
+import com.bumptech.glide.Glide
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.kinotech.kinotechappv1.R
 import com.kinotech.kinotechappv1.databinding.ChangeProfileBinding
 
@@ -40,7 +43,6 @@ class ChangeProfileFragment : Fragment() {
 //        profileViewModel =
 //            ViewModelProvider(this).get(ProfileViewModel::class.java)
         binding = ChangeProfileBinding.inflate(inflater, container, false)
-
         binding.changePhotoButton.setOnClickListener {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                 if (context?.let { it1 ->
@@ -63,15 +65,27 @@ class ChangeProfileFragment : Fragment() {
         binding.saveButton.setOnClickListener {
 
         }
-        var buttonsv = binding.root.findViewById<Button>(R.id.save_button)
+        var buttonsv = binding.saveButton
         buttonsv.setOnClickListener{
-            loadfragment()
+            loadfragmentch(binding.changeName.text.toString())
         }
-        val buttonch: ImageButton = binding.root.findViewById(R.id.backBtn_ch)
+        val buttonch: ImageButton = binding.root.findViewById(R.id.backBtnСh)
         buttonch.setOnClickListener{
             loadfragment()
         }
         return binding.root
+    }
+    private fun loadfragmentch(editTextInput: String) {
+        val transaction = activity?.getSupportFragmentManager()?.beginTransaction()
+        if (transaction != null) {
+            val bun = Bundle()
+            val profilefragment = ProfileFragment()
+            bun.putString("message", editTextInput)
+            profilefragment.arguments = bun
+            transaction.replace(R.id.container, profilefragment)
+            transaction.disallowAddToBackStack()
+            transaction.commit()
+        }
     }
     private fun loadfragment() {
         val transaction = activity?.getSupportFragmentManager()?.beginTransaction()

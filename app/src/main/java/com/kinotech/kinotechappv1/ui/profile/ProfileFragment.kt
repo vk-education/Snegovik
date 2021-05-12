@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.fragment.app.Fragment
@@ -17,6 +18,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
+import com.google.android.material.textfield.TextInputEditText
 import com.kinotech.kinotechappv1.AuthActivity
 import com.kinotech.kinotechappv1.R
 
@@ -44,13 +46,17 @@ class ProfileFragment : Fragment() {
         )*/
         val root = inflater.inflate(R.layout.fragment_profile, container, false)
         signOut = root.findViewById(R.id.image_exit)
-        nickName = root.findViewById(R.id.text_profile)
+        nickName = root.findViewById(R.id.textProfile)
         photoAcc = root.findViewById(R.id.photo)
-
+//        val picture_ctx = GoogleSignIn.getLastSignedInAccount(context)
+//        val picture = picture_ctx?.photoUrl
         var button = root.findViewById<Button>(R.id.change_profile_button)
         button.setOnClickListener{
             loadfragment()
-        }
+            var displayMessage = arguments?.getString( "message")
+            //root.findViewById<Button>(R.id.textProfile).text = displayMessage
+
+            }
         return root
     }
     private fun loadfragment(){
@@ -60,6 +66,7 @@ class ProfileFragment : Fragment() {
             transaction.disallowAddToBackStack()
             transaction.commit()
         }
+
     }
 
     override fun onResume() {
@@ -91,5 +98,6 @@ class ProfileFragment : Fragment() {
                 .into(photoAcc)
         }
     }
+
 }
 
