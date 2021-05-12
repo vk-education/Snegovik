@@ -18,9 +18,9 @@
             android:textStyle="bold"
             android:textSize="22sp"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginTop="60dp"
-            android:layout_marginStart="220dp" />
+            app:layout_constraintStart_toEndOf="@id/photo"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="60dp" />
 
     <TextView
             android:id="@+id/lists"
