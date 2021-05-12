@@ -60,6 +60,9 @@ class ChangeProfileFragment : Fragment() {
                 openGallery()
             }
         }
+        binding.saveButton.setOnClickListener {
+
+        }
         var buttonsv = binding.root.findViewById<Button>(R.id.save_button)
         buttonsv.setOnClickListener{
             loadfragment()
@@ -107,7 +110,6 @@ class ChangeProfileFragment : Fragment() {
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == Activity.RESULT_OK && requestCode == REQUEST_CODE) {
             binding.changePhoto.setImageURI(data?.data)
-            ProfileFragment().photoAcc.setImageURI(data?.data)
         }
     }
 }

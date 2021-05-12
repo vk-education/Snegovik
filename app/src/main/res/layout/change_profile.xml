@@ -34,14 +34,15 @@
 
     <ImageView
             android:id="@+id/changePhoto"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="160dp"
+            android:layout_height="160dp"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBottom_toTopOf="@id/changePhotoButton"
-            android:background="@drawable/rounded_fg"
-            tools:ignore="ContentDescription" />
+            android:foreground="@drawable/rounded_fg"
+            tools:ignore="ContentDescription"
+            android:scaleType="centerCrop" />
 
     <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/changePhotoButton"
@@ -79,7 +80,7 @@
             android:backgroundTint="@color/white_full" />
 
     <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/save_button"
+            android:id="@+id/saveButton"
             android:layout_width="124dp"
             android:layout_height="35dp"
             android:textColor="@color/white_full"
