@@ -7,18 +7,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
-import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
-import com.google.android.material.textfield.TextInputEditText
 import com.kinotech.kinotechappv1.AuthActivity
 import com.kinotech.kinotechappv1.R
 
@@ -53,12 +50,12 @@ class ProfileFragment : Fragment() {
 //        val picture_ctx = GoogleSignIn.getLastSignedInAccount(context)
 //        val picture = picture_ctx?.photoUrl
         val button = root.findViewById<Button>(R.id.change_profile_button)
-        button.setOnClickListener{
+        button.setOnClickListener {
             loadfragment()
-            var displayMessage = arguments?.getString( "message")
+            var displayMessage = arguments?.getString("message")
             //root.findViewById<Button>(R.id.textProfile).text = displayMessage
 
-            }
+        }
 
 //        val uri = prefs?.getString("profilePic", "")
 //        photoAcc.setImageURI(uri?.toUri())
@@ -66,13 +63,10 @@ class ProfileFragment : Fragment() {
 //        val change = inflater.inflate(R.layout.change_profile, container, false)
 //        photoAcc = change.findViewById(R.id.change_photo)
 
-        val button = root.findViewById<Button>(R.id.change_profile_button)
-        button.setOnClickListener {
-            loadFragment()
-        }
         return root
     }
-    private fun loadfragment(){
+
+    private fun loadfragment() {
         val transaction = activity?.getSupportFragmentManager()?.beginTransaction()
         if (transaction != null) {
             transaction.replace(R.id.container, ChangeProfileFragment())
@@ -111,5 +105,4 @@ class ProfileFragment : Fragment() {
                 .into(photoAcc)
         }
     }
-
 }
