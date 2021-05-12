@@ -33,4 +33,5 @@
     <string name="change_photo_string">Изменить фото профиля</string>
     <string name="change_name_string">Новое имя профиля</string>
     <string name="save_string">Сохранить</string>
+    <string name="change_profile_title_string">Изменить профиль</string>
 </resources>

@@ -7,15 +7,18 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
+import com.google.android.material.textfield.TextInputEditText
 import com.kinotech.kinotechappv1.AuthActivity
 import com.kinotech.kinotechappv1.R
 
@@ -45,8 +48,17 @@ class ProfileFragment : Fragment() {
         )*/
         val root = inflater.inflate(R.layout.fragment_profile, container, false)
         signOut = root.findViewById(R.id.image_exit)
-        nickName = root.findViewById(R.id.text_profile)
+        nickName = root.findViewById(R.id.textProfile)
         photoAcc = root.findViewById(R.id.photo)
+//        val picture_ctx = GoogleSignIn.getLastSignedInAccount(context)
+//        val picture = picture_ctx?.photoUrl
+        val button = root.findViewById<Button>(R.id.change_profile_button)
+        button.setOnClickListener{
+            loadfragment()
+            var displayMessage = arguments?.getString( "message")
+            //root.findViewById<Button>(R.id.textProfile).text = displayMessage
+
+            }
 
 //        val uri = prefs?.getString("profilePic", "")
 //        photoAcc.setImageURI(uri?.toUri())
@@ -60,12 +72,14 @@ class ProfileFragment : Fragment() {
         }
         return root
     }
+    private fun loadfragment(){
+        val transaction = activity?.getSupportFragmentManager()?.beginTransaction()
+        if (transaction != null) {
+            transaction.replace(R.id.container, ChangeProfileFragment())
+            transaction.disallowAddToBackStack()
+            transaction.commit()
+        }
 
-    private fun loadFragment() {
-        val transaction = activity?.supportFragmentManager?.beginTransaction()
-        transaction?.replace(R.id.container, ChangeProfileFragment())
-        transaction?.disallowAddToBackStack()
-        transaction?.commit()
     }
 
     override fun onResume() {
@@ -97,5 +111,5 @@ class ProfileFragment : Fragment() {
                 .into(photoAcc)
         }
     }
-}
 
+}
