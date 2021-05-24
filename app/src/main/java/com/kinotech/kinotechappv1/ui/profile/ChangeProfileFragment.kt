@@ -13,6 +13,10 @@ import android.os.Build
 import android.widget.ImageButton
 import android.widget.Toast
 import androidx.core.content.PermissionChecker
+import androidx.core.net.toUri
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.ViewModelStore
+import androidx.lifecycle.ViewModelStoreOwner
 import com.kinotech.kinotechappv1.R
 import com.kinotech.kinotechappv1.databinding.ChangeProfileBinding
 
@@ -23,10 +27,8 @@ class ChangeProfileFragment : Fragment() {
         private const val PERMISSION_CODE = 2
     }
 
-    //    private lateinit var profileViewModel: ProfileViewModel
     private lateinit var binding: ChangeProfileBinding
-//    private var prefs: SharedPreferences? =
-//        activity?.getSharedPreferences("preference", Context.MODE_PRIVATE)
+    private lateinit var model: ProfileSharedViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -56,21 +58,53 @@ class ChangeProfileFragment : Fragment() {
             }
         }
 
+        model = ViewModelProvider(requireActivity()).get(ProfileSharedViewModel::class.java)
+        model.getPhoto().observe(viewLifecycleOwner, {
+            binding.changePhoto.setImageURI(it)
+//            binding.changeName.setText(it.toString())
+        })
+//        model.getPhoto().observe(viewLifecycleOwner, {
+//            binding.changePhoto.setImageURI(it)
+//        })
+        binding.saveButton.setOnClickListener {
+            model.putPhoto(binding.changePhoto.drawable.toString().toUri())
+            loadfragment()
+            loadfragmentch(binding.changeName.text.toString())
+        }
+
         binding.saveButton.setOnClickListener {
             loadfragment()
         }
-        var buttonsv = binding.saveButton
-        buttonsv.setOnClickListener{
-            loadfragmentch(binding.changeName.text.toString())
-        }
-        val buttonch: ImageButton = binding.root.findViewById(R.id.backBtnСh)
-        buttonch.setOnClickListener{
-            loadfragment()
-        }
+
+//        binding.saveButton.setOnClickListener {
+//            loadfragmentch(binding.changeName.text.toString())
+//        }
+//
+//        binding.backBtnCh.setOnClickListener {
+//            loadfragment()
+//        }
         return binding.root
     }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+//        model = ViewModelProvider(requireActivity()).get(ProfileSharedViewModel::class.java)
+//        model.getPhoto().observe(viewLifecycleOwner, {
+//            binding.changePhoto.setImageURI(it)
+////            binding.changeName.setText(it.toString())
+//        })
+////        model.getPhoto().observe(viewLifecycleOwner, {
+////            binding.changePhoto.setImageURI(it)
+////        })
+//        binding.saveButton.setOnClickListener {
+//            model.putPhoto(binding.changePhoto.drawable.toString().toUri())
+//            loadfragment()
+//            loadfragmentch(binding.changeName.text.toString())
+//        }
+    }
+
     private fun loadfragmentch(editTextInput: String) {
-        val transaction = activity?.getSupportFragmentManager()?.beginTransaction()
+        val transaction = activity?.supportFragmentManager?.beginTransaction()
         if (transaction != null) {
             val bun = Bundle()
             val profilefragment = ProfileFragment()
@@ -81,8 +115,9 @@ class ChangeProfileFragment : Fragment() {
             transaction.commit()
         }
     }
+
     private fun loadfragment() {
-        val transaction = activity?.getSupportFragmentManager()?.beginTransaction()
+        val transaction = activity?.supportFragmentManager?.beginTransaction()
         if (transaction != null) {
             transaction.replace(R.id.container, ProfileFragment())
             transaction.disallowAddToBackStack()
@@ -119,6 +154,9 @@ class ChangeProfileFragment : Fragment() {
         if (resultCode == Activity.RESULT_OK && requestCode == REQUEST_CODE) {
             val uri = data?.data
             binding.changePhoto.setImageURI(uri)
+            if (uri != null) {
+                model.putPhoto(uri)
+            }
 //            prefs?.edit()?.putString("profilePic", uri.toString())?.apply()
         }
     }
