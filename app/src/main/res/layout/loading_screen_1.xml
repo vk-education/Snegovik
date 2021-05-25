@@ -20,7 +20,7 @@
 
     <TextView
             android:id="@+id/subscribeTxt"
-            android:layout_width="216dp"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="@string/subscribe_friends_updates"
             app:layout_constraintTop_toBottomOf="@id/icon_ls1"
@@ -30,6 +30,7 @@
             android:layout_margin="30dp"
             android:textColor="@color/another_white"
             android:fontFamily="@font/rubik_regular"
+            android:minLines="3"
             android:textSize="24sp"
             android:textAlignment="center" />
 

@@ -11,7 +11,7 @@
 
     <TextView
             android:id="@+id/text_search"
-            android:text="@string/guide_text_search"
+            android:text="@string/search_friends"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="50dp"
@@ -32,7 +32,7 @@
             android:gravity="center_vertical|end"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_search_black_124dp"
+            android:src="@drawable/ic_friends"
             app:layout_constraintBottom_toTopOf="@id/text_search"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -51,7 +51,7 @@
 
     <androidx.appcompat.widget.SearchView
             android:id="@+id/textView_search"
-            android:hint="@string/input_film_name"
+            android:hint="@string/input_friend_name"
             android:fontFamily="@font/rubik_bold"
             android:textColor="@color/grey"
             android:background="@drawable/rectangle"
@@ -82,6 +82,5 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintHorizontal_bias="0.885" />
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

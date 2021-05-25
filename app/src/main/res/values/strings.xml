@@ -34,4 +34,9 @@
     <string name="change_name_string">Новое имя профиля</string>
     <string name="save_string">Сохранить</string>
     <string name="change_profile_title_string">Изменить профиль</string>
+    <string name="subscribers">0 подписчиков</string>
+    <string name="zero">0</string>
+    <string name="subscriptions">0 подписок</string>
+    <string name="search_friends">Ищите друзей и знакомых с помощью поиска наверху!</string>
+    <string name="input_friend_name">Введите имя друга</string>
 </resources>
