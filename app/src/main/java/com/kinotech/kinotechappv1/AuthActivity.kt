@@ -191,5 +191,4 @@ class AuthActivity : AppCompatActivity() {
         usersRef.child(currentUserID).setValue(userMap)
     }
 
-
 }

@@ -79,8 +79,12 @@ class FilmPageFragment(movie: SimpleResult) : Fragment() {
             setMovieData(root)
         }
         progressBar.visibility = View.GONE
+        val likeButton:ImageButton = root.findViewById(R.id.likeFilm)
+        val databaseAdder = DatabaseAdder()
+        databaseAdder.addMovieToDB(movieInfo, likeButton)
         return root
     }
+
 
     private fun getStaff(
         staff: List<Staff>,
