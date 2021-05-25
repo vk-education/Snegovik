@@ -149,8 +149,7 @@ class AuthActivity : AppCompatActivity() {
                 currAcc = task.result
                 Log.d("cout2", "check2")
                 firebaseAuthWithGoogle(currAcc?.idToken!!)
-                saveUserInfo(currAcc?.displayName, currAcc?.email, currAcc?.photoUrl.toString())
-
+                saveUserInfo(currAcc?.displayName, currAcc?.email)
                 idTokenAcc = currAcc?.idToken.toString()
                 Log.d("TAG", "firebaseAuthWithGoogle:" + currAcc?.id)
                 val intent = Intent(this, MainActivity::class.java)
@@ -179,7 +178,7 @@ class AuthActivity : AppCompatActivity() {
             }
     }
 
-    private fun saveUserInfo(fullName: String?, email: String?, uri: String?) {
+    private fun saveUserInfo(fullName: String?, email: String?) {
         val currentUserID = FirebaseAuth.getInstance().currentUser!!.uid
         val usersRef: DatabaseReference =
             FirebaseDatabase.getInstance().reference.child("Users")
@@ -188,11 +187,8 @@ class AuthActivity : AppCompatActivity() {
         userMap["uid"] = currentUserID
         userMap["fullName"] = fullName
         userMap["email"] = email
-        userMap["photo"] = uri
         Log.d("db", "saveUserInfo: $userMap")
         usersRef.child(currentUserID).setValue(userMap)
-        Log.d("db", "saveUserInfo: ")
-        Log.d("db", "saveUserInfo: Success!")
     }
 
 
