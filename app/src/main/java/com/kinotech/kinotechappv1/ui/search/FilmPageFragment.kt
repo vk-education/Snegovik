@@ -5,6 +5,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.WindowManager
 import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.ProgressBar
@@ -16,11 +17,13 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.lifecycle.lifecycleScope
 import com.bumptech.glide.Glide
 import com.kinotech.kinotechappv1.R
+import com.kinotech.kinotechappv1.db.DatabaseAdder
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class FilmPageFragment(movie: SimpleResult) : Fragment() {
+class FilmPageFragment(movie: SimpleResult, s:String) : Fragment() {
+    private val result = s
     private val movieInfo = movie
     private val movieId = movieInfo.filmId
     override fun onCreateView(
@@ -34,11 +37,14 @@ class FilmPageFragment(movie: SimpleResult) : Fragment() {
         toolbar.hide()
         val progressBar: ProgressBar = root.findViewById(R.id.progress_bar)
         val backButton: ImageButton = root.findViewById(R.id.backBtn)
+        val viewModel = ViewModelProviders.of(this).get(RequestViewModel::class.java)
         backButton.setOnClickListener {
             toolbar.show()
             fragmentManager?.popBackStack()
+            val fr  = SearchResultFragment(result)
+            openFragment(fr)
         }
-        val viewModel = ViewModelProviders.of(this).get(RequestViewModel::class.java)
+
         Log.d("cout2", "movieId: $movieId")
         lifecycleScope.launch {
             viewModel.searchDescriptionRating(movieId)
@@ -149,5 +155,11 @@ class FilmPageFragment(movie: SimpleResult) : Fragment() {
         filmGenres.text = movieInfo.genres.joinToString { genres: Genres ->
             genres.genre
         }
+    }
+    private fun openFragment(fragment: Fragment) {
+        val transaction = activity?.supportFragmentManager?.beginTransaction()
+        transaction?.replace(R.id.frameLayout, fragment)
+        transaction?.addToBackStack(null)
+        transaction?.commit()
     }
 }

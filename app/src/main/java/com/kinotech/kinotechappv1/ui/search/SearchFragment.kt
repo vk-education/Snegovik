@@ -67,7 +67,8 @@ class SearchFragment : Fragment() {
     private fun openSearchResultFragment(fragment: Fragment) {
         val transaction = activity?.supportFragmentManager?.beginTransaction()
         activity?.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN)
-        transaction?.replace(R.id.frameLayout, fragment)
+        transaction?.add(R.id.frameLayout, fragment)
+        transaction?.addToBackStack(null)
         transaction?.commit()
     }
 }

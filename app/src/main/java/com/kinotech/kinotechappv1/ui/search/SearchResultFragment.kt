@@ -35,11 +35,15 @@ class SearchResultFragment(s: String) : Fragment() {
                         setHasFixedSize(true)
                         layoutManager = LinearLayoutManager(context)
                         Log.d("cout", "response is $filmsT")
-                        adapter = MoviesAdapter(filmsT)
+                        adapter = MoviesAdapter(filmsT, result)
                     }
                 }
             )
         }
         return root
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
     }
 }
