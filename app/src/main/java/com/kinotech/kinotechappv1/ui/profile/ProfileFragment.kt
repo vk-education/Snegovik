@@ -1,6 +1,7 @@
 package com.kinotech.kinotechappv1.ui.profile
 
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -16,8 +17,11 @@ import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
 import com.kinotech.kinotechappv1.AuthActivity
 import com.kinotech.kinotechappv1.R
+import java.lang.reflect.TypeVariable
 
 class ProfileFragment : Fragment() {
 
@@ -105,4 +109,6 @@ class ProfileFragment : Fragment() {
                 .into(photoAcc)
         }
     }
+
+
 }

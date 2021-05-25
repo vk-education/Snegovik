@@ -8,6 +8,7 @@ import android.view.MotionEvent
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import android.widget.ImageButton
+import android.widget.Toast
 import android.widget.ViewFlipper
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.gms.auth.api.signin.GoogleSignIn
@@ -16,13 +17,22 @@ import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.SignInButton
 import com.google.android.gms.tasks.Task
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.auth.GoogleAuthProvider
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ktx.database
+import com.google.firebase.ktx.Firebase
+
 
 class AuthActivity : AppCompatActivity() {
 
     companion object {
         private const val RC_SIGN_IN = 9001
     }
-
+    private lateinit var mAuth: FirebaseAuth
+    private lateinit var currentUser: FirebaseUser
     private lateinit var serverClientId: String
     private lateinit var signInButton: SignInButton
     private lateinit var mSignInClient: GoogleSignInClient
@@ -56,7 +66,7 @@ class AuthActivity : AppCompatActivity() {
                 .requestEmail()
                 .build()
         mSignInClient = GoogleSignIn.getClient(this, gso)
-
+        mAuth = FirebaseAuth.getInstance()
         signInButton = findViewById(R.id.sign_in_button)
         signInButton.setOnClickListener {
             val intent: Intent = mSignInClient.signInIntent
@@ -73,6 +83,7 @@ class AuthActivity : AppCompatActivity() {
             swipeRight()
         }
     }
+
 
     private fun isFirst(): Boolean {
         return flipper.displayedChild == 0
@@ -124,6 +135,11 @@ class AuthActivity : AppCompatActivity() {
         return gestureDetector.onTouchEvent(event)
     }
 
+    override fun onStart() {
+        super.onStart()
+        mAuth.currentUser
+    }
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         Log.d("TAG", "Google sign in")
@@ -131,6 +147,10 @@ class AuthActivity : AppCompatActivity() {
             val task: Task<GoogleSignInAccount> = GoogleSignIn.getSignedInAccountFromIntent(data)
             try {
                 currAcc = task.result
+                Log.d("cout2", "check2")
+                firebaseAuthWithGoogle(currAcc?.idToken!!)
+                saveUserInfo(currAcc?.displayName, currAcc?.email, currAcc?.photoUrl.toString())
+
                 idTokenAcc = currAcc?.idToken.toString()
                 Log.d("TAG", "firebaseAuthWithGoogle:" + currAcc?.id)
                 val intent = Intent(this, MainActivity::class.java)
@@ -141,4 +161,39 @@ class AuthActivity : AppCompatActivity() {
             }
         }
     }
+    private fun firebaseAuthWithGoogle(idToken: String) {
+        val credential = GoogleAuthProvider.getCredential(idToken, null)
+        mAuth.signInWithCredential(credential)
+            .addOnCompleteListener(
+                this
+            ) { task ->
+                if (task.isSuccessful) {
+                    // Sign in success, update UI with the signed-in user's information
+                    Log.d("cout2", "signInWithCredential:success")
+                    val user = mAuth.currentUser
+
+                } else {
+                    // If sign in fails, display a message to the user.
+                    Log.w("cout2", "signInWithCredential:failure", task.exception)
+                }
+            }
+    }
+
+    private fun saveUserInfo(fullName: String?, email: String?, uri: String?) {
+        val currentUserID = FirebaseAuth.getInstance().currentUser!!.uid
+        val usersRef: DatabaseReference =
+            FirebaseDatabase.getInstance().reference.child("Users")
+        Log.d("db", "saveUserInfo: $usersRef")
+        val userMap = HashMap<String, Any?>()
+        userMap["uid"] = currentUserID
+        userMap["fullName"] = fullName
+        userMap["email"] = email
+        userMap["photo"] = uri
+        Log.d("db", "saveUserInfo: $userMap")
+        usersRef.child(currentUserID).setValue(userMap)
+        Log.d("db", "saveUserInfo: ")
+        Log.d("db", "saveUserInfo: Success!")
+    }
+
+
 }
