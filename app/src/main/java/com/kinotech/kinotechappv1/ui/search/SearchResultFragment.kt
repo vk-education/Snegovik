@@ -42,8 +42,4 @@ class SearchResultFragment(s: String) : Fragment() {
         }
         return root
     }
-
-    override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState)
-    }
 }

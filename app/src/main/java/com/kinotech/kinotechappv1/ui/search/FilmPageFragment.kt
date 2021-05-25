@@ -159,7 +159,6 @@ class FilmPageFragment(movie: SimpleResult, s:String) : Fragment() {
     private fun openFragment(fragment: Fragment) {
         val transaction = activity?.supportFragmentManager?.beginTransaction()
         transaction?.replace(R.id.frameLayout, fragment)
-        transaction?.addToBackStack(null)
         transaction?.commit()
     }
 }
