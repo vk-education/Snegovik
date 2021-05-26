@@ -6,7 +6,7 @@
         android:layout_height="match_parent"
         tools:context=".ui.profile.ChangeProfileFragment"
         android:id="@+id/change_profile_lay"
-        android:background="@color/red_400">
+        android:background="@color/red_200">
 
     <TextView
             android:id="@+id/change_profile_title"
