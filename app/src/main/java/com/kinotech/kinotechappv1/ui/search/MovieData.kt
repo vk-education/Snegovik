@@ -5,20 +5,20 @@ data class SearchResults(
 )
 
 data class SimpleResult(
-    val nameRu: String,
-    val genres: List<Genres>,
-    val year: String,
-    val posterUrlPreview: String,
-    val filmId: Int,
-    val countries: List<Countries>
+    val nameRu: String = "",
+    val genres: List<Genres> = arrayListOf(),
+    val year: String = "",
+    val posterUrlPreview: String ="",
+    val filmId: Int = 0,
+    val countries: List<Countries> = arrayListOf()
 )
 
 data class Genres(
-    val genre: String
+    val genre: String = ""
 )
 
 data class Countries(
-    val country: String
+    val country: String = ""
 )
 
 data class DescriptionRatingResults(

@@ -7,12 +7,10 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.kinotech.kinotechappv1.R
 import com.kinotech.kinotechappv1.db.DatabaseAdder
-import com.kinotech.kinotechappv1.ui.search.FilmPageFragment
 import com.kinotech.kinotechappv1.ui.search.Genres
 import com.kinotech.kinotechappv1.ui.search.SimpleResult
 
@@ -39,11 +37,12 @@ class MovieFavAdapter(
 
     class MyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
-        private val filmPhoto: ImageView = itemView.findViewById(R.id.movie_photo)
-        private val filmTitle: TextView = itemView.findViewById(R.id.movie_title)
-        private val filmYear: TextView = itemView.findViewById(R.id.movie_year)
-        private val filmGenres: TextView = itemView.findViewById(R.id.movie_genres)
+        private val filmPhoto: ImageView = itemView.findViewById(R.id.lmFilmPoster)
+        private val filmTitle: TextView = itemView.findViewById(R.id.lmFilmTitle)
+        private val filmYear: TextView = itemView.findViewById(R.id.lmFilmYear)
+        private val filmGenres: TextView = itemView.findViewById(R.id.lmFilmGenre)
         fun bind(movie: SimpleResult) {
+            Log.d("dbfav", "bind: ${movie.nameRu}")
             Glide.with(itemView.context).load(movie.posterUrlPreview).into(filmPhoto)
             Log.d("cout", "near bind")
             filmTitle.text = movie.nameRu
