@@ -14,7 +14,7 @@ data class SimpleResult(
 )
 
 data class Genres(
-    val genre : String
+    val genre: String
 )
 
 data class Countries(
@@ -22,20 +22,20 @@ data class Countries(
 )
 
 data class DescriptionRatingResults(
-    val data : Description,
-    val rating : Rating
+    val data: Description,
+    val rating: Rating
 )
 
 data class Description(
-    val description : String
+    val description: String
 )
 
 data class Rating(
-    val rating : Double,
-    val ratingImdb : Double
+    val rating: Double,
+    val ratingImdb: Double
 )
 
 data class Staff(
     val nameRu: String,
-    val professionKey : String
+    val professionKey: String
 )
