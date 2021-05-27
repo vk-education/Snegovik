@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 
 
-class RequestViewModel : ViewModel() {
+class  RequestViewModel : ViewModel() {
     private var searchRequests = SearchRequests()
 
     suspend fun searchFilms(result: String){

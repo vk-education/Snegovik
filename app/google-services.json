@@ -1,6 +1,7 @@
 {
   "project_info": {
     "project_number": "1096042858796",
+    "firebase_url": "https://kinotech-app-default-rtdb.europe-west1.firebasedatabase.app",
     "project_id": "kinotech-app",
     "storage_bucket": "kinotech-app.appspot.com"
   },
@@ -14,11 +15,35 @@
       },
       "oauth_client": [
         {
+          "client_id": "1096042858796-4b89ft7vgug972e4rcevehc1n78tp9ao.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.kinotech.kinotechappv1",
+            "certificate_hash": "fa79c62be8780660081715586d8a7ae9e8131f11"
+          }
+        },
+        {
           "client_id": "1096042858796-co4e43elomrt5aefupctoja18v43909h.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.kinotech.kinotechappv1",
             "certificate_hash": "bd9451aa02996074c9bf869999c193487b3a0d96"
+          }
+        },
+        {
+          "client_id": "1096042858796-i8voj5h4g6jp9gh5614n659mat4vpjir.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.kinotech.kinotechappv1",
+            "certificate_hash": "61041a45b74fcf855308d809eeb3d347db109da1"
+          }
+        },
+        {
+          "client_id": "1096042858796-ko0n3e20sfqr2888glm0gjts19fh8i34.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.kinotech.kinotechappv1",
+            "certificate_hash": "6e8f071d9f2b94c009376fdd36b1e64fd6045736"
           }
         },
         {

@@ -1,8 +1,9 @@
 package com.kinotech.kinotechappv1.ui.search
 
-import android.content.Context
+import android.R.attr
 import android.os.Bundle
 import android.util.Log
+import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -17,11 +18,14 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.lifecycle.lifecycleScope
 import com.bumptech.glide.Glide
 import com.kinotech.kinotechappv1.R
+import com.kinotech.kinotechappv1.db.DatabaseAdder
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class FilmPageFragment(movie: SimpleResult) : Fragment() {
+
+class FilmPageFragment(movie: SimpleResult, s: String) : Fragment() {
+    private val result = s
     private val movieInfo = movie
     private val movieId = movieInfo.filmId
     override fun onCreateView(
@@ -35,15 +39,33 @@ class FilmPageFragment(movie: SimpleResult) : Fragment() {
         toolbar.hide()
         val progressBar: ProgressBar = root.findViewById(R.id.progress_bar)
         val backButton: ImageButton = root.findViewById(R.id.backBtn)
+        val viewModel = ViewModelProviders.of(this).get(RequestViewModel::class.java)
+        root.isFocusableInTouchMode=true
+        root.requestFocus()
+        root!!.setOnKeyListener(View.OnKeyListener { v, keyCode, event ->
+            Log.i(attr.tag.toString(), "keyCode: $keyCode")
+            if (keyCode == KeyEvent.KEYCODE_BACK && event.action === KeyEvent.ACTION_UP) {
+                Log.i(attr.tag.toString(), "onKey Back listener is working!!!")
+                fragmentManager?.popBackStack()
+                val fr  = SearchResultFragment(result)
+                openFragment(fr)
+                toolbar.show()
+                return@OnKeyListener true
+            }
+            false
+        })
         backButton.setOnClickListener {
             toolbar.show()
             fragmentManager?.popBackStack()
+            val fr  = SearchResultFragment(result)
+            openFragment(fr)
         }
-        val viewModel = ViewModelProviders.of(this).get(RequestViewModel::class.java)
+
         Log.d("cout2", "movieId: $movieId")
         lifecycleScope.launch {
             viewModel.searchDescriptionRating(movieId)
-            viewModel.getDescriptionRatingResults().observe(viewLifecycleOwner,
+            viewModel.getDescriptionRatingResults().observe(
+                viewLifecycleOwner,
                 { descriptionRatingResults_t ->
                     val description = descriptionRatingResults_t?.data?.description
                     val ratingKP = descriptionRatingResults_t?.rating?.rating
@@ -58,11 +80,12 @@ class FilmPageFragment(movie: SimpleResult) : Fragment() {
                             )
                         }
                     }
-
-                })
+                }
+            )
 
             viewModel.searchStaff(movieId)
-            viewModel.getStaffResults().observe(viewLifecycleOwner,
+            viewModel.getStaffResults().observe(
+                viewLifecycleOwner,
                 { staffT ->
                     val directors = ArrayList<String>()
                     val actors = ArrayList<String>()
@@ -71,14 +94,20 @@ class FilmPageFragment(movie: SimpleResult) : Fragment() {
                         setStaff(root, directors, actors)
                     }
                     Log.d("cout2", "$actors")
-                })
+                }
+            )
         }
         lifecycleScope.launch {
             setMovieData(root)
         }
         progressBar.visibility = View.GONE
+        val likeButton:ImageButton = root.findViewById(R.id.likeFilm)
+        val databaseAdder = DatabaseAdder()
+        databaseAdder.addMovieToDB(movieInfo, likeButton)
         return root
     }
+
+
 
     private fun getStaff(
         staff: List<Staff>,
@@ -143,7 +172,10 @@ class FilmPageFragment(movie: SimpleResult) : Fragment() {
         filmGenres.text = movieInfo.genres.joinToString { genres: Genres ->
             genres.genre
         }
-
+    }
+    private fun openFragment(fragment: Fragment) {
+        val transaction = activity?.supportFragmentManager?.beginTransaction()
+        transaction?.replace(R.id.frameLayout, fragment)
+        transaction?.commit()
     }
 }
-

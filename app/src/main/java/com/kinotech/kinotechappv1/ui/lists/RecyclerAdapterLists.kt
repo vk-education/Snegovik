@@ -11,7 +11,7 @@ import com.bumptech.glide.Glide
 import com.kinotech.kinotechappv1.R
 import kotlin.reflect.KClass
 
-class RecyclerAdapterLists(val context: Context, private val clickListener: MyClickListener) :
+class  RecyclerAdapterLists(val context: Context, private val clickListener: MyClickListener) :
     RecyclerView.Adapter<RecyclerAdapterLists.MyViewHolder>() {
 
     private fun unreachable(): Nothing = throw Exception()

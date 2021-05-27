@@ -68,9 +68,9 @@ class ListsFragment : Fragment(), RecyclerAdapterLists.MyClickListener {
     override fun onResume() {
         super.onResume()
 
-    /*recyclerAdapter = RecyclerAdapterLists(getContext())
-    recyclerView.layoutManager = LinearLayoutManager(this)
-    recyclerView.adapter = recyclerAdapter*/
+        /*recyclerAdapter = RecyclerAdapterLists(getContext())
+        recyclerView.layoutManager = LinearLayoutManager(this)
+        recyclerView.adapter = recyclerAdapter*/
 
         context?.let { normalnyContext ->
             recyclerAdapter = RecyclerAdapterLists(normalnyContext, this)
@@ -87,12 +87,13 @@ class ListsFragment : Fragment(), RecyclerAdapterLists.MyClickListener {
             is AnyItemInAdapterList.ButtonCreateList -> {
                 val listener: FullNameListener = object : FullNameListener {
                     override fun fullNameEntered(fullName: String) {
-                    /*Toast.makeText(
-                        context,
-                        "Full name: $fullName", Toast.LENGTH_LONG
-                    ).show()*/
+                        /*Toast.makeText(
+                            context,
+                            "Full name: $fullName", Toast.LENGTH_LONG
+                        ).show()*/
                         val list = listOfMovie.apply {
                             add(
+                                2,
                                 AnyItemInAdapterList.ButtonShowList(
                                     fullName,
                                     "0 фильмов",
@@ -109,6 +110,11 @@ class ListsFragment : Fragment(), RecyclerAdapterLists.MyClickListener {
                 dialog?.show()
             }
             is AnyItemInAdapterList.ButtonShowList -> {
+                val listOfMovieFragment = ListOfMovieFragment();
+                activity?.supportFragmentManager?.beginTransaction()
+                    ?.add(R.id.fragment_lists, listOfMovieFragment, "fragTag")
+                    ?.addToBackStack(null)
+                    ?.commit()
             }
         }
     }

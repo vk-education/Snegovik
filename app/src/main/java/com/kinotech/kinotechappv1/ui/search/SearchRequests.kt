@@ -1,16 +1,12 @@
 package com.kinotech.kinotechappv1.ui.search
 
 import android.util.Log
-import android.view.View
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-
 
 class SearchRequests {
     private val request = ServiceBuilder.buildService(APIEndpoints::class.java)
@@ -18,7 +14,7 @@ class SearchRequests {
     private val staff = MutableLiveData<List<Staff>>()
     private val descriptionRatingResults = MutableLiveData<DescriptionRatingResults>()
 
-    suspend fun searchMovie(result : String) = withContext(Dispatchers.IO){
+    suspend fun searchMovie(result: String) = withContext(Dispatchers.IO) {
         val call = request.findMovies(result, "1")
         Log.d("cout", call.toString())
         call.enqueue(
@@ -41,7 +37,7 @@ class SearchRequests {
             }
         )
     }
-    suspend fun searchStaff(movieId : Int) = withContext(Dispatchers.IO){
+    suspend fun searchStaff(movieId: Int) = withContext(Dispatchers.IO) {
         val callStaff = request.findMovieStaff(movieId)
         callStaff.enqueue(
             object : Callback<List<Staff>> {
@@ -61,11 +57,11 @@ class SearchRequests {
                 }
             })
     }
-    suspend fun searchDescriptionRating(movieId: Int) = withContext(Dispatchers.IO){
+    suspend fun searchDescriptionRating(movieId: Int) = withContext(Dispatchers.IO) {
         val filmData = request.findMovieById(movieId, "RATING")
         Log.d("cout2", "on response$movieId")
         filmData.enqueue(
-            object : Callback<DescriptionRatingResults>{
+            object : Callback<DescriptionRatingResults> {
                 override fun onFailure(call: Call<DescriptionRatingResults>, t: Throwable) {
                     Log.d("cout2", "onFailure: $t")
                 }
@@ -77,10 +73,8 @@ class SearchRequests {
                     if (response2.isSuccessful) {
                         Log.d("cout2", "on response ${response2.body()!!}")
                         descriptionRatingResults.postValue(response2.body()!!)
-
                     }
                 }
-
             }
         )
     }
@@ -93,8 +87,7 @@ class SearchRequests {
         return descriptionRatingResults
     }
 
-    fun getFilms(): MutableLiveData<List<SimpleResult>>{
+    fun getFilms(): MutableLiveData<List<SimpleResult>> {
         return films
     }
-
 }
