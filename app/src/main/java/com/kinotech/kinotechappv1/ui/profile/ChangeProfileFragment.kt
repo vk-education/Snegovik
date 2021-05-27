@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import android.app.Activity
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.database.DatabaseErrorHandler
 import android.os.Build
 import android.widget.ImageButton
 import android.widget.Toast
@@ -22,6 +23,8 @@ import com.kinotech.kinotechappv1.databinding.ChangeProfileBinding
 
 class ChangeProfileFragment : Fragment() {
 
+//    private lateinit var firebaseUser: FirebaseUser
+    private var checker = ""
     companion object {
         private const val REQUEST_CODE = 1
         private const val PERMISSION_CODE = 2
@@ -37,6 +40,8 @@ class ChangeProfileFragment : Fragment() {
     ): View {
 //        profileViewModel =
 //            ViewModelProvider(this).get(ProfileViewModel::class.java)
+//        firebaseUser = FirebaseAuth.getInstance().currentUser!!
+
         binding = ChangeProfileBinding.inflate(inflater, container, false)
         binding.changePhotoButton.setOnClickListener {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -72,16 +77,21 @@ class ChangeProfileFragment : Fragment() {
             loadfragmentch(binding.changeName.text.toString())
         }
 
-        binding.saveButton.setOnClickListener {
+//        binding.saveButton.setOnClickListener {
+//            loadfragment()
+//        }
+
+        binding.backBtnCh.setOnClickListener {
             loadfragment()
         }
-
+//        userInfo()
 //        binding.saveButton.setOnClickListener {
-//            loadfragmentch(binding.changeName.text.toString())
-//        }
+//            if (checker == "clicked"){
 //
-//        binding.backBtnCh.setOnClickListener {
-//            loadfragment()
+//            }
+//            else{
+//              updateUserInfoOnly()
+//            }
 //        }
         return binding.root
     }
@@ -160,4 +170,27 @@ class ChangeProfileFragment : Fragment() {
 //            prefs?.edit()?.putString("profilePic", uri.toString())?.apply()
         }
     }
+
+//    private fun updateUserInfoOnly(){
+//        val usersRef = FirebaseDatabase.getInstance().getReference().child("Users").child(firebaseUser.uid)
+//        val userMap = HashMap<String, Any>()
+//        userMap["username"] = changeName.getText().toString().toLowerCase()
+//    }
+//
+//    private fun userInfo()
+//    {
+//        val usersRef = FirebaseDatabase.getInstance().getReference().child("Users").child(firebaseUser.uid)
+//        usersRef.addValueEventListener(object : ValueEventListener {
+//            override fun onDataChange(p0: DataSnapshot) {
+//                if (p0.exists()) {
+//                    val user = p0.getValue<User>(User::class.java)
+//                    Picasso.get().load(user!!.getImage()).placeholder(R.drawable.profile).into(changePhoto)
+//                    changeName.setText(user!!.getUsername())
+//                }
+//            }
+//
+//            override fun onCancelled(p0: DatabaseErrorHandler) {
+//            }
+//        })
+//    }
 }

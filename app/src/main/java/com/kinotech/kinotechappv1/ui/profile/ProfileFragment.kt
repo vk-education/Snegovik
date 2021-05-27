@@ -24,6 +24,7 @@ class ProfileFragment : Fragment() {
 //    private lateinit var nickName: TextView
 //    private lateinit var signOut: Button
     private lateinit var mSignInClient: GoogleSignInClient
+//    private lateinit var firebaseUser: FirebaseUser
     private lateinit var profileViewModel: ProfileViewModel
     private lateinit var model: ProfileSharedViewModel
     private lateinit var binding: FragmentProfileBinding
