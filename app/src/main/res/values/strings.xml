@@ -39,4 +39,6 @@
     <string name="subscriptions">0 подписок</string>
     <string name="search_friends">Ищите друзей и знакомых с помощью поиска наверху!</string>
     <string name="input_friend_name">Введите имя друга</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

@@ -11,8 +11,9 @@ class PostNewListAdapter(private val onInteractionListener: OnInteractionListene
     ListAdapter<PostNewList, PostNewListViewHolder>(PostNewListDiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PostNewListViewHolder {
-        val binding =
-            FeedNewlistPostBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        val binding = FeedNewlistPostBinding.inflate(
+            LayoutInflater.from(parent.context), parent, false
+        )
         return PostNewListViewHolder(binding, onInteractionListener)
     }
 

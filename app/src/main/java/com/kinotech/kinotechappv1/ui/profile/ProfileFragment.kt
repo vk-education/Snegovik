@@ -17,6 +17,8 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.kinotech.kinotechappv1.AuthActivity
 import com.kinotech.kinotechappv1.R
 import com.kinotech.kinotechappv1.databinding.FragmentProfileBinding
+import com.kinotech.kinotechappv1.ui.profile.subs.SubsFragment
+import com.kinotech.kinotechappv1.ui.profile.subs.SubscriptionsFragment
 
 class ProfileFragment : Fragment() {
 
@@ -60,6 +62,14 @@ class ProfileFragment : Fragment() {
             binding.photo.setImageURI(it)
         })
 
+        binding.subscribers.setOnClickListener {
+            loadSubscribers()
+        }
+
+        binding.subscriptions.setOnClickListener {
+            loadSubscriptions()
+        }
+
 //        val change = inflater.inflate(R.layout.change_profile, container, false)
 //        photoAcc = change.findViewById(R.id.change_photo)
 
@@ -86,7 +96,24 @@ class ProfileFragment : Fragment() {
             transaction.disallowAddToBackStack()
             transaction.commit()
         }
+    }
 
+    private fun loadSubscribers() {
+        val transaction = activity?.supportFragmentManager?.beginTransaction()
+        if (transaction != null) {
+            transaction.replace(R.id.container, SubsFragment())
+            transaction.disallowAddToBackStack()
+            transaction.commit()
+        }
+    }
+
+    private fun loadSubscriptions() {
+        val transaction = activity?.supportFragmentManager?.beginTransaction()
+        if (transaction != null) {
+            transaction.replace(R.id.container, SubsFragment()) // Поменять на второй лист SubsFragment
+            transaction.disallowAddToBackStack()
+            transaction.commit()
+        }
     }
 
     override fun onResume() {

@@ -76,13 +76,13 @@ class ChangeProfileFragment : Fragment() {
             loadfragment()
         }
 
-//        binding.saveButton.setOnClickListener {
-//            loadfragmentch(binding.changeName.text.toString())
-//        }
-//
-//        binding.backBtnCh.setOnClickListener {
-//            loadfragment()
-//        }
+        binding.saveButton.setOnClickListener {
+            loadfragmentch(binding.changeName.text.toString())
+        }
+
+        binding.backBtnCh.setOnClickListener {
+            loadfragment()
+        }
         return binding.root
     }
 
