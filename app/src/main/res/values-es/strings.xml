@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="title_feed">Fuente de noticias</string>
+    <string name="title_lists">Listas</string>
+    <string name="title_search">Busca</string>
+    <string name="title_profile">Perfil</string>
+    <string name="subscribe_friends_updates">¡Suscríbete a actualizaciones de amigos!</string>
+    <string name="next">Adelante</string>
+    <string name="share_movies">Comparte tus películas y seriales favoritos</string>
+    <string name="login_with_google">Entrar con Google</string>
+    <string name="input_film_name">Escribe el título de película o serial</string>
+    <string name="find_button">Buscar!</string>
+    <string name="guide_text_search">Busca tus películas y seriales favoritos usando busca arriba!</string>
+    <string name="director">Director:</string>
+    <string name="roles">Protagonizando:</string>
+    <string name="kinopoisk">Kinopoisk:</string>
+    <string name="description">Argumento</string>
+    <string name="rate_film">Estima la película</string>
+    <string name="search_result">Busca resultados</string>
+    <string name="profile_name_string">Nombre del perfil</string>
+    <string name="playlists_string">0 listas</string>
+    <string name="subscribers_string">0 suscriptores</string>
+    <string name="subscriptions_string">0 suscripciones</string>
+    <string name="change_profile_string">Cambiar perfil</string>
+    <string name="show_all_string">Mostrar todo</string>
+    <string name="change_photo_string">Cambiar foto de perfil</string>
+    <string name="change_name_string">Nuevo nombre de perfil</string>
+    <string name="save_string">Guardar</string>
+    <string name="subscribers">0 suscriptores</string>
+    <string name="subscriptions">0 suscripciones</string>
+    <string name="search_friends">Busca amigos usando busca arriba!</string>
+    <string name="input_friend_name">Escribe nombre de amigo</string>
+    <string name="subscribe_string">Suscribir</string>
+</resources>
