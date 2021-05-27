@@ -42,24 +42,24 @@
             android:id="@+id/listTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            tools:text="Фильмы про побег"
+            tools:text="Понравились"
             app:layout_constraintTop_toBottomOf="@id/addBtn"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             android:fontFamily="@font/rubik_bold"
             android:textSize="24sp"
-            android:textColor="@color/another_white"
-            android:layout_margin="16dp" />
+            android:textColor="@color/another_white" />
+
 
     <ImageView
-            android:id="@+id/listIcon"
-            android:src="@drawable/pobeg"
+            android:id="@+id/listIconFav"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:background="@color/red_700"
+            android:src="@drawable/ic_like_24"
             android:layout_margin="16dp"
             app:layout_constraintTop_toBottomOf="@id/listTitle"
-            app:layout_constraintBottom_toTopOf="@id/filmListRecyclerView"
+            app:layout_constraintBottom_toTopOf="@id/filmFavListRecyclerView"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             android:foreground="@drawable/round"
@@ -67,7 +67,7 @@
             app:layout_constraintHeight_percent="0.20"/>
 
     <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/filmListRecyclerView"
+            android:id="@+id/filmFavListRecyclerView"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             app:layout_constraintStart_toStartOf="parent"

@@ -6,6 +6,12 @@ sealed class AnyItemInAdapterList {
         val imgList: String
     ) : AnyItemInAdapterList()
 
+   class ButtonFavList(
+        val itemTitle: String,
+        val filmCount: String,
+        val imgList: String
+    ) : AnyItemInAdapterList()
+
     class ButtonShowList(
         val itemTitle: String,
         val filmCount: String,

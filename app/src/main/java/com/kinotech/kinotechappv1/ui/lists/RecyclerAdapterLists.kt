@@ -29,16 +29,18 @@ class  RecyclerAdapterLists(val context: Context, private val clickListener: MyC
     override fun getItemViewType(position: Int): Int =
         when (listsOfMovie[position]) {
             is AnyItemInAdapterList.ButtonCreateList -> RecyclerViewItemType.ButtonCreateList
+            is AnyItemInAdapterList.ButtonFavList -> RecyclerViewItemType.ButtonFavList
             is AnyItemInAdapterList.ButtonShowList -> RecyclerViewItemType.ButtonShowList
         }.ordinal
 
     internal enum class RecyclerViewItemType {
-        ButtonCreateList, ButtonShowList
+        ButtonCreateList, ButtonFavList, ButtonShowList
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder =
         when (enumValueOf<RecyclerViewItemType>(viewType)) {
             RecyclerViewItemType.ButtonCreateList -> MyViewHolder.CreateViewHolder(parent)
+            RecyclerViewItemType.ButtonFavList -> MyViewHolder.FavViewHolder(parent)
             RecyclerViewItemType.ButtonShowList -> MyViewHolder.ShowViewHolder(parent)
         }
     /* val view = LayoutInflater.from(parent.context).inflate(R.layout.list_item, parent, false)
@@ -91,6 +93,34 @@ class  RecyclerAdapterLists(val context: Context, private val clickListener: MyC
             }
         }
 
+        class FavViewHolder(container: ViewGroup) : MyViewHolder(
+            container,
+            R.layout.item_fav_list
+        ) {
+            override fun bind(lists: AnyItemInAdapterList, clickListener: MyClickListener) {
+                val itemTitle: TextView = itemView.findViewById(R.id.item_title)
+                val filmCount: TextView = itemView.findViewById(R.id.film_count)
+                val imgListH: ImageView = itemView.findViewById(R.id.img_list)
+
+                itemTitle.text = (lists as AnyItemInAdapterList.ButtonFavList).itemTitle
+                filmCount.text = lists.filmCount
+                val imgList: String = lists.imgList
+                Log.d("tag", "karkar$imgList")
+                Glide
+                    // .with(itemView.context)
+                    .with(itemView.context)
+                    .load(imgList)
+                    .error(R.drawable.ic_like_24)
+                    .into(imgListH)
+
+                itemView.setOnClickListener {
+                    clickListener.onItemClick(
+                        lists
+                    )
+                }
+            }
+        }
+
         class ShowViewHolder(container: ViewGroup) : MyViewHolder(
             container,
             R.layout.item_show_list
@@ -108,7 +138,7 @@ class  RecyclerAdapterLists(val context: Context, private val clickListener: MyC
                     // .with(itemView.context)
                     .with(itemView.context)
                     .load(imgList)
-                    .error(R.drawable.ic_like_24)
+                    .error(R.drawable.ic_baseline_movie_creation_24)
                     .into(imgListH)
 
                 itemView.setOnClickListener {

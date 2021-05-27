@@ -48,7 +48,7 @@ class ListsFragment : Fragment(), RecyclerAdapterLists.MyClickListener {
             "Создать список",
             R.drawable.ic_add_40dp.toString()
         ),
-        AnyItemInAdapterList.ButtonShowList(
+        AnyItemInAdapterList.ButtonFavList(
             "Понравились",
             "5 фильмов",
             R.drawable.ic_like_40dp.toString()
@@ -109,12 +109,20 @@ class ListsFragment : Fragment(), RecyclerAdapterLists.MyClickListener {
                 val dialog = context?.let { CustomDialog(it, listener) }
                 dialog?.show()
             }
+            is AnyItemInAdapterList.ButtonFavList -> {
+                val listOfFavFragment = ListOfFavFragment();
+                activity?.supportFragmentManager?.beginTransaction()
+                    ?.add(R.id.fragment_lists, listOfFavFragment, "fragTag")
+                    ?.addToBackStack(null)
+                    ?.commit()
+            }
             is AnyItemInAdapterList.ButtonShowList -> {
                 val listOfMovieFragment = ListOfMovieFragment();
                 activity?.supportFragmentManager?.beginTransaction()
                     ?.add(R.id.fragment_lists, listOfMovieFragment, "fragTag")
                     ?.addToBackStack(null)
                     ?.commit()
+
             }
         }
     }
