@@ -1,7 +1,6 @@
 package com.kinotech.kinotechappv1.ui.profile
 
 import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -18,14 +17,10 @@ import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
-import com.google.firebase.database.DatabaseReference
-import com.google.firebase.database.FirebaseDatabase
 import com.kinotech.kinotechappv1.AuthActivity
 import com.kinotech.kinotechappv1.R
-import java.lang.reflect.TypeVariable
 import com.kinotech.kinotechappv1.databinding.FragmentProfileBinding
 import com.kinotech.kinotechappv1.ui.profile.subs.SubsFragment
-import com.kinotech.kinotechappv1.ui.profile.subs.SubscriptionsFragment
 
 class ProfileFragment : Fragment() {
 
@@ -44,23 +39,17 @@ class ProfileFragment : Fragment() {
     ): View? {
         profileViewModel =
             ViewModelProvider(this).get(ProfileViewModel::class.java)
-        /*val textView = root.findViewById<TextView>(R.id.text_profile)
-        profileViewModel.text.observe(
-            viewLifecycleOwner,
-            Observer {
-                textView.text = it
-            }
-        )*/
+        
         val root = inflater.inflate(R.layout.fragment_profile, container, false)
-        signOut = root.findViewById(R.id.image_exit)
+        signOut = root.findViewById(R.id.imageExit)
         nickName = root.findViewById(R.id.textProfile)
         photoAcc = root.findViewById(R.id.photo)
 //        val picture_ctx = GoogleSignIn.getLastSignedInAccount(context)
 //        val picture = picture_ctx?.photoUrl
-        val button = root.findViewById<Button>(R.id.change_profile_button)
+        val button = root.findViewById<Button>(R.id.changeProfileButton)
         button.setOnClickListener {
             loadfragment()
-            var displayMessage = arguments?.getString("message")
+//            var displayMessage = arguments?.getString("message")
             //root.findViewById<Button>(R.id.textProfile).text = displayMessage
         }
 

@@ -10,13 +10,10 @@ import android.app.Activity
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
-import android.widget.ImageButton
 import android.widget.Toast
 import androidx.core.content.PermissionChecker
 import androidx.core.net.toUri
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewModelStore
-import androidx.lifecycle.ViewModelStoreOwner
 import com.kinotech.kinotechappv1.R
 import com.kinotech.kinotechappv1.databinding.ChangeProfileBinding
 
@@ -86,8 +83,8 @@ class ChangeProfileFragment : Fragment() {
         return binding.root
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+//    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+//        super.onViewCreated(view, savedInstanceState)
 //        model = ViewModelProvider(requireActivity()).get(ProfileSharedViewModel::class.java)
 //        model.getPhoto().observe(viewLifecycleOwner, {
 //            binding.changePhoto.setImageURI(it)
@@ -101,7 +98,7 @@ class ChangeProfileFragment : Fragment() {
 //            loadfragment()
 //            loadfragmentch(binding.changeName.text.toString())
 //        }
-    }
+//    }
 
     private fun loadfragmentch(editTextInput: String) {
         val transaction = activity?.supportFragmentManager?.beginTransaction()

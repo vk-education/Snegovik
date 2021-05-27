@@ -4,7 +4,6 @@
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-
         android:background="@color/red_200">
 
     <androidx.cardview.widget.CardView
@@ -15,67 +14,62 @@
             android:background="@color/red_200"
             app:cardPreventCornerOverlap="false">
 
-
-
         <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@color/red_200"
-                android:id="@+id/main_relative_layout"
-                >
-
+                android:id="@+id/main_relative_layout">
 
             <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@drawable/rectangle_search_result">
 
-
-            <ImageView
-                    android:layout_width="60dp"
-                    android:layout_height="60dp"
-                    android:id="@+id/movie_photo"
-                    android:layout_gravity="center"
-                    android:contentDescription="@string/movie_image_content" />
-            <TextView
-                    android:layout_toEndOf="@+id/movie_photo"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="5dp"
-                    android:ellipsize="end"
-                    android:id="@+id/movie_title"
-                    android:textSize="13sp"
-                    android:fontFamily="@font/rubik_bold"
-                    android:textColor="@color/white_full"
-                    android:layout_marginTop="5dp"
-                    android:maxLines="1" />
-
-            <TextView
-                    android:layout_toEndOf="@+id/movie_title"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="5dp"
-                    android:id="@+id/movie_year"
-                    android:textSize="13sp"
-                    android:maxLines="1"
-                    android:ellipsize="end"
-                    android:fontFamily="@font/rubik_bold"
-                    android:textColor="@color/grey_for_search_result"
-                    android:layout_marginStart="10dp"
-                    android:layout_marginTop="5dp" />
-
+                <ImageView
+                        android:layout_width="60dp"
+                        android:layout_height="60dp"
+                        android:id="@+id/movie_photo"
+                        android:layout_gravity="center"
+                        android:contentDescription="@string/movie_image_content" />
 
                 <TextView
-                    android:layout_below="@+id/movie_title"
-                    android:layout_toEndOf="@+id/movie_photo"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/movie_genres"
-                    android:textSize="13sp"
-                    android:fontFamily="@font/rubik_bold"
-                    android:textColor="@color/grey_for_search_result"
-                    android:layout_marginStart="5dp"
-                    android:layout_marginTop="20dp"/>
+                        android:layout_toEndOf="@+id/movie_photo"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="5dp"
+                        android:ellipsize="end"
+                        android:id="@+id/movie_title"
+                        android:textSize="13sp"
+                        android:fontFamily="@font/rubik_bold"
+                        android:textColor="@color/white_full"
+                        android:layout_marginTop="5dp"
+                        android:maxLines="1" />
+
+                <TextView
+                        android:layout_toEndOf="@+id/movie_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="5dp"
+                        android:id="@+id/movie_year"
+                        android:textSize="13sp"
+                        android:maxLines="1"
+                        android:ellipsize="end"
+                        android:fontFamily="@font/rubik_bold"
+                        android:textColor="@color/grey_for_search_result"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginTop="5dp" />
+
+                <TextView
+                        android:layout_below="@+id/movie_title"
+                        android:layout_toEndOf="@+id/movie_photo"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/movie_genres"
+                        android:textSize="13sp"
+                        android:fontFamily="@font/rubik_bold"
+                        android:textColor="@color/grey_for_search_result"
+                        android:layout_marginStart="5dp"
+                        android:layout_marginTop="20dp" />
 
                 <ImageButton
                         android:layout_width="wrap_content"
@@ -85,13 +79,11 @@
                         android:layout_alignParentEnd="true"
                         android:layout_marginEnd="10dp"
                         android:tag="button_not_liked"
-                        android:id="@+id/like_button_recycler_view"
-                         />
-
+                        android:id="@+id/like_button_recycler_view" />
 
             </RelativeLayout>
-        </RelativeLayout>
 
+        </RelativeLayout>
 
     </androidx.cardview.widget.CardView>
 

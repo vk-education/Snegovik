@@ -1,11 +1,9 @@
 <resources>
-    <string name="app_name">Kinotech App v1</string>
+    <string name="app_name" translatable="false">Kinotech App v1</string>
     <string name="title_feed">Лента</string>
     <string name="title_lists">Списки</string>
     <string name="title_search">Поиск</string>
     <string name="title_profile">Профиль</string>
-    <string name="maybe_youll_like">Возможно, Вам понравится</string>
-    <string name="watch_new_film">Посмотрите новый фильм</string>
     <string name="subscribe_friends_updates">Подписывайтесь на обновления друзей!</string>
     <string name="next">Далее</string>
     <string name="share_movies">Делитесь любимыми фильмами и сериалами!</string>
@@ -14,16 +12,16 @@
     <string name="find_button">Найти!</string>
     <string name="guide_text_search">Ищите любимые фильмы
 и сериалы с помощью поиска  наверху!</string>
-    <string name="server_client_id">1096042858796-qtkubuc2p5adcpbiq5utv9vnasnamksr.apps.googleusercontent.com</string>
+    <string name="server_client_id" translatable="false">1096042858796-qtkubuc2p5adcpbiq5utv9vnasnamksr.apps.googleusercontent.com</string>
     <string name="director">Режиссёр:</string>
     <string name="roles">В главных ролях:</string>
     <string name="kinopoisk">Кинопоиск:</string>
-    <string name="imdb">IMDB:</string>
+    <string name="imdb" translatable="false">IMDB:</string>
     <string name="description">Описание</string>
     <string name="rate_film">Оцените фильм:</string>
-    <string name="ten">/10</string>
+    <string name="ten" translatable="false">/10</string>
     <string name="search_result">Результаты поиска</string>
-    <string name="movie_image_content">Movie Image</string>
+    <string name="movie_image_content" translatable="false">Movie Image</string>
     <string name="profile_name_string">Имя профиля</string>
     <string name="playlists_string">0\nсписки</string>
     <string name="subscribers_string">0\nподписчики</string>
@@ -33,9 +31,8 @@
     <string name="change_photo_string">Изменить фото профиля</string>
     <string name="change_name_string">Новое имя профиля</string>
     <string name="save_string">Сохранить</string>
-    <string name="change_profile_title_string">Изменить профиль</string>
     <string name="subscribers">0 подписчиков</string>
-    <string name="zero">0</string>
+    <string name="zero" translatable="false">0</string>
     <string name="subscriptions">0 подписок</string>
     <string name="search_friends">Ищите друзей и знакомых с помощью поиска наверху!</string>
     <string name="input_friend_name">Введите имя друга</string>
