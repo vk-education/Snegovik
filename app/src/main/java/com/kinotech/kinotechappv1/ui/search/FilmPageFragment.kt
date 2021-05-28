@@ -19,6 +19,7 @@ import androidx.lifecycle.lifecycleScope
 import com.bumptech.glide.Glide
 import com.kinotech.kinotechappv1.R
 import com.kinotech.kinotechappv1.db.DatabaseAdder
+import com.kinotech.kinotechappv1.ui.lists.ListOfFavFragment
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -71,6 +72,8 @@ class FilmPageFragment(movie: SimpleResult, s: String, mode: Int) : Fragment() {
                 if (keyCode == KeyEvent.KEYCODE_BACK && event.action === KeyEvent.ACTION_UP) {
                     Log.i(attr.tag.toString(), "onKey Back listener is working!!!")
                     fragmentManager?.popBackStack()
+                    val favFr = ListOfFavFragment()
+                    openFavFragment(favFr)
                     toolbar.hide()
                     return@OnKeyListener true
                 }
@@ -79,6 +82,8 @@ class FilmPageFragment(movie: SimpleResult, s: String, mode: Int) : Fragment() {
             backButton.setOnClickListener {
                 fragmentManager?.popBackStack()
                 toolbar.hide()
+                val favFr = ListOfFavFragment()
+                openFavFragment(favFr)
             }
         }
         Log.d("cout2", "movieId: $movieId")
@@ -196,6 +201,11 @@ class FilmPageFragment(movie: SimpleResult, s: String, mode: Int) : Fragment() {
     private fun openFragment(fragment: Fragment) {
         val transaction = activity?.supportFragmentManager?.beginTransaction()
         transaction?.replace(R.id.frameLayout, fragment)
+        transaction?.commit()
+    }
+    private fun openFavFragment(fragment: Fragment) {
+        val transaction = activity?.supportFragmentManager?.beginTransaction()
+        transaction?.replace(R.id.listFavFrag, fragment)
         transaction?.commit()
     }
 }
