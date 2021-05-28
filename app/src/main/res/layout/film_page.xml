@@ -9,6 +9,7 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
+            android:id="@+id/film_page"
             android:layout_height="wrap_content"
             android:background="@color/red_400">
 

@@ -7,21 +7,24 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
 import android.widget.Button
+import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.database.*
 import com.kinotech.kinotechappv1.R
 import com.kinotech.kinotechappv1.ui.lists.CustomDialog.FullNameListener
 
 class ListsFragment : Fragment(), RecyclerAdapterLists.MyClickListener {
 
     private lateinit var listsViewModel: ListsViewModel
-
     lateinit var recyclerView: RecyclerView
     lateinit var recyclerAdapter: RecyclerAdapterLists
     lateinit var buttonOpenDialog: Button
-
+    private var user: FirebaseUser? = FirebaseAuth.getInstance().currentUser
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -30,9 +33,7 @@ class ListsFragment : Fragment(), RecyclerAdapterLists.MyClickListener {
         listsViewModel =
             ViewModelProvider(this).get(ListsViewModel::class.java)
         val root = inflater.inflate(R.layout.fragment_lists, container, false)
-
         recyclerView = root.findViewById(R.id.recyclerview_lists)
-
         /*val textView: TextView = root.findViewById(R.id.text_lists)
         listsViewModel.text.observe(
             viewLifecycleOwner,
@@ -43,6 +44,7 @@ class ListsFragment : Fragment(), RecyclerAdapterLists.MyClickListener {
         return root
     }
 
+
     val listOfMovie: ArrayList<AnyItemInAdapterList> = arrayListOf(
         AnyItemInAdapterList.ButtonCreateList(
             "Создать список",
@@ -52,22 +54,12 @@ class ListsFragment : Fragment(), RecyclerAdapterLists.MyClickListener {
             "Понравились",
             "5 фильмов",
             R.drawable.ic_like_40dp.toString()
-        ),
-        AnyItemInAdapterList.ButtonShowList(
-            "Какое-то название",
-            "7 фильмов",
-            "https://upload.wikimedia.org/wikipedia/ru/c/ce/Green_mile.jpg"
-        ),
-        AnyItemInAdapterList.ButtonShowList(
-            "Хорошо похотать",
-            "10 фильмов",
-            "https://img.gazeta.ru/files3/29/10248029/upload-001-pic905-895x505-11627.jpg"
         )
     )
 
+
     override fun onResume() {
         super.onResume()
-
         /*recyclerAdapter = RecyclerAdapterLists(getContext())
         recyclerView.layoutManager = LinearLayoutManager(this)
         recyclerView.adapter = recyclerAdapter*/
@@ -126,4 +118,5 @@ class ListsFragment : Fragment(), RecyclerAdapterLists.MyClickListener {
             }
         }
     }
+
 }
