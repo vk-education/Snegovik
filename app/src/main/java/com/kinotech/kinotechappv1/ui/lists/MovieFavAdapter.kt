@@ -2,19 +2,23 @@ package com.kinotech.kinotechappv1.ui.lists
 
 import android.content.Context
 import android.util.Log
+import android.view.Gravity.apply
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.GravityCompat.apply
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners
+import com.bumptech.glide.request.RequestOptions
 import com.kinotech.kinotechappv1.R
-import com.kinotech.kinotechappv1.db.DatabaseAdder
 import com.kinotech.kinotechappv1.ui.search.FilmPageFragment
 import com.kinotech.kinotechappv1.ui.search.Genres
 import com.kinotech.kinotechappv1.ui.search.SimpleResult
+
 
 class MovieFavAdapter(
     private val mData: List<SimpleResult>,
@@ -45,7 +49,12 @@ class MovieFavAdapter(
         private val filmGenres: TextView = itemView.findViewById(R.id.lmFilmGenre)
         fun bind(movie: SimpleResult) {
             Log.d("dbfav", "bind: ${movie.nameRu}")
-            Glide.with(itemView.context).load(movie.posterUrlPreview).into(filmPhoto)
+            val options = RequestOptions()
+            Glide
+                .with(itemView.context)
+                .load(movie.posterUrlPreview)
+                .apply(options.optionalCircleCrop())
+                .into(filmPhoto)
             Log.d("cout", "near bind")
             filmTitle.text = movie.nameRu
             filmYear.text = movie.year

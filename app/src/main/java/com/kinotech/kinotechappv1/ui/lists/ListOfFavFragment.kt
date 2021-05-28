@@ -2,21 +2,24 @@ package com.kinotech.kinotechappv1.ui.lists
 
 import android.os.Bundle
 import android.util.Log
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
+import android.widget.ImageButton
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.PopupMenu
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
-import com.google.firebase.database.*
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
 import com.kinotech.kinotechappv1.R
-import com.kinotech.kinotechappv1.ui.search.*
-import java.lang.Exception
+import com.kinotech.kinotechappv1.ui.search.SimpleResult
 
 class ListOfFavFragment() : Fragment() {
 
@@ -30,11 +33,18 @@ class ListOfFavFragment() : Fragment() {
         super.onCreateView(inflater, container, savedInstanceState)
         val root = inflater.inflate(R.layout.list_of_fav_frag, container, false)
         val recyclerView: RecyclerView = root.findViewById(R.id.filmFavListRecyclerView)
-        val result= arrayListOf<SimpleResult>()
+        val btnBack = root.findViewById<ImageButton>(R.id.backFavBtn)
+        val higherFavDots = root.findViewById<ImageButton>(R.id.higherFavDots)
+        val result = arrayListOf<SimpleResult>()
         val activity: AppCompatActivity = root.context as AppCompatActivity
         val toolbar: ActionBar = activity.supportActionBar!!
+        val listFavTitle = root.findViewById<TextView>(R.id.listFavTitle)
+        val arg = this.arguments
+        if (arg != null) {
+            listFavTitle.text = arg.getString("keyForFavName", "")
+        }
         toolbar.hide()
-        val likedMoviesRef = user?.uid.let{ it1 ->
+        val likedMoviesRef = user?.uid.let { it1 ->
             FirebaseDatabase.getInstance().reference
                 .child("Liked Movies")
                 .child(it1.toString())
@@ -57,10 +67,34 @@ class ListOfFavFragment() : Fragment() {
                 }
                 Log.d("dbfav", "onDataChange: $result")
             }
+
             override fun onCancelled(error: DatabaseError) {
                 Log.d("error", "onCancelled: $error")
             }
         })
+
+        btnBack.setOnClickListener {
+            val listsFrag = ListsFragment();
+            activity.supportFragmentManager?.beginTransaction()
+                .replace(R.id.listFavFrag, listsFrag, "fragTag")
+                .addToBackStack(null)
+                .commit()
+            toolbar.show()
+        }
+
+        higherFavDots.setOnClickListener {
+            val popupMenu: PopupMenu? = context?.let { it1 -> PopupMenu(it1, higherFavDots) }
+            popupMenu?.menuInflater?.inflate(R.menu.dot_fav_menu, popupMenu.menu)
+            popupMenu?.setOnMenuItemClickListener(PopupMenu.OnMenuItemClickListener { item ->
+                when (item.itemId) {
+                    R.id.item_share ->
+                        Toast.makeText(context, "Ссылка скопирована", Toast.LENGTH_SHORT).show()
+                }
+                true
+            })
+            popupMenu?.show()
+        }
+
         return root
     }
 

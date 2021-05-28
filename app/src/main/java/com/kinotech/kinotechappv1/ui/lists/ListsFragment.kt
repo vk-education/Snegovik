@@ -7,7 +7,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
 import android.widget.Button
-import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -34,13 +33,7 @@ class ListsFragment : Fragment(), RecyclerAdapterLists.MyClickListener {
             ViewModelProvider(this).get(ListsViewModel::class.java)
         val root = inflater.inflate(R.layout.fragment_lists, container, false)
         recyclerView = root.findViewById(R.id.recyclerview_lists)
-        /*val textView: TextView = root.findViewById(R.id.text_lists)
-        listsViewModel.text.observe(
-            viewLifecycleOwner,
-            Observer {
-                textView.text = it
-            }
-        )*/
+
         return root
     }
 
@@ -60,9 +53,6 @@ class ListsFragment : Fragment(), RecyclerAdapterLists.MyClickListener {
 
     override fun onResume() {
         super.onResume()
-        /*recyclerAdapter = RecyclerAdapterLists(getContext())
-        recyclerView.layoutManager = LinearLayoutManager(this)
-        recyclerView.adapter = recyclerAdapter*/
 
         context?.let { normalnyContext ->
             recyclerAdapter = RecyclerAdapterLists(normalnyContext, this)
@@ -102,14 +92,20 @@ class ListsFragment : Fragment(), RecyclerAdapterLists.MyClickListener {
                 dialog?.show()
             }
             is AnyItemInAdapterList.ButtonFavList -> {
-                val listOfFavFragment = ListOfFavFragment();
+                val args = Bundle()
+                args.putString("keyForFavName", item.itemTitle)
+                val listOfFavFragment = ListOfFavFragment()
+                listOfFavFragment.arguments = args
                 activity?.supportFragmentManager?.beginTransaction()
                     ?.replace(R.id.fragment_lists, listOfFavFragment, "fragTag")
                     ?.addToBackStack(null)
                     ?.commit()
             }
             is AnyItemInAdapterList.ButtonShowList -> {
-                val listOfMovieFragment = ListOfMovieFragment();
+                val args = Bundle()
+                args.putString("keyForName", item.itemTitle)
+                val listOfMovieFragment = ListOfMovieFragment()
+                listOfMovieFragment.arguments = args
                 activity?.supportFragmentManager?.beginTransaction()
                     ?.replace(R.id.fragment_lists, listOfMovieFragment, "fragTag")
                     ?.addToBackStack(null)
