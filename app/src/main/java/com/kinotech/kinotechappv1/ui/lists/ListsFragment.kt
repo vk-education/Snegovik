@@ -112,14 +112,14 @@ class ListsFragment : Fragment(), RecyclerAdapterLists.MyClickListener {
             is AnyItemInAdapterList.ButtonFavList -> {
                 val listOfFavFragment = ListOfFavFragment();
                 activity?.supportFragmentManager?.beginTransaction()
-                    ?.add(R.id.fragment_lists, listOfFavFragment, "fragTag")
+                    ?.replace(R.id.fragment_lists, listOfFavFragment, "fragTag")
                     ?.addToBackStack(null)
                     ?.commit()
             }
             is AnyItemInAdapterList.ButtonShowList -> {
                 val listOfMovieFragment = ListOfMovieFragment();
                 activity?.supportFragmentManager?.beginTransaction()
-                    ?.add(R.id.fragment_lists, listOfMovieFragment, "fragTag")
+                    ?.replace(R.id.fragment_lists, listOfMovieFragment, "fragTag")
                     ?.addToBackStack(null)
                     ?.commit()
 

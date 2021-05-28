@@ -24,10 +24,11 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 
-class FilmPageFragment(movie: SimpleResult, s: String) : Fragment() {
+class FilmPageFragment(movie: SimpleResult, s: String, mode: Int) : Fragment() {
     private val result = s
     private val movieInfo = movie
     private val movieId = movieInfo.filmId
+    private val modeState = mode
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -40,27 +41,46 @@ class FilmPageFragment(movie: SimpleResult, s: String) : Fragment() {
         val progressBar: ProgressBar = root.findViewById(R.id.progress_bar)
         val backButton: ImageButton = root.findViewById(R.id.backBtn)
         val viewModel = ViewModelProviders.of(this).get(RequestViewModel::class.java)
-        root.isFocusableInTouchMode=true
-        root.requestFocus()
-        root!!.setOnKeyListener(View.OnKeyListener { v, keyCode, event ->
-            Log.i(attr.tag.toString(), "keyCode: $keyCode")
-            if (keyCode == KeyEvent.KEYCODE_BACK && event.action === KeyEvent.ACTION_UP) {
-                Log.i(attr.tag.toString(), "onKey Back listener is working!!!")
+        if (modeState == 1){
+            root.isFocusableInTouchMode=true
+            root.requestFocus()
+            root!!.setOnKeyListener(View.OnKeyListener { v, keyCode, event ->
+                Log.i(attr.tag.toString(), "keyCode: $keyCode")
+                if (keyCode == KeyEvent.KEYCODE_BACK && event.action === KeyEvent.ACTION_UP) {
+                    Log.i(attr.tag.toString(), "onKey Back listener is working!!!")
+                    fragmentManager?.popBackStack()
+                    val fr  = SearchResultFragment(result)
+                    openFragment(fr)
+                    toolbar.show()
+                    return@OnKeyListener true
+                }
+                false
+            })
+            backButton.setOnClickListener {
+                toolbar.show()
                 fragmentManager?.popBackStack()
                 val fr  = SearchResultFragment(result)
                 openFragment(fr)
-                toolbar.show()
-                return@OnKeyListener true
             }
-            false
-        })
-        backButton.setOnClickListener {
-            toolbar.show()
-            fragmentManager?.popBackStack()
-            val fr  = SearchResultFragment(result)
-            openFragment(fr)
         }
-
+        else{
+            root.isFocusableInTouchMode=true
+            root.requestFocus()
+            root!!.setOnKeyListener(View.OnKeyListener { v, keyCode, event ->
+                Log.i(attr.tag.toString(), "keyCode: $keyCode")
+                if (keyCode == KeyEvent.KEYCODE_BACK && event.action === KeyEvent.ACTION_UP) {
+                    Log.i(attr.tag.toString(), "onKey Back listener is working!!!")
+                    fragmentManager?.popBackStack()
+                    toolbar.hide()
+                    return@OnKeyListener true
+                }
+                false
+            })
+            backButton.setOnClickListener {
+                fragmentManager?.popBackStack()
+                toolbar.hide()
+            }
+        }
         Log.d("cout2", "movieId: $movieId")
         lifecycleScope.launch {
             viewModel.searchDescriptionRating(movieId)

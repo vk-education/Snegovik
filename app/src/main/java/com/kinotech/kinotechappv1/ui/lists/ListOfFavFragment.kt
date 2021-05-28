@@ -6,6 +6,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.appcompat.app.ActionBar
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -18,7 +20,6 @@ import java.lang.Exception
 
 class ListOfFavFragment() : Fragment() {
 
-    lateinit var result: List<SimpleResult>
     private var user: FirebaseUser? = FirebaseAuth.getInstance().currentUser
 
     override fun onCreateView(
@@ -30,6 +31,9 @@ class ListOfFavFragment() : Fragment() {
         val root = inflater.inflate(R.layout.list_of_fav_frag, container, false)
         val recyclerView: RecyclerView = root.findViewById(R.id.filmFavListRecyclerView)
         val result= arrayListOf<SimpleResult>()
+        val activity: AppCompatActivity = root.context as AppCompatActivity
+        val toolbar: ActionBar = activity.supportActionBar!!
+        toolbar.hide()
         val likedMoviesRef = user?.uid.let{ it1 ->
             FirebaseDatabase.getInstance().reference
                 .child("Liked Movies")
@@ -45,7 +49,6 @@ class ListOfFavFragment() : Fragment() {
                         Log.d("dbfav", "onDataChange: $e")
                         Toast.makeText(context, "Error $e", Toast.LENGTH_LONG).show()
                     }
-
                 }
                 recyclerView.apply {
                     setHasFixedSize(true)
@@ -54,13 +57,10 @@ class ListOfFavFragment() : Fragment() {
                 }
                 Log.d("dbfav", "onDataChange: $result")
             }
-
             override fun onCancelled(error: DatabaseError) {
                 Log.d("error", "onCancelled: $error")
             }
         })
-
-
         return root
     }
 

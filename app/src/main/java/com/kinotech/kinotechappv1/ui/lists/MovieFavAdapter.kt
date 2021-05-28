@@ -7,10 +7,12 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.kinotech.kinotechappv1.R
 import com.kinotech.kinotechappv1.db.DatabaseAdder
+import com.kinotech.kinotechappv1.ui.search.FilmPageFragment
 import com.kinotech.kinotechappv1.ui.search.Genres
 import com.kinotech.kinotechappv1.ui.search.SimpleResult
 
@@ -50,21 +52,12 @@ class MovieFavAdapter(
             filmGenres.text = movie.genres.joinToString { genres: Genres ->
                 genres.genre
             }
-            val databaseAdder = DatabaseAdder()
-
             itemView.setOnClickListener {
-                /*val activity: AppCompatActivity = itemView.context as AppCompatActivity
+                val activity: AppCompatActivity = itemView.context as AppCompatActivity
                 val transaction = activity.supportFragmentManager.beginTransaction()
-                transaction.replace(R.id.container, FilmPageFragment(movie))
+                transaction.replace(R.id.listFavFrag, FilmPageFragment(movie, movie.nameRu, 2))
                 transaction.addToBackStack(null)
-                transaction.commit()*/
-
-               /* val activity: AppCompatActivity = itemView.context as AppCompatActivity
-                val filmPageFragment = FilmPageFragment();
-                activity?.supportFragmentManager?.beginTransaction()
-                    ?.add(R.id.container, filmPageFragment, "fragTag")
-                    ?.addToBackStack(null)
-                    ?.commit()*/
+                transaction.commit()
             }
         }
     }
