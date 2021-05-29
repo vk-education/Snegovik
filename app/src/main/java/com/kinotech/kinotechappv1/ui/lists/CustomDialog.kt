@@ -5,9 +5,12 @@ import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.view.Window
+import android.view.WindowManager
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.FirebaseDatabase
@@ -19,6 +22,7 @@ class CustomDialog(context: Context, private var listener: FullNameListener) : D
     interface FullNameListener {
         fun fullNameEntered(fullName: String)
     }
+
     private var user: FirebaseUser? = FirebaseAuth.getInstance().currentUser
     private lateinit var editTextFullName: EditText
     private lateinit var buttonCreate: Button
@@ -49,6 +53,7 @@ class CustomDialog(context: Context, private var listener: FullNameListener) : D
                     .child(fullName)
                     .setValue(fullName)
             }
+
             if (fullName.isEmpty()) {
                 Toast.makeText(
                     this.context,
@@ -56,8 +61,8 @@ class CustomDialog(context: Context, private var listener: FullNameListener) : D
                 ).show()
             }
             dismiss() // Close Dialog
-
             listener.fullNameEntered(fullName)
         }
     }
+
 }

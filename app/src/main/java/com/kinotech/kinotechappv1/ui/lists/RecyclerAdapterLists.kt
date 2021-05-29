@@ -63,6 +63,7 @@ class  RecyclerAdapterLists(val context: Context, private val clickListener: MyC
 
     fun setMovieListItems(movieList: ArrayList<AnyItemInAdapterList>) {
         this.listsOfMovie = movieList
+        Log.d("recycler123", "setMovieListItems: $movieList")
         notifyDataSetChanged()
     }
 
