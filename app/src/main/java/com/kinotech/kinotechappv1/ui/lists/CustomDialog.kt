@@ -45,7 +45,7 @@ class CustomDialog(context: Context, private var listener: FullNameListener) : D
                     .child("Lists")
                     .child(it1.toString())
                     .child("UserLists")
-                    .child(listId.toString())
+                    //.child(listId.toString())
                     .child(fullName)
                     .setValue(true)
             }
