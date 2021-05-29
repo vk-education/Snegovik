@@ -39,11 +39,12 @@ class MovieFavAdapter(
 
     class MyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
-        private val filmPhoto: ImageView = itemView.findViewById(R.id.movie_photo)
-        private val filmTitle: TextView = itemView.findViewById(R.id.movie_title)
-        private val filmYear: TextView = itemView.findViewById(R.id.movie_year)
-        private val filmGenres: TextView = itemView.findViewById(R.id.movie_genres)
+        private val filmPhoto: ImageView = itemView.findViewById(R.id.lmFilmPoster)
+        private val filmTitle: TextView = itemView.findViewById(R.id.lmFilmTitle)
+        private val filmYear: TextView = itemView.findViewById(R.id.lmFilmYear)
+        private val filmGenres: TextView = itemView.findViewById(R.id.lmFilmGenre)
         fun bind(movie: SimpleResult) {
+            Log.d("dbfav", "bind: ${movie.nameRu}")
             Glide.with(itemView.context).load(movie.posterUrlPreview).into(filmPhoto)
             Log.d("cout", "near bind")
             filmTitle.text = movie.nameRu
@@ -51,21 +52,12 @@ class MovieFavAdapter(
             filmGenres.text = movie.genres.joinToString { genres: Genres ->
                 genres.genre
             }
-            val databaseAdder = DatabaseAdder()
-
             itemView.setOnClickListener {
-                /*val activity: AppCompatActivity = itemView.context as AppCompatActivity
+                val activity: AppCompatActivity = itemView.context as AppCompatActivity
                 val transaction = activity.supportFragmentManager.beginTransaction()
-                transaction.replace(R.id.container, FilmPageFragment(movie))
+                transaction.replace(R.id.listFavFrag, FilmPageFragment(movie, movie.nameRu, 2))
                 transaction.addToBackStack(null)
-                transaction.commit()*/
-
-               /* val activity: AppCompatActivity = itemView.context as AppCompatActivity
-                val filmPageFragment = FilmPageFragment();
-                activity?.supportFragmentManager?.beginTransaction()
-                    ?.add(R.id.container, filmPageFragment, "fragTag")
-                    ?.addToBackStack(null)
-                    ?.commit()*/
+                transaction.commit()
             }
         }
     }

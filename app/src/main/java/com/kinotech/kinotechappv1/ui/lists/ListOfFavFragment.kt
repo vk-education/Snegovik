@@ -5,26 +5,22 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.appcompat.app.ActionBar
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProviders
-import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import androidx.room.Database
-import com.google.firebase.database.DatabaseReference
-import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.ktx.Firebase
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.database.*
 import com.kinotech.kinotechappv1.R
 import com.kinotech.kinotechappv1.ui.search.*
-import kotlinx.coroutines.launch
+import java.lang.Exception
 
 class ListOfFavFragment() : Fragment() {
 
-    lateinit var database: FirebaseDatabase
-    lateinit var reference: DatabaseReference
-    lateinit var result: List<SimpleResult>
-
-
+    private var user: FirebaseUser? = FirebaseAuth.getInstance().currentUser
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -34,51 +30,37 @@ class ListOfFavFragment() : Fragment() {
         super.onCreateView(inflater, container, savedInstanceState)
         val root = inflater.inflate(R.layout.list_of_fav_frag, container, false)
         val recyclerView: RecyclerView = root.findViewById(R.id.filmFavListRecyclerView)
-
-        database = FirebaseDatabase.getInstance()
-        reference = database.getReference("Users")
-
-        result = arrayListOf()
-
-
-
-        /*val geners: List<Genres> = listOf()
-        val countries: List<Countries> = listOf()
-
-        val movieList: List<SimpleResult> = listOf(
-            SimpleResult(
-                "Побег",
-                geners,
-                "1111",
-                "https://upload.wikimedia.org/wikipedia/ru/c/ce/Green_mile.jpg",
-                4,
-                countries
-            ),
-            SimpleResult(
-                "Побег",
-                geners,
-                "1111",
-                "https://upload.wikimedia.org/wikipedia/ru/c/ce/Green_mile.jpg",
-                4,
-                countries
-            )
-        )*/
-
-
-        val viewModel = ViewModelProviders.of(this).get(RequestViewModel::class.java)
-        lifecycleScope.launch {
-            viewModel.getFilms().observe(
-                viewLifecycleOwner,
-                { result ->
-                    recyclerView.apply {
-                        setHasFixedSize(true)
-                        layoutManager = LinearLayoutManager(context)
-                        Log.d("cout", "response is $result")
-                        adapter = MovieFavAdapter(result,context)
+        val result= arrayListOf<SimpleResult>()
+        val activity: AppCompatActivity = root.context as AppCompatActivity
+        val toolbar: ActionBar = activity.supportActionBar!!
+        toolbar.hide()
+        val likedMoviesRef = user?.uid.let{ it1 ->
+            FirebaseDatabase.getInstance().reference
+                .child("Liked Movies")
+                .child(it1.toString())
+                .child("Movies")
+        }
+        likedMoviesRef.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                for (snap in snapshot.children) {
+                    try {
+                        snap.getValue(SimpleResult::class.java)?.let { result.add(it) }
+                    } catch (e: Exception) {
+                        Log.d("dbfav", "onDataChange: $e")
+                        Toast.makeText(context, "Error $e", Toast.LENGTH_LONG).show()
                     }
                 }
-            )
-        }
+                recyclerView.apply {
+                    setHasFixedSize(true)
+                    layoutManager = LinearLayoutManager(context)
+                    adapter = MovieFavAdapter(result, context)
+                }
+                Log.d("dbfav", "onDataChange: $result")
+            }
+            override fun onCancelled(error: DatabaseError) {
+                Log.d("error", "onCancelled: $error")
+            }
+        })
         return root
     }
 

@@ -21,7 +21,7 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.kinotech.kinotechappv1.R
 import com.kinotech.kinotechappv1.db.DatabaseAdder
-import com.kinotech.kinotechappv1.db.SearchQuery
+
 
 
 class MoviesAdapter(
@@ -66,7 +66,7 @@ class MoviesViewHolder(itemView: View, s:String) : RecyclerView.ViewHolder(itemV
         itemView.setOnClickListener {
             val activity: AppCompatActivity = itemView.context as AppCompatActivity
             val transaction = activity.supportFragmentManager.beginTransaction()
-            transaction.replace(R.id.container, FilmPageFragment(movie, result))
+            transaction.replace(R.id.container, FilmPageFragment(movie, result, 1))
             transaction.addToBackStack(null)
             transaction.commit()
         }

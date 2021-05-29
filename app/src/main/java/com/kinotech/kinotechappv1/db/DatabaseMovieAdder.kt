@@ -1,5 +1,6 @@
 package com.kinotech.kinotechappv1.db
 
+import android.util.Log
 import android.widget.ImageButton
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
@@ -58,7 +59,7 @@ class DatabaseAdder {
             }
 
             override fun onCancelled(error: DatabaseError) {
-                TODO("Not yet implemented")
+                Log.d("error", "onCancelled: $error")
             }
 
         })
