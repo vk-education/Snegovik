@@ -32,6 +32,7 @@ class ProfileFragment : Fragment() {
     private lateinit var profileViewModel: ProfileViewModel
     private lateinit var model: ProfileSharedViewModel
     private lateinit var binding: FragmentProfileBinding
+    private lateinit var firebaseUser: FirebaseUser
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -103,7 +104,7 @@ class ProfileFragment : Fragment() {
     override fun onResume() {
         super.onResume()
         val buffAcc = GoogleSignIn.getLastSignedInAccount(context)
-        bind(buffAcc)
+        //bind(buffAcc)
         val gso: GoogleSignInOptions =
             GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestEmail()
@@ -117,6 +118,27 @@ class ProfileFragment : Fragment() {
         }
     }
 
+//    private fun userInfo()
+//    {
+//        val currentUserID = FirebaseAuth.getInstance().currentUser!!.uid
+//        val usersRef: DatabaseReference =
+//        FirebaseDatabase.getInstance().reference.child("Users")
+//        Picasso.get().load(user!!.getImage()).placeholder(R.drawable.profile).into(changePhoto)
+//        changeName.setText(user!!.getUsername())
+//    }
+
+//    private fun bind(acc: GoogleSignInAccount?) {
+//        if (acc == null) {
+//            Log.d("check", "null")
+//        } else {
+//            nickName.text = acc.displayName
+//            Glide
+//                .with(this)
+//                .load(acc.photoUrl)
+//                .error(R.drawable.ic_like_40dp)
+//                .into(photoAcc)
+//        }
+//    }
     private fun bind(acc: GoogleSignInAccount?) {
         if (acc == null) {
             Log.d("check", "null")
