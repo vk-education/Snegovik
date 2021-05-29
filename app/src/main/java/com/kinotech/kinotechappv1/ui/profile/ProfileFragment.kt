@@ -17,8 +17,12 @@ import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
 import com.kinotech.kinotechappv1.AuthActivity
 import com.kinotech.kinotechappv1.R
 import java.lang.reflect.TypeVariable
@@ -33,6 +37,7 @@ class ProfileFragment : Fragment() {
     private lateinit var profileViewModel: ProfileViewModel
     private lateinit var model: ProfileSharedViewModel
     private lateinit var binding: FragmentProfileBinding
+    private lateinit var firebaseUser: FirebaseUser
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -49,12 +54,12 @@ class ProfileFragment : Fragment() {
             }
         )*/
         val root = inflater.inflate(R.layout.fragment_profile, container, false)
-        signOut = root.findViewById(R.id.image_exit)
+        signOut = root.findViewById(R.id.imageExit)
         nickName = root.findViewById(R.id.textProfile)
         photoAcc = root.findViewById(R.id.photo)
 //        val picture_ctx = GoogleSignIn.getLastSignedInAccount(context)
 //        val picture = picture_ctx?.photoUrl
-        val button = root.findViewById<Button>(R.id.change_profile_button)
+        val button = root.findViewById<Button>(R.id.changeProfileButton)
         button.setOnClickListener {
             loadfragment()
             var displayMessage = arguments?.getString("message")
@@ -84,7 +89,7 @@ class ProfileFragment : Fragment() {
     override fun onResume() {
         super.onResume()
         val buffAcc = GoogleSignIn.getLastSignedInAccount(context)
-        bind(buffAcc)
+        //bind(buffAcc)
         val gso: GoogleSignInOptions =
             GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestEmail()
@@ -98,16 +103,25 @@ class ProfileFragment : Fragment() {
         }
     }
 
-    private fun bind(acc: GoogleSignInAccount?) {
-        if (acc == null) {
-            Log.d("check", "null")
-        } else {
-            nickName.text = acc.displayName
-            Glide
-                .with(this)
-                .load(acc.photoUrl)
-                .error(R.drawable.ic_like_40dp)
-                .into(photoAcc)
-        }
-    }
+//    private fun userInfo()
+//    {
+//        val currentUserID = FirebaseAuth.getInstance().currentUser!!.uid
+//        val usersRef: DatabaseReference =
+//        FirebaseDatabase.getInstance().reference.child("Users")
+//        Picasso.get().load(user!!.getImage()).placeholder(R.drawable.profile).into(changePhoto)
+//        changeName.setText(user!!.getUsername())
+//    }
+
+//    private fun bind(acc: GoogleSignInAccount?) {
+//        if (acc == null) {
+//            Log.d("check", "null")
+//        } else {
+//            nickName.text = acc.displayName
+//            Glide
+//                .with(this)
+//                .load(acc.photoUrl)
+//                .error(R.drawable.ic_like_40dp)
+//                .into(photoAcc)
+//        }
+//    }
 }
