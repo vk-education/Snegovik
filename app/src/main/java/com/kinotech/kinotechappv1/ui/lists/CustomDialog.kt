@@ -47,7 +47,7 @@ class CustomDialog(context: Context, private var listener: FullNameListener) : D
                     .child("UserLists")
                     //.child(listId.toString())
                     .child(fullName)
-                    .setValue(true)
+                    .setValue(fullName)
             }
             if (fullName.isEmpty()) {
                 Toast.makeText(

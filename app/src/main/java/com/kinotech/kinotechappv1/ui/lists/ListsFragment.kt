@@ -26,6 +26,7 @@ class ListsFragment : Fragment(), RecyclerAdapterLists.MyClickListener {
     lateinit var recyclerAdapter: RecyclerAdapterLists
     lateinit var buttonOpenDialog: Button
     private var user: FirebaseUser? = FirebaseAuth.getInstance().currentUser
+    private var listsRef: DatabaseReference = FirebaseDatabase.getInstance().reference
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -37,11 +38,73 @@ class ListsFragment : Fragment(), RecyclerAdapterLists.MyClickListener {
         val root = inflater.inflate(R.layout.fragment_lists, container, false)
         recyclerView = root.findViewById(R.id.recyclerview_lists)
 
+
+        listsRef = user?.uid.let { it1 ->
+            FirebaseDatabase.getInstance().reference
+                .child("Lists")
+                .child(it1.toString())
+                .child("UserLists")
+        }
+
+        Log.d("list", "mytyt: ")
+        listsRef.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                for (snap in snapshot.children) {
+                    try {
+                        snap.getValue(String::class.java)
+                            ?.let {
+                                val list = listOfMovieOnCreate.apply {
+                                    add(
+                                        2, AnyItemInAdapterList.ButtonShowList(
+                                            it,
+                                            "0 фильмов",
+                                            "https://cdn25.img.ria.ru/images/156087/28/156087280" +
+                                                ".2_0:778:1536:1642_600x0_80_0_0_606c2d47b6d37951adc9eaf7" +
+                                                ".50de22f0.jpg"
+                                        )
+                                    )
+                                }
+                                recyclerAdapter.setMovieListItems(list)
+                                Log.d("list", "onDataChange: $list")
+                            }
+                    } catch (e: Exception) {
+                        Log.d("oshibka", "onDataChange: $e")
+                        Toast.makeText(context, "Error $e", Toast.LENGTH_LONG)
+                            .show()
+                    }
+                }
+                recyclerView.apply {
+                    setHasFixedSize(true)
+                    //layoutManager = LinearLayoutManager(context)
+                    // adapter = RecyclerAdapterLists(context, this@ListsFragment)
+                }
+                //Log.d("dbfav", "onDataChange: $list")
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                Log.d("error", "onCancelled: $error")
+            }
+        })
+
+
+
         return root
     }
 
 
     val listOfMovie: ArrayList<AnyItemInAdapterList> = arrayListOf(
+        AnyItemInAdapterList.ButtonCreateList(
+            "Создать список",
+            R.drawable.ic_add_40dp.toString()
+        ),
+        AnyItemInAdapterList.ButtonFavList(
+            "Понравились",
+            "5 фильмов",
+            R.drawable.ic_like_40dp.toString()
+        )
+    )
+
+    val listOfMovieOnCreate: ArrayList<AnyItemInAdapterList> = arrayListOf(
         AnyItemInAdapterList.ButtonCreateList(
             "Создать список",
             R.drawable.ic_add_40dp.toString()
@@ -64,6 +127,7 @@ class ListsFragment : Fragment(), RecyclerAdapterLists.MyClickListener {
         }
         recyclerAdapter.setMovieListItems(listOfMovie)
         activity?.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN)
+        Log.d("tagttttttt", "chek ")
     }
 
     override fun onItemClick(item: AnyItemInAdapterList?) {
@@ -77,52 +141,7 @@ class ListsFragment : Fragment(), RecyclerAdapterLists.MyClickListener {
                         "Full name: $fullName", Toast.LENGTH_LONG
                         ).show()*/
 
-                        val listsRef = user?.uid.let { it1 ->
-                            FirebaseDatabase.getInstance().reference
-                                .child("Lists")
-                                .child(it1.toString())
-                                .child("UserLists")
-                                .child(fullName)
-                        }
-
-                        listsRef.addValueEventListener(object : ValueEventListener {
-                            override fun onDataChange(snapshot: DataSnapshot) {
-                                for (snap in snapshot.children) {
-                                    try {
-                                        snap.getValue(AnyItemInAdapterList::class.java)
-                                            ?.let {
-                                                val list = listOfMovie.apply {
-                                                    add(2,  AnyItemInAdapterList.ButtonShowList(
-                                                        fullName,
-                                                        "0 фильмов",
-                                                        "https://cdn25.img.ria.ru/images/156087/28/156087280" +
-                                                            ".2_0:778:1536:1642_600x0_80_0_0_606c2d47b6d37951adc9eaf7" +
-                                                            ".50de22f0.jpg"))
-                                                }
-                                                recyclerAdapter.setMovieListItems(list)
-                                                Log.d("list", "onDataChange: $list")
-                                                 }
-                                    } catch (e: Exception) {
-                                        Log.d("oshibka", "onDataChange: $e")
-                                        Toast.makeText(context, "Error $e", Toast.LENGTH_LONG)
-                                            .show()
-                                    }
-                                }
-                                recyclerView.apply {
-                                    setHasFixedSize(true)
-                                    //layoutManager = LinearLayoutManager(context)
-                                   // adapter = RecyclerAdapterLists(context, this@ListsFragment)
-                                }
-                                //Log.d("dbfav", "onDataChange: $list")
-                            }
-
-                            override fun onCancelled(error: DatabaseError) {
-                                Log.d("error", "onCancelled: $error")
-                            }
-                        })
-
-
-                        /*val list = listOfMovie.apply {
+                        val list = listOfMovie.apply {
                             add(
                                 2,
                                 AnyItemInAdapterList.ButtonShowList(
@@ -133,8 +152,10 @@ class ListsFragment : Fragment(), RecyclerAdapterLists.MyClickListener {
                                         ".50de22f0.jpg"
                                 )
                             )
-                        }*/
+                        }
                         //recyclerAdapter.setMovieListItems(list)
+                        //recyclerAdapter.
+                        Log.d("tagfuck", "chek $list")
                     }
                 }
                 val dialog = context?.let { CustomDialog(it, listener) }
