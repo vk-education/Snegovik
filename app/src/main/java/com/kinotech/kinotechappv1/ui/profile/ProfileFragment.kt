@@ -14,8 +14,11 @@ import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
 import com.kinotech.kinotechappv1.AuthActivity
 import com.kinotech.kinotechappv1.R
+import java.lang.reflect.TypeVariable
 import com.kinotech.kinotechappv1.databinding.FragmentProfileBinding
 import com.kinotech.kinotechappv1.ui.profile.subs.SubsFragment
 import com.kinotech.kinotechappv1.ui.profile.subs.SubscriptionsFragment
@@ -50,16 +53,11 @@ class ProfileFragment : Fragment() {
             loadfragment()
             var displayMessage = arguments?.getString("message")
             //root.findViewById<Button>(R.id.textProfile).text = displayMessage
+
         }
 
-        model = ViewModelProvider(requireActivity()).get(ProfileSharedViewModel::class.java)
-        if (binding.photo.drawable != null) {
-            model.putPhoto(binding.photo.drawable.toString().toUri())
-//        model.putPhoto(binding.textProfile.text.toString().toUri())
-        }
-        model.getPhoto().observe(viewLifecycleOwner, {
-            binding.photo.setImageURI(it)
-        })
+//        val uri = prefs?.getString("profilePic", "")
+//        photoAcc.setImageURI(uri?.toUri())
 
         binding.subscribers.setOnClickListener {
             loadSubscribers()
@@ -74,18 +72,6 @@ class ProfileFragment : Fragment() {
 
         return binding.root
     }
-
-//    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-//        super.onViewCreated(view, savedInstanceState)
-////        model = ViewModelProvider(requireActivity()).get(ProfileSharedViewModel::class.java)
-////        if (binding.photo.drawable != null) {
-////            model.putPhoto(binding.photo.drawable.toString().toUri())
-//////        model.putPhoto(binding.textProfile.text.toString().toUri())
-////        }
-////            model.getPhoto().observe(viewLifecycleOwner, {
-////                binding.photo.setImageURI(it)
-////            })
-//    }
 
     private fun loadfragment() {
         val transaction = activity?.supportFragmentManager?.beginTransaction()
@@ -143,4 +129,6 @@ class ProfileFragment : Fragment() {
                 .into(binding.photo)
         }
     }
+
+
 }

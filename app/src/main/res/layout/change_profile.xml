@@ -40,7 +40,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBottom_toTopOf="@id/changePhotoButton"
-            android:foreground="@drawable/rounded_fg"
+            android:foreground="@drawable/rounded_fg_light"
             tools:ignore="ContentDescription"
             android:scaleType="centerCrop" />
 
