@@ -31,7 +31,7 @@ class ChangeProfileFragment : Fragment() {
     }
 
     private lateinit var binding: ChangeProfileBinding
-    private lateinit var model: ProfileSharedViewModel
+    //private lateinit var model: ProfileSharedViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -63,16 +63,16 @@ class ChangeProfileFragment : Fragment() {
             }
         }
 
-        model = ViewModelProvider(requireActivity()).get(ProfileSharedViewModel::class.java)
-        model.getPhoto().observe(viewLifecycleOwner, {
-            binding.changePhoto.setImageURI(it)
-//            binding.changeName.setText(it.toString())
-        })
+//        model = ViewModelProvider(requireActivity()).get(ProfileSharedViewModel::class.java)
+//        model.getPhoto().observe(viewLifecycleOwner, {
+//            binding.changePhoto.setImageURI(it)
+////            binding.changeName.setText(it.toString())
+//        })
 //        model.getPhoto().observe(viewLifecycleOwner, {
 //            binding.changePhoto.setImageURI(it)
 //        })
         binding.saveButton.setOnClickListener {
-            model.putPhoto(binding.changePhoto.drawable.toString().toUri())
+            //model.putPhoto(binding.changePhoto.drawable.toString().toUri())
             loadfragment()
             loadfragmentch(binding.changeName.text.toString())
         }
@@ -165,7 +165,7 @@ class ChangeProfileFragment : Fragment() {
             val uri = data?.data
             binding.changePhoto.setImageURI(uri)
             if (uri != null) {
-                model.putPhoto(uri)
+                //model.putPhoto(uri)
             }
 //            prefs?.edit()?.putString("profilePic", uri.toString())?.apply()
         }

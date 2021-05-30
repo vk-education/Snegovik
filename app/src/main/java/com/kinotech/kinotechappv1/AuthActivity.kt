@@ -1,6 +1,7 @@
 package com.kinotech.kinotechappv1
 
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.GestureDetector
@@ -8,7 +9,6 @@ import android.view.MotionEvent
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import android.widget.ImageButton
-import android.widget.Toast
 import android.widget.ViewFlipper
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.gms.auth.api.signin.GoogleSignIn
@@ -22,7 +22,6 @@ import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 
 
@@ -149,7 +148,7 @@ class AuthActivity : AppCompatActivity() {
                 currAcc = task.result
                 Log.d("cout2", "check2")
                 firebaseAuthWithGoogle(currAcc?.idToken!!)
-                saveUserInfo(currAcc?.displayName, currAcc?.email)
+                saveUserInfo(currAcc?.displayName, currAcc?.email, currAcc?.photoUrl)
                 idTokenAcc = currAcc?.idToken.toString()
                 Log.d("TAG", "firebaseAuthWithGoogle:" + currAcc?.id)
                 val intent = Intent(this, MainActivity::class.java)
@@ -178,7 +177,7 @@ class AuthActivity : AppCompatActivity() {
             }
     }
 
-    private fun saveUserInfo(fullName: String?, email: String?) {
+    private fun saveUserInfo(fullName: String?, email: String?, photo: Uri?) {
         val currentUserID = FirebaseAuth.getInstance().currentUser!!.uid
         val usersRef: DatabaseReference =
             FirebaseDatabase.getInstance().reference.child("Users")
@@ -187,8 +186,9 @@ class AuthActivity : AppCompatActivity() {
         userMap["uid"] = currentUserID
         userMap["fullName"] = fullName
         userMap["email"] = email
+        userMap["photo"] = photo.toString()
         Log.d("db", "saveUserInfo: $userMap")
         usersRef.child(currentUserID).setValue(userMap)
-    }
 
+    }
 }
