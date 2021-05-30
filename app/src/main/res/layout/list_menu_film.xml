@@ -45,6 +45,18 @@
             android:textColor="@color/another_white" />
 
     <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/yourRating"
+            app:layout_constraintBottom_toBottomOf="@id/lmFilmPoster"
+            app:layout_constraintStart_toEndOf="@id/lmFilmGenre"
+            app:layout_constraintTop_toBottomOf="@id/lmFilmTitle"
+            android:layout_marginStart="10dp"
+            android:textSize="14sp"
+            android:textColor="@color/red_700"
+            />
+
+    <TextView
             android:id="@+id/lmFilmYear"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
