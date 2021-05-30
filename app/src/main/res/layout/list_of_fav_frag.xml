@@ -9,7 +9,7 @@
         android:clickable="true">
 
     <ImageButton
-            android:id="@+id/backBtn"
+            android:id="@+id/backFavBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/ic_arrow_back"
@@ -18,7 +18,7 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
 
-    <ImageButton
+   <!-- <ImageButton
             android:id="@+id/addBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -26,25 +26,25 @@
             android:background="@android:color/transparent"
             android:layout_marginTop="16dp"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/higherDots" />
+            app:layout_constraintEnd_toStartOf="@id/higherDots" />-->
 
     <ImageButton
-            android:id="@+id/higherDots"
+            android:id="@+id/higherFavDots"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/ic_menu_dots_40dp"
             android:background="@android:color/transparent"
             android:layout_marginEnd="4dp"
-            app:layout_constraintTop_toTopOf="@id/addBtn"
-            app:layout_constraintBottom_toBottomOf="@id/addBtn"
+            app:layout_constraintTop_toTopOf="@id/backFavBtn"
+            app:layout_constraintBottom_toBottomOf="@id/backFavBtn"
             app:layout_constraintEnd_toEndOf="parent" />
 
     <TextView
-            android:id="@+id/listTitle"
+            android:id="@+id/listFavTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             tools:text="Понравились"
-            app:layout_constraintTop_toBottomOf="@id/addBtn"
+            app:layout_constraintTop_toBottomOf="@id/backFavBtn"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             android:fontFamily="@font/rubik_bold"
@@ -58,14 +58,13 @@
             android:layout_height="0dp"
             android:background="@color/red_700"
             android:src="@drawable/ic_like_24"
-            android:layout_margin="16dp"
-            app:layout_constraintTop_toBottomOf="@id/listTitle"
+            app:layout_constraintTop_toBottomOf="@id/listFavTitle"
             app:layout_constraintBottom_toTopOf="@id/filmFavListRecyclerView"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             android:foreground="@drawable/round"
             app:layout_constraintDimensionRatio="1:1"
-            app:layout_constraintHeight_percent="0.20"/>
+            app:layout_constraintHeight_percent="0.15"/>
 
     <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/filmFavListRecyclerView"
@@ -74,7 +73,8 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             tools:listitem="@layout/list_menu_film"
-            app:layout_constraintHeight_percent="0.6"
-            app:layout_constraintVertical_bias="1.0"/>
+            app:layout_constraintHeight_percent="0.65"
+            app:layout_constraintVertical_bias="1.0"
+            android:layout_marginBottom="55dp"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

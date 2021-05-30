@@ -16,7 +16,8 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:src="@drawable/pobeg"
-            android:background="@drawable/border" />
+            android:background="@drawable/border"
+            android:layout_marginLeft="8dp"/>
 
     <TextView
             android:id="@+id/lmFilmTitle"
@@ -50,7 +51,7 @@
             app:layout_constraintStart_toEndOf="@id/lmFilmTitle"
             app:layout_constraintTop_toTopOf="@id/lmFilmTitle"
             tools:text="1994"
-            android:layout_marginStart="16dp"
+            android:layout_marginStart="8dp"
             android:fontFamily="@font/rubik_bold"
             android:textSize="14sp"
             android:textColor="@color/another_white" />

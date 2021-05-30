@@ -3,7 +3,6 @@ package com.kinotech.kinotechappv1.ui.lists
 import android.content.Context
 import android.util.Log
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
@@ -62,8 +61,9 @@ class  RecyclerAdapterLists(val context: Context, private val clickListener: MyC
         holder.bind(lists, clickListener)
     }
 
-    fun setMovieListItems(movieList: List<AnyItemInAdapterList>) {
+    fun setMovieListItems(movieList: ArrayList<AnyItemInAdapterList>) {
         this.listsOfMovie = movieList
+        Log.d("recycler123", "setMovieListItems: $movieList")
         notifyDataSetChanged()
     }
 

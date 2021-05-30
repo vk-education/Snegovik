@@ -1,5 +1,6 @@
 package com.kinotech.kinotechappv1.ui.lists
 
+import android.graphics.Insets.add
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -7,7 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
 import android.widget.Button
-import android.widget.TextView
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -25,6 +26,8 @@ class ListsFragment : Fragment(), RecyclerAdapterLists.MyClickListener {
     lateinit var recyclerAdapter: RecyclerAdapterLists
     lateinit var buttonOpenDialog: Button
     private var user: FirebaseUser? = FirebaseAuth.getInstance().currentUser
+    private var listsRef: DatabaseReference = FirebaseDatabase.getInstance().reference
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -34,13 +37,67 @@ class ListsFragment : Fragment(), RecyclerAdapterLists.MyClickListener {
             ViewModelProvider(this).get(ListsViewModel::class.java)
         val root = inflater.inflate(R.layout.fragment_lists, container, false)
         recyclerView = root.findViewById(R.id.recyclerview_lists)
-        /*val textView: TextView = root.findViewById(R.id.text_lists)
-        listsViewModel.text.observe(
-            viewLifecycleOwner,
-            Observer {
-                textView.text = it
+
+
+        listsRef = user?.uid.let { it1 ->
+            FirebaseDatabase.getInstance().reference
+                .child("Lists")
+                .child(it1.toString())
+                .child("UserLists")
+        }
+
+        Log.d("list", "mytyt: ")
+        listsRef.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                var list : ArrayList<AnyItemInAdapterList> = arrayListOf()
+
+                for (snap in snapshot.children) {
+                    try {
+                        snap.getValue(String::class.java)
+                            ?.let {
+                                list.clear()
+                                list = listOfMovie.apply {
+                                    add(
+                                        2, AnyItemInAdapterList.ButtonShowList(
+                                            it,
+                                            "0 фильмов",
+                                            "https://cdn25.img.ria.ru/images/156087/28/156087280" +
+                                                ".2_0:778:1536:1642_600x0_80_0_0_606c2d47b6d37951adc9eaf7" +
+                                                ".50de22f0.jpg"
+                                        )
+                                    )
+                                }
+                                Log.d("list", "onDataChange: $list")
+                                recyclerAdapter.setMovieListItems(list)
+
+                            }
+                    } catch (e: Exception) {
+                        Log.d("oshibka", "onDataChange: $e")
+                        Toast.makeText(context, "Error $e", Toast.LENGTH_LONG)
+                            .show()
+                    }
+                }
+                context?.let { normalnyContext ->
+                    recyclerAdapter = RecyclerAdapterLists(normalnyContext, this@ListsFragment)
+                    recyclerView.layoutManager = LinearLayoutManager(context)
+                    recyclerView.adapter = recyclerAdapter
+                }
+                recyclerAdapter.setMovieListItems(listOfMovie)
+                recyclerView.apply {
+                    setHasFixedSize(true)
+                }
+
+                Log.d("tagt", "chek $listOfMovie")
             }
-        )*/
+
+            override fun onCancelled(error: DatabaseError) {
+                Log.d("error", "onCancelled: $error")
+            }
+        })
+        recyclerAdapter.setMovieListItems(listOfMovie)
+        activity?.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN)
+        Log.d("tagttttttt", "chek ")
+
         return root
     }
 
@@ -58,21 +115,6 @@ class ListsFragment : Fragment(), RecyclerAdapterLists.MyClickListener {
     )
 
 
-    override fun onResume() {
-        super.onResume()
-        /*recyclerAdapter = RecyclerAdapterLists(getContext())
-        recyclerView.layoutManager = LinearLayoutManager(this)
-        recyclerView.adapter = recyclerAdapter*/
-
-        context?.let { normalnyContext ->
-            recyclerAdapter = RecyclerAdapterLists(normalnyContext, this)
-            recyclerView.layoutManager = LinearLayoutManager(context)
-            recyclerView.adapter = recyclerAdapter
-        }
-        recyclerAdapter.setMovieListItems(listOfMovie)
-        activity?.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN)
-    }
-
     override fun onItemClick(item: AnyItemInAdapterList?) {
         Log.d("tag14536", "chek $item")
         when (item) {
@@ -80,36 +122,45 @@ class ListsFragment : Fragment(), RecyclerAdapterLists.MyClickListener {
                 val listener: FullNameListener = object : FullNameListener {
                     override fun fullNameEntered(fullName: String) {
                         /*Toast.makeText(
-                            context,
-                            "Full name: $fullName", Toast.LENGTH_LONG
+                        context,
+                        "Full name: $fullName", Toast.LENGTH_LONG
                         ).show()*/
-                        val list = listOfMovie.apply {
-                            add(
-                                2,
-                                AnyItemInAdapterList.ButtonShowList(
-                                    fullName,
-                                    "0 фильмов",
-                                    "https://cdn25.img.ria.ru/images/156087/28/156087280" +
-                                        ".2_0:778:1536:1642_600x0_80_0_0_606c2d47b6d37951adc9eaf7" +
-                                        ".50de22f0.jpg"
-                                )
-                            )
-                        }
-                        recyclerAdapter.setMovieListItems(list)
+
+//                        val list = listOfMovie.apply {
+//                            add(
+//                                2,
+//                                AnyItemInAdapterList.ButtonShowList(
+//                                    fullName,
+//                                    "0 фильмов",
+//                                    "https://cdn25.img.ria.ru/images/156087/28/156087280" +
+//                                        ".2_0:778:1536:1642_600x0_80_0_0_606c2d47b6d37951adc9eaf7" +
+//                                        ".50de22f0.jpg"
+//                                )
+//                            )
+//                        }
+                        //recyclerAdapter.setMovieListItems(list)
+                        //recyclerAdapter.
+                        //Log.d("tagfuck", "chek $list")
                     }
                 }
                 val dialog = context?.let { CustomDialog(it, listener) }
                 dialog?.show()
             }
             is AnyItemInAdapterList.ButtonFavList -> {
-                val listOfFavFragment = ListOfFavFragment();
+                val args = Bundle()
+                args.putString("keyForFavName", item.itemTitle)
+                val listOfFavFragment = ListOfFavFragment()
+                listOfFavFragment.arguments = args
                 activity?.supportFragmentManager?.beginTransaction()
                     ?.replace(R.id.fragment_lists, listOfFavFragment, "fragTag")
                     ?.addToBackStack(null)
                     ?.commit()
             }
             is AnyItemInAdapterList.ButtonShowList -> {
-                val listOfMovieFragment = ListOfMovieFragment();
+                val args = Bundle()
+                args.putString("keyForName", item.itemTitle)
+                val listOfMovieFragment = ListOfMovieFragment()
+                listOfMovieFragment.arguments = args
                 activity?.supportFragmentManager?.beginTransaction()
                     ?.replace(R.id.fragment_lists, listOfMovieFragment, "fragTag")
                     ?.addToBackStack(null)
@@ -118,5 +169,4 @@ class ListsFragment : Fragment(), RecyclerAdapterLists.MyClickListener {
             }
         }
     }
-
 }
