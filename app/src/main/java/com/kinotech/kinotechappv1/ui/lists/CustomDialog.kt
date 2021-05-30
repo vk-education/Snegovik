@@ -41,10 +41,17 @@ class CustomDialog(context: Context, private var listener: FullNameListener) : D
         }
 
         this.buttonCreate.setOnClickListener {
-            val fullName = editTextFullName.text.toString()
+            var fullName = editTextFullName.text.toString()
             val listId = (0..1e12.toInt()).random()
             Log.d("db", "click $listId")
-            user?.uid.let{it1 ->
+            if (fullName.isEmpty()) {
+                Toast.makeText(
+                    this.context,
+                    "Введите название", Toast.LENGTH_LONG
+                ).show()
+                fullName = "Без названия"
+            }
+            user?.uid.let { it1 ->
                 FirebaseDatabase.getInstance().reference
                     .child("Lists")
                     .child(it1.toString())
@@ -54,12 +61,7 @@ class CustomDialog(context: Context, private var listener: FullNameListener) : D
                     .setValue(fullName)
             }
 
-            if (fullName.isEmpty()) {
-                Toast.makeText(
-                    this.context,
-                    "Введите название", Toast.LENGTH_LONG
-                ).show()
-            }
+
             dismiss() // Close Dialog
             listener.fullNameEntered(fullName)
         }

@@ -1,6 +1,6 @@
 package com.kinotech.kinotechappv1.ui.lists
 
-import android.graphics.Insets.add
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import android.view.WindowManager
 import android.widget.Button
 import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -27,6 +28,7 @@ class ListsFragment : Fragment(), RecyclerAdapterLists.MyClickListener {
     lateinit var buttonOpenDialog: Button
     private var user: FirebaseUser? = FirebaseAuth.getInstance().currentUser
     private var listsRef: DatabaseReference = FirebaseDatabase.getInstance().reference
+    var list: ArrayList<AnyItemInAdapterList> = arrayListOf()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -49,16 +51,19 @@ class ListsFragment : Fragment(), RecyclerAdapterLists.MyClickListener {
         Log.d("list", "mytyt: ")
         listsRef.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
-                var list : ArrayList<AnyItemInAdapterList> = arrayListOf()
+
+                list.clear()
+                list.addAll(0,listOfMovie)
 
                 for (snap in snapshot.children) {
                     try {
                         snap.getValue(String::class.java)
                             ?.let {
-                                list.clear()
-                                list = listOfMovie.apply {
-                                    add(
-                                        2, AnyItemInAdapterList.ButtonShowList(
+                                Log.d("lox", "onDataChange: $it")
+
+                                list = list.apply {
+                                    add(2,
+                                        AnyItemInAdapterList.ButtonShowList(
                                             it,
                                             "0 фильмов",
                                             "https://cdn25.img.ria.ru/images/156087/28/156087280" +
@@ -67,9 +72,6 @@ class ListsFragment : Fragment(), RecyclerAdapterLists.MyClickListener {
                                         )
                                     )
                                 }
-                                Log.d("list", "onDataChange: $list")
-                                recyclerAdapter.setMovieListItems(list)
-
                             }
                     } catch (e: Exception) {
                         Log.d("oshibka", "onDataChange: $e")
@@ -77,32 +79,48 @@ class ListsFragment : Fragment(), RecyclerAdapterLists.MyClickListener {
                             .show()
                     }
                 }
-                context?.let { normalnyContext ->
-                    recyclerAdapter = RecyclerAdapterLists(normalnyContext, this@ListsFragment)
-                    recyclerView.layoutManager = LinearLayoutManager(context)
-                    recyclerView.adapter = recyclerAdapter
-                }
-                recyclerAdapter.setMovieListItems(listOfMovie)
+
+
                 recyclerView.apply {
-                    setHasFixedSize(true)
+                    //setHasFixedSize(true)
+                    recyclerAdapter.setMovieListItems(list)
                 }
 
-                Log.d("tagt", "chek $listOfMovie")
+
             }
 
             override fun onCancelled(error: DatabaseError) {
                 Log.d("error", "onCancelled: $error")
             }
         })
+
+        context?.let { normalnyContext ->
+            recyclerAdapter = RecyclerAdapterLists(normalnyContext, this@ListsFragment)
+            recyclerView.layoutManager = LinearLayoutManager(context)
+            recyclerView.adapter = recyclerAdapter
+        }
         recyclerAdapter.setMovieListItems(listOfMovie)
+
         activity?.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN)
-        Log.d("tagttttttt", "chek ")
+
 
         return root
     }
 
 
     val listOfMovie: ArrayList<AnyItemInAdapterList> = arrayListOf(
+        AnyItemInAdapterList.ButtonCreateList(
+            "Создать список",
+            R.drawable.ic_add_40dp.toString()
+        ),
+        AnyItemInAdapterList.ButtonFavList(
+            "Понравились",
+            "5 фильмов",
+            R.drawable.ic_like_40dp.toString()
+        )
+    )
+
+    val listOfMovieCreate: ArrayList<AnyItemInAdapterList> = arrayListOf(
         AnyItemInAdapterList.ButtonCreateList(
             "Создать список",
             R.drawable.ic_add_40dp.toString()
@@ -121,26 +139,7 @@ class ListsFragment : Fragment(), RecyclerAdapterLists.MyClickListener {
             is AnyItemInAdapterList.ButtonCreateList -> {
                 val listener: FullNameListener = object : FullNameListener {
                     override fun fullNameEntered(fullName: String) {
-                        /*Toast.makeText(
-                        context,
-                        "Full name: $fullName", Toast.LENGTH_LONG
-                        ).show()*/
 
-//                        val list = listOfMovie.apply {
-//                            add(
-//                                2,
-//                                AnyItemInAdapterList.ButtonShowList(
-//                                    fullName,
-//                                    "0 фильмов",
-//                                    "https://cdn25.img.ria.ru/images/156087/28/156087280" +
-//                                        ".2_0:778:1536:1642_600x0_80_0_0_606c2d47b6d37951adc9eaf7" +
-//                                        ".50de22f0.jpg"
-//                                )
-//                            )
-//                        }
-                        //recyclerAdapter.setMovieListItems(list)
-                        //recyclerAdapter.
-                        //Log.d("tagfuck", "chek $list")
                     }
                 }
                 val dialog = context?.let { CustomDialog(it, listener) }
