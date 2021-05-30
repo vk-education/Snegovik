@@ -4,6 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import com.kinotech.kinotechappv1.databinding.SubscribersItemBinding
+import com.kinotech.kinotechappv1.ui.profile.SubsInfo
 
 class SubscribersAdapter (private val subsOnInteractionListener: SubsOnInteractionListener) :
     ListAdapter<SubsInfo, SubscribersViewHolder>(SubsDiffCallback()) {

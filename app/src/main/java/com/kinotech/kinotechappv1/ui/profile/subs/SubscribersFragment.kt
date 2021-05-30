@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.kinotech.kinotechappv1.databinding.SubscribersFragmentBinding
+import com.kinotech.kinotechappv1.ui.profile.SubsInfo
 
 class SubscribersFragment : Fragment() {
 
@@ -19,12 +20,12 @@ class SubscribersFragment : Fragment() {
         val viewModel: SubscribersViewModel by viewModels()
         val adapter = SubscribersAdapter(
             object : SubsOnInteractionListener {
-//                override fun onItem(sub: SubsInfo) {
+ //               override fun onItem(sub: SubsInfo) {
 //                    viewModel.getSub(sub.id)
-//                }
+ //               }
 
                 override fun onAdd(sub: SubsInfo) {
-                    viewModel.likedById(sub.id)
+//                    viewModel.likedById(sub.id)
                 }
             }
         )

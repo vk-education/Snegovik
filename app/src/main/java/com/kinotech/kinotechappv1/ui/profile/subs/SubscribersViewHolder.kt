@@ -3,6 +3,7 @@ package com.kinotech.kinotechappv1.ui.profile.subs
 import androidx.recyclerview.widget.RecyclerView
 import com.kinotech.kinotechappv1.R
 import com.kinotech.kinotechappv1.databinding.SubscribersItemBinding
+import com.kinotech.kinotechappv1.ui.profile.SubsInfo
 
 class SubscribersViewHolder(
     private val binding: SubscribersItemBinding,
@@ -11,11 +12,11 @@ class SubscribersViewHolder(
 
     fun bind(subsInfo: SubsInfo) {
         binding.apply {
-            profileName.text = subsInfo.name
+            profileName.text = subsInfo.fullName
             profilePic.setImageResource(subsInfo.profilePic)
-            likeProfile.setImageResource(
-                if (subsInfo.subscribed) R.drawable.ic_liked_40 else R.drawable.ic_like_40dp
-            )
+//            likeProfile.setImageResource(
+//                if (subsInfo.subscribed) R.drawable.ic_liked_40 else R.drawable.ic_like_40dp
+//            )
 
             likeProfile.setOnClickListener {
                 subsOnInteractionListener.onAdd(subsInfo)

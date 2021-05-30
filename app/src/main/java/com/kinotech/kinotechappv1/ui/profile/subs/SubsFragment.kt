@@ -4,14 +4,13 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.google.android.material.tabs.TabLayoutMediator
 import com.kinotech.kinotechappv1.R
 import com.kinotech.kinotechappv1.databinding.SubscribersPageBinding
 import com.kinotech.kinotechappv1.ui.profile.ProfileFragment
-import com.kinotech.kinotechappv1.ui.profile.subs.SubsAdapter
-import com.kinotech.kinotechappv1.ui.profile.subs.SubscribersFragment
-import com.kinotech.kinotechappv1.ui.profile.subs.SubscriptionsFragment
+import com.kinotech.kinotechappv1.ui.profile.friendssearch.FriendsSearchFragment
 
 class SubsFragment : Fragment() {
 
@@ -34,16 +33,19 @@ class SubsFragment : Fragment() {
             loadFragment()
         }
 
+        binding.search.setOnClickListener {
+            loadSearchFragment()
+        }
+
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-//        binding.viewPager.adapter = FragmentStateAdapter()
         with(binding) {
             TabLayoutMediator(tabLayout, viewPager) {tab, position ->
                 when (position) {
-                    0 -> tab.text = "0 подписчиков"
-                    1 -> tab.text = "0 подписок"
+                    0 -> tab.text = getString(R.string.subscribers)
+                    1 -> tab.text = getString(R.string.subscriptions)
                 }
             }.attach()
         }
@@ -53,6 +55,15 @@ class SubsFragment : Fragment() {
         val transaction = activity?.supportFragmentManager?.beginTransaction()
         if (transaction != null) {
             transaction.replace(R.id.container, ProfileFragment())
+            transaction.disallowAddToBackStack()
+            transaction.commit()
+        }
+    }
+
+    private fun loadSearchFragment() {
+        val transaction = activity?.supportFragmentManager?.beginTransaction()
+        if (transaction != null) {
+            transaction.replace(R.id.container, FriendsSearchFragment())
             transaction.disallowAddToBackStack()
             transaction.commit()
         }

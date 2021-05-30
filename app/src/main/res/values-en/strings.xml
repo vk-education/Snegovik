@@ -18,9 +18,9 @@
     <string name="rate_film">Rate the film:</string>
     <string name="search_result">Search results</string>
     <string name="profile_name_string">Profile name</string>
-    <string name="playlists_string">0 lists</string>
-    <string name="subscribers_string">0 subscribers</string>
-    <string name="subscriptions_string">0 subscriptions</string>
+    <string name="playlists_string">0\nlists</string>
+    <string name="subscribers_string">0\nsubscribers</string>
+    <string name="subscriptions_string">0\nsubscriptions</string>
     <string name="change_profile_string">Change profile</string>
     <string name="show_all_string">Show all</string>
     <string name="change_photo_string">Change profile picture</string>
@@ -31,4 +31,9 @@
     <string name="search_friends">Search friends with the search above!</string>
     <string name="input_friend_name">Print friend name</string>
     <string name="subscribe_string">Subscribe</string>
+    <string name="change_profile_title_string">Change profile</string>
+    <string name="share_link">Share</string>
+    <string name="open_list">Open list</string>
+    <string name="delete_list">Delete list</string>
+    <string name="subscribed">Subscribed</string>
 </resources>

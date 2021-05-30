@@ -37,6 +37,7 @@
     <string name="search_friends">Ищите друзей и знакомых с помощью поиска наверху!</string>
     <string name="input_friend_name">Введите имя друга</string>
     <string name="subscribe_string">Подписаться</string>
+    <string name="subscribed">Подписки</string>
     <string name="change_profile_title_string">Изменить профиль</string>
     <string name="share_link">Поделиться</string>
     <string name="open_list">Открыть список</string>

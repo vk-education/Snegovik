@@ -8,7 +8,6 @@ import android.view.MotionEvent
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import android.widget.ImageButton
-import android.widget.Toast
 import android.widget.ViewFlipper
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.gms.auth.api.signin.GoogleSignIn
@@ -22,9 +21,8 @@ import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.ktx.database
-import com.google.firebase.ktx.Firebase
-
+import java.util.*
+import kotlin.collections.HashMap
 
 class AuthActivity : AppCompatActivity() {
 
@@ -185,10 +183,9 @@ class AuthActivity : AppCompatActivity() {
         Log.d("db", "saveUserInfo: $usersRef")
         val userMap = HashMap<String, Any?>()
         userMap["uid"] = currentUserID
-        userMap["fullName"] = fullName
+        userMap["fullName"] = fullName?.toLowerCase(Locale.getDefault())
         userMap["email"] = email
         Log.d("db", "saveUserInfo: $userMap")
         usersRef.child(currentUserID).setValue(userMap)
     }
-
 }

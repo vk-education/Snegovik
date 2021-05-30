@@ -22,8 +22,6 @@ import com.google.firebase.database.ValueEventListener
 import com.kinotech.kinotechappv1.R
 import com.kinotech.kinotechappv1.db.DatabaseAdder
 
-
-
 class MoviesAdapter(
     private val movies: List<SimpleResult>,
     private val result: String
@@ -71,7 +69,4 @@ class MoviesViewHolder(itemView: View, s:String) : RecyclerView.ViewHolder(itemV
             transaction.commit()
         }
     }
-
-
-
 }
