@@ -10,6 +10,8 @@ import android.view.WindowManager
 import android.widget.Button
 import android.widget.Toast
 import androidx.annotation.RequiresApi
+import androidx.appcompat.app.ActionBar
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -35,9 +37,14 @@ class ListsFragment : Fragment(), RecyclerAdapterLists.MyClickListener {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+
+
         listsViewModel =
             ViewModelProvider(this).get(ListsViewModel::class.java)
         val root = inflater.inflate(R.layout.fragment_lists, container, false)
+        val activity: AppCompatActivity = root.context as AppCompatActivity
+        val toolbar: ActionBar = activity.supportActionBar!!
+        toolbar.hide()
         recyclerView = root.findViewById(R.id.recyclerview_lists)
 
 
@@ -151,20 +158,19 @@ class ListsFragment : Fragment(), RecyclerAdapterLists.MyClickListener {
                 val listOfFavFragment = ListOfFavFragment()
                 listOfFavFragment.arguments = args
                 activity?.supportFragmentManager?.beginTransaction()
-                    ?.replace(R.id.fragment_lists, listOfFavFragment, "fragTag")
+                    ?.replace(R.id.container, listOfFavFragment, "fragTag")
                     ?.addToBackStack(null)
                     ?.commit()
             }
             is AnyItemInAdapterList.ButtonShowList -> {
                 val args = Bundle()
                 args.putString("keyForName", item.itemTitle)
-                val listOfMovieFragment = ListOfMovieFragment()
+                val listOfMovieFragment = ListOfMovieFragment(item.itemTitle)
                 listOfMovieFragment.arguments = args
                 activity?.supportFragmentManager?.beginTransaction()
-                    ?.replace(R.id.fragment_lists, listOfMovieFragment, "fragTag")
+                    ?.replace(R.id.container, listOfMovieFragment, "fragTag")
                     ?.addToBackStack(null)
                     ?.commit()
-
             }
         }
     }

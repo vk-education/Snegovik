@@ -37,4 +37,6 @@
     <string name="share_link">Поделиться</string>
     <string name="open_list">Открыть список</string>
     <string name="delete_list">Удалить список</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

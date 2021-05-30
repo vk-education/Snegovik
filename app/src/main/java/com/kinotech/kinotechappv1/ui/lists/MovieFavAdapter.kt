@@ -3,18 +3,14 @@ package com.kinotech.kinotechappv1.ui.lists
 import android.annotation.SuppressLint
 import android.content.Context
 import android.util.Log
-import android.view.Gravity.apply
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.GravityCompat.apply
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.bumptech.glide.request.RequestOptions
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
@@ -30,7 +26,9 @@ import com.kinotech.kinotechappv1.ui.search.SimpleResult
 
 class MovieFavAdapter(
     private val mData: List<SimpleResult>,
-    val context: Context
+    val context: Context,
+    private val itemTitle: String,
+    private val mode : Int
 ) :
     RecyclerView.Adapter<MovieFavAdapter.MyViewHolder>() {
     var mInflater: LayoutInflater = LayoutInflater.from(context)
@@ -55,7 +53,7 @@ class MovieFavAdapter(
         private val filmTitle: TextView = itemView.findViewById(R.id.lmFilmTitle)
         private val filmYear: TextView = itemView.findViewById(R.id.lmFilmYear)
         private val filmGenres: TextView = itemView.findViewById(R.id.lmFilmGenre)
-        private var userRating: TextView = itemView.findViewById(R.id.userRate)
+        private var userRating: TextView = itemView.findViewById(R.id.yourRating)
         private var user: FirebaseUser? = FirebaseAuth.getInstance().currentUser
         fun bind(movie: SimpleResult) {
             Log.d("dbfav", "bind: ${movie.nameRu}")
@@ -72,13 +70,16 @@ class MovieFavAdapter(
                 genres.genre
             }
             checkRating(movie.filmId, userRating)
+
             itemView.setOnClickListener {
                 val activity: AppCompatActivity = itemView.context as AppCompatActivity
                 val transaction = activity.supportFragmentManager.beginTransaction()
-                transaction.replace(R.id.listFavFrag, FilmPageFragment(movie, movie.nameRu, 2))
+                transaction.replace(R.id.container, FilmPageFragment(movie, movie.nameRu, 3))
                 transaction.addToBackStack(null)
                 transaction.commit()
             }
+
+
         }
 
         private fun checkRating(id: Int, textView: TextView) {
@@ -91,10 +92,10 @@ class MovieFavAdapter(
                 @SuppressLint("SetTextI18n")
                 override fun onDataChange(snapshot: DataSnapshot) {
                     if (snapshot.child(id.toString()).exists()) {
-                        textView.text =
-                            snapshot
-                                .child(id.toString())
-                                .child("Rating").value as String + "/10"
+                        textView.text = snapshot
+                            .child(id.toString())
+                            .child("Rating").value as String + "/10"
+
                         Log.d("rating", "onDataChange:${textView.text} ")
                     } else {
                         textView.text = ""

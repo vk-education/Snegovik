@@ -2,9 +2,7 @@ package com.kinotech.kinotechappv1.ui.search
 
 import android.R.attr
 import android.os.Bundle
-import android.text.Editable
 import android.text.InputType
-import android.text.TextWatcher
 import android.text.method.DigitsKeyListener
 import android.util.Log
 import android.view.*
@@ -24,7 +22,6 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.kinotech.kinotechappv1.R
 import com.kinotech.kinotechappv1.db.DatabaseAdder
-import com.kinotech.kinotechappv1.ui.lists.ListOfFavFragment
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -42,56 +39,38 @@ class FilmPageFragment(movie: SimpleResult, s: String, mode: Int) : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val root = inflater.inflate(R.layout.film_page, container, false)
-        val activity: AppCompatActivity = root.context as AppCompatActivity
-        val toolbar: ActionBar = activity.supportActionBar!!
-        toolbar.hide()
         val progressBar: ProgressBar = root.findViewById(R.id.progress_bar)
-        val backButton: ImageButton = root.findViewById(R.id.backBtn)
+        val backButton: ImageButton = root.findViewById(R.id.backBtnFilmPage)
         val viewModel = ViewModelProviders.of(this).get(RequestViewModel::class.java)
         if (modeState == 1){
             root.isFocusableInTouchMode=true
             root.requestFocus()
+            Log.d(attr.tag.toString(), "keyCode:")
             root!!.setOnKeyListener(View.OnKeyListener { v, keyCode, event ->
-                Log.i(attr.tag.toString(), "keyCode: $keyCode")
                 if (keyCode == KeyEvent.KEYCODE_BACK && event.action === KeyEvent.ACTION_UP) {
-                    Log.i(attr.tag.toString(), "onKey Back listener is working!!!")
                     fragmentManager?.popBackStack()
                     val fr = SearchResultFragment(result)
                     openFragment(fr)
-                    toolbar.show()
                     return@OnKeyListener true
                 }
                 false
             })
             backButton.setOnClickListener {
-                toolbar.show()
+                root.isFocusableInTouchMode=true
+                root.requestFocus()
                 fragmentManager?.popBackStack()
                 val fr  = SearchResultFragment(result)
                 openFragment(fr)
             }
         }
         else{
-            root.isFocusableInTouchMode=true
-            root.requestFocus()
-            root!!.setOnKeyListener(View.OnKeyListener { v, keyCode, event ->
-                Log.i(attr.tag.toString(), "keyCode: $keyCode")
-                if (keyCode == KeyEvent.KEYCODE_BACK && event.action === KeyEvent.ACTION_UP) {
-                    Log.i(attr.tag.toString(), "onKey Back listener is working!!!")
-                    fragmentManager?.popBackStack()
-                    val favFr = ListOfFavFragment()
-                    openFavFragment(favFr)
-                    toolbar.hide()
-                    return@OnKeyListener true
-                }
-                false
-            })
             backButton.setOnClickListener {
                 fragmentManager?.popBackStack()
-                toolbar.hide()
-                val favFr = ListOfFavFragment()
-                openFavFragment(favFr)
             }
         }
+
+
+
         Log.d("cout2", "movieId: $movieId")
         lifecycleScope.launch {
             viewModel.searchDescriptionRating(movieId)
@@ -159,6 +138,13 @@ class FilmPageFragment(movie: SimpleResult, s: String, mode: Int) : Fragment() {
             }
 
         })
+        Log.d("cout2", "after checking rating ")
+        val addBtn : ImageButton = root.findViewById(R.id.addFilm)
+        addBtn.setOnClickListener {
+            val listAddFragment = AddFilmToListFragment(movieInfo)
+                openListsAddFragment(listAddFragment)
+            }
+
         return root
     }
 
@@ -254,9 +240,11 @@ class FilmPageFragment(movie: SimpleResult, s: String, mode: Int) : Fragment() {
         transaction?.replace(R.id.frameLayout, fragment)
         transaction?.commit()
     }
-    private fun openFavFragment(fragment: Fragment) {
+
+    private fun openListsAddFragment(fragment: Fragment){
         val transaction = activity?.supportFragmentManager?.beginTransaction()
-        transaction?.replace(R.id.listFavFrag, fragment)
+        transaction?.add(R.id.container, fragment)
+        transaction?.addToBackStack(null)
         transaction?.commit()
     }
 }

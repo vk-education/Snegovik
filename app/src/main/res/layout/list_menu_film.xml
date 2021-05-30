@@ -51,9 +51,10 @@
             app:layout_constraintBottom_toBottomOf="@id/lmFilmPoster"
             app:layout_constraintStart_toEndOf="@id/lmFilmGenre"
             app:layout_constraintTop_toBottomOf="@id/lmFilmTitle"
-            android:layout_marginStart="10dp"
+            android:layout_marginStart="20dp"
             android:textSize="14sp"
-            android:textColor="@color/red_700"
+            android:fontFamily="@font/rubik_bold"
+            android:textColor="@color/red_500"
             />
 
     <TextView

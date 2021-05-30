@@ -63,7 +63,7 @@ class ListOfFavFragment() : Fragment() {
                 recyclerView.apply {
                     setHasFixedSize(true)
                     layoutManager = LinearLayoutManager(context)
-                    adapter = MovieFavAdapter(result, context)
+                    adapter = MovieFavAdapter(result, context, "" , 2)
                 }
                 Log.d("dbfav", "onDataChange: $result")
             }
@@ -72,14 +72,11 @@ class ListOfFavFragment() : Fragment() {
                 Log.d("error", "onCancelled: $error")
             }
         })
-
         btnBack.setOnClickListener {
-            val listsFrag = ListsFragment();
+            val listsFrag = ListsFragment()
             activity.supportFragmentManager?.beginTransaction()
-                .replace(R.id.listFavFrag, listsFrag, "fragTag")
-                .addToBackStack(null)
+                .replace(R.id.container, listsFrag, "fragTag")
                 .commit()
-            toolbar.show()
         }
 
         higherFavDots.setOnClickListener {

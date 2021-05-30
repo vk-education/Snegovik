@@ -6,15 +6,14 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.ValueEventListener
+import com.google.firebase.database.*
 import com.kinotech.kinotechappv1.R
+import com.kinotech.kinotechappv1.ui.search.SimpleResult
 import kotlin.reflect.KClass
 
 class  RecyclerAdapterLists(val context: Context, private val clickListener: MyClickListener) :
@@ -109,8 +108,8 @@ class  RecyclerAdapterLists(val context: Context, private val clickListener: MyC
                 val itemTitle: TextView = itemView.findViewById(R.id.item_title)
                 val filmCount: TextView = itemView.findViewById(R.id.film_count)
                 val imgListH: ImageView = itemView.findViewById(R.id.img_list)
-                var count = 0
-                val likedMoviesRef = user?.uid.let{ it1 ->
+                var count: Int
+                user?.uid.let{ it1 ->
                     FirebaseDatabase.getInstance().reference
                         .child("Liked Movies")
                         .child(it1.toString())
@@ -148,21 +147,62 @@ class  RecyclerAdapterLists(val context: Context, private val clickListener: MyC
             container,
             R.layout.item_show_list
         ) {
+            private var user: FirebaseUser? = FirebaseAuth.getInstance().currentUser
             override fun bind(lists: AnyItemInAdapterList, clickListener: MyClickListener) {
                 val itemTitle: TextView = itemView.findViewById(R.id.item_title)
                 val filmCount: TextView = itemView.findViewById(R.id.film_count)
                 val imgListH: ImageView = itemView.findViewById(R.id.img_list)
-
+                var count: Int
                 itemTitle.text = (lists as AnyItemInAdapterList.ButtonShowList).itemTitle
-                filmCount.text = lists.filmCount
-                val imgList: String = lists.imgList
-                Log.d("tag", "karkar$imgList")
-                Glide
-                    // .with(itemView.context)
-                    .with(itemView.context)
-                    .load(imgList)
-                    .error(R.drawable.ic_baseline_movie_creation_24)
-                    .into(imgListH)
+                user?.uid.let{ it1 ->
+                    FirebaseDatabase.getInstance().reference
+                        .child("Lists")
+                        .child(it1.toString())
+                        .child(itemTitle.text.toString())
+                        .child("Movies")
+                }.addValueEventListener(object : ValueEventListener {
+                    override fun onDataChange(snapshot: DataSnapshot) {
+                        count = snapshot.childrenCount.toInt()
+                        Log.d("dbfav", "onDataChange: ${count} ")
+                        filmCount.text = "$count фильмов"
+                        Log.d("dbfav", "onDataChange: ${filmCount?.text} ")
+                    }
+                    override fun onCancelled(error: DatabaseError) {
+
+                    }
+                })
+                val photoRef= user?.uid.let{ it1 ->
+                    FirebaseDatabase.getInstance().reference
+                        .child("Lists")
+                        .child(it1.toString())
+                        .child(itemTitle.text.toString())
+                        .child("Movies")
+                }
+                val queryUid: Query = photoRef.orderByKey().limitToFirst(1)
+                queryUid.addValueEventListener(object : ValueEventListener {
+                    override fun onDataChange(snapshot: DataSnapshot) {
+                        for (snap in snapshot.children) {
+                            try {
+                                val result = snap.getValue(SimpleResult::class.java)!!
+                                val imgList: String = result.posterUrlPreview
+                                Glide
+                                    .with(itemView.context)
+                                    .load(imgList)
+                                    .error(R.drawable.ic_baseline_movie_creation_24)
+                                    .into(imgListH)
+
+                            } catch (e: Exception) {
+                                Log.d("dbfav", "onDataChange: $e")
+                            }
+                        }
+
+                    }
+
+                    override fun onCancelled(error: DatabaseError) {
+                    }
+
+                })
+
 
                 itemView.setOnClickListener {
                     clickListener.onItemClick(
