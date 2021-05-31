@@ -24,9 +24,14 @@ import androidx.lifecycle.ViewModelStoreOwner
 import com.bumptech.glide.Glide
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
 import com.kinotech.kinotechappv1.R
 import com.kinotech.kinotechappv1.databinding.ChangeProfileBinding
+import com.squareup.picasso.Picasso
+import com.theartofdev.edmodo.cropper.CropImage
 
 class ChangeProfileFragment : Fragment() {
 
@@ -34,6 +39,7 @@ class ChangeProfileFragment : Fragment() {
     private lateinit var photoAcc: ImageView
     private lateinit var nickName: TextView
     private var checker = ""
+//    private var phototUri = ""
     companion object {
         private const val REQUEST_CODE = 1
         private const val PERMISSION_CODE = 2
@@ -54,6 +60,12 @@ class ChangeProfileFragment : Fragment() {
         nickName = binding.changeName
         photoAcc = binding.changePhoto
         userInfo()
+//        binding.changePhotoButton.setOnClickListener{
+//            checker = "clicked"
+//            CropImage.activity()
+//                .setAspectRatio(1,1)
+//                .start(this)
+//        }
         binding.changePhotoButton.setOnClickListener {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                 if (context?.let { it1 ->
@@ -86,7 +98,6 @@ class ChangeProfileFragment : Fragment() {
 //            //model.putPhoto(binding.changePhoto.drawable.toString().toUri()
 //            loadfragmentch(binding.changeName.text.toString())
 //        }
-
         binding.saveButton.setOnClickListener {
             if (checker == "clicked"){
 
@@ -112,12 +123,19 @@ class ChangeProfileFragment : Fragment() {
         return binding.root
     }
 
+//    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?){
+//        super.onActivityResult(requestCode, resultCode, data)
+//        if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE && resultCode == Activity.RESULT_OK && data != null){
+//            val result = CropImage.getActivityResult(data)
+//        }
+//    }
+
     private fun updateUserInfoOlnly() {
-        val usersRef = FirebaseDatabase.getInstance().reference.child("Users")
+        val usersRef = FirebaseDatabase.getInstance().reference.child("Users").child(firebaseUser.uid)
         val userMap = HashMap<String, Any?>()
         userMap["fullName"] = binding.changeName.text.toString().toLowerCase()
    //     userMap["photo"] = photo.toString()
-        usersRef.child(firebaseUser.uid).updateChildren(userMap)
+        usersRef.updateChildren(userMap)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -216,14 +234,18 @@ class ChangeProfileFragment : Fragment() {
 //        val usersRef = FirebaseDatabase.getInstance().getReference().child("Users").child(firebaseUser.uid)
 //        usersRef.addValueEventListener(object : ValueEventListener {
 //            override fun onDataChange(p0: DataSnapshot) {
+//                if (context != null){
+//                    return
+//                }
 //                if (p0.exists()) {
 //                    val user = p0.getValue<User>(User::class.java)
-//                    Picasso.get().load(user!!.getImage()).placeholder(R.drawable.profile).into(changePhoto)
-//                    changeName.setText(user!!.getUsername())
+//                    Picasso.get().load(user!!.getPhoto()).into(photoAcc)
+//                    nickName.text = user!!.getFullName()
 //                }
 //            }
 //
-//            override fun onCancelled(p0: DatabaseErrorHandler) {
+//            override fun onCancelled(error: DatabaseError) {
+//                TODO("Not yet implemented")
 //            }
 //        })
 //    }

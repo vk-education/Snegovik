@@ -129,8 +129,9 @@ class ProfileFragment : Fragment() {
 //    usersRef.addValueEventListener(object : ValueEventListener
 //    {
 //        override fun onDataChange(p0: DataSnapshot){
-//            fullName = p0.child("fullName").value.toString()
-//            nickName.text = fullName
+//            val user = p0.getValue<User>(User::class.java)
+//            //Picasso.get().load(user!!.getPhoto()).into(photoAcc)
+//            nickName.tex = user!!.getFullName()
 //        }
 //
 //        override fun onCancelled(error: DatabaseError) {
