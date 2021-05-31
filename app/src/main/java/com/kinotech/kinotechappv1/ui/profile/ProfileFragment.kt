@@ -26,13 +26,12 @@ import com.kinotech.kinotechappv1.AuthActivity
 import com.kinotech.kinotechappv1.R
 import java.lang.reflect.TypeVariable
 import com.kinotech.kinotechappv1.databinding.FragmentProfileBinding
+import com.kinotech.kinotechappv1.ui.profile.subs.SubsFragment
+import com.squareup.picasso.Picasso
 
 
 class ProfileFragment : Fragment() {
 
-    private lateinit var photoAcc: ImageView
-    private lateinit var nickName: TextView
-    private lateinit var signOut: Button
     private lateinit var mSignInClient: GoogleSignInClient
     private lateinit var profileViewModel: ProfileViewModel
     private lateinit var binding: FragmentProfileBinding
@@ -48,17 +47,28 @@ class ProfileFragment : Fragment() {
         profileViewModel =
             ViewModelProvider(this).get(ProfileViewModel::class.java)
         firebaseUser = FirebaseAuth.getInstance().currentUser!!
-        val root = inflater.inflate(R.layout.fragment_profile, container, false)
-        signOut = root.findViewById(R.id.imageExit)
-        nickName = root.findViewById(R.id.textProfile)
-        photoAcc = root.findViewById(R.id.profile_photo)
-        userInfo(nickName)
-        val button = root.findViewById<Button>(R.id.changeProfileButton)
-        button.setOnClickListener {
-            loadfragment()
+//        val root = inflater.inflate(R.layout.fragment_profile, container, false)
+//        signOut = root.findViewById(R.id.imageExit)
+//        nickName = root.findViewById(R.id.textProfile)
+//        photoAcc = root.findViewById(R.id.profile_photo)
+        binding = FragmentProfileBinding.inflate(inflater, container, false)
+        binding.subscribers.setOnClickListener {
+            loadSubscribers()
         }
-        return root
+        binding.subscriptions.setOnClickListener {
+            loadSubscriptions()
+        }
+        binding.apply {
+            userInfo(textProfile, root, profilePhoto)
+            changeProfileButton.setOnClickListener {
+                loadfragment()
+            }
+        }
+
+
+        return binding.root
     }
+
 
     private fun loadfragment() {
         val transaction = activity?.supportFragmentManager?.beginTransaction()
@@ -68,6 +78,26 @@ class ProfileFragment : Fragment() {
             transaction.commit()
         }
 
+    }
+    private fun loadSubscribers() {
+        val transaction = activity?.supportFragmentManager?.beginTransaction()
+        if (transaction != null) {
+            transaction.replace(R.id.container, SubsFragment())
+            transaction.disallowAddToBackStack()
+            transaction.commit()
+        }
+    }
+    private fun loadSubscriptions() {
+        loadfragment()
+        val transaction = activity?.supportFragmentManager?.beginTransaction()
+        if (transaction != null) {
+            transaction.replace(
+                R.id.container,
+                SubsFragment()
+            ) // Поменять на второй лист SubsFragment
+            transaction.disallowAddToBackStack()
+            transaction.commit()
+        }
     }
 
     override fun onResume() {
@@ -79,7 +109,7 @@ class ProfileFragment : Fragment() {
                 .requestEmail()
                 .build()
         mSignInClient = context?.let { GoogleSignIn.getClient(it, gso) }!!
-        signOut.setOnClickListener {
+        binding.imageExit.setOnClickListener {
             mSignInClient.signOut()
             val intent = Intent(context, AuthActivity::class.java)
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
@@ -124,12 +154,16 @@ class ProfileFragment : Fragment() {
 //            .error(R.drawable.ic_like_40dp)
 //            .into(photoAcc)
 //    }
-private fun userInfo(nickName : TextView){
+private fun userInfo(nickName : TextView, v: View, img : ImageView ){
     val usersRef = user?.uid?.let { FirebaseDatabase.getInstance().reference.child("Users").child(it) }
     usersRef?.addValueEventListener(object : ValueEventListener
     {
         override fun onDataChange(p0: DataSnapshot){
             nickName.text = p0.child("fullName").value.toString()
+            Glide
+                .with(v.context)
+                .load(p0.child("photo").value.toString())
+                .into(img)
         }
 
         override fun onCancelled(error: DatabaseError) {

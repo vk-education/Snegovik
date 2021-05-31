@@ -29,7 +29,7 @@ import com.kinotech.kinotechappv1.ui.search.SimpleResult
 
 
 class MovieFavAdapter(
-    private val mData: List<SimpleResult>,
+    private val mData: ArrayList<SimpleResult>,
     val context: Context
 ) :
     RecyclerView.Adapter<MovieFavAdapter.MyViewHolder>() {
@@ -38,7 +38,7 @@ class MovieFavAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
         val view = mInflater.inflate(R.layout.list_fav_menu_film, parent, false)
-        return MyViewHolder(view)
+        return MyViewHolder(view, mData)
     }
 
     override fun getItemCount(): Int {
@@ -49,7 +49,7 @@ class MovieFavAdapter(
         return holder.bind(mData[position])
     }
 
-    class MyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    class MyViewHolder(itemView: View, private val mData: ArrayList<SimpleResult>) : RecyclerView.ViewHolder(itemView) {
 
         private val filmPhoto: ImageView = itemView.findViewById(R.id.lmFilmPoster)
         private val filmTitle: TextView = itemView.findViewById(R.id.lmFilmTitle)
@@ -73,8 +73,7 @@ class MovieFavAdapter(
                 genres.genre
             }
             checkRating(movie.filmId, userRating)
-            val db = DatabaseAdder()
-            db.addMovieToDB(movie, likeButton)
+            addMovieToDB(movie, likeButton)
             itemView.setOnClickListener {
                 val activity: AppCompatActivity = itemView.context as AppCompatActivity
                 val transaction = activity.supportFragmentManager.beginTransaction()
@@ -86,6 +85,59 @@ class MovieFavAdapter(
 
         }
 
+
+        private fun addMovieToDB(movie : SimpleResult, likeButton: ImageButton){
+            user?.let { checkLikedStatus(it.uid, likeButton, movie) }
+            likeButton.setOnClickListener {
+                if (likeButton.tag == "button_not_liked"){
+                    user?.uid.let{it1 ->
+                        FirebaseDatabase.getInstance().reference
+                            .child("Liked Movies")
+                            .child(it1.toString())
+                            .child("Movies")
+                            .child(movie.filmId.toString())
+                            .setValue(movie)
+                    }
+                }
+                else{
+                    user?.uid.let{it1 ->
+                        FirebaseDatabase.getInstance().reference
+                            .child("Liked Movies")
+                            .child(it1.toString())
+                            .child("Movies")
+                            .child(movie.filmId.toString())
+                            .removeValue()
+                    }
+                    mData.clear()
+                }
+            }
+        }
+        private fun checkLikedStatus(uid: String, likeButton: ImageButton, movie : SimpleResult) {
+            val likedMoviesRef = user?.uid.let{it1 ->
+                FirebaseDatabase.getInstance().reference
+                    .child("Liked Movies")
+                    .child(it1.toString())
+                    .child("Movies")
+            }
+
+            likedMoviesRef.addValueEventListener(object: ValueEventListener {
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    if (snapshot.child(movie.filmId.toString()).exists()){
+                        likeButton.setBackgroundResource(R.drawable.ic_liked)
+                        likeButton.tag = "button is liked"
+                    }
+                    else{
+                        likeButton.setBackgroundResource(R.drawable.ic_not_liked)
+                        likeButton.tag = "button_not_liked"
+                    }
+                }
+
+                override fun onCancelled(error: DatabaseError) {
+                    Log.d("error", "onCancelled: $error")
+                }
+
+            })
+        }
         private fun checkRating(id: Int, textView: TextView) {
             val ratingRef = user?.uid.let { it1 ->
                 FirebaseDatabase.getInstance().reference

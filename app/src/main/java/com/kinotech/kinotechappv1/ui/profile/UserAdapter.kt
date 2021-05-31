@@ -40,7 +40,7 @@ class UserAdapter (private var mContext: Context,
 
     class ViewHolder (@NonNull itemView: View) : RecyclerView.ViewHolder(itemView){
         var userFullName: TextView = itemView.findViewById(R.id.textProfile)
-        var userPhoto: ImageView = itemView.findViewById(R.id.profile_photo)
+        var userPhoto: ImageView = itemView.findViewById(R.id.profilePhoto)
         //var followButton = AppCompatButton = itemView.findViewById(R.id.subscribeButton)
     }
 }
