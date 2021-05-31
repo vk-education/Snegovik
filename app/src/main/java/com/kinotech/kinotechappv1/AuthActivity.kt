@@ -184,7 +184,7 @@ class AuthActivity : AppCompatActivity() {
         Log.d("db", "saveUserInfo: $usersRef")
         val userMap = HashMap<String, Any?>()
         userMap["uid"] = currentUserID
-        userMap["fullName"] = fullName
+        userMap["fullName"] = fullName?.toLowerCase()
         userMap["email"] = email
         userMap["photo"] = photo.toString()
         Log.d("db", "saveUserInfo: $userMap")

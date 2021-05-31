@@ -11,19 +11,28 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.database.DatabaseErrorHandler
 import android.os.Build
+import android.util.Log
 import android.widget.ImageButton
+import android.widget.ImageView
+import android.widget.TextView
 import android.widget.Toast
 import androidx.core.content.PermissionChecker
 import androidx.core.net.toUri
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelStore
 import androidx.lifecycle.ViewModelStoreOwner
+import com.bumptech.glide.Glide
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.database.FirebaseDatabase
 import com.kinotech.kinotechappv1.R
 import com.kinotech.kinotechappv1.databinding.ChangeProfileBinding
 
 class ChangeProfileFragment : Fragment() {
 
-//    private lateinit var firebaseUser: FirebaseUser
+    private lateinit var firebaseUser: FirebaseUser
+    private lateinit var photoAcc: ImageView
+    private lateinit var nickName: TextView
     private var checker = ""
     companion object {
         private const val REQUEST_CODE = 1
@@ -40,9 +49,11 @@ class ChangeProfileFragment : Fragment() {
     ): View {
 //        profileViewModel =
 //            ViewModelProvider(this).get(ProfileViewModel::class.java)
-//        firebaseUser = FirebaseAuth.getInstance().currentUser!!
-
+        firebaseUser = FirebaseAuth.getInstance().currentUser!!
         binding = ChangeProfileBinding.inflate(inflater, container, false)
+        nickName = binding.changeName
+        photoAcc = binding.changePhoto
+        userInfo()
         binding.changePhotoButton.setOnClickListener {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                 if (context?.let { it1 ->
@@ -71,15 +82,20 @@ class ChangeProfileFragment : Fragment() {
 //        model.getPhoto().observe(viewLifecycleOwner, {
 //            binding.changePhoto.setImageURI(it)
 //        })
-        binding.saveButton.setOnClickListener {
-            //model.putPhoto(binding.changePhoto.drawable.toString().toUri())
-            loadfragment()
-            loadfragmentch(binding.changeName.text.toString())
-        }
-
 //        binding.saveButton.setOnClickListener {
-//            loadfragment()
+//            //model.putPhoto(binding.changePhoto.drawable.toString().toUri()
+//            loadfragmentch(binding.changeName.text.toString())
 //        }
+
+        binding.saveButton.setOnClickListener {
+            if (checker == "clicked"){
+
+            }
+            else{
+                updateUserInfoOlnly()
+            }
+            loadfragment()
+        }
 
         binding.backBtnCh.setOnClickListener {
             loadfragment()
@@ -94,6 +110,14 @@ class ChangeProfileFragment : Fragment() {
 //            }
 //        }
         return binding.root
+    }
+
+    private fun updateUserInfoOlnly() {
+        val usersRef = FirebaseDatabase.getInstance().reference.child("Users")
+        val userMap = HashMap<String, Any?>()
+        userMap["fullName"] = binding.changeName.text.toString().toLowerCase()
+   //     userMap["photo"] = photo.toString()
+        usersRef.child(firebaseUser.uid).updateChildren(userMap)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -159,16 +183,26 @@ class ChangeProfileFragment : Fragment() {
         }
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if (resultCode == Activity.RESULT_OK && requestCode == REQUEST_CODE) {
-            val uri = data?.data
-            binding.changePhoto.setImageURI(uri)
-            if (uri != null) {
-                //model.putPhoto(uri)
-            }
-//            prefs?.edit()?.putString("profilePic", uri.toString())?.apply()
-        }
+//    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+//        super.onActivityResult(requestCode, resultCode, data)
+//        if (resultCode == Activity.RESULT_OK && requestCode == REQUEST_CODE) {
+//            val uri = data?.data
+//            binding.changePhoto.setImageURI(uri)
+//            if (uri != null) {
+//                //model.putPhoto(uri)
+//            }
+////            prefs?.edit()?.putString("profilePic", uri.toString())?.apply()
+//        }
+//    }
+
+    private fun userInfo()
+    {
+        nickName.text = firebaseUser.displayName
+        Glide
+            .with(this)
+            .load(firebaseUser.photoUrl)
+            .error(R.drawable.ic_like_40dp)
+            .into(photoAcc)
     }
 
 //    private fun updateUserInfoOnly(){

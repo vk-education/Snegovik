@@ -38,6 +38,7 @@ class ProfileFragment : Fragment() {
     private lateinit var binding: FragmentProfileBinding
     private lateinit var firebaseUser: FirebaseUser
     private lateinit var profileId: String
+    private lateinit var fullName: String
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -47,16 +48,16 @@ class ProfileFragment : Fragment() {
         profileViewModel =
             ViewModelProvider(this).get(ProfileViewModel::class.java)
         firebaseUser = FirebaseAuth.getInstance().currentUser!!
-        val view = inflater.inflate(R.layout.fragment_profile, container, false)
-        signOut = view.findViewById(R.id.imageExit)
-        nickName = view.findViewById(R.id.textProfile)
-        photoAcc = view.findViewById(R.id.profile_photo)
+        val root = inflater.inflate(R.layout.fragment_profile, container, false)
+        signOut = root.findViewById(R.id.imageExit)
+        nickName = root.findViewById(R.id.textProfile)
+        photoAcc = root.findViewById(R.id.profile_photo)
         userInfo()
-        val button = view.findViewById<Button>(R.id.changeProfileButton)
+        val button = root.findViewById<Button>(R.id.changeProfileButton)
         button.setOnClickListener {
             loadfragment()
         }
-        return view
+        return root
     }
 
     private fun loadfragment() {
@@ -100,7 +101,7 @@ class ProfileFragment : Fragment() {
 //        }
 //    }
 //    private fun userInfo(){
-//        val usersRef = FirebaseDatabase.getInstance().getReference().child("Users").child(profileId)
+//        val usersRef = FirebaseDatabase.getInstance().reference.child("Users").child(profileId)
 //        usersRef.addValueEventListener(object : ValueEventListener
 //        {
 //            override fun onDataChange(p0: DataSnapshot){
@@ -123,5 +124,19 @@ class ProfileFragment : Fragment() {
             .error(R.drawable.ic_like_40dp)
             .into(photoAcc)
     }
+//private fun userInfo(){
+//    val usersRef = FirebaseDatabase.getInstance().reference.child("Users").child(profileId)
+//    usersRef.addValueEventListener(object : ValueEventListener
+//    {
+//        override fun onDataChange(p0: DataSnapshot){
+//            fullName = p0.child("fullName").value.toString()
+//            nickName.text = fullName
+//        }
+//
+//        override fun onCancelled(error: DatabaseError) {
+//            TODO("Not yet implemented")
+//        }
+//    })
+//}
 
 }

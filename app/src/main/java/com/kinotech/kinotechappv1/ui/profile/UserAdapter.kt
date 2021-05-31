@@ -28,13 +28,13 @@ class UserAdapter (private var mContext: Context,
         return UserAdapter.ViewHolder(view)
     }
 
-    override fun onBindViewHolder(holder: UserAdapter.ViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val user = mUser[position]
         holder.userFullName.text = user.getFullName()
-        Picasso.get().load(user.getPhoto()).placeholder(R.drawable.photo).into(holder.userPhoto)
+        Picasso.get().load(user.getPhoto()).into(holder.userPhoto)
 
         val pref = mContext.getSharedPreferences("PREFS", Context.MODE_PRIVATE).edit()
-        pref.putString("profileId", user.getUid())
+        pref.putString("uid", user.getUid())
         pref.apply()
     }
 
