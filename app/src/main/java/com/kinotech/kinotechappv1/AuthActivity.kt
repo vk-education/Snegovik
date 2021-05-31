@@ -1,6 +1,7 @@
 package com.kinotech.kinotechappv1
 
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.GestureDetector
@@ -21,6 +22,7 @@ import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.ktx.Firebase
 import java.util.*
 import kotlin.collections.HashMap
 
@@ -147,7 +149,7 @@ class AuthActivity : AppCompatActivity() {
                 currAcc = task.result
                 Log.d("cout2", "check2")
                 firebaseAuthWithGoogle(currAcc?.idToken!!)
-                saveUserInfo(currAcc?.displayName, currAcc?.email)
+                saveUserInfo(currAcc?.displayName, currAcc?.email, currAcc?.photoUrl)
                 idTokenAcc = currAcc?.idToken.toString()
                 Log.d("TAG", "firebaseAuthWithGoogle:" + currAcc?.id)
                 val intent = Intent(this, MainActivity::class.java)
@@ -176,16 +178,18 @@ class AuthActivity : AppCompatActivity() {
             }
     }
 
-    private fun saveUserInfo(fullName: String?, email: String?) {
+    private fun saveUserInfo(fullName: String?, email: String?, photo: Uri?) {
         val currentUserID = FirebaseAuth.getInstance().currentUser!!.uid
         val usersRef: DatabaseReference =
             FirebaseDatabase.getInstance().reference.child("Users")
         Log.d("db", "saveUserInfo: $usersRef")
         val userMap = HashMap<String, Any?>()
         userMap["uid"] = currentUserID
-        userMap["fullName"] = fullName?.toLowerCase(Locale.getDefault())
+        userMap["fullName"] = fullName?.toLowerCase()
         userMap["email"] = email
+        userMap["photo"] = photo.toString()
         Log.d("db", "saveUserInfo: $userMap")
         usersRef.child(currentUserID).setValue(userMap)
+
     }
 }
