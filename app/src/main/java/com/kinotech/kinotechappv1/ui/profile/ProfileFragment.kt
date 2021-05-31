@@ -26,7 +26,7 @@ import com.kinotech.kinotechappv1.AuthActivity
 import com.kinotech.kinotechappv1.R
 import java.lang.reflect.TypeVariable
 import com.kinotech.kinotechappv1.databinding.FragmentProfileBinding
-import com.squareup.picasso.Picasso
+
 
 class ProfileFragment : Fragment() {
 
@@ -37,8 +37,8 @@ class ProfileFragment : Fragment() {
     private lateinit var profileViewModel: ProfileViewModel
     private lateinit var binding: FragmentProfileBinding
     private lateinit var firebaseUser: FirebaseUser
-    private lateinit var profileId: String
-    private lateinit var fullName: String
+    private var user: FirebaseUser? = FirebaseAuth.getInstance().currentUser
+    private lateinit var fullName : String
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -52,7 +52,7 @@ class ProfileFragment : Fragment() {
         signOut = root.findViewById(R.id.imageExit)
         nickName = root.findViewById(R.id.textProfile)
         photoAcc = root.findViewById(R.id.profile_photo)
-        userInfo()
+        userInfo(nickName)
         val button = root.findViewById<Button>(R.id.changeProfileButton)
         button.setOnClickListener {
             loadfragment()
@@ -115,28 +115,27 @@ class ProfileFragment : Fragment() {
 //            }
 //        })
 //    }
-    private fun userInfo()
-    {
-        nickName.text = firebaseUser.displayName
-        Glide
-            .with(this)
-            .load(firebaseUser.photoUrl)
-            .error(R.drawable.ic_like_40dp)
-            .into(photoAcc)
-    }
-//private fun userInfo(){
-//    val usersRef = FirebaseDatabase.getInstance().reference.child("Users").child(profileId)
-//    usersRef.addValueEventListener(object : ValueEventListener
+//    private fun userInfo()
 //    {
-//        override fun onDataChange(p0: DataSnapshot){
-//            fullName = p0.child("fullName").value.toString()
-//            nickName.text = fullName
-//        }
-//
-//        override fun onCancelled(error: DatabaseError) {
-//            TODO("Not yet implemented")
-//        }
-//    })
-//}
+//        nickName.text = firebaseUser.displayName
+//        Glide
+//            .with(this)
+//            .load(firebaseUser.photoUrl)
+//            .error(R.drawable.ic_like_40dp)
+//            .into(photoAcc)
+//    }
+private fun userInfo(nickName : TextView){
+    val usersRef = user?.uid?.let { FirebaseDatabase.getInstance().reference.child("Users").child(it) }
+    usersRef?.addValueEventListener(object : ValueEventListener
+    {
+        override fun onDataChange(p0: DataSnapshot){
+            nickName.text = p0.child("fullName").value.toString()
+        }
+
+        override fun onCancelled(error: DatabaseError) {
+            TODO("Not yet implemented")
+        }
+    })
+}
 
 }
