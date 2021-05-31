@@ -21,6 +21,8 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         val navView: BottomNavigationView = findViewById(R.id.nav_view)
         val navController = findNavController(R.id.nav_host_fragment)
+        val toolbar: ActionBar = supportActionBar!!
+        toolbar.hide()
         navView.setupWithNavController(navController)
         navView.setOnNavigationItemSelectedListener(onNavigationItemSelectedListener)
     }

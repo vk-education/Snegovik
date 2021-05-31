@@ -53,7 +53,7 @@
 
     <ImageView
             android:id="@+id/listIcon"
-            android:src="@drawable/pobeg"
+            tools:src="@drawable/pobeg"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:background="@color/red_700"

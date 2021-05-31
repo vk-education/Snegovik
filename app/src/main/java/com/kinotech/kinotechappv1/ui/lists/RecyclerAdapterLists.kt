@@ -163,9 +163,15 @@ class  RecyclerAdapterLists(val context: Context, private val clickListener: MyC
                 }.addValueEventListener(object : ValueEventListener {
                     override fun onDataChange(snapshot: DataSnapshot) {
                         count = snapshot.childrenCount.toInt()
-                        Log.d("dbfav", "onDataChange: ${count} ")
+                        Log.d("dbfav", "onDataChange: $count ")
                         filmCount.text = "$count фильмов"
-                        Log.d("dbfav", "onDataChange: ${filmCount?.text} ")
+                        if (filmCount.text == "0 фильмов"){
+                            Glide
+                                .with(itemView.context)
+                                .load(lists.imgList)
+                                .error(R.drawable.ic_baseline_movie_creation_24)
+                                .into(imgListH)
+                        }
                     }
                     override fun onCancelled(error: DatabaseError) {
 
@@ -185,6 +191,10 @@ class  RecyclerAdapterLists(val context: Context, private val clickListener: MyC
                             try {
                                 val result = snap.getValue(SimpleResult::class.java)!!
                                 val imgList: String = result.posterUrlPreview
+                                Log.d(
+                                    "dbImg",
+                                    "onDataChange3:${snapshot.childrenCount.toInt()} "
+                                )
                                 Glide
                                     .with(itemView.context)
                                     .load(imgList)
@@ -195,7 +205,6 @@ class  RecyclerAdapterLists(val context: Context, private val clickListener: MyC
                                 Log.d("dbfav", "onDataChange: $e")
                             }
                         }
-
                     }
 
                     override fun onCancelled(error: DatabaseError) {

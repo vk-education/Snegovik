@@ -127,18 +127,6 @@ class ListsFragment : Fragment(), RecyclerAdapterLists.MyClickListener {
         )
     )
 
-    val listOfMovieCreate: ArrayList<AnyItemInAdapterList> = arrayListOf(
-        AnyItemInAdapterList.ButtonCreateList(
-            "Создать список",
-            R.drawable.ic_add_40dp.toString()
-        ),
-        AnyItemInAdapterList.ButtonFavList(
-            "Понравились",
-            "5 фильмов",
-            R.drawable.ic_like_40dp.toString()
-        )
-    )
-
 
     override fun onItemClick(item: AnyItemInAdapterList?) {
         Log.d("tag14536", "chek $item")

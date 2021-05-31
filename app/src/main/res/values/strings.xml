@@ -36,7 +36,9 @@
     <string name="change_profile_title_string">Изменить профиль</string>
     <string name="share_link">Поделиться</string>
     <string name="open_list">Открыть список</string>
+    <string name="close_list">Закрыть список</string>
     <string name="delete_list">Удалить список</string>
+    <string name="delete_movie">Удалить фильм</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

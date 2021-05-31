@@ -43,7 +43,7 @@ class AddFilmToListFragment(
         root.requestFocus()
         Log.d(android.R.attr.tag.toString(), "keyCode:")
         root!!.setOnKeyListener(View.OnKeyListener { v, keyCode, event ->
-            if (keyCode == KeyEvent.KEYCODE_BACK && event.action === KeyEvent.ACTION_UP) {
+            if (keyCode == KeyEvent.KEYCODE_BACK && event.action === KeyEvent.ACTION_DOWN) {
                 fragmentManager?.popBackStack()
                 val fr = FilmPageFragment(movie, movie.nameRu,2 )
                 openFragment(fr)
