@@ -23,10 +23,10 @@
             android:textColor="@color/white_full"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/imageView1"/>
+            app:layout_constraintTop_toBottomOf="@id/groupPic"/>
 
     <ImageView
-            android:id="@+id/imageView1"
+            android:id="@+id/groupPic"
             android:layout_marginStart="5dp"
             android:layout_gravity="center_vertical|end"
             android:gravity="center_vertical|end"
