@@ -17,22 +17,9 @@ class SubscriptionsFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         val binding = SubscripitionsFragmentBinding.inflate(inflater, container, false)
-        val viewModel: SubscriptionViewModel by viewModels()
-        val adapter = SubscriptionsAdapter(
-            object : SubsOnInteractionListener {
-//                override fun onItem(sub: SubsInfo) {
-//                    TODO("Not yet implemented")
-//                }
-
-                override fun onAdd(sub: SubsInfo) {
-                }
-            }
-        )
+        val adapter = SubscriptionsAdapter()
 
         binding.subscriptionsRV.adapter = adapter
-        viewModel.subscription.observe(viewLifecycleOwner) {subs ->
-            adapter.submitList(subs)
-        }
 
         return binding.root
     }

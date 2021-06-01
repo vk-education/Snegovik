@@ -87,6 +87,7 @@
             android:id="@+id/profilePhoto"
             android:layout_width="124dp"
             android:layout_height="124dp"
+            android:scaleType="centerCrop"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="@id/changeProfileButton"
             app:layout_constraintEnd_toEndOf="@id/changeProfileButton"

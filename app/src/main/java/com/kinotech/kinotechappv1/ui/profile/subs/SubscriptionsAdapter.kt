@@ -6,13 +6,13 @@ import androidx.recyclerview.widget.ListAdapter
 import com.kinotech.kinotechappv1.databinding.SubscriptionItemBinding
 import com.kinotech.kinotechappv1.ui.profile.SubsInfo
 
-class SubscriptionsAdapter(private val subsOnInteractionListener: SubsOnInteractionListener) :
+class SubscriptionsAdapter :
 ListAdapter<SubsInfo, SubscriptionsViewHolder>(SubsDiffCallback()) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SubscriptionsViewHolder {
         val binding = SubscriptionItemBinding.inflate(
             LayoutInflater.from(parent.context), parent, false
         )
-        return SubscriptionsViewHolder(binding, subsOnInteractionListener)
+        return SubscriptionsViewHolder(binding)
     }
 
     override fun onBindViewHolder(holder: SubscriptionsViewHolder, position: Int) {

@@ -6,21 +6,13 @@ import com.kinotech.kinotechappv1.databinding.SubscribersItemBinding
 import com.kinotech.kinotechappv1.ui.profile.SubsInfo
 
 class SubscribersViewHolder(
-    private val binding: SubscribersItemBinding,
-    private val subsOnInteractionListener: SubsOnInteractionListener
+    private val binding: SubscribersItemBinding
 ) : RecyclerView.ViewHolder(binding.root) {
 
-    fun bind(subsInfo: SubsInfo) {
+    fun bind(result: SubsInfo) {
         binding.apply {
-            profileName.text = subsInfo.fullName
-            profilePic.setImageResource(subsInfo.profilePic)
-//            likeProfile.setImageResource(
-//                if (subsInfo.subscribed) R.drawable.ic_liked_40 else R.drawable.ic_like_40dp
-//            )
-
-            likeProfile.setOnClickListener {
-                subsOnInteractionListener.onAdd(subsInfo)
-            }
+            profileName.text = result.fullName
+//            profilePic.setImageResource(subsInfo.profilePic)
         }
     }
 }

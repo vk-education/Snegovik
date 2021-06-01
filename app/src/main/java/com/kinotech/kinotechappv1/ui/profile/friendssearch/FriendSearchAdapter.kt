@@ -1,11 +1,8 @@
 package com.kinotech.kinotechappv1.ui.profile.friendssearch
 
-import android.content.Context
 import android.util.Log
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.view.inputmethod.InputMethodManager
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
@@ -17,7 +14,7 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.kinotech.kinotechappv1.R
 import com.kinotech.kinotechappv1.databinding.SearchUserItemBinding
-import com.kinotech.kinotechappv1.ui.AndroidUtils
+import com.kinotech.kinotechappv1.AndroidUtils
 import com.kinotech.kinotechappv1.ui.profile.FriendProfileFragment
 import com.kinotech.kinotechappv1.ui.profile.SubsInfo
 
@@ -53,7 +50,6 @@ class FriendSearchAdapter(
         fun bind(subsInfo: SubsInfo) {
             binding.apply {
                 profileName.text = subsInfo.fullName
-                profilePic.setImageResource(subsInfo.profilePic)
 
                 root.setOnClickListener {
                     AndroidUtils.hideKeyboard(it)
@@ -75,13 +71,13 @@ class FriendSearchAdapter(
                             FirebaseDatabase.getInstance().reference
                                 .child("Follow").child(uid.toString())
                                 .child("Following").child(subsInfo.uid)
-                                .setValue(true).addOnCompleteListener { task ->
+                                .setValue(subsInfo).addOnCompleteListener { task ->
                                     if (task.isSuccessful) {
                                         firebaseUser?.uid.let { uid ->
                                             FirebaseDatabase.getInstance().reference
                                                 .child("Follow").child(subsInfo.uid)
                                                 .child("Followers").child(uid.toString())
-                                                .setValue(true).addOnCompleteListener { task ->
+                                                .setValue(subsInfo).addOnCompleteListener { task ->
                                                     if (task.isSuccessful) {
                                                         Log.i("follow", "Подписан")
                                                     }

@@ -72,10 +72,12 @@
             android:id="@+id/friendPhoto"
             android:layout_width="124dp"
             android:layout_height="124dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginStart="8dp"
+            android:scaleType="centerCrop"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="@id/subscribeButton"
-            app:layout_constraintEnd_toEndOf="@id/subscribeButton"
-            android:layout_marginTop="30dp"
+            app:layout_constraintBottom_toTopOf="@id/subscribeButton"
+            app:layout_constraintStart_toStartOf="@id/backBtnCh"
             android:foreground="@drawable/photo"
             tools:ignore="ContentDescription" />
 
@@ -93,7 +95,8 @@
             android:id="@+id/backBtnCh"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="16dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
             android:src="@drawable/ic_arrow_back"
             android:background="@android:color/transparent"
             app:layout_constraintTop_toTopOf="parent"
@@ -101,8 +104,8 @@
 
     <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/subscribeButton"
-            android:layout_width="171dp"
-            android:layout_height="25dp"
+            android:layout_width="120dp"
+            android:layout_height="30dp"
             android:textColor="@color/white_full"
             android:textStyle="bold"
             android:textAllCaps="false"
@@ -111,9 +114,9 @@
             android:text="@string/subscribe_string"
             android:background="@drawable/subscribe"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"
-            android:layout_marginTop="175dp"
-            android:layout_marginStart="7dp" />
+            app:layout_constraintStart_toStartOf="@id/friendPhoto"
+            app:layout_constraintEnd_toEndOf="@id/friendPhoto"
+            android:layout_marginTop="175dp"/>
 
     <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/friendListsRV"

@@ -17,23 +17,9 @@ class SubscribersFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         val binding = SubscribersFragmentBinding.inflate(inflater, container, false)
-        val viewModel: SubscribersViewModel by viewModels()
-        val adapter = SubscribersAdapter(
-            object : SubsOnInteractionListener {
- //               override fun onItem(sub: SubsInfo) {
-//                    viewModel.getSub(sub.id)
- //               }
-
-                override fun onAdd(sub: SubsInfo) {
-//                    viewModel.likedById(sub.id)
-                }
-            }
-        )
+        val adapter = SubscribersAdapter()
 
         binding.subscribersRV.adapter = adapter
-        viewModel.subscribers.observe(viewLifecycleOwner) {subs ->
-            adapter.submitList(subs)
-        }
 
         return binding.root
     }

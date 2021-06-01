@@ -1,4 +1,4 @@
-package com.kinotech.kinotechappv1.ui
+package com.kinotech.kinotechappv1
 
 import android.content.Context
 import android.view.View
