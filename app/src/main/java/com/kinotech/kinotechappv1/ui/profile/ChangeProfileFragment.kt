@@ -10,6 +10,7 @@ import android.app.Activity
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.database.DatabaseErrorHandler
+import android.net.Uri
 import android.os.Build
 import android.util.Log
 import android.widget.ImageButton
@@ -22,12 +23,19 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelStore
 import androidx.lifecycle.ViewModelStoreOwner
 import com.bumptech.glide.Glide
+import com.google.android.gms.tasks.Continuation
+import com.google.android.gms.tasks.OnCompleteListener
+import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
+import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.StorageReference
+import com.google.firebase.storage.StorageTask
+import com.google.firebase.storage.UploadTask
 import com.kinotech.kinotechappv1.R
 import com.kinotech.kinotechappv1.databinding.ChangeProfileBinding
 import com.squareup.picasso.Picasso
@@ -39,7 +47,10 @@ class ChangeProfileFragment : Fragment() {
     private lateinit var photoAcc: ImageView
     private lateinit var nickName: TextView
     private var checker = ""
-//    private var phototUri = ""
+    private var userUrl = ""
+    private var photoUri: Uri? = null
+    private var storagePhoto: StorageReference? = null
+
     companion object {
         private const val REQUEST_CODE = 1
         private const val PERMISSION_CODE = 2
@@ -56,35 +67,36 @@ class ChangeProfileFragment : Fragment() {
 //        profileViewModel =
 //            ViewModelProvider(this).get(ProfileViewModel::class.java)
         firebaseUser = FirebaseAuth.getInstance().currentUser!!
+        storagePhoto = FirebaseStorage.getInstance().reference.child("Profile Photo")
         binding = ChangeProfileBinding.inflate(inflater, container, false)
         nickName = binding.changeName
         photoAcc = binding.changePhoto
         userInfo()
-//        binding.changePhotoButton.setOnClickListener{
-//            checker = "clicked"
-//            CropImage.activity()
-//                .setAspectRatio(1,1)
-//                .start(this)
-//        }
-        binding.changePhotoButton.setOnClickListener {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                if (context?.let { it1 ->
-                        PermissionChecker.checkSelfPermission(
-                            it1,
-                            Manifest.permission.READ_EXTERNAL_STORAGE
-                        )
-                    } ==
-                    PackageManager.PERMISSION_DENIED) {
-
-                    val permissions = arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE)
-                    requestPermissions(permissions, PERMISSION_CODE)
-                } else {
-                    openGallery()
-                }
-            } else {
-                openGallery()
-            }
+        binding.changePhotoButton.setOnClickListener{
+            checker = "clicked"
+            CropImage.activity()
+                .setAspectRatio(1,1)
+                .start(requireActivity())
         }
+//        binding.changePhotoButton.setOnClickListener {
+//            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+//                if (context?.let { it1 ->
+//                        PermissionChecker.checkSelfPermission(
+//                            it1,
+//                            Manifest.permission.READ_EXTERNAL_STORAGE
+//                        )
+//                    } ==
+//                    PackageManager.PERMISSION_DENIED) {
+//
+//                    val permissions = arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE)
+//                    requestPermissions(permissions, PERMISSION_CODE)
+//                } else {
+//                    openGallery()
+//                }
+//            } else {
+//                openGallery()
+//            }
+//        }
 
 //        model = ViewModelProvider(requireActivity()).get(ProfileSharedViewModel::class.java)
 //        model.getPhoto().observe(viewLifecycleOwner, {
@@ -100,7 +112,7 @@ class ChangeProfileFragment : Fragment() {
 //        }
         binding.saveButton.setOnClickListener {
             if (checker == "clicked"){
-
+                uploadPhotoAndInfo()
             }
             else{
                 updateUserInfoOlnly()
@@ -111,31 +123,24 @@ class ChangeProfileFragment : Fragment() {
         binding.backBtnCh.setOnClickListener {
             loadfragment()
         }
-//        userInfo()
-//        binding.saveButton.setOnClickListener {
-//            if (checker == "clicked"){
-//
-//            }
-//            else{
-//              updateUserInfoOnly()
-//            }
-//        }
         return binding.root
     }
-
-//    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?){
-//        super.onActivityResult(requestCode, resultCode, data)
-//        if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE && resultCode == Activity.RESULT_OK && data != null){
-//            val result = CropImage.getActivityResult(data)
-//        }
-//    }
 
     private fun updateUserInfoOlnly() {
         val usersRef = FirebaseDatabase.getInstance().reference.child("Users").child(firebaseUser.uid)
         val userMap = HashMap<String, Any?>()
         userMap["fullName"] = binding.changeName.text.toString().toLowerCase()
-   //     userMap["photo"] = photo.toString()
+        //     userMap["photo"] = photo.toString()
         usersRef.updateChildren(userMap)
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?){
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE && resultCode == Activity.RESULT_OK && data != null){
+            val result = CropImage.getActivityResult(data)
+            photoUri = result.uri
+            binding.changePhoto.setImageURI(photoUri)
+        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -177,29 +182,29 @@ class ChangeProfileFragment : Fragment() {
         }
     }
 
-    private fun openGallery() {
-        val intent = Intent(Intent.ACTION_PICK)
-        intent.type = "image/*"
-        startActivityForResult(intent, REQUEST_CODE)
-    }
-
-    override fun onRequestPermissionsResult(
-        requestCode: Int,
-        permissions: Array<out String>,
-        grantResults: IntArray
-    ) {
-        when (requestCode) {
-            PERMISSION_CODE -> {
-                if (grantResults.isNotEmpty() && grantResults[0] ==
-                    PackageManager.PERMISSION_GRANTED
-                ) {
-                    openGallery()
-                } else {
-                    Toast.makeText(context, "Permission denied", Toast.LENGTH_SHORT).show()
-                }
-            }
-        }
-    }
+//    private fun openGallery() {
+//        val intent = Intent(Intent.ACTION_PICK)
+//        intent.type = "image/*"
+//        startActivityForResult(intent, REQUEST_CODE)
+//    }
+//
+//    override fun onRequestPermissionsResult(
+//        requestCode: Int,
+//        permissions: Array<out String>,
+//        grantResults: IntArray
+//    ) {
+//        when (requestCode) {
+//            PERMISSION_CODE -> {
+//                if (grantResults.isNotEmpty() && grantResults[0] ==
+//                    PackageManager.PERMISSION_GRANTED
+//                ) {
+//                    openGallery()
+//                } else {
+//                    Toast.makeText(context, "Permission denied", Toast.LENGTH_SHORT).show()
+//                }
+//            }
+//        }
+//    }
 
 //    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
 //        super.onActivityResult(requestCode, resultCode, data)
@@ -221,6 +226,32 @@ class ChangeProfileFragment : Fragment() {
             .load(firebaseUser.photoUrl)
             .error(R.drawable.ic_like_40dp)
             .into(photoAcc)
+    }
+
+    private fun uploadPhotoAndInfo(){
+        val  fileRef = storagePhoto!!.child(firebaseUser!!.uid + "jpg")
+        var uploadTask: StorageTask <*>
+        uploadTask = fileRef.putFile(photoUri!!)
+        uploadTask.continueWithTask(Continuation <UploadTask.TaskSnapshot, Task<Uri>> { task ->
+            if (task.isSuccessful){
+                task.exception?.let{
+                    throw it
+                }
+            }
+            return@Continuation fileRef.downloadUrl
+        }).addOnCompleteListener{OnCompleteListener<Uri>{task ->
+            if (task.isSuccessful){
+                val downloadUrl = task.result
+                userUrl = downloadUrl.toString()
+                val ref = FirebaseDatabase.getInstance().reference.child("Users")
+                val usersRef = FirebaseDatabase.getInstance().reference.child("Users").child(firebaseUser.uid)
+                val userMap = HashMap<String, Any?>()
+                userMap["fullName"] = binding.changeName.text.toString().toLowerCase()
+                userMap["photo"] = userUrl
+                ref.child(firebaseUser.uid).updateChildren(userMap)
+            }
+        }}
+
     }
 
 //    private fun updateUserInfoOnly(){
