@@ -8,8 +8,11 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
@@ -19,6 +22,7 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.kinotech.kinotechappv1.R
 import com.kinotech.kinotechappv1.databinding.FriendsProfileBinding
+import com.kinotech.kinotechappv1.ui.lists.AnyItemInAdapterList
 import com.kinotech.kinotechappv1.ui.profile.friendssearch.FriendsSearchFragment
 import com.kinotech.kinotechappv1.ui.profile.subs.SubsFragment
 
@@ -95,8 +99,73 @@ class FriendProfileFragment(private val subsInfo: SubsInfo) : Fragment() {
                     }
                 }
             }
+            loadRecyclerView(listsRV)
         }
         return binding.root
+    }
+    private fun loadRecyclerView(listsRV: RecyclerView) {
+        var list: ArrayList<AnyItemInAdapterList.ButtonShowList> = arrayListOf()
+        val listsNamesRef = subsInfo.uid.let { it1 ->
+            FirebaseDatabase.getInstance().reference
+                .child("Lists")
+                .child(it1.toString())
+                .child("UserLists")}
+        listsNamesRef.addValueEventListener(object : ValueEventListener{
+            override fun onDataChange(snapshot: DataSnapshot) {
+                for(snap in snapshot.children){
+                    val openedRef = subsInfo.uid.let { it1 ->
+                        FirebaseDatabase.getInstance().reference
+                            .child("Lists")
+                            .child(it1.toString())
+                            .child(snap.value.toString())
+                            .child("IsOpened")
+                    }
+                    openedRef.addValueEventListener(object : ValueEventListener{
+                        override fun onDataChange(snapshot: DataSnapshot) {
+                            if (snapshot.value == true){
+                                snap.getValue(String::class.java)
+                                    ?.let {
+                                        Log.d("lox", "onDataChange: $it")
+                                        list = list.apply {
+                                            add(
+                                                AnyItemInAdapterList.ButtonShowList(
+                                                    it,
+                                                    "0 фильмов",
+                                                    "https://cdn25.img.ria.ru/images/156087/28/156087280" +
+                                                        ".2_0:778:1536:1642_600x0_80_0_0_606c2d47b6d37951adc9eaf7" +
+                                                        ".50de22f0.jpg"
+                                                )
+                                            )
+                                        }
+                                    }
+                                listsRV.apply {
+                                    setHasFixedSize(true)
+                                    layoutManager = LinearLayoutManager(context)
+                                    adapter =  OpenListsFriendsAdapter(list, context)
+                                }
+                            }
+                        }
+
+
+                        override fun onCancelled(error: DatabaseError) {
+                            Toast.makeText(context, "$error", Toast.LENGTH_LONG).show()
+                        }
+
+                    })
+                }
+                Log.d("profileRecycler", "$list")
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                Toast.makeText(context, "$error", Toast.LENGTH_LONG).show()
+            }
+
+        })
+        listsRV.apply {
+            setHasFixedSize(true)
+            layoutManager = LinearLayoutManager(context)
+            adapter =  OpenListsAdapter(list, context)
+        }
     }
 
     private fun checkFollowingStatus(followBtn: Button) {

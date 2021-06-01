@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        tools:ignore="MissingConstraints"
+        app:cardCornerRadius="10dp"
+        android:layout_marginTop="16dp">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/red_200">
+
+        <TextView
+                android:id="@+id/item_title"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                tools:text="Название списка"
+                android:layout_marginRight="16dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="24dp"
+                android:layout_marginBottom="0dp"
+                android:textColor="@color/white_text"
+                android:textStyle="bold"
+                android:textSize="20sp"
+                app:layout_constraintStart_toEndOf="@id/img_list"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toTopOf="@id/film_count"/>
+
+        <TextView
+                android:id="@+id/film_count"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                tools:text="5 фильмов"
+                android:textColor="@color/white_text"
+                android:layout_marginBottom="28dp"
+                android:layout_marginRight="16dp"
+                android:textSize="16sp"
+                app:layout_constraintStart_toStartOf="@id/item_title"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/item_title"
+                app:layout_constraintBottom_toBottomOf="parent"/>
+
+
+        <ImageView
+                android:id="@+id/img_list"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                tools:srcCompat="@tools:sample/avatars"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="20dp"
+                app:layout_constraintCircleRadius="180dp"
+                android:background="@color/red_200"
+                android:foreground="@drawable/rounded_fg_light"/>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.cardview.widget.CardView>
