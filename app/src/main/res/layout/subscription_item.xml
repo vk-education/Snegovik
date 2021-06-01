@@ -31,5 +31,14 @@
             android:fontFamily="@font/rubik_bold"
             android:textColor="@color/white_full"
             android:textSize="22sp" />
+    <ImageButton
+            android:id="@+id/likeProfile"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginEnd="8dp"
+            android:background="@android:color/transparent"
+            app:layout_constraintTop_toTopOf="@id/profilePic"
+            app:layout_constraintBottom_toBottomOf="@id/profilePic" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

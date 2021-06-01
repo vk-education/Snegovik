@@ -36,4 +36,6 @@
     <string name="open_list">Abrir lista</string>
     <string name="share_link">Compartir</string>
     <string name="subscribed">Suscribido</string>
+    <string name="close_list">Cerrar lista</string>
+    <string name="delete_movie">Borrar película</string>
 </resources>

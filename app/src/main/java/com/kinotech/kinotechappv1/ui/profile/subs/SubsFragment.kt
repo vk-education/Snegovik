@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.google.android.material.tabs.TabLayoutMediator
@@ -26,6 +27,8 @@ class SubsFragment : Fragment() {
         val adapter = SubsAdapter(childFragmentManager, lifecycle)
         adapter.addFragment(SubscribersFragment(), getString(R.string.subscribers))
         adapter.addFragment(SubscriptionsFragment(), getString(R.string.subscriptions))
+        val arg = this.arguments
+
 
         binding.viewPager.adapter = adapter
 
@@ -35,6 +38,10 @@ class SubsFragment : Fragment() {
 
         binding.search.setOnClickListener {
             loadSearchFragment()
+        }
+
+        if (arg != null) {
+            binding.profileName.text = arg.getString("keyForNickName", "")
         }
 
         return binding.root

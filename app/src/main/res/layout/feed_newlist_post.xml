@@ -22,40 +22,21 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:layout_constraintTop_toTopOf="@id/profilePic"
+            app:layout_constraintBottom_toBottomOf="@id/profilePic"
             app:layout_constraintStart_toEndOf="@id/profilePic"
-            app:layout_constraintBottom_toTopOf="@id/postingDate"
             tools:text="Какой-то человек"
             android:textColor="@color/another_white"
             android:textStyle="bold"
             android:textSize="16sp"
             android:layout_marginStart="@dimen/activity_horizontal_margin" />
 
-    <TextView
-            android:id="@+id/postingDate"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintBottom_toBottomOf="@id/profilePic"
-            app:layout_constraintTop_toBottomOf="@id/author"
-            app:layout_constraintStart_toEndOf="@id/profilePic"
-            tools:text="5 минут назад"
-            android:textColor="@color/another_white"
-            android:layout_marginStart="@dimen/activity_horizontal_margin" />
-
-    <ImageButton
-            android:id="@+id/menuFilmPost"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ic_menu_dots"
-            android:background="@android:color/transparent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@id/profilePic" />
 
     <androidx.constraintlayout.widget.Barrier
             android:id="@+id/higherBarrier"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:barrierDirection="bottom"
-            app:constraint_referenced_ids="profilePic, postingDate" />
+            app:constraint_referenced_ids="profilePic" />
 
     <TextView
             android:id="@+id/actionDoneTV"
@@ -109,7 +90,7 @@
             android:layout_height="wrap_content"
             app:barrierDirection="top"
             android:layout_marginBottom="16dp"
-            app:constraint_referenced_ids="like, likesCount, addBtn, views, viewsCount"/>
+            app:constraint_referenced_ids="like, likesCount, addBtn"/>
 
     <androidx.constraintlayout.widget.Barrier
             android:id="@+id/evenLowerBarrier"
@@ -117,7 +98,7 @@
             android:layout_height="wrap_content"
             app:barrierDirection="bottom"
             android:layout_marginBottom="16dp"
-            app:constraint_referenced_ids="like, likesCount, addBtn, views, viewsCount"/>
+            app:constraint_referenced_ids="like, likesCount, addBtn"/>
 
     <ImageButton
             android:id="@+id/like"
@@ -143,35 +124,13 @@
             android:textSize="18sp" />
 
     <ImageButton
-            android:id="@+id/views"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ic_view"
-            android:background="@android:color/transparent"
-            app:layout_constraintEnd_toStartOf="@id/viewsCount"
-            app:layout_constraintTop_toTopOf="@id/viewsCount"
-            android:layout_marginEnd="5dp"/>
-
-    <TextView
-            android:id="@+id/viewsCount"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toTopOf="@id/like"
-            tools:text="0"
-            android:textSize="18sp"
-            android:textColor="@color/another_white"/>
-
-    <ImageButton
             android:id="@+id/addBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/ic_add"
             android:background="@android:color/transparent"
             android:layout_marginTop="@dimen/activity_horizontal_margin"
-            app:layout_constraintStart_toEndOf="@id/likesCount"
-            app:layout_constraintEnd_toStartOf="@id/views"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/filmsList"
             app:layout_constraintBottom_toBottomOf="parent"/>
 

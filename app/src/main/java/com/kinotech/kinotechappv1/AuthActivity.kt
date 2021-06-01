@@ -21,6 +21,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.database.*
+import java.util.*
 import kotlin.collections.HashMap
 
 class AuthActivity : AppCompatActivity() {
@@ -80,7 +81,6 @@ class AuthActivity : AppCompatActivity() {
             swipeRight()
         }
     }
-
 
     private fun isFirst(): Boolean {
         return flipper.displayedChild == 0
@@ -172,7 +172,6 @@ class AuthActivity : AppCompatActivity() {
             override fun onCancelled(error: DatabaseError) {
 
             }
-
         })
     }
 
@@ -201,7 +200,7 @@ class AuthActivity : AppCompatActivity() {
         Log.d("db", "saveUserInfo: $usersRef")
         val userMap = HashMap<String, Any?>()
         userMap["uid"] = currentUserID
-        userMap["fullName"] = fullName?.toLowerCase()
+        userMap["fullName"] = fullName?.toLowerCase(Locale.getDefault())
         userMap["email"] = email
         userMap["photo"] = photo.toString()
         Log.d("db", "saveUserInfo: $userMap")

@@ -14,11 +14,9 @@ class PostNewListViewHolder(
     fun bind(postNewList: PostNewList) {
         binding.apply {
             author.text = postNewList.author
-            postingDate.text = postNewList.postingDate
             profilePic.setImageResource(postNewList.profilePic)
             actionDoneTV.text = postNewList.actionDoneText
             likesCount.text = postNewList.likesCount.toString()
-            viewsCount.text = postNewList.viewsCount.toString()
             filmPoster1.setImageResource(postNewList.film1)
             filmPoster2.setImageResource(postNewList.film2)
             filmPoster3.setImageResource(postNewList.film3)
@@ -31,9 +29,6 @@ class PostNewListViewHolder(
                 onInteractionListener.onLike(postNewList)
             }
 
-            menuFilmPost.setOnClickListener {
-                onInteractionListener.onAdd(postNewList)
-            }
         }
     }
 }
