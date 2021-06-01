@@ -55,6 +55,7 @@ class FriendsSearchFragment : Fragment() {
                     searchUser(c.toString())
                 }
             })
+
             return binding.root
         }
     }
