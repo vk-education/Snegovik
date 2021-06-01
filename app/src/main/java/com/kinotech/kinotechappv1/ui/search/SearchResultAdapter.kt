@@ -35,7 +35,7 @@ class MoviesAdapter(
     }
 }
 
-class MoviesViewHolder(itemView: View, s:String) : RecyclerView.ViewHolder(itemView) {
+class MoviesViewHolder(itemView: View, s: String) : RecyclerView.ViewHolder(itemView) {
     private val filmPhoto: ImageView = itemView.findViewById(R.id.movie_photo)
     private val filmTitle: TextView = itemView.findViewById(R.id.movie_title)
     private val filmYear: TextView = itemView.findViewById(R.id.movie_year)

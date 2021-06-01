@@ -27,6 +27,8 @@ import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.FirebaseDatabase
 import com.kinotech.kinotechappv1.R
 import com.kinotech.kinotechappv1.databinding.ChangeProfileBinding
+import java.util.*
+import kotlin.collections.HashMap
 
 class ChangeProfileFragment : Fragment() {
 
@@ -93,26 +95,9 @@ class ChangeProfileFragment : Fragment() {
     private fun updateUserInfoOlnly() {
         val usersRef = FirebaseDatabase.getInstance().reference.child("Users")
         val userMap = HashMap<String, Any?>()
-        userMap["fullName"] = binding.changeName.text.toString().toLowerCase()
+        userMap["fullName"] = binding.changeName.text.toString().toLowerCase(Locale.getDefault())
    //     userMap["photo"] = photo.toString()
         usersRef.child(firebaseUser.uid).updateChildren(userMap)
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-//        model = ViewModelProvider(requireActivity()).get(ProfileSharedViewModel::class.java)
-//        model.getPhoto().observe(viewLifecycleOwner, {
-//            binding.changePhoto.setImageURI(it)
-////            binding.changeName.setText(it.toString())
-//        })
-////        model.getPhoto().observe(viewLifecycleOwner, {
-////            binding.changePhoto.setImageURI(it)
-////        })
-//        binding.saveButton.setOnClickListener {
-//            model.putPhoto(binding.changePhoto.drawable.toString().toUri())
-//            loadfragment()
-//            loadfragmentch(binding.changeName.text.toString())
-//        }
     }
 
     private fun loadfragmentch(editTextInput: String) {

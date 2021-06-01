@@ -32,7 +32,7 @@ class SearchFragment : Fragment() {
         val activity: AppCompatActivity = root.context as AppCompatActivity
         val toolbar: ActionBar = activity.supportActionBar!!
         toolbar.hide()
-        activity?.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN)
+        activity.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN)
         searchView.findViewById<LinearLayout>(R.id.search_plate)
             .setBackgroundColor(Color.TRANSPARENT)
         searchView.findViewById<TextView>(
@@ -48,6 +48,7 @@ class SearchFragment : Fragment() {
                 }
                 return false
             }
+
             override fun onQueryTextChange(newText: String?): Boolean {
                 if (newText != null) {
                     submitBtn.setOnClickListener {
