@@ -26,38 +26,78 @@ class SubscribersFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         val binding = SubscribersFragmentBinding.inflate(inflater, container, false)
-
-        subsRef = user?.uid.let { it1 ->
+        val followersRef = user?.uid.let { it1 ->
             FirebaseDatabase.getInstance().reference
                 .child("Follow")
                 .child(it1.toString())
                 .child("Followers")
-        }
-        Log.d("trtrtr", "onCreateView: $subsRef")
-        subsRef.addValueEventListener(object : ValueEventListener {
+        }.addValueEventListener(object : ValueEventListener{
             override fun onDataChange(snapshot: DataSnapshot) {
- //               result.clear()
-                for (snap in snapshot.children) {
-                    try {
-                        snap.getValue(SubsInfo::class.java)?.let { result.add(it) }
-                    } catch (e: Exception) {
-                        Log.d("dbfav", "onDataChange: $e")
-                        Toast.makeText(context, "Error $e", Toast.LENGTH_LONG).show()
-                    }
+                for(snap in snapshot.children){
+                    val userInfoRef = user?.uid.let {
+                        FirebaseDatabase.getInstance().reference
+                            .child("Users")
+                    }.addValueEventListener(object : ValueEventListener{
+                        override fun onDataChange(snapshot: DataSnapshot) {
+                            for(s in snapshot.children){
+                                s.getValue(SubsInfo::class.java)?.let { result.add(it) }
+                            }
+                        }
+
+                        override fun onCancelled(error: DatabaseError) {
+                            TODO("Not yet implemented")
+                        }
+                    })
+                    Log.d("followerlist", "onDataChange: $result")
                 }
                 binding.subscribersRV.apply {
                     setHasFixedSize(true)
                     layoutManager = LinearLayoutManager(context)
                     adapter = SubscribersAdapter(result)
                 }
-                Log.d("dbfav", "onDataChange: $result")
             }
 
             override fun onCancelled(error: DatabaseError) {
-                Log.d("error", "onCancelled: $error")
+                TODO("Not yet implemented")
             }
+
         })
 
+
         return binding.root
+    }
+    private fun getFollowers(){
+        //val followersNames : ArrayList<String> = arrayListOf()
+        val followersRef = user?.uid.let { it1 ->
+            FirebaseDatabase.getInstance().reference
+                .child("Follow")
+                .child(it1.toString())
+                .child("Followers")
+        }.addValueEventListener(object : ValueEventListener{
+            override fun onDataChange(snapshot: DataSnapshot) {
+                for(snap in snapshot.children){
+                    val userInfoRef = user?.uid.let {
+                        FirebaseDatabase.getInstance().reference
+                            .child("Users")
+                            }.addValueEventListener(object : ValueEventListener{
+                        override fun onDataChange(snapshot: DataSnapshot) {
+                            for(s in snapshot.children){
+                                s.getValue(SubsInfo::class.java)?.let { result.add(it) }
+                            }
+                        }
+
+                        override fun onCancelled(error: DatabaseError) {
+                            TODO("Not yet implemented")
+                        }
+
+                    })
+                }
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                TODO("Not yet implemented")
+            }
+
+        })
     }
 }

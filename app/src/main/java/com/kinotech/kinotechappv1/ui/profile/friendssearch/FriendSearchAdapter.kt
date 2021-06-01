@@ -69,7 +69,7 @@ class FriendSearchAdapter(
                                 .child(uid.toString())
                                 .child("Following")
                                 .child(subsInfo.uid)
-                                .setValue(subsInfo)
+                                .setValue(subsInfo.uid)
                                 .addOnCompleteListener { task ->
                                     if (task.isSuccessful) {
                                         firebaseUser?.uid.let { uid ->

@@ -36,7 +36,7 @@ class SubscriptionsViewHolder(
     fun bind(subsInfo: SubsInfo) {
         binding.apply {
             profileName.text = subsInfo.fullName
-            Glide.with(itemView.context).load(subsInfo.profilePic).into(binding.profilePic)
+            Glide.with(itemView.context).load(subsInfo.photo).into(binding.profilePic)
             //profilePic.setImageResource(subsInfo.profilePic)
         }
     }

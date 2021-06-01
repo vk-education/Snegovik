@@ -67,5 +67,30 @@ class SubscriptionsFragment : Fragment() {
 
         return binding.root
     }
+//    private fun checkFollowings(){
+//        val followingRef = user?.uid?.let {
+//            FirebaseDatabase.getInstance().reference
+//                .child("Follow")
+//                .child(it)
+//                .child("Following")
+//        }
+//        followingRef?.addValueEventListener(object : ValueEventListener{
+//            override fun onDataChange(snapshot: DataSnapshot) {
+//                if (snapshot.exists()) {
+//                    followingList.clear()
+//                    for (snap in snapshot.children){
+//                        snapshot.key?.let{ followingList.add(it)}
+//                    }
+//                }
+//                retrievePosts()
+//            }
+//
+//
+//            override fun onCancelled(error: DatabaseError) {
+//                TODO("Not yet implemented")
+//            }
+//
+//        })
+    //}
 
 }

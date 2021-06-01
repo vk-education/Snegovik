@@ -46,7 +46,7 @@ class SubscribersAdapter(
                 profileName.text = subsInfo.fullName
                 Glide
                     .with(binding.root)
-                    .load(subsInfo.profilePic)
+                    .load(subsInfo.photo)
                     .error(R.drawable.ic_add)
                     .into(binding.profilePic)
 
