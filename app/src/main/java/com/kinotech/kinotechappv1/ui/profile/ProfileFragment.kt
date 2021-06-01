@@ -24,6 +24,7 @@ import com.kinotech.kinotechappv1.AuthActivity
 import com.kinotech.kinotechappv1.R
 import com.kinotech.kinotechappv1.databinding.FragmentProfileBinding
 import com.kinotech.kinotechappv1.ui.lists.AnyItemInAdapterList
+import com.kinotech.kinotechappv1.ui.lists.ListOfFavFragment
 import com.kinotech.kinotechappv1.ui.lists.MovieListAdapter
 import com.kinotech.kinotechappv1.ui.profile.subs.SubsFragment
 
@@ -35,7 +36,9 @@ class ProfileFragment : Fragment() {
     private lateinit var binding: FragmentProfileBinding
     private lateinit var firebaseUser: FirebaseUser
     private var user: FirebaseUser? = FirebaseAuth.getInstance().currentUser
-    private lateinit var fullName : String
+    private lateinit var fullName: String
+    val args = Bundle()
+
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -74,10 +77,11 @@ class ProfileFragment : Fragment() {
             FirebaseDatabase.getInstance().reference
                 .child("Lists")
                 .child(it1.toString())
-                .child("UserLists")}
-        listsNamesRef.addValueEventListener(object : ValueEventListener{
+                .child("UserLists")
+        }
+        listsNamesRef.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
-                for(snap in snapshot.children){
+                for (snap in snapshot.children) {
                     val openedRef = user?.uid.let { it1 ->
                         FirebaseDatabase.getInstance().reference
                             .child("Lists")
@@ -85,9 +89,9 @@ class ProfileFragment : Fragment() {
                             .child(snap.value.toString())
                             .child("IsOpened")
                     }
-                    openedRef.addValueEventListener(object : ValueEventListener{
+                    openedRef.addValueEventListener(object : ValueEventListener {
                         override fun onDataChange(snapshot: DataSnapshot) {
-                            if (snapshot.value == true){
+                            if (snapshot.value == true) {
                                 snap.getValue(String::class.java)
                                     ?.let {
                                         Log.d("lox", "onDataChange: $it")
@@ -106,7 +110,7 @@ class ProfileFragment : Fragment() {
                                 listsRV.apply {
                                     setHasFixedSize(true)
                                     layoutManager = LinearLayoutManager(context)
-                                    adapter =  OpenListsAdapter(list, context)
+                                    adapter = OpenListsAdapter(list, context)
                                 }
                             }
                         }
@@ -129,11 +133,9 @@ class ProfileFragment : Fragment() {
         listsRV.apply {
             setHasFixedSize(true)
             layoutManager = LinearLayoutManager(context)
-            adapter =  OpenListsAdapter(list, context)
+            adapter = OpenListsAdapter(list, context)
         }
     }
-
-
 
 
     private fun loadfragment() {
@@ -144,22 +146,25 @@ class ProfileFragment : Fragment() {
             transaction.commit()
         }
     }
+
     private fun loadSubscribers() {
         val transaction = activity?.supportFragmentManager?.beginTransaction()
+        val subsFragment = SubsFragment()
+        subsFragment.arguments = args
         if (transaction != null) {
-            transaction.replace(R.id.container, SubsFragment())
+            transaction.replace(R.id.container, subsFragment)
             transaction.disallowAddToBackStack()
             transaction.commit()
         }
     }
+
     private fun loadSubscriptions() {
         loadfragment()
         val transaction = activity?.supportFragmentManager?.beginTransaction()
+        val subsFragment = SubsFragment()
+        subsFragment.arguments = args
         if (transaction != null) {
-            transaction.replace(
-                R.id.container,
-                SubsFragment()
-            ) // Поменять на второй лист SubsFragment
+            transaction.replace(R.id.container, subsFragment)// Поменять на второй лист SubsFragment
             transaction.disallowAddToBackStack()
             transaction.commit()
         }
@@ -183,7 +188,7 @@ class ProfileFragment : Fragment() {
     }
 
 
-//    private fun bind(acc: GoogleSignInAccount?) {
+    //    private fun bind(acc: GoogleSignInAccount?) {
 //        if (acc == null) {
 //            Log.d("check", "null")
 //        } else {
@@ -219,22 +224,23 @@ class ProfileFragment : Fragment() {
 //            .error(R.drawable.ic_like_40dp)
 //            .into(photoAcc)
 //    }
-private fun userInfo(nickName : TextView, v: View, img : ImageView ){
-    val usersRef = user?.uid?.let { FirebaseDatabase.getInstance().reference.child("Users").child(it) }
-    usersRef?.addValueEventListener(object : ValueEventListener
-    {
-        override fun onDataChange(p0: DataSnapshot){
-            nickName.text = p0.child("fullName").value.toString()
-            Glide
-                .with(v.context)
-                .load(p0.child("photo").value.toString())
-                .into(img)
-        }
+    private fun userInfo(nickName: TextView, v: View, img: ImageView) {
+        val usersRef =
+            user?.uid?.let { FirebaseDatabase.getInstance().reference.child("Users").child(it) }
+        usersRef?.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(p0: DataSnapshot) {
+                nickName.text = p0.child("fullName").value.toString()
+                args.putString("keyForNickName", nickName.text as String)
+                Glide
+                    .with(v.context)
+                    .load(p0.child("photo").value.toString())
+                    .into(img)
+            }
 
-        override fun onCancelled(error: DatabaseError) {
-            TODO("Not yet implemented")
-        }
-    })
-}
+            override fun onCancelled(error: DatabaseError) {
+                TODO("Not yet implemented")
+            }
+        })
+    }
 
 }

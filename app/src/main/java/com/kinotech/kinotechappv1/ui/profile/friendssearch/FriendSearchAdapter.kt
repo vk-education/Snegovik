@@ -44,7 +44,6 @@ class FriendSearchAdapter(
         fun bind(subsInfo: SubsInfo) {
             binding.apply {
                 profileName.text = subsInfo.fullName
-                profilePic.setImageResource(subsInfo.profilePic)
                 Log.d("follow button text", "bind: ${followBtn.text} ")
                 checkFollowingStatus(subsInfo.uid, followBtn)
                 followBtn.setOnClickListener {
@@ -53,15 +52,21 @@ class FriendSearchAdapter(
                     if (followBtn.text.toString() == subscribeString) {
                         firebaseUser?.uid.let { uid ->
                             FirebaseDatabase.getInstance().reference
-                                .child("Follow").child(uid.toString())
-                                .child("Following").child(subsInfo.uid)
-                                .setValue(true).addOnCompleteListener { task ->
+                                .child("Follow")
+                                .child(uid.toString())
+                                .child("Following")
+                                .child(subsInfo.uid)
+                                .setValue(subsInfo)
+                                .addOnCompleteListener { task ->
                                     if (task.isSuccessful) {
                                         firebaseUser?.uid.let { uid ->
                                             FirebaseDatabase.getInstance().reference
-                                                .child("Follow").child(subsInfo.uid)
-                                                .child("Followers").child(uid.toString())
-                                                .setValue(true).addOnCompleteListener { task ->
+                                                .child("Follow")
+                                                .child(subsInfo.uid)
+                                                .child("Followers")
+                                                .child(uid.toString())
+                                                .setValue(subsInfo)
+                                                .addOnCompleteListener { task ->
                                                     if (task.isSuccessful) {
                                                         Log.i("follow", "Подписан")
                                                     }
@@ -76,9 +81,12 @@ class FriendSearchAdapter(
                     } else {
                         firebaseUser?.uid.let { uid ->
                             FirebaseDatabase.getInstance().reference
-                                .child("Follow").child(uid.toString())
-                                .child("Following").child(subsInfo.uid)
-                                .removeValue().addOnCompleteListener { task ->
+                                .child("Follow")
+                                .child(uid.toString())
+                                .child("Following")
+                                .child(subsInfo.uid)
+                                .removeValue()
+                                .addOnCompleteListener { task ->
                                     if (task.isSuccessful) {
                                         firebaseUser?.uid.let { uid ->
                                             FirebaseDatabase.getInstance().reference
@@ -104,7 +112,8 @@ class FriendSearchAdapter(
         private fun checkFollowingStatus(uid: String, followBtn: Button) {
             val followingRef = firebaseUser?.uid.let {
                 FirebaseDatabase.getInstance().reference
-                    .child("Follow").child(it.toString())
+                    .child("Follow")
+                    .child(it.toString())
                     .child("Following")
             }
 
