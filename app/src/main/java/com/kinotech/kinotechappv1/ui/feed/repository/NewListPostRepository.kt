@@ -4,6 +4,6 @@ import androidx.lifecycle.LiveData
 import com.kinotech.kinotechappv1.ui.feed.PostNewList
 
 interface NewListPostRepository {
-    fun getAll(): LiveData<List<PostNewList>>
+    fun getAll(): LiveData<ArrayList<PostNewList>>
     fun likedById(id: Int)
 }
