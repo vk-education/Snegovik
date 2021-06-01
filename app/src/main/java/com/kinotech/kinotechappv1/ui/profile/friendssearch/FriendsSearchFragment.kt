@@ -13,6 +13,7 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
+import com.kinotech.kinotechappv1.R
 import com.kinotech.kinotechappv1.databinding.FriendsSearchBinding
 import com.kinotech.kinotechappv1.ui.profile.SubsInfo
 import java.util.*
@@ -35,8 +36,8 @@ class FriendsSearchFragment : Fragment() {
             searchText.requestFocus()
             recyclerView.setHasFixedSize(true)
             recyclerView.layoutManager = LinearLayoutManager(context)
-
-            adapter = context?.let { FriendSearchAdapter(users) }
+            val subscribeString = getString(R.string.subscribe_string)
+            adapter = context?.let { FriendSearchAdapter(users, subscribeString) }
             recyclerView.adapter = adapter
 
             searchText.addTextChangedListener(object : TextWatcher {

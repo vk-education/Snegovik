@@ -2,18 +2,23 @@ package com.kinotech.kinotechappv1.ui.profile
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
+import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
 import com.google.android.gms.auth.api.signin.GoogleSignIn
-import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
 import com.kinotech.kinotechappv1.AuthActivity
 import com.kinotech.kinotechappv1.R
 import com.kinotech.kinotechappv1.databinding.FragmentProfileBinding
@@ -25,35 +30,32 @@ class ProfileFragment : Fragment() {
     private lateinit var profileViewModel: ProfileViewModel
     private lateinit var binding: FragmentProfileBinding
     private lateinit var firebaseUser: FirebaseUser
+    private var user: FirebaseUser? = FirebaseAuth.getInstance().currentUser
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        profileViewModel = ViewModelProvider(this).get(ProfileViewModel::class.java)
-
+        profileViewModel =
+            ViewModelProvider(this).get(ProfileViewModel::class.java)
+        firebaseUser = FirebaseAuth.getInstance().currentUser!!
         binding = FragmentProfileBinding.inflate(inflater, container, false)
-
-//        val picture_ctx = GoogleSignIn.getLastSignedInAccount(context)
-//        val picture = picture_ctx?.photoUrl
-        binding.changeProfileButton.setOnClickListener {
-            loadfragment()
-            var displayMessage = arguments?.getString("message")
-            //root.findViewById<Button>(R.id.textProfile).text = displayMessage
-
-        }
-
         binding.subscribers.setOnClickListener {
             loadSubscribers()
         }
-
         binding.subscriptions.setOnClickListener {
             loadSubscriptions()
         }
-
+        binding.apply {
+            userInfo(textProfile, root, profilePhoto)
+            changeProfileButton.setOnClickListener {
+                loadfragment()
+            }
+        }
         return binding.root
     }
+
 
     private fun loadfragment() {
         val transaction = activity?.supportFragmentManager?.beginTransaction()
@@ -103,25 +105,58 @@ class ProfileFragment : Fragment() {
         }
     }
 
-//    private fun userInfo()
-//    {
-//        val currentUserID = FirebaseAuth.getInstance().currentUser!!.uid
-//        val usersRef: DatabaseReference =
-//        FirebaseDatabase.getInstance().reference.child("Users")
-//        Picasso.get().load(user!!.getImage()).placeholder(R.drawable.profile).into(changePhoto)
-//        changeName.setText(user!!.getUsername())
-//    }
-//
-//    private fun bind(acc: GoogleSignInAccount?) {
+
+    //    private fun bind(acc: GoogleSignInAccount?) {
 //        if (acc == null) {
 //            Log.d("check", "null")
 //        } else {
-//            binding.textProfile.text = acc.displayName
+//            nickName.text = acc.displayName
 //            Glide
 //                .with(this)
 //                .load(acc.photoUrl)
 //                .error(R.drawable.ic_like_40dp)
-//                .into(binding.photo)
+//                .into(photoAcc)
 //        }
 //    }
+//    private fun userInfo(){
+//        val usersRef = FirebaseDatabase.getInstance().reference.child("Users").child(profileId)
+//        usersRef.addValueEventListener(object : ValueEventListener
+//        {
+//            override fun onDataChange(p0: DataSnapshot){
+//                val user = p0.getValue<User>(User::class.java)
+//                //Picasso.get().load(user!!.getPhoto()).placeholder(R.drawable.ic_like_40dp).into(photoAcc)
+//                view?. = user!!.getFullName()
+//            }
+//
+//            override fun onCancelled(error: DatabaseError) {
+//                TODO("Not yet implemented")
+//            }
+//        })
+//    }
+//    private fun userInfo()
+//    {
+//        nickName.text = firebaseUser.displayName
+//        Glide
+//            .with(this)
+//            .load(firebaseUser.photoUrl)
+//            .error(R.drawable.ic_like_40dp)
+//            .into(photoAcc)
+//    }
+    private fun userInfo(nickName: TextView, v: View, img: ImageView) {
+        val usersRef =
+            user?.uid?.let { FirebaseDatabase.getInstance().reference.child("Users").child(it) }
+        usersRef?.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(p0: DataSnapshot) {
+                nickName.text = p0.child("fullName").value.toString()
+                Glide
+                    .with(v.context)
+                    .load(p0.child("photo").value.toString())
+                    .into(img)
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                TODO("Not yet implemented")
+            }
+        })
+    }
 }

@@ -20,7 +20,6 @@ class SubscriptionRepositoryImpl : SubscriptionRepository {
             email = "ds",
             profilePic = R.drawable.ic_profile_circle_24
         )
-
     )
 
     private val data = MutableLiveData(subs)

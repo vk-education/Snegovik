@@ -8,7 +8,6 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.PopupMenu
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -34,7 +33,6 @@ class ListOfFavFragment() : Fragment() {
         val root = inflater.inflate(R.layout.list_of_fav_frag, container, false)
         val recyclerView: RecyclerView = root.findViewById(R.id.filmFavListRecyclerView)
         val btnBack = root.findViewById<ImageButton>(R.id.backFavBtn)
-        val higherFavDots = root.findViewById<ImageButton>(R.id.higherFavDots)
         val result = arrayListOf<SimpleResult>()
         val activity: AppCompatActivity = root.context as AppCompatActivity
         val toolbar: ActionBar = activity.supportActionBar!!
@@ -72,28 +70,13 @@ class ListOfFavFragment() : Fragment() {
                 Log.d("error", "onCancelled: $error")
             }
         })
-
         btnBack.setOnClickListener {
-            val listsFrag = ListsFragment();
+            val listsFrag = ListsFragment()
             activity.supportFragmentManager?.beginTransaction()
-                .replace(R.id.listFavFrag, listsFrag, "fragTag")
-                .addToBackStack(null)
+                .replace(R.id.container, listsFrag, "fragTag")
                 .commit()
-            toolbar.show()
         }
 
-        higherFavDots.setOnClickListener {
-            val popupMenu: PopupMenu? = context?.let { it1 -> PopupMenu(it1, higherFavDots) }
-            popupMenu?.menuInflater?.inflate(R.menu.dot_fav_menu, popupMenu.menu)
-            popupMenu?.setOnMenuItemClickListener(PopupMenu.OnMenuItemClickListener { item ->
-                when (item.itemId) {
-                    R.id.item_share ->
-                        Toast.makeText(context, "Ссылка скопирована", Toast.LENGTH_SHORT).show()
-                }
-                true
-            })
-            popupMenu?.show()
-        }
 
         return root
     }
