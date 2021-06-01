@@ -12,6 +12,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
@@ -25,6 +26,7 @@ class FriendProfileFragment(private val subsInfo: SubsInfo) : Fragment() {
 
     private lateinit var profileViewModel: ProfileViewModel
     private lateinit var binding: FriendsProfileBinding
+    private lateinit var user: FirebaseUser
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -34,6 +36,7 @@ class FriendProfileFragment(private val subsInfo: SubsInfo) : Fragment() {
         profileViewModel =
             ViewModelProvider(this).get(ProfileViewModel::class.java)
         binding = FriendsProfileBinding.inflate(inflater, container, false)
+        user = FirebaseAuth.getInstance().currentUser!!
         binding.friendSubscribers.setOnClickListener {
             loadSubscribers()
         }
@@ -46,17 +49,17 @@ class FriendProfileFragment(private val subsInfo: SubsInfo) : Fragment() {
             backBtnCh.setOnClickListener {
                 loadFragment()
             }
-            checkFollowingStatus(subscribeButton)
 
+            checkFollowingStatus(subscribeButton)
             subscribeButton.setOnClickListener {
                 if (subscribeButton.text.toString() == "Подписаться") { // Расхардкодить
-                    subsInfo.uid.let { uid ->
+                    user.uid.let { uid ->
                         FirebaseDatabase.getInstance().reference
                             .child("Follow").child(uid)
                             .child("Following").child(subsInfo.uid)
                             .setValue(true).addOnCompleteListener { task ->
                                 if (task.isSuccessful) {
-                                    subsInfo.uid.let { uid ->
+                                    user.uid.let { uid ->
                                         FirebaseDatabase.getInstance().reference
                                             .child("Follow").child(subsInfo.uid)
                                             .child("Followers").child(uid)
@@ -71,13 +74,13 @@ class FriendProfileFragment(private val subsInfo: SubsInfo) : Fragment() {
                             }
                     }
                 } else {
-                    subsInfo.uid.let { uid ->
+                    user.uid.let { uid ->
                         FirebaseDatabase.getInstance().reference
                             .child("Follow").child(uid)
                             .child("Following").child(subsInfo.uid)
                             .removeValue().addOnCompleteListener { task ->
                                 if (task.isSuccessful) {
-                                    subsInfo.uid.let { uid ->
+                                    user.uid.let { uid ->
                                         FirebaseDatabase.getInstance().reference
                                             .child("Follow").child(subsInfo.uid)
                                             .child("Followers").child(uid)
@@ -95,9 +98,9 @@ class FriendProfileFragment(private val subsInfo: SubsInfo) : Fragment() {
         }
         return binding.root
     }
+
     private fun checkFollowingStatus(followBtn: Button) {
-        val firebaseUser = FirebaseAuth.getInstance().currentUser!!
-        val followingRef = firebaseUser.uid.let {
+        val followingRef = user.uid.let {
             FirebaseDatabase.getInstance().reference
                 .child("Follow").child(it)
                 .child("Following")
@@ -105,7 +108,7 @@ class FriendProfileFragment(private val subsInfo: SubsInfo) : Fragment() {
 
         followingRef.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
-                if (snapshot.child(firebaseUser.uid).exists()) {
+                if (snapshot.child(subsInfo.uid).exists()) {
                     followBtn.setText(R.string.subscribed)
                 } else {
                     followBtn.setText(R.string.subscribe_string)
