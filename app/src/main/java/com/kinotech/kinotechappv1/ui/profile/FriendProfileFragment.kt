@@ -5,11 +5,13 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
@@ -44,6 +46,7 @@ class FriendProfileFragment(private val subsInfo: SubsInfo) : Fragment() {
             backBtnCh.setOnClickListener {
                 loadFragment()
             }
+            checkFollowingStatus(subscribeButton)
 
             subscribeButton.setOnClickListener {
                 if (subscribeButton.text.toString() == "Подписаться") { // Расхардкодить
@@ -91,6 +94,27 @@ class FriendProfileFragment(private val subsInfo: SubsInfo) : Fragment() {
             }
         }
         return binding.root
+    }
+    private fun checkFollowingStatus(followBtn: Button) {
+        val firebaseUser = FirebaseAuth.getInstance().currentUser!!
+        val followingRef = firebaseUser.uid.let {
+            FirebaseDatabase.getInstance().reference
+                .child("Follow").child(it)
+                .child("Following")
+        }
+
+        followingRef.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                if (snapshot.child(firebaseUser.uid).exists()) {
+                    followBtn.setText(R.string.subscribed)
+                } else {
+                    followBtn.setText(R.string.subscribe_string)
+                }
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+            }
+        })
     }
 
     private fun loadFragment() {
