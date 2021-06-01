@@ -1,6 +1,8 @@
 package com.kinotech.kinotechappv1.ui.profile
 
+import android.content.Context
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -41,14 +43,10 @@ class ProfileFragment : Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         profileViewModel =
             ViewModelProvider(this).get(ProfileViewModel::class.java)
         firebaseUser = FirebaseAuth.getInstance().currentUser!!
-//        val root = inflater.inflate(R.layout.fragment_profile, container, false)
-//        signOut = root.findViewById(R.id.imageExit)
-//        nickName = root.findViewById(R.id.textProfile)
-//        photoAcc = root.findViewById(R.id.profile_photo)
         binding = FragmentProfileBinding.inflate(inflater, container, false)
         binding.subscribers.setOnClickListener {
             loadSubscribers()

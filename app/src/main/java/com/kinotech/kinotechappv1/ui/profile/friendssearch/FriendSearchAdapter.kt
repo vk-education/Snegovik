@@ -1,9 +1,13 @@
 package com.kinotech.kinotechappv1.ui.profile.friendssearch
 
+import android.content.Context
 import android.util.Log
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
 import android.widget.Button
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
@@ -13,6 +17,8 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.kinotech.kinotechappv1.R
 import com.kinotech.kinotechappv1.databinding.SearchUserItemBinding
+import com.kinotech.kinotechappv1.ui.AndroidUtils
+import com.kinotech.kinotechappv1.ui.profile.FriendProfileFragment
 import com.kinotech.kinotechappv1.ui.profile.SubsInfo
 
 private val firebaseUser: FirebaseUser? = FirebaseAuth.getInstance().currentUser
@@ -39,17 +45,31 @@ class FriendSearchAdapter(
         return users.size
     }
 
-    class ViewHolder(private val binding: SearchUserItemBinding, private val subscribeString: String) :
+    class ViewHolder(
+        private val binding: SearchUserItemBinding,
+        private val subscribeString: String
+    ) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(subsInfo: SubsInfo) {
             binding.apply {
                 profileName.text = subsInfo.fullName
                 profilePic.setImageResource(subsInfo.profilePic)
-                Log.d("follow button text", "bind: ${followBtn.text} ")
+
+                root.setOnClickListener {
+                    AndroidUtils.hideKeyboard(it)
+                    val activity: AppCompatActivity = root.context as AppCompatActivity
+                    val transaction = activity.supportFragmentManager.beginTransaction()
+                    transaction.replace(
+                        R.id.container,
+                        FriendProfileFragment(subsInfo)
+                    ) // поменять юзера с сабинфо
+                    transaction.addToBackStack(null)
+                    transaction.commit()
+                }
+
                 checkFollowingStatus(subsInfo.uid, followBtn)
+
                 followBtn.setOnClickListener {
-                    Log.d("follow button text", "bind: ${followBtn.text} ")
-                    Log.d("follow button text", "bind: ${R.string.subscribe_string} ")
                     if (followBtn.text.toString() == subscribeString) {
                         firebaseUser?.uid.let { uid ->
                             FirebaseDatabase.getInstance().reference
@@ -67,10 +87,8 @@ class FriendSearchAdapter(
                                                     }
 
                                                 }
-
                                         }
                                     }
-
                                 }
                         }
                     } else {
@@ -88,12 +106,9 @@ class FriendSearchAdapter(
                                                     if (task.isSuccessful) {
                                                         Log.i("follow", "Отписан")
                                                     }
-
                                                 }
-
                                         }
                                     }
-
                                 }
                         }
                     }
