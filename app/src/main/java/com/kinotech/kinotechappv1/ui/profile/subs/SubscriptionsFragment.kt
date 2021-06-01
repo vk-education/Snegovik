@@ -20,7 +20,7 @@ class SubscriptionsFragment : Fragment() {
 
     private var user: FirebaseUser? = FirebaseAuth.getInstance().currentUser
     private var subsRef: DatabaseReference = FirebaseDatabase.getInstance().reference
-    val result = arrayListOf<SubsInfo>()
+    val resultSubs = arrayListOf<SubsInfo>()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -28,42 +28,45 @@ class SubscriptionsFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         val binding = SubscripitionsFragmentBinding.inflate(inflater, container, false)
-
-        subsRef = user?.uid.let { it1 ->
+        val followersRef = user?.uid.let { it1 ->
             FirebaseDatabase.getInstance().reference
                 .child("Follow")
                 .child(it1.toString())
                 .child("Following")
-        }
-
-        subsRef.addValueEventListener(object : ValueEventListener {
+        }.addValueEventListener(object : ValueEventListener{
             override fun onDataChange(snapshot: DataSnapshot) {
-                for (snap in snapshot.children) {
-                    try {
-                        snap.getValue(SubsInfo::class.java)?.let { result.add(it) }
-                    } catch (e: Exception) {
-                        Log.d("dbfav", "onDataChange: $e")
-                        Toast.makeText(context, "Error $e", Toast.LENGTH_LONG).show()
-                    }
+                resultSubs.clear()
+                for(snap in snapshot.children){
+                    val userInfoRef = user?.uid.let {
+                        FirebaseDatabase.getInstance().reference
+                            .child("Users")
+                            .child(snap.value.toString())
+                    }.addValueEventListener(object : ValueEventListener{
+                        override fun onDataChange(snaps: DataSnapshot) {
+                            snaps.getValue(SubsInfo::class.java)?.let { resultSubs.add(it) }
+                            Log.d("snapinfo", "onDataChange: ${snaps.getValue(SubsInfo::class.java)}")
+                            binding.subscriptionsRV.apply {
+                                setHasFixedSize(true)
+                                layoutManager = LinearLayoutManager(context)
+                                adapter = SubscriptionsAdapter(resultSubs)
+                            }
+                        }
+
+                        override fun onCancelled(error: DatabaseError) {
+                            TODO("Not yet implemented")
+                        }
+                    })
+                    Log.d("followerlist", "onDataChange: $resultSubs")
                 }
-                binding.subscriptionsRV.apply {
-                    setHasFixedSize(true)
-                    layoutManager = LinearLayoutManager(context)
-                    adapter = SubscriptionsAdapter(result)
-                }
-                Log.d("dbfav", "onDataChange: $result")
+
             }
 
             override fun onCancelled(error: DatabaseError) {
-                Log.d("error", "onCancelled: $error")
+                TODO("Not yet implemented")
             }
+
         })
 
-
-        binding.subscriptionsRV.adapter = SubscriptionsAdapter(result)
-        /* viewModel.subscribers.observe(viewLifecycleOwner) { subs ->
-             adapter.submitList(subs)
-         }*/
 
         return binding.root
     }

@@ -33,14 +33,20 @@ class SubscribersFragment : Fragment() {
                 .child("Followers")
         }.addValueEventListener(object : ValueEventListener{
             override fun onDataChange(snapshot: DataSnapshot) {
+                result.clear()
                 for(snap in snapshot.children){
                     val userInfoRef = user?.uid.let {
                         FirebaseDatabase.getInstance().reference
                             .child("Users")
+                            .child(snap.value.toString())
                     }.addValueEventListener(object : ValueEventListener{
-                        override fun onDataChange(snapshot: DataSnapshot) {
-                            for(s in snapshot.children){
-                                s.getValue(SubsInfo::class.java)?.let { result.add(it) }
+                        override fun onDataChange(snaps: DataSnapshot) {
+                            snaps.getValue(SubsInfo::class.java)?.let { result.add(it) }
+                            Log.d("snapinfo", "onDataChange: ${snaps.getValue(SubsInfo::class.java)}")
+                            binding.subscribersRV.apply {
+                                setHasFixedSize(true)
+                                layoutManager = LinearLayoutManager(context)
+                                adapter = SubscribersAdapter(result)
                             }
                         }
 
@@ -50,11 +56,7 @@ class SubscribersFragment : Fragment() {
                     })
                     Log.d("followerlist", "onDataChange: $result")
                 }
-                binding.subscribersRV.apply {
-                    setHasFixedSize(true)
-                    layoutManager = LinearLayoutManager(context)
-                    adapter = SubscribersAdapter(result)
-                }
+
             }
 
             override fun onCancelled(error: DatabaseError) {
@@ -66,38 +68,5 @@ class SubscribersFragment : Fragment() {
 
         return binding.root
     }
-    private fun getFollowers(){
-        //val followersNames : ArrayList<String> = arrayListOf()
-        val followersRef = user?.uid.let { it1 ->
-            FirebaseDatabase.getInstance().reference
-                .child("Follow")
-                .child(it1.toString())
-                .child("Followers")
-        }.addValueEventListener(object : ValueEventListener{
-            override fun onDataChange(snapshot: DataSnapshot) {
-                for(snap in snapshot.children){
-                    val userInfoRef = user?.uid.let {
-                        FirebaseDatabase.getInstance().reference
-                            .child("Users")
-                            }.addValueEventListener(object : ValueEventListener{
-                        override fun onDataChange(snapshot: DataSnapshot) {
-                            for(s in snapshot.children){
-                                s.getValue(SubsInfo::class.java)?.let { result.add(it) }
-                            }
-                        }
 
-                        override fun onCancelled(error: DatabaseError) {
-                            TODO("Not yet implemented")
-                        }
-
-                    })
-                }
-            }
-
-            override fun onCancelled(error: DatabaseError) {
-                TODO("Not yet implemented")
-            }
-
-        })
-    }
 }

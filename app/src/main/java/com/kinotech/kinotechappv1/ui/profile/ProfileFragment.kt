@@ -1,8 +1,6 @@
 package com.kinotech.kinotechappv1.ui.profile
 
-import android.content.Context
 import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -26,8 +24,6 @@ import com.kinotech.kinotechappv1.AuthActivity
 import com.kinotech.kinotechappv1.R
 import com.kinotech.kinotechappv1.databinding.FragmentProfileBinding
 import com.kinotech.kinotechappv1.ui.lists.AnyItemInAdapterList
-import com.kinotech.kinotechappv1.ui.lists.ListOfFavFragment
-import com.kinotech.kinotechappv1.ui.lists.MovieListAdapter
 import com.kinotech.kinotechappv1.ui.profile.subs.SubsFragment
 
 class ProfileFragment : Fragment() {
@@ -36,6 +32,7 @@ class ProfileFragment : Fragment() {
     private lateinit var profileViewModel: ProfileViewModel
     private lateinit var binding: FragmentProfileBinding
     private lateinit var firebaseUser: FirebaseUser
+
     private var user: FirebaseUser? = FirebaseAuth.getInstance().currentUser
     val args = Bundle()
 
@@ -57,12 +54,68 @@ class ProfileFragment : Fragment() {
         }
         binding.apply {
             userInfo(textProfile, root, profilePhoto)
+            getListsCount(lists)
+            getSubscribers(subscribers)
+            getSubscriptions(subscriptions)
             loadRecyclerView(listsRV)
             changeProfileButton.setOnClickListener {
                 loadfragment()
             }
         }
         return binding.root
+    }
+
+    private fun getSubscriptions(subscriptions: TextView) {
+        user?.uid.let { it1 ->
+            FirebaseDatabase.getInstance().reference
+                .child("Follow")
+                .child(it1.toString())
+                .child("Following")
+        }.addValueEventListener(object : ValueEventListener{
+            override fun onDataChange(snapshot: DataSnapshot) {
+                subscriptions.text = (snapshot.childrenCount).toString() + "\nподписки"
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+
+            }
+
+        })
+    }
+
+    private fun getSubscribers(subscribers: TextView) {
+        user?.uid.let { it1 ->
+            FirebaseDatabase.getInstance().reference
+                .child("Follow")
+                .child(it1.toString())
+                .child("Followers")
+        }.addValueEventListener(object : ValueEventListener{
+            override fun onDataChange(snapshot: DataSnapshot) {
+                subscribers.text = (snapshot.childrenCount).toString() + "\nподписчики"
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+
+            }
+
+        })
+    }
+
+    private fun getListsCount(lists: TextView) {
+         user?.uid.let { it1 ->
+            FirebaseDatabase.getInstance().reference
+                .child("Lists")
+                .child(it1.toString())
+        }.addValueEventListener(object : ValueEventListener{
+            override fun onDataChange(snapshot: DataSnapshot) {
+                lists.text = (snapshot.childrenCount - 1).toString() + "\nсписки"
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+
+            }
+
+        })
     }
 
     private fun loadRecyclerView(listsRV: RecyclerView) {

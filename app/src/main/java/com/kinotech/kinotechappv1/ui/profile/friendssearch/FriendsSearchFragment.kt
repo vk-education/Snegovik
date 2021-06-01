@@ -4,15 +4,16 @@ import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
+import android.view.inputmethod.EditorInfo
+import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
+import com.kinotech.kinotechappv1.AndroidUtils
 import com.kinotech.kinotechappv1.R
 import com.kinotech.kinotechappv1.databinding.FriendsSearchBinding
 import com.kinotech.kinotechappv1.ui.profile.SubsInfo
@@ -40,7 +41,7 @@ class FriendsSearchFragment : Fragment() {
             adapter = context?.let { FriendSearchAdapter(users, subscribeString) }
             Log.d("userss", "onCreateView: $users")
             recyclerView.adapter = adapter
-
+            activity?.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN)
             searchText.addTextChangedListener(object : TextWatcher {
                 override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
 
@@ -56,9 +57,23 @@ class FriendsSearchFragment : Fragment() {
                     searchUser(c.toString())
                 }
             })
+            searchText.isSingleLine = true
+            searchText.setOnEditorActionListener(object : TextView.OnEditorActionListener {
+                override fun onEditorAction(
+                    v: TextView?,
+                    actionId: Int,
+                    event: KeyEvent?
+                ): Boolean {
+                    if (event == null) {
+                        if (actionId == EditorInfo.IME_ACTION_DONE) {
 
-            return binding.root
+                            return false
+                        } else return false
+                    } else return false
+                }
+            })
         }
+            return binding.root
     }
 
     private fun searchUser(input: String) {

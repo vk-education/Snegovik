@@ -4,6 +4,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.ImageButton
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.google.firebase.auth.FirebaseAuth
@@ -14,6 +15,7 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.kinotech.kinotechappv1.R
 import com.kinotech.kinotechappv1.databinding.SubscribersItemBinding
+import com.kinotech.kinotechappv1.ui.profile.FriendProfileFragment
 import com.kinotech.kinotechappv1.ui.profile.SubsInfo
 
 class SubscribersAdapter(
@@ -49,6 +51,16 @@ class SubscribersAdapter(
                     .load(subsInfo.photo)
                     .error(R.drawable.ic_add)
                     .into(binding.profilePic)
+                root.setOnClickListener {
+                    val activity: AppCompatActivity = root.context as AppCompatActivity
+                    val transaction = activity.supportFragmentManager.beginTransaction()
+                    transaction.replace(
+                        R.id.container,
+                        FriendProfileFragment(subsInfo)
+                    )
+                    transaction.addToBackStack(null) //возвращается не туда
+                    transaction.commit()
+                }
 
                 checkFollowingStatus(subsInfo.uid, likeProfile)
                 likeProfile.setOnClickListener {
@@ -60,7 +72,7 @@ class SubscribersAdapter(
                                 .child(uid.toString())
                                 .child("Following")
                                 .child(subsInfo.uid)
-                                .setValue(subsInfo)
+                                .setValue(subsInfo.uid)
                                 .addOnCompleteListener { task ->
                                     Log.d("double trouble", "перед успехом подписки $subscriber")
                                     if (task.isSuccessful) {
@@ -70,7 +82,7 @@ class SubscribersAdapter(
                                                 .child(subsInfo.uid)
                                                 .child("Followers")
                                                 .child(uid.toString())
-                                                .setValue(subsInfo)
+                                                .setValue(uid.toString())
                                                 .addOnCompleteListener { task ->
                                                     Log.d("double trouble", "перед успехом успехом $subscriber")
                                                     if (task.isSuccessful) {
