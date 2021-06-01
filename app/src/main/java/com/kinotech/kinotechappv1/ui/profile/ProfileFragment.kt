@@ -26,6 +26,7 @@ import com.kinotech.kinotechappv1.AuthActivity
 import com.kinotech.kinotechappv1.R
 import com.kinotech.kinotechappv1.databinding.FragmentProfileBinding
 import com.kinotech.kinotechappv1.ui.lists.AnyItemInAdapterList
+import com.kinotech.kinotechappv1.ui.lists.ListOfFavFragment
 import com.kinotech.kinotechappv1.ui.lists.MovieListAdapter
 import com.kinotech.kinotechappv1.ui.profile.subs.SubsFragment
 
@@ -36,6 +37,8 @@ class ProfileFragment : Fragment() {
     private lateinit var binding: FragmentProfileBinding
     private lateinit var firebaseUser: FirebaseUser
     private var user: FirebaseUser? = FirebaseAuth.getInstance().currentUser
+    val args = Bundle()
+
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -140,8 +143,10 @@ class ProfileFragment : Fragment() {
 
     private fun loadSubscribers() {
         val transaction = activity?.supportFragmentManager?.beginTransaction()
+        val subsFragment = SubsFragment()
+        subsFragment.arguments = args
         if (transaction != null) {
-            transaction.replace(R.id.container, SubsFragment())
+            transaction.replace(R.id.container, subsFragment)
             transaction.disallowAddToBackStack()
             transaction.commit()
         }
@@ -150,11 +155,10 @@ class ProfileFragment : Fragment() {
     private fun loadSubscriptions() {
         loadfragment()
         val transaction = activity?.supportFragmentManager?.beginTransaction()
+        val subsFragment = SubsFragment()
+        subsFragment.arguments = args
         if (transaction != null) {
-            transaction.replace(
-                R.id.container,
-                SubsFragment()
-            ) // Поменять на второй лист SubsFragment
+            transaction.replace(R.id.container, subsFragment)// Поменять на второй лист SubsFragment
             transaction.disallowAddToBackStack()
             transaction.commit()
         }
@@ -220,6 +224,7 @@ class ProfileFragment : Fragment() {
         usersRef?.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(p0: DataSnapshot) {
                 nickName.text = p0.child("fullName").value.toString()
+                args.putString("keyForNickName", nickName.text as String)
                 Glide
                     .with(v.context)
                     .load(p0.child("photo").value.toString())

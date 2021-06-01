@@ -61,7 +61,7 @@ class FriendProfileFragment(private val subsInfo: SubsInfo) : Fragment() {
                         FirebaseDatabase.getInstance().reference
                             .child("Follow").child(uid)
                             .child("Following").child(subsInfo.uid)
-                            .setValue(true).addOnCompleteListener { task ->
+                            .setValue(null).addOnCompleteListener { task ->
                                 if (task.isSuccessful) {
                                     user.uid.let { uid ->
                                         FirebaseDatabase.getInstance().reference

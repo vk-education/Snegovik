@@ -16,7 +16,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:src="@drawable/pobeg"
-            android:background="@drawable/border"
+            android:scaleType="centerCrop"
             android:layout_marginLeft="8dp"/>
 
     <TextView
