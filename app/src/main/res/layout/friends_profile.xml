@@ -20,7 +20,7 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toEndOf="@id/friendPhoto"
             app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginTop="60dp" />
+            android:layout_marginTop="65dp" />
 
     <TextView
             android:id="@+id/friendLists"
@@ -72,7 +72,7 @@
             android:id="@+id/friendPhoto"
             android:layout_width="124dp"
             android:layout_height="124dp"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="25dp"
             android:layout_marginStart="8dp"
             android:scaleType="centerCrop"
             app:layout_constraintTop_toTopOf="parent"
@@ -88,7 +88,7 @@
             android:src="@drawable/dashed_line"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginTop="226dp"
+            android:layout_marginTop="235dp"
             tools:ignore="ContentDescription" />
 
     <ImageButton
@@ -116,7 +116,7 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="@id/friendPhoto"
             app:layout_constraintEnd_toEndOf="@id/friendPhoto"
-            android:layout_marginTop="175dp"/>
+            android:layout_marginTop="190dp"/>
 
     <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/friendListsRV"
