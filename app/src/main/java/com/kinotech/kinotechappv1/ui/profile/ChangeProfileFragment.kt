@@ -50,6 +50,7 @@ class ChangeProfileFragment : Fragment() {
     private var userUrl = ""
     private var photoUri: Uri? = null
     private var storagePhoto: StorageReference? = null
+    private var user: FirebaseUser? = FirebaseAuth.getInstance().currentUser
 
     companion object {
         private const val REQUEST_CODE = 1
@@ -69,9 +70,9 @@ class ChangeProfileFragment : Fragment() {
         firebaseUser = FirebaseAuth.getInstance().currentUser!!
         storagePhoto = FirebaseStorage.getInstance().reference.child("Profile Photo")
         binding = ChangeProfileBinding.inflate(inflater, container, false)
-        nickName = binding.changeName
-        photoAcc = binding.changePhoto
-        userInfo()
+        binding.apply {
+            userInfo(changeName, root, changePhoto)
+            }
         binding.changePhotoButton.setOnClickListener{
             checker = "clicked"
             CropImage.activity()
@@ -113,6 +114,7 @@ class ChangeProfileFragment : Fragment() {
         binding.saveButton.setOnClickListener {
             if (checker == "clicked"){
                 uploadPhotoAndInfo()
+
             }
             else{
                 updateUserInfoOlnly()
@@ -130,7 +132,6 @@ class ChangeProfileFragment : Fragment() {
         val usersRef = FirebaseDatabase.getInstance().reference.child("Users").child(firebaseUser.uid)
         val userMap = HashMap<String, Any?>()
         userMap["fullName"] = binding.changeName.text.toString().toLowerCase()
-        //     userMap["photo"] = photo.toString()
         usersRef.updateChildren(userMap)
     }
 
@@ -218,14 +219,32 @@ class ChangeProfileFragment : Fragment() {
 //        }
 //    }
 
-    private fun userInfo()
-    {
-        nickName.text = firebaseUser.displayName
-        Glide
-            .with(this)
-            .load(firebaseUser.photoUrl)
-            .error(R.drawable.ic_like_40dp)
-            .into(photoAcc)
+//    private fun userInfo()
+//    {
+//        nickName.text = firebaseUser.displayName
+//        Glide
+//            .with(this)
+//            .load(firebaseUser.photoUrl)
+//            .error(R.drawable.ic_like_40dp)
+//            .into(photoAcc)
+//    }
+
+    private fun userInfo(nickName : TextView, v: View, img : ImageView ){
+        val usersRef = user?.uid?.let { FirebaseDatabase.getInstance().reference.child("Users").child(it) }
+        usersRef?.addValueEventListener(object : ValueEventListener
+        {
+            override fun onDataChange(p0: DataSnapshot){
+                nickName.text = p0.child("fullName").value.toString()
+                Glide
+                    .with(v.context)
+                    .load(p0.child("photo").value.toString())
+                    .into(img)
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                TODO("Not yet implemented")
+            }
+        })
     }
 
     private fun uploadPhotoAndInfo(){
@@ -259,25 +278,6 @@ class ChangeProfileFragment : Fragment() {
 //        val userMap = HashMap<String, Any>()
 //        userMap["username"] = changeName.getText().toString().toLowerCase()
 //    }
-//
-//    private fun userInfo()
-//    {
-//        val usersRef = FirebaseDatabase.getInstance().getReference().child("Users").child(firebaseUser.uid)
-//        usersRef.addValueEventListener(object : ValueEventListener {
-//            override fun onDataChange(p0: DataSnapshot) {
-//                if (context != null){
-//                    return
-//                }
-//                if (p0.exists()) {
-//                    val user = p0.getValue<User>(User::class.java)
-//                    Picasso.get().load(user!!.getPhoto()).into(photoAcc)
-//                    nickName.text = user!!.getFullName()
-//                }
-//            }
-//
-//            override fun onCancelled(error: DatabaseError) {
-//                TODO("Not yet implemented")
-//            }
-//        })
-//    }
+
+
 }
