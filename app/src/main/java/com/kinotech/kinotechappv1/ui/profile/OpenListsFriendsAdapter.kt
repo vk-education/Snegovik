@@ -26,15 +26,16 @@ import com.kinotech.kinotechappv1.ui.search.SimpleResult
 
 class OpenListsFriendsAdapter(
     private val mData: ArrayList<AnyItemInAdapterList.ButtonShowList>,
-    val context: Context
+    val context: Context,
+    private val subsInfo: SubsInfo
 ) :
     RecyclerView.Adapter<OpenListsFriendsAdapter.MyViewHolder>() {
     var mInflater: LayoutInflater = LayoutInflater.from(context)
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
-        val view = mInflater.inflate(R.layout.open_list_film, parent, false)
-        return MyViewHolder(view)
+        val view = mInflater.inflate(R.layout.open_friend_list_film, parent, false)
+        return MyViewHolder(view, subsInfo)
     }
 
     override fun getItemCount(): Int {
@@ -45,7 +46,7 @@ class OpenListsFriendsAdapter(
         return holder.bind(mData[position])
     }
 
-    class MyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    class MyViewHolder(itemView: View, private val subsInfo: SubsInfo) : RecyclerView.ViewHolder(itemView) {
         val itemTitle: TextView = itemView.findViewById(R.id.item_title)
         val filmCount: TextView = itemView.findViewById(R.id.film_count)
         val imgListH: ImageView = itemView.findViewById(R.id.img_list)
@@ -56,7 +57,7 @@ class OpenListsFriendsAdapter(
 //            Log.d("dbfav", "bind: ${movie.nameRu}")
             val options = RequestOptions()
             itemTitle.text = (lists as AnyItemInAdapterList.ButtonShowList).itemTitle
-            user?.uid.let{ it1 ->
+            subsInfo.uid.let{ it1 ->
                 FirebaseDatabase.getInstance().reference
                     .child("Lists")
                     .child(it1.toString())
@@ -79,7 +80,7 @@ class OpenListsFriendsAdapter(
 
                 }
             })
-            val photoRef= user?.uid.let{ it1 ->
+            val photoRef= subsInfo.uid.let{ it1 ->
                 FirebaseDatabase.getInstance().reference
                     .child("Lists")
                     .child(it1.toString())
@@ -114,13 +115,7 @@ class OpenListsFriendsAdapter(
 
             })
             Log.d("recyclerView  ", "${itemTitle.text}")
-            itemView.setOnClickListener {
-                val activity: AppCompatActivity = itemView.context as AppCompatActivity
-                val transaction = activity.supportFragmentManager.beginTransaction()
-                transaction.replace(R.id.container, ListOfMovieFragment(itemTitle.text.toString()))
-                transaction.addToBackStack(null)
-                transaction.commit()
-            }
+
         }
     }
 }

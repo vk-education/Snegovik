@@ -99,7 +99,7 @@ class FriendProfileFragment(private val subsInfo: SubsInfo) : Fragment() {
                     }
                 }
             }
-            loadRecyclerView(listsRV)
+           loadRecyclerView(friendListsRV)
         }
         return binding.root
     }
@@ -141,7 +141,7 @@ class FriendProfileFragment(private val subsInfo: SubsInfo) : Fragment() {
                                 listsRV.apply {
                                     setHasFixedSize(true)
                                     layoutManager = LinearLayoutManager(context)
-                                    adapter =  OpenListsFriendsAdapter(list, context)
+                                    adapter =  OpenListsFriendsAdapter(list, context, subsInfo)
                                 }
                             }
                         }
@@ -164,7 +164,7 @@ class FriendProfileFragment(private val subsInfo: SubsInfo) : Fragment() {
         listsRV.apply {
             setHasFixedSize(true)
             layoutManager = LinearLayoutManager(context)
-            adapter =  OpenListsAdapter(list, context)
+            adapter =  OpenListsFriendsAdapter(list, context, subsInfo)
         }
     }
 
