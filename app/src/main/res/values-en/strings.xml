@@ -36,4 +36,6 @@
     <string name="open_list">Open list</string>
     <string name="delete_list">Delete list</string>
     <string name="subscribed">Subscribed</string>
+    <string name="close_list">Close list</string>
+    <string name="delete_movie">Delete film</string>
 </resources>

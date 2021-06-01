@@ -1,36 +1,31 @@
 package com.kinotech.kinotechappv1.ui.profile.subs
 
-import android.content.Context
 import android.util.Log
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageButton
-import android.widget.ImageView
-import android.widget.TextView
-import androidx.appcompat.app.AppCompatActivity
-import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
 import com.kinotech.kinotechappv1.R
 import com.kinotech.kinotechappv1.databinding.SubscribersItemBinding
-import com.kinotech.kinotechappv1.db.DatabaseAdder
 import com.kinotech.kinotechappv1.ui.profile.SubsInfo
-import com.kinotech.kinotechappv1.ui.search.FilmPageFragment
-import com.kinotech.kinotechappv1.ui.search.Genres
-import com.kinotech.kinotechappv1.ui.search.SimpleResult
 
 class SubscribersAdapter(
-    private val subscriber: List<SubsInfo>
+    private val subscriber: ArrayList<SubsInfo>
 ) :
-    RecyclerView.Adapter<SubscribersViewHolder>() {
+    RecyclerView.Adapter<SubscribersAdapter.SubscribersViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SubscribersViewHolder {
         val binding = SubscribersItemBinding.inflate(
             LayoutInflater.from(parent.context), parent, false
         )
-        return SubscribersViewHolder(binding)
+        return SubscribersViewHolder(binding, subscriber)
     }
-
 
     override fun getItemCount(): Int {
         return subscriber.size
@@ -39,25 +34,100 @@ class SubscribersAdapter(
     override fun onBindViewHolder(holder: SubscribersViewHolder, position: Int) {
         return holder.bind(subscriber[position])
     }
-}
 
-class SubscribersViewHolder(
-    private val binding: SubscribersItemBinding
-) : RecyclerView.ViewHolder(binding.root) {
+    class SubscribersViewHolder(
+        private val binding: SubscribersItemBinding, private val subscriber: ArrayList<SubsInfo>
+    ) : RecyclerView.ViewHolder(binding.root) {
 
-    fun bind(subsInfo: SubsInfo) {
-        binding.apply {
-            profileName.text = subsInfo.fullName
-            Glide.with(itemView.context).load(subsInfo.profilePic).into(binding.profilePic)
-            //profilePic.setImageResource(subsInfo.profilePic)
-//            likeProfile.setImageResource(
-//                if (subsInfo.subscribed) R.drawable.ic_liked_40 else R.drawable.ic_like_40dp
-//            )
+        private val firebaseUser: FirebaseUser? = FirebaseAuth.getInstance().currentUser
 
-            likeProfile.setOnClickListener {
+        fun bind(subsInfo: SubsInfo) {
+            binding.apply {
+                profileName.text = subsInfo.fullName
+                Glide.with(itemView.context).load(subsInfo.profilePic).into(binding.profilePic)
 
+                checkFollowingStatus(subsInfo.uid, likeProfile)
+                likeProfile.setOnClickListener {
+                    Log.d("double trouble", "перед проверкой лайка $subscriber")
+                    if (likeProfile.tag == "not liked") {
+                        firebaseUser?.uid.let { uid ->
+                            FirebaseDatabase.getInstance().reference
+                                .child("Follow")
+                                .child(uid.toString())
+                                .child("Following")
+                                .child(subsInfo.uid)
+                                .setValue(subsInfo)
+                                .addOnCompleteListener { task ->
+                                    Log.d("double trouble", "перед успехом подписки $subscriber")
+                                    if (task.isSuccessful) {
+                                        firebaseUser?.uid.let { uid ->
+                                            FirebaseDatabase.getInstance().reference
+                                                .child("Follow")
+                                                .child(subsInfo.uid)
+                                                .child("Followers")
+                                                .child(uid.toString())
+                                                .setValue(subsInfo)
+                                                .addOnCompleteListener { task ->
+                                                    Log.d("double trouble", "перед успехом успехом $subscriber")
+                                                    if (task.isSuccessful) {
+                                                        Log.i("follow", "Подписан")
+                                                    }
+
+                                                }
+                                        }
+                                    }
+                                }
+                        }
+                    } else {
+                        firebaseUser?.uid.let { uid ->
+                            FirebaseDatabase.getInstance().reference
+                                .child("Follow")
+                                .child(uid.toString())
+                                .child("Following")
+                                .child(subsInfo.uid)
+                                .removeValue()
+                                .addOnCompleteListener { task ->
+                                    if (task.isSuccessful) {
+                                        firebaseUser?.uid.let { uid ->
+                                            FirebaseDatabase.getInstance().reference
+                                                .child("Follow").child(subsInfo.uid)
+                                                .child("Followers").child(uid.toString())
+                                                .removeValue().addOnCompleteListener { task ->
+                                                    if (task.isSuccessful) {
+                                                        Log.i("follow", "Отписан")
+                                                    }
+                                                }
+                                        }
+                                    }
+                                }
+                        }
+                    }
+                }
             }
+        }
+
+        private fun checkFollowingStatus(uid: String, likeProfile: ImageButton) {
+            val followingRef = firebaseUser?.uid.let {
+                FirebaseDatabase.getInstance().reference
+                    .child("Follow")
+                    .child(it.toString())
+                    .child("Following")
+            }
+
+            followingRef.addValueEventListener(object : ValueEventListener {
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    if (snapshot.child(uid).exists()) {
+                        likeProfile.setImageResource(R.drawable.ic_liked_40)
+                        likeProfile.tag = "liked"
+                    } else {
+                        likeProfile.setImageResource(R.drawable.ic_like_40dp)
+                        likeProfile.tag = "not liked"
+                    }
+                }
+
+                override fun onCancelled(error: DatabaseError) {
+                }
+            })
         }
     }
 }
-
