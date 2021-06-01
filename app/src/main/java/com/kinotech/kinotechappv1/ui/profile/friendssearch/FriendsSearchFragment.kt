@@ -22,7 +22,7 @@ import kotlin.collections.ArrayList
 class FriendsSearchFragment : Fragment() {
 
     private lateinit var binding: FriendsSearchBinding
-    private val users: MutableList<SubsInfo> = ArrayList()
+    private val users: ArrayList<SubsInfo> = arrayListOf()
     private var adapter: FriendSearchAdapter? = null
 
     override fun onCreateView(
@@ -38,6 +38,7 @@ class FriendsSearchFragment : Fragment() {
             recyclerView.layoutManager = LinearLayoutManager(context)
             val subscribeString = getString(R.string.subscribe_string)
             adapter = context?.let { FriendSearchAdapter(users, subscribeString) }
+            Log.d("userss", "onCreateView: $users")
             recyclerView.adapter = adapter
 
             searchText.addTextChangedListener(object : TextWatcher {
@@ -61,8 +62,10 @@ class FriendsSearchFragment : Fragment() {
 
     private fun searchUser(input: String) {
         val userRef = FirebaseDatabase.getInstance().reference
-            .child("Users").orderByChild("fullName")
-            .startAt(input).endAt(input + "\uf8ff")
+            .child("Users")
+            .orderByChild("fullName")
+            .startAt(input)
+            .endAt(input + "\uf8ff")
 
         userRef.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
@@ -70,6 +73,7 @@ class FriendsSearchFragment : Fragment() {
 
                 for (snap in snapshot.children) {
                     val friend = snap.getValue(SubsInfo::class.java)
+                    Log.d("friend", "onDataChange: $friend")
                     if (friend != null) {
                         users.add(friend)
                     }

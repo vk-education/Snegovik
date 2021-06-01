@@ -44,7 +44,11 @@ class SubscribersAdapter(
         fun bind(subsInfo: SubsInfo) {
             binding.apply {
                 profileName.text = subsInfo.fullName
-                Glide.with(itemView.context).load(subsInfo.profilePic).into(binding.profilePic)
+                Glide
+                    .with(binding.root)
+                    .load(subsInfo.profilePic)
+                    .error(R.drawable.ic_add)
+                    .into(binding.profilePic)
 
                 checkFollowingStatus(subsInfo.uid, likeProfile)
                 likeProfile.setOnClickListener {
