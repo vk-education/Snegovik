@@ -16,7 +16,8 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:src="@drawable/pobeg"
-            android:background="@drawable/border" />
+            android:background="@drawable/border"
+            android:layout_marginLeft="8dp"/>
 
     <TextView
             android:id="@+id/lmFilmTitle"
@@ -44,13 +45,26 @@
             android:textColor="@color/another_white" />
 
     <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/yourRating"
+            app:layout_constraintBottom_toBottomOf="@id/lmFilmPoster"
+            app:layout_constraintStart_toEndOf="@id/lmFilmGenre"
+            app:layout_constraintTop_toBottomOf="@id/lmFilmTitle"
+            android:layout_marginStart="20dp"
+            android:textSize="14sp"
+            android:fontFamily="@font/rubik_bold"
+            android:textColor="@color/red_500"
+            />
+
+    <TextView
             android:id="@+id/lmFilmYear"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:layout_constraintStart_toEndOf="@id/lmFilmTitle"
             app:layout_constraintTop_toTopOf="@id/lmFilmTitle"
             tools:text="1994"
-            android:layout_marginStart="16dp"
+            android:layout_marginStart="8dp"
             android:fontFamily="@font/rubik_bold"
             android:textSize="14sp"
             android:textColor="@color/another_white" />

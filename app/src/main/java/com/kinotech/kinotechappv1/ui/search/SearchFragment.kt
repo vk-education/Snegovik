@@ -10,6 +10,8 @@ import android.view.WindowManager
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.appcompat.app.ActionBar
+import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.AppCompatButton
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
@@ -27,6 +29,9 @@ class SearchFragment : Fragment() {
             searchView.findViewById(R.id.search_close_btn)
         val submitBtn: AppCompatButton = root.findViewById(R.id.find_button)
         val textSizeF = 16F
+        val activity: AppCompatActivity = root.context as AppCompatActivity
+        val toolbar: ActionBar = activity.supportActionBar!!
+        toolbar.hide()
         activity?.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN)
         searchView.findViewById<LinearLayout>(R.id.search_plate)
             .setBackgroundColor(Color.TRANSPARENT)
@@ -68,6 +73,7 @@ class SearchFragment : Fragment() {
         val transaction = activity?.supportFragmentManager?.beginTransaction()
         activity?.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN)
         transaction?.replace(R.id.frameLayout, fragment)
+        transaction?.addToBackStack(null)
         transaction?.commit()
     }
 }

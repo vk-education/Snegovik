@@ -1,14 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
+
+
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
         android:background="@color/red_400"
         android:layout_width="match_parent"
+        android:id="@+id/film_page_scroll"
         android:layout_height="match_parent"
         android:layout_marginBottom="55dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
+            android:id="@+id/film_page"
             android:layout_height="wrap_content"
             android:background="@color/red_400">
 
@@ -25,7 +29,7 @@
                 app:layout_constraintStart_toStartOf="parent" />
 
         <ImageButton
-                android:id="@+id/backBtn"
+                android:id="@+id/backBtnFilmPage"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="16dp"
@@ -39,9 +43,9 @@
                 android:layout_width="0dp"
                 android:gravity="center"
                 android:layout_height="wrap_content"
-                app:layout_constraintTop_toTopOf="@id/backBtn"
-                app:layout_constraintBottom_toBottomOf="@id/backBtn"
-                app:layout_constraintStart_toEndOf="@id/backBtn"
+                app:layout_constraintTop_toTopOf="@id/backBtnFilmPage"
+                app:layout_constraintBottom_toBottomOf="@id/backBtnFilmPage"
+                app:layout_constraintStart_toEndOf="@id/backBtnFilmPage"
                 app:layout_constraintEnd_toEndOf="parent"
                 android:layout_marginEnd="16dp"
                 tools:text="Побег из Шоушенка"
@@ -57,7 +61,7 @@
                 android:layout_width="130dp"
                 android:layout_height="175dp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/backBtn"
+                app:layout_constraintTop_toBottomOf="@id/backBtnFilmPage"
                 android:layout_margin="16dp"
                 android:background="@drawable/border" />
 
@@ -265,15 +269,18 @@
                     android:textColor="@color/white_full"
                     android:layout_margin="20dp" />
 
-            <TextView
+            <EditText
                     android:id="@+id/userRate"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/rubik_bold"
                     android:textSize="18sp"
                     android:textColor="@color/red_700"
-                    tools:text="9"
-                    android:layout_marginTop="16dp"
+                    android:textColorHint="@color/red_700"
+                    android:hint=""
+                    android:inputType="number"
+                    android:maxLength="1"
+                    android:layout_marginTop="6dp"
                     app:layout_constraintHorizontal_chainStyle="packed"
                     app:layout_constraintTop_toBottomOf="@id/rateFilm"
                     app:layout_constraintStart_toStartOf="@id/rateFilm"

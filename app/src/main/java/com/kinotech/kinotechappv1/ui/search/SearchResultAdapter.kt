@@ -9,24 +9,14 @@ import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.graphics.drawable.toDrawable
-import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseUser
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.ValueEventListener
 import com.kinotech.kinotechappv1.R
 import com.kinotech.kinotechappv1.db.DatabaseAdder
-import com.kinotech.kinotechappv1.db.SearchQuery
-
 
 class MoviesAdapter(
     private val movies: List<SimpleResult>,
-    private val result: String
+    result: String
 ) : RecyclerView.Adapter<MoviesViewHolder>() {
     private val s = result
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MoviesViewHolder {
@@ -66,12 +56,9 @@ class MoviesViewHolder(itemView: View, s:String) : RecyclerView.ViewHolder(itemV
         itemView.setOnClickListener {
             val activity: AppCompatActivity = itemView.context as AppCompatActivity
             val transaction = activity.supportFragmentManager.beginTransaction()
-            transaction.replace(R.id.container, FilmPageFragment(movie, result))
+            transaction.replace(R.id.container, FilmPageFragment(movie, result, 1))
             transaction.addToBackStack(null)
             transaction.commit()
         }
     }
-
-
-
 }
