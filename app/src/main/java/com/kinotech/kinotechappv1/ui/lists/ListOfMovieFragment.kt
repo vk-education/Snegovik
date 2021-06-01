@@ -37,6 +37,7 @@ class ListOfMovieFragment(private val listTitleDB:String) : Fragment() {
         val listTitle = root.findViewById<TextView>(R.id.listTitle)
         val listPhoto : ImageView = root.findViewById(R.id.listIcon)
         val arg = this.arguments
+        listTitle.text = listTitleDB
         if (arg != null) {
             listTitle.text = arg.getString("keyForName", "")
         }
