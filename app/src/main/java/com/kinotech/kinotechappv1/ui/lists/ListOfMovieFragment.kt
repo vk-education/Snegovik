@@ -203,6 +203,7 @@ class ListOfMovieFragment(private val listTitleDB:String) : Fragment() {
                 FirebaseDatabase.getInstance().reference
                     .child("Posts")
                     .child(it1.toString())
+                    .child(listTitleDB)
                     .removeValue()
             }
 
