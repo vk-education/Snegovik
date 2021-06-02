@@ -10,7 +10,6 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.bumptech.glide.request.RequestOptions
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.*
@@ -47,8 +46,6 @@ class OpenListsAdapter(
         private var user: FirebaseUser? = FirebaseAuth.getInstance().currentUser
         fun bind(lists: AnyItemInAdapterList.ButtonShowList) {
             var count: Int
-//            Log.d("dataFavourite", "bind: ${movie.nameRu}")
-            val options = RequestOptions()
             itemTitle.text = (lists).itemTitle
             user?.uid.let { it1 ->
                 FirebaseDatabase.getInstance().reference

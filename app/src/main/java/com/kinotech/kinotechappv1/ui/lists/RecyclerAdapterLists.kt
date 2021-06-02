@@ -6,7 +6,6 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.google.firebase.auth.FirebaseAuth
@@ -16,13 +15,16 @@ import com.kinotech.kinotechappv1.R
 import com.kinotech.kinotechappv1.ui.search.SimpleResult
 import kotlin.reflect.KClass
 
-class  RecyclerAdapterLists(val context: Context, private val clickListener: MyClickListener) :
+class RecyclerAdapterLists(val context: Context, private val clickListener: MyClickListener) :
     RecyclerView.Adapter<RecyclerAdapterLists.MyViewHolder>() {
 
     private fun unreachable(): Nothing = throw Exception()
-    private fun <E : Enum<E>> KClass<E>.enumValues(): Array<out E> = java.enumConstants ?: unreachable()
+    private fun <E : Enum<E>> KClass<E>.enumValues(): Array<out E> =
+        java.enumConstants ?: unreachable()
+
     private fun <E : Enum<E>> KClass<E>.enumValue(ordinal: Int): E = enumValues()[ordinal]
-    private inline fun <reified E : Enum<E>> enumValueOf(ordinal: Int): E = E::class.enumValue(ordinal)
+    private inline fun <reified E : Enum<E>> enumValueOf(ordinal: Int): E =
+        E::class.enumValue(ordinal)
 
     val Context.layoutInflater: LayoutInflater get() = LayoutInflater.from(this)
     private var listsOfMovie: List<AnyItemInAdapterList> = listOf()
@@ -48,8 +50,6 @@ class  RecyclerAdapterLists(val context: Context, private val clickListener: MyC
             RecyclerViewItemType.ButtonFavList -> MyViewHolder.FavViewHolder(parent)
             RecyclerViewItemType.ButtonShowList -> MyViewHolder.ShowViewHolder(parent)
         }
-    /* val view = LayoutInflater.from(parent.context).inflate(R.layout.list_item, parent, false)
-     return MyViewHolder(view)*/
 
     override fun getItemCount(): Int {
         return listsOfMovie.size
@@ -85,7 +85,6 @@ class  RecyclerAdapterLists(val context: Context, private val clickListener: MyC
                 itemTitle.text = (lists as AnyItemInAdapterList.ButtonCreateList).itemTitle
                 val imgList: String = lists.imgList
                 Glide
-                    // .with(itemView.context)
                     .with(itemView.context)
                     .load(imgList)
                     .error(R.drawable.ic_add_24)
@@ -109,7 +108,7 @@ class  RecyclerAdapterLists(val context: Context, private val clickListener: MyC
                 val filmCount: TextView = itemView.findViewById(R.id.film_count)
                 val imgListH: ImageView = itemView.findViewById(R.id.img_list)
                 var count: Int
-                user?.uid.let{ it1 ->
+                user?.uid.let { it1 ->
                     FirebaseDatabase.getInstance().reference
                         .child("Liked Movies")
                         .child(it1.toString())
@@ -117,19 +116,17 @@ class  RecyclerAdapterLists(val context: Context, private val clickListener: MyC
                 }.addValueEventListener(object : ValueEventListener {
                     override fun onDataChange(snapshot: DataSnapshot) {
                         count = snapshot.childrenCount.toInt()
-                        Log.d("dbfav", "onDataChange: ${count} ")
-                        filmCount.text = "$count фильмов"
-                        Log.d("dbfav", "onDataChange: ${filmCount?.text} ")
+                        Log.d("dataFavourite", "onDataChange: $count ")
+                        "$count фильмов".also { filmCount.text = it }
+                        Log.d("dataFavourite", "onDataChange: ${filmCount.text} ")
                     }
-                    override fun onCancelled(error: DatabaseError) {
 
-                    }
+                    override fun onCancelled(error: DatabaseError) {}
                 })
                 itemTitle.text = (lists as AnyItemInAdapterList.ButtonFavList).itemTitle
                 val imgList: String = lists.imgList
-                Log.d("tag", "karkar$imgList")
+                Log.d("tag", "carCar$imgList")
                 Glide
-                    // .with(itemView.context)
                     .with(itemView.context)
                     .load(imgList)
                     .error(R.drawable.ic_like_24)
@@ -154,7 +151,7 @@ class  RecyclerAdapterLists(val context: Context, private val clickListener: MyC
                 val imgListH: ImageView = itemView.findViewById(R.id.img_list)
                 var count: Int
                 itemTitle.text = (lists as AnyItemInAdapterList.ButtonShowList).itemTitle
-                user?.uid.let{ it1 ->
+                user?.uid.let { it1 ->
                     FirebaseDatabase.getInstance().reference
                         .child("Lists")
                         .child(it1.toString())
@@ -164,8 +161,8 @@ class  RecyclerAdapterLists(val context: Context, private val clickListener: MyC
                     override fun onDataChange(snapshot: DataSnapshot) {
                         count = snapshot.childrenCount.toInt()
                         Log.d("dbfav", "onDataChange: $count ")
-                        filmCount.text = "$count фильмов"
-                        if (filmCount.text == "0 фильмов"){
+                        "$count фильмов".also { filmCount.text = it }
+                        if (filmCount.text == "0 фильмов") {
                             Glide
                                 .with(itemView.context)
                                 .load(lists.imgList)
@@ -173,11 +170,10 @@ class  RecyclerAdapterLists(val context: Context, private val clickListener: MyC
                                 .into(imgListH)
                         }
                     }
-                    override fun onCancelled(error: DatabaseError) {
 
-                    }
+                    override fun onCancelled(error: DatabaseError) {}
                 })
-                val photoRef= user?.uid.let{ it1 ->
+                val photoRef = user?.uid.let { it1 ->
                     FirebaseDatabase.getInstance().reference
                         .child("Lists")
                         .child(it1.toString())
@@ -202,17 +198,13 @@ class  RecyclerAdapterLists(val context: Context, private val clickListener: MyC
                                     .into(imgListH)
 
                             } catch (e: Exception) {
-                                Log.d("dbfav", "onDataChange: $e")
+                                Log.d("dataFavourite", "onDataChange: $e")
                             }
                         }
                     }
 
-                    override fun onCancelled(error: DatabaseError) {
-                    }
-
+                    override fun onCancelled(error: DatabaseError) {}
                 })
-
-
                 itemView.setOnClickListener {
                     clickListener.onItemClick(
                         lists

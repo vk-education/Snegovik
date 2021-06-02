@@ -16,7 +16,6 @@ import com.kinotech.kinotechappv1.ui.profile.SubsInfo
 class SubscriptionsFragment : Fragment() {
 
     private var user: FirebaseUser? = FirebaseAuth.getInstance().currentUser
-    private var subsRef: DatabaseReference = FirebaseDatabase.getInstance().reference
     val resultSubs = arrayListOf<SubsInfo>()
 
     override fun onCreateView(
@@ -25,23 +24,26 @@ class SubscriptionsFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         val binding = SubscripitionsFragmentBinding.inflate(inflater, container, false)
-        val followersRef = user?.uid.let { it1 ->
+        user?.uid.let { it1 ->
             FirebaseDatabase.getInstance().reference
                 .child("Follow")
                 .child(it1.toString())
                 .child("Following")
-        }.addValueEventListener(object : ValueEventListener{
+        }.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 resultSubs.clear()
-                for(snap in snapshot.children){
-                    val userInfoRef = user?.uid.let {
+                for (snap in snapshot.children) {
+                    user?.uid.let {
                         FirebaseDatabase.getInstance().reference
                             .child("Users")
                             .child(snap.value.toString())
-                    }.addValueEventListener(object : ValueEventListener{
+                    }.addValueEventListener(object : ValueEventListener {
                         override fun onDataChange(snaps: DataSnapshot) {
                             snaps.getValue(SubsInfo::class.java)?.let { resultSubs.add(it) }
-                            Log.d("snapInfo", "onDataChange: ${snaps.getValue(SubsInfo::class.java)}")
+                            Log.d(
+                                "snapInfo",
+                                "onDataChange: ${snaps.getValue(SubsInfo::class.java)}"
+                            )
                             binding.subscriptionsRV.apply {
                                 setHasFixedSize(true)
                                 layoutManager = LinearLayoutManager(context)
@@ -49,17 +51,13 @@ class SubscriptionsFragment : Fragment() {
                             }
                         }
 
-                        override fun onCancelled(error: DatabaseError) {
-                            TODO("Not yet implemented")
-                        }
+                        override fun onCancelled(error: DatabaseError) {}
                     })
                     Log.d("followerList", "onDataChange: $resultSubs")
                 }
             }
 
-            override fun onCancelled(error: DatabaseError) {
-                TODO("Not yet implemented")
-            }
+            override fun onCancelled(error: DatabaseError) {}
         })
         return binding.root
     }

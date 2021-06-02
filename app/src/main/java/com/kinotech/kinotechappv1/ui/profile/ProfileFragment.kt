@@ -107,14 +107,11 @@ class ProfileFragment : Fragment() {
         }.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 ((snapshot.childrenCount - 1).toString() + "\nсписки").also { lists.text = it }
-                if (snapshot.childrenCount - 1 < 0){
-                    lists.text = snapshot.childrenCount.toString()+ "\nсписки"
-                }
-                else{
+                if (snapshot.childrenCount - 1 < 0) {
+                    (snapshot.childrenCount.toString() + "\nсписки").also { lists.text = it }
+                } else {
                     ((snapshot.childrenCount - 1).toString() + "\nсписки").also { lists.text = it }
                 }
-
-
             }
 
             override fun onCancelled(error: DatabaseError) {}
@@ -218,8 +215,6 @@ class ProfileFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        //val buffAcc = GoogleSignIn.getLastSignedInAccount(context)
-        //bind(buffAcc)
         val gso: GoogleSignInOptions =
             GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestEmail()
@@ -249,9 +244,7 @@ class ProfileFragment : Fragment() {
                     .into(img)
             }
 
-            override fun onCancelled(error: DatabaseError) {
-                TODO("Not yet implemented")
-            }
+            override fun onCancelled(error: DatabaseError) {}
         })
     }
 }

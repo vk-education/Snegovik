@@ -289,19 +289,14 @@ class FriendProfileFragment(private val subsInfo: SubsInfo) : Fragment() {
                 .child(it1)
         }.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
-                if (snapshot.childrenCount - 1 < 0){
-                lists.text = snapshot.childrenCount.toString()+ "\nсписки"
-                }
-                else{
+                if (snapshot.childrenCount - 1 < 0) {
+                    (snapshot.childrenCount.toString() + "\nсписки").also { lists.text = it }
+                } else {
                     ((snapshot.childrenCount - 1).toString() + "\nсписки").also { lists.text = it }
                 }
-
             }
 
-            override fun onCancelled(error: DatabaseError) {
-
-            }
+            override fun onCancelled(error: DatabaseError) {}
         })
     }
-
 }
