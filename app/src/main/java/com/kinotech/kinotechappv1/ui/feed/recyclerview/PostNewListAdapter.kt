@@ -28,7 +28,7 @@ class PostNewListAdapter(private val posts : ArrayList<PostNewList>) :
         val binding = FeedNewlistPostBinding.inflate(
             LayoutInflater.from(parent.context), parent, false
         )
-        return PostNewListViewHolder(binding)
+        return PostNewListViewHolder(binding, posts)
     }
 
     override fun onBindViewHolder(holder: PostNewListViewHolder, position: Int) {
@@ -41,7 +41,8 @@ class PostNewListAdapter(private val posts : ArrayList<PostNewList>) :
 }
 
 class PostNewListViewHolder(
-    private val binding: FeedNewlistPostBinding
+    private val binding: FeedNewlistPostBinding,
+    private val posts: ArrayList<PostNewList>
 ) : RecyclerView.ViewHolder(binding.root) {
     private var user: FirebaseUser? = FirebaseAuth.getInstance().currentUser
 
@@ -57,9 +58,9 @@ class PostNewListViewHolder(
                 .into(profilePic)
             actionDoneTV.text = postNewList.actionDoneText
             val films = postNewList.films
-           setPhotosMovies(postNewList.films[0], postNewList.uid, postNewList.actionDoneText, root, filmPoster1)
-           setPhotosMovies(postNewList.films[1], postNewList.uid, postNewList.actionDoneText, root, filmPoster2)
-           setPhotosMovies(postNewList.films[2], postNewList.uid, postNewList.actionDoneText, root, filmPoster3)
+            setPhotosMovies(postNewList.films[0], postNewList.uid, postNewList.actionDoneText, root, filmPoster1)
+            setPhotosMovies(postNewList.films[1], postNewList.uid, postNewList.actionDoneText, root, filmPoster2)
+            setPhotosMovies(postNewList.films[2], postNewList.uid, postNewList.actionDoneText, root, filmPoster3)
             checkAddedButton(addBtn, postNewList.uid, postNewList.actionDoneText )
             addBtn.setOnClickListener {
                 if (addBtn.tag == "button not added") {
@@ -68,28 +69,32 @@ class PostNewListViewHolder(
                     deleteList(postNewList.actionDoneText)
                 }
             }
-            checkLikedStatus(like, postNewList.uid)
-            checkLikeCount(postNewList.uid, likesCount)
+            checkLikedStatus(like, postNewList.uid, postNewList.actionDoneText)
+            checkLikeCount(postNewList.uid, likesCount, postNewList.actionDoneText)
             like.setOnClickListener {
                 if (like.tag == "button_not_liked"){
                     user?.uid.let{it1 ->
                         FirebaseDatabase.getInstance().reference
                             .child("Posts")
                             .child(postNewList.uid)
+                            .child(postNewList.actionDoneText)
                             .child("Likes")
-                            .child(postNewList.uid)
+                            .child(user?.uid.toString())
                             .setValue(true)
                     }
+                    posts.clear()
                 }
                 else{
                     user?.uid.let{it1 ->
                         FirebaseDatabase.getInstance().reference
                             .child("Posts")
                             .child(postNewList.uid)
+                            .child(postNewList.actionDoneText)
                             .child("Likes")
-                            .child(postNewList.uid)
+                            .child(user?.uid.toString())
                             .removeValue()
                     }
+                    posts.clear()
                 }
 
             }
@@ -101,11 +106,12 @@ class PostNewListViewHolder(
         }
     }
 
-    private fun checkLikeCount(id:String, count: TextView) {
+    private fun checkLikeCount(id:String, count: TextView, title: String) {
         user?.uid.let{it1 ->
             FirebaseDatabase.getInstance().reference
                 .child("Posts")
                 .child(id)
+                .child(title)
                 .child("Likes")
         }.addValueEventListener(object : ValueEventListener{
             override fun onDataChange(snapshot: DataSnapshot) {
@@ -119,17 +125,18 @@ class PostNewListViewHolder(
         })
     }
 
-    private fun checkLikedStatus(likeButton: ImageButton, id: String) {
+    private fun checkLikedStatus(likeButton: ImageButton, id: String, title: String) {
         val likedMoviesRef = user?.uid.let{it1 ->
             FirebaseDatabase.getInstance().reference
                 .child("Posts")
                 .child(id)
+                .child(title)
                 .child("Likes")
         }
 
         likedMoviesRef.addValueEventListener(object: ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
-                if (snapshot.child(id).exists()){
+                if (snapshot.child(user?.uid.toString()).exists()){
                     likeButton.setBackgroundResource(R.drawable.ic_liked)
                     likeButton.tag = "button is liked"
                 }
