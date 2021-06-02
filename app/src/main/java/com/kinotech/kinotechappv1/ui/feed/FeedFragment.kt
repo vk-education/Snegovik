@@ -53,9 +53,7 @@ class FeedFragment : Fragment() {
                             }
                             Log.d("post", "$posts")
                             binding.feedRV.apply {
-                                adapter = PostNewListAdapter(posts)
-                                setHasFixedSize(true)
-                                layoutManager = LinearLayoutManager(context)
+                                adapter?.notifyDataSetChanged()
                             }
                         }
 
@@ -63,6 +61,7 @@ class FeedFragment : Fragment() {
                             TODO("Not yet implemented")
                         }
                     })
+
                 }
 
             }
@@ -72,6 +71,11 @@ class FeedFragment : Fragment() {
             }
 
         })
+        binding.feedRV.apply {
+            adapter = PostNewListAdapter(posts)
+            setHasFixedSize(true)
+            layoutManager = LinearLayoutManager(context)
+        }
 //        user?.uid.let { it1 ->
 //            FirebaseDatabase.getInstance().reference
 //                .child("Follow")

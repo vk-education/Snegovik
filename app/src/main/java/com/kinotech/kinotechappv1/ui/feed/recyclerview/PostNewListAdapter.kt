@@ -3,8 +3,8 @@ package com.kinotech.kinotechappv1.ui.feed.recyclerview
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageButton
 import android.widget.ImageView
-import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
@@ -16,8 +16,8 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.kinotech.kinotechappv1.R
 import com.kinotech.kinotechappv1.databinding.FeedNewlistPostBinding
-import com.kinotech.kinotechappv1.ui.feed.OnInteractionListener
 import com.kinotech.kinotechappv1.ui.feed.PostNewList
+import com.kinotech.kinotechappv1.ui.search.SimpleResult
 
 class PostNewListAdapter(private val posts : ArrayList<PostNewList>) :
     RecyclerView.Adapter<PostNewListViewHolder>(){
@@ -54,9 +54,18 @@ class PostNewListViewHolder(
                 .error(R.drawable.ic_profile_circle_24)
                 .into(profilePic)
             actionDoneTV.text = postNewList.actionDoneText
-//            setPhotosMovies(postNewList.film1, postNewList.id, postNewList.actionDoneText, root, filmPoster1)
-//            setPhotosMovies(postNewList.film2, postNewList.id, postNewList.actionDoneText, root, filmPoster2)
-//            setPhotosMovies(postNewList.film3, postNewList.id, postNewList.actionDoneText, root, filmPoster3)
+            val films = postNewList.films
+           setPhotosMovies(postNewList.films[0], postNewList.uid, postNewList.actionDoneText, root, filmPoster1)
+           setPhotosMovies(postNewList.films[1], postNewList.uid, postNewList.actionDoneText, root, filmPoster2)
+           setPhotosMovies(postNewList.films[2], postNewList.uid, postNewList.actionDoneText, root, filmPoster3)
+            checkAddedButton(addBtn, postNewList.uid, postNewList.actionDoneText )
+            addBtn.setOnClickListener {
+                if (addBtn.tag == "button not added") {
+                    addList(postNewList.uid, postNewList.actionDoneText)
+                } else {
+                    deleteList(postNewList.actionDoneText)
+                }
+            }
             //filmPoster1.setImageResource(postNewList.film1)
             //filmPoster2.setImageResource(postNewList.film2)
             //  filmPoster3.setImageResource(postNewList.film3)
@@ -88,6 +97,106 @@ class PostNewListViewHolder(
 
         })
 
+    }
+    private fun checkAddedButton(addButton: ImageButton, id:String, itemTitle:String) {
+        user?.uid.let { it1 ->
+            FirebaseDatabase.getInstance().reference
+                .child("Lists")
+                .child(id)
+                .child("UserLists")
+        }.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                user?.uid.let { it1 ->
+                    FirebaseDatabase.getInstance().reference
+                        .child("Lists")
+                        .child(it1.toString())
+                        .child("UserLists")
+                }.addValueEventListener(object : ValueEventListener {
+                    override fun onDataChange(snap: DataSnapshot) {
+                        if (snap.child(itemTitle).exists()) {
+                            addButton.tag = "button is added"
+                            addButton.setBackgroundResource(R.drawable.ic_check)
+                        } else {
+                            addButton.tag = "button not added"
+                            addButton.setBackgroundResource(R.drawable.ic_add)
+                        }
+                    }
+
+                    override fun onCancelled(error: DatabaseError) {
+                        TODO("Not yet implemented")
+                    }
+
+                })
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                TODO("Not yet implemented")
+            }
+        })
+    }
+
+    private fun addList(id: String, itemTitle: String) {
+        user?.uid.let { it1 ->
+            FirebaseDatabase.getInstance().reference
+                .child("Lists")
+                .child(id)
+                .child(itemTitle)
+                .child("Movies")
+        }.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                user?.uid.let { it1 ->
+                    FirebaseDatabase.getInstance().reference
+                        .child("Lists")
+                        .child(it1.toString())
+                        .child("UserLists")
+                        .child(itemTitle)
+                        .setValue(itemTitle)
+                }
+                user?.uid.let { it1 ->
+                    FirebaseDatabase.getInstance().reference
+                        .child("Lists")
+                        .child(it1.toString())
+                        .child(itemTitle)
+                        .child("IsOpened")
+                        .setValue(false)
+                }
+                for (snap in snapshot.children) {
+                    val result = snap.getValue(SimpleResult::class.java)
+                    user?.uid.let { it1 ->
+                        FirebaseDatabase.getInstance().reference
+                            .child("Lists")
+                            .child(it1.toString())
+                            .child(itemTitle)
+                            .child("Movies")
+                            .child(snap.key.toString())
+                            .setValue(result)
+                    }
+                }
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                TODO("Not yet implemented")
+            }
+
+        })
+    }
+
+    private fun deleteList(itemTitle: String) {
+        user?.uid.let { it1 ->
+            FirebaseDatabase.getInstance().reference
+                .child("Lists")
+                .child(it1.toString())
+                .child(itemTitle)
+                .removeValue()
+        }
+        user?.uid.let { it1 ->
+            FirebaseDatabase.getInstance().reference
+                .child("Lists")
+                .child(it1.toString())
+                .child("UserLists")
+                .child(itemTitle)
+                .removeValue()
+        }
     }
 }
 

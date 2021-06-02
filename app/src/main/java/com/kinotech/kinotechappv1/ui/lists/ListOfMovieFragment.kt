@@ -229,6 +229,13 @@ class ListOfMovieFragment(private val listTitleDB:String) : Fragment() {
                 .child(listTitleDB)
                 .removeValue()
         }
+        user?.uid.let { it1 ->
+            FirebaseDatabase.getInstance().reference
+                .child("Posts")
+                .child(it1.toString())
+                .child(listTitleDB)
+                .removeValue()
+        }
         fragmentManager
             ?.beginTransaction()
             ?.replace(R.id.container, ListsFragment())
