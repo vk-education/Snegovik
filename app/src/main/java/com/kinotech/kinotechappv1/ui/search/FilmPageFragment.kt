@@ -124,6 +124,9 @@ class FilmPageFragment(movie: SimpleResult, s: String, mode: Int) : Fragment() {
                 if (event == null) {
                     if (actionId == EditorInfo.IME_ACTION_DONE) {
                         Log.d("rating", "${v?.text} ")
+                        if(v?.text.toString().toInt() > 10){
+                            v?.text = 10.toString()
+                        }
                         user?.uid.let { it1 ->
                             FirebaseDatabase.getInstance().reference
                                 .child("User Rating")

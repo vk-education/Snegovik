@@ -53,6 +53,11 @@ class FriendSearchAdapter(
             binding.apply {
                 profileName.text = subsInfo.fullName.split(" ")
                     .joinToString(" ") { it.capitalize(Locale.getDefault()) }
+                Glide
+                    .with(binding.root)
+                    .load(subsInfo.photo)
+                    .error(R.drawable.ic_add)
+                    .into(binding.profilePic)
 
                 Glide
                     .with(binding.root)

@@ -107,6 +107,14 @@ class ProfileFragment : Fragment() {
         }.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 ((snapshot.childrenCount - 1).toString() + "\nсписки").also { lists.text = it }
+                if (snapshot.childrenCount - 1 < 0){
+                    lists.text = snapshot.childrenCount.toString()+ "\nсписки"
+                }
+                else{
+                    ((snapshot.childrenCount - 1).toString() + "\nсписки").also { lists.text = it }
+                }
+
+
             }
 
             override fun onCancelled(error: DatabaseError) {}

@@ -134,6 +134,56 @@ class ListOfMovieFragment(private val listTitleDB:String) : Fragment() {
                     .child("IsOpened")
                     .setValue(true)
             }
+            val userInfo : HashMap<String, Any?> = HashMap()
+            val films : ArrayList<String> = arrayListOf()
+
+            user?.uid.let { it1 ->
+                FirebaseDatabase.getInstance().reference
+                    .child("Lists")
+                    .child(it1.toString())
+                    .child(listTitleDB)
+                    .child("Movies")
+            }.addValueEventListener(object : ValueEventListener{
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    if(snapshot.childrenCount >= 3){
+                        for(snap in snapshot.children){
+                            films.add(snap.key.toString())
+                        }
+                        user?.uid.let { it1 ->
+                            FirebaseDatabase.getInstance().reference
+                                .child("Users")
+                                .child(it1.toString())
+                        }.addValueEventListener(object : ValueEventListener{
+                            override fun onDataChange(snapshot: DataSnapshot) {
+                                userInfo["uid"] = snapshot.child("uid").value
+                                userInfo["fullName"] = snapshot.child("fullName").value
+                                userInfo["photo"] = snapshot.child("photo").value
+                                userInfo["actionDoneText"] = listTitleDB
+                                userInfo["films"] = films
+                                user?.uid.let { it1 ->
+                                    FirebaseDatabase.getInstance().reference
+                                        .child("Posts")
+                                        .child(it1.toString())
+                                        .child(listTitleDB)
+                                        .setValue(userInfo)
+                                }
+                            }
+
+                            override fun onCancelled(error: DatabaseError) {
+                            }
+
+                        })
+
+                    }
+
+                }
+
+                override fun onCancelled(error: DatabaseError) {
+                    TODO("Not yet implemented")
+                }
+
+            })
+
         }
         else{
             Toast.makeText(
@@ -149,6 +199,14 @@ class ListOfMovieFragment(private val listTitleDB:String) : Fragment() {
                     .child("IsOpened")
                     .setValue(false)
             }
+            user?.uid.let { it1 ->
+                FirebaseDatabase.getInstance().reference
+                    .child("Posts")
+                    .child(it1.toString())
+                    .child(listTitleDB)
+                    .removeValue()
+            }
+
         }
     }
 
@@ -168,6 +226,13 @@ class ListOfMovieFragment(private val listTitleDB:String) : Fragment() {
                 .child("Lists")
                 .child(it1.toString())
                 .child("UserLists")
+                .child(listTitleDB)
+                .removeValue()
+        }
+        user?.uid.let { it1 ->
+            FirebaseDatabase.getInstance().reference
+                .child("Posts")
+                .child(it1.toString())
                 .child(listTitleDB)
                 .removeValue()
         }
