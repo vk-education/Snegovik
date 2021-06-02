@@ -18,7 +18,6 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.SignInButton
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.database.*
 import java.util.*
@@ -29,8 +28,8 @@ class AuthActivity : AppCompatActivity() {
     companion object {
         private const val RC_SIGN_IN = 9001
     }
+
     private lateinit var mAuth: FirebaseAuth
-    private lateinit var currentUser: FirebaseUser
     private lateinit var serverClientId: String
     private lateinit var signInButton: SignInButton
     private lateinit var mSignInClient: GoogleSignInClient
@@ -144,7 +143,7 @@ class AuthActivity : AppCompatActivity() {
             val task: Task<GoogleSignInAccount> = GoogleSignIn.getSignedInAccountFromIntent(data)
             try {
                 currAcc = task.result
-                Log.d("cout2", "check2")
+                Log.d("count2", "check2")
                 firebaseAuthWithGoogle(currAcc?.idToken!!)
                 checkUserInDb(currAcc!!)
                 idTokenAcc = currAcc?.idToken.toString()
@@ -162,15 +161,13 @@ class AuthActivity : AppCompatActivity() {
         val currentUserID = FirebaseAuth.getInstance().currentUser!!.uid
         val usersRef: DatabaseReference =
             FirebaseDatabase.getInstance().reference.child("Users")
-        usersRef.addValueEventListener(object : ValueEventListener{
+        usersRef.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
-                if(!snapshot.child(currentUserID).exists()){
+                if (!snapshot.child(currentUserID).exists()) {
                     saveUserInfo(currAcc.displayName, currAcc.email, currAcc.photoUrl)
                 }
             }
-
             override fun onCancelled(error: DatabaseError) {
-
             }
         })
     }
@@ -183,12 +180,11 @@ class AuthActivity : AppCompatActivity() {
             ) { task ->
                 if (task.isSuccessful) {
                     // Sign in success, update UI with the signed-in user's information
-                    Log.d("cout2", "signInWithCredential:success")
-                    val user = mAuth.currentUser
+                    Log.d("count2", "signInWithCredential:success")
 
                 } else {
                     // If sign in fails, display a message to the user.
-                    Log.w("cout2", "signInWithCredential:failure", task.exception)
+                    Log.w("count2", "signInWithCredential:failure", task.exception)
                 }
             }
     }

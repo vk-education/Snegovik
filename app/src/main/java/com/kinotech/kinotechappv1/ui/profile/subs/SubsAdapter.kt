@@ -29,9 +29,4 @@ class SubsAdapter(manager: FragmentManager, lifecycle: Lifecycle) :
     fun getFragment(position: Int): Fragment {
         return fragmentList[position]
     }
-
-//    fun getPageTitle(position: Int): CharSequence {
-//        return titleList[position]
-//    }
-
 }

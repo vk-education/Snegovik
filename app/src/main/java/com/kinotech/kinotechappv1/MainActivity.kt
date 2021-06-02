@@ -2,7 +2,6 @@ package com.kinotech.kinotechappv1
 
 import android.annotation.SuppressLint
 import android.os.Bundle
-import android.widget.TextView
 import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
@@ -15,7 +14,6 @@ import com.kinotech.kinotechappv1.ui.profile.ProfileFragment
 import com.kinotech.kinotechappv1.ui.search.SearchFragment
 
 class MainActivity : AppCompatActivity() {
-    private lateinit var toolbar: ActionBar
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -26,7 +24,6 @@ class MainActivity : AppCompatActivity() {
         navView.setupWithNavController(navController)
         navView.setOnNavigationItemSelectedListener(onNavigationItemSelectedListener)
     }
-
 
     @SuppressLint("RestrictedApi")
     private val onNavigationItemSelectedListener =
@@ -61,5 +58,4 @@ class MainActivity : AppCompatActivity() {
         transaction.replace(R.id.container, fragment)
         transaction.commit()
     }
-
 }

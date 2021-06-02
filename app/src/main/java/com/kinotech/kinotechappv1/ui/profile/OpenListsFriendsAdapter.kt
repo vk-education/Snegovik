@@ -49,7 +49,6 @@ class OpenListsFriendsAdapter(
         private var user: FirebaseUser? = FirebaseAuth.getInstance().currentUser
         fun bind(lists: AnyItemInAdapterList.ButtonShowList) {
             var count: Int
-//            Log.d("dbfav", "bind: ${movie.nameRu}")
             val options = RequestOptions()
             itemTitle.text = (lists).itemTitle
             subsInfo.uid.let { it1 ->
@@ -72,9 +71,7 @@ class OpenListsFriendsAdapter(
                     }
                 }
 
-                override fun onCancelled(error: DatabaseError) {
-
-                }
+                override fun onCancelled(error: DatabaseError) {}
             })
             val photoRef = subsInfo.uid.let { it1 ->
                 FirebaseDatabase.getInstance().reference
@@ -106,8 +103,7 @@ class OpenListsFriendsAdapter(
                     }
                 }
 
-                override fun onCancelled(error: DatabaseError) {
-                }
+                override fun onCancelled(error: DatabaseError) {}
 
             })
             Log.d("recyclerView  ", "${itemTitle.text}")
@@ -197,9 +193,7 @@ class OpenListsFriendsAdapter(
                     }
                 }
 
-                override fun onCancelled(error: DatabaseError) {
-                    TODO("Not yet implemented")
-                }
+                override fun onCancelled(error: DatabaseError) {}
 
             })
         }

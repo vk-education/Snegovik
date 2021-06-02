@@ -78,9 +78,7 @@ class ProfileFragment : Fragment() {
                 }
             }
 
-            override fun onCancelled(error: DatabaseError) {
-
-            }
+            override fun onCancelled(error: DatabaseError) {}
         })
     }
 
@@ -97,9 +95,7 @@ class ProfileFragment : Fragment() {
                 }
             }
 
-            override fun onCancelled(error: DatabaseError) {
-
-            }
+            override fun onCancelled(error: DatabaseError) {}
         })
     }
 
@@ -110,14 +106,10 @@ class ProfileFragment : Fragment() {
                 .child(it1.toString())
         }.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
-//                lists.text = (snapshot.childrenCount - 1).toString() + "\nсписки"
                 ((snapshot.childrenCount - 1).toString() + "\nсписки").also { lists.text = it }
-
             }
 
-            override fun onCancelled(error: DatabaseError) {
-
-            }
+            override fun onCancelled(error: DatabaseError) {}
         })
     }
 

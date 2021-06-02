@@ -9,8 +9,8 @@ import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 
 class SplashActivity : AppCompatActivity() {
 
-    private val SPLASH_DISPLAY_LENGTH = 300
-    var gsa: GoogleSignInAccount? = null
+    companion object { private const val SPLASH_DISPLAY_LENGTH = 300 }
+    private var gsa: GoogleSignInAccount? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,6 +28,5 @@ class SplashActivity : AppCompatActivity() {
                 finish()
             }, SPLASH_DISPLAY_LENGTH.toLong())
         }
-
     }
 }
