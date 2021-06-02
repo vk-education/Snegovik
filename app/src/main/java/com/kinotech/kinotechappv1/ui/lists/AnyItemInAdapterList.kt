@@ -6,7 +6,7 @@ sealed class AnyItemInAdapterList {
         val imgList: String = ""
     ) : AnyItemInAdapterList()
 
-   class ButtonFavList(
+    class ButtonFavList(
         val itemTitle: String = "",
         val filmCount: String = "",
         val imgList: String = ""
@@ -14,7 +14,7 @@ sealed class AnyItemInAdapterList {
 
     class ButtonShowList(
         val itemTitle: String = "",
-        val filmCount: String  = "",
-        val imgList: String  = ""
+        val filmCount: String = "",
+        val imgList: String = ""
     ) : AnyItemInAdapterList()
 }
