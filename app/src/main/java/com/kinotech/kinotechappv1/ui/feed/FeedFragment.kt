@@ -18,8 +18,6 @@ import kotlin.math.log
 
 class FeedFragment : Fragment() {
     private var user: FirebaseUser? = FirebaseAuth.getInstance().currentUser
-    private var listsRef: DatabaseReference = FirebaseDatabase.getInstance().reference
-    private var followingList: ArrayList<String> = arrayListOf()
     private var posts : ArrayList<PostNewList> = arrayListOf()
     val films : ArrayList<String> = arrayListOf()
     var itemTitle = ""

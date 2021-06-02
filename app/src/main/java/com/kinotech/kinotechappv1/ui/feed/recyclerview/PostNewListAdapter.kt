@@ -56,7 +56,7 @@ class PostNewListViewHolder(
                 .apply(options.optionalCircleCrop())
                 .error(R.drawable.ic_profile_circle_24)
                 .into(profilePic)
-            actionDoneTV.text = postNewList.actionDoneText
+            listName.text = postNewList.actionDoneText
             val films = postNewList.films
             setPhotosMovies(postNewList.films[0], postNewList.uid, postNewList.actionDoneText, root, filmPoster1)
             setPhotosMovies(postNewList.films[1], postNewList.uid, postNewList.actionDoneText, root, filmPoster2)
