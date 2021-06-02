@@ -199,6 +199,13 @@ class ListOfMovieFragment(private val listTitleDB:String) : Fragment() {
                     .child("IsOpened")
                     .setValue(false)
             }
+            user?.uid.let { it1 ->
+                FirebaseDatabase.getInstance().reference
+                    .child("Posts")
+                    .child(it1.toString())
+                    .removeValue()
+            }
+
         }
     }
 

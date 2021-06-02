@@ -45,18 +45,18 @@ class PostNewListViewHolder(
 
     fun bind(postNewList: PostNewList) {
         binding.apply {
-            author.text = postNewList.author
+            author.text = postNewList.fullName
             val options = RequestOptions()
             Glide
                 .with(root)
-                .load(postNewList.profilePic)
+                .load(postNewList.photo)
                 .apply(options.optionalCircleCrop())
                 .error(R.drawable.ic_profile_circle_24)
                 .into(profilePic)
             actionDoneTV.text = postNewList.actionDoneText
-            setPhotosMovies(postNewList.film1, postNewList.id, postNewList.actionDoneText, root, filmPoster1)
-            setPhotosMovies(postNewList.film2, postNewList.id, postNewList.actionDoneText, root, filmPoster2)
-            setPhotosMovies(postNewList.film3, postNewList.id, postNewList.actionDoneText, root, filmPoster3)
+//            setPhotosMovies(postNewList.film1, postNewList.id, postNewList.actionDoneText, root, filmPoster1)
+//            setPhotosMovies(postNewList.film2, postNewList.id, postNewList.actionDoneText, root, filmPoster2)
+//            setPhotosMovies(postNewList.film3, postNewList.id, postNewList.actionDoneText, root, filmPoster3)
             //filmPoster1.setImageResource(postNewList.film1)
             //filmPoster2.setImageResource(postNewList.film2)
             //  filmPoster3.setImageResource(postNewList.film3)

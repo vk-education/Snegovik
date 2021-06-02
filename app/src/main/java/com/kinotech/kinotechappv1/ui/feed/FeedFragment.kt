@@ -20,7 +20,6 @@ class FeedFragment : Fragment() {
     private var user: FirebaseUser? = FirebaseAuth.getInstance().currentUser
     private var listsRef: DatabaseReference = FirebaseDatabase.getInstance().reference
     private var followingList: ArrayList<String> = arrayListOf()
-    private var post = PostNewList()
     private var posts : ArrayList<PostNewList> = arrayListOf()
     val films : ArrayList<String> = arrayListOf()
     var itemTitle = ""
@@ -39,7 +38,40 @@ class FeedFragment : Fragment() {
                 .child("Follow")
                 .child(it1.toString())
                 .child("Following")
-        }
+        }.addValueEventListener(object: ValueEventListener{
+            override fun onDataChange(snapshot: DataSnapshot) {
+                posts.clear()
+                for (snap in snapshot.children){
+                    user?.uid.let { it1 ->
+                        FirebaseDatabase.getInstance().reference
+                            .child("Posts")
+                            .child(snap.value.toString())
+                    }.addValueEventListener(object : ValueEventListener{
+                        override fun onDataChange(snapshot: DataSnapshot) {
+                            for (s in snapshot.children){
+                                s.getValue(PostNewList::class.java)?.let { posts.add(it) }
+                            }
+                            Log.d("post", "$posts")
+                            binding.feedRV.apply {
+                                adapter = PostNewListAdapter(posts)
+                                setHasFixedSize(true)
+                                layoutManager = LinearLayoutManager(context)
+                            }
+                        }
+
+                        override fun onCancelled(error: DatabaseError) {
+                            TODO("Not yet implemented")
+                        }
+                    })
+                }
+
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                TODO("Not yet implemented")
+            }
+
+        })
 //        user?.uid.let { it1 ->
 //            FirebaseDatabase.getInstance().reference
 //                .child("Follow")
