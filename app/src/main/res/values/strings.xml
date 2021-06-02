@@ -45,4 +45,5 @@
     <string name="close_list">Закрыть список</string>
     <string name="delete_list">Удалить список</string>
     <string name="delete_movie">Удалить фильм</string>
+    <string name="added_new_list">Добавил новый список</string>
 </resources>
