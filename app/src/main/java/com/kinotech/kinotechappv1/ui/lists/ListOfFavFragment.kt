@@ -20,7 +20,7 @@ import com.google.firebase.database.ValueEventListener
 import com.kinotech.kinotechappv1.R
 import com.kinotech.kinotechappv1.ui.search.SimpleResult
 
-class ListOfFavFragment() : Fragment() {
+class ListOfFavFragment : Fragment() {
 
     private var user: FirebaseUser? = FirebaseAuth.getInstance().currentUser
 
@@ -54,7 +54,7 @@ class ListOfFavFragment() : Fragment() {
                     try {
                         snap.getValue(SimpleResult::class.java)?.let { result.add(it) }
                     } catch (e: Exception) {
-                        Log.d("dbfav", "onDataChange: $e")
+                        Log.d("dataFavourite", "onDataChange: $e")
                         Toast.makeText(context, "Error $e", Toast.LENGTH_LONG).show()
                     }
                 }
@@ -63,7 +63,7 @@ class ListOfFavFragment() : Fragment() {
                     layoutManager = LinearLayoutManager(context)
                     adapter = MovieFavAdapter(result, context)
                 }
-                Log.d("dbfav", "onDataChange: $result")
+                Log.d("dataFavourite", "onDataChange: $result")
             }
 
             override fun onCancelled(error: DatabaseError) {
@@ -72,13 +72,10 @@ class ListOfFavFragment() : Fragment() {
         })
         btnBack.setOnClickListener {
             val listsFrag = ListsFragment()
-            activity.supportFragmentManager?.beginTransaction()
+            activity.supportFragmentManager.beginTransaction()
                 .replace(R.id.container, listsFrag, "fragTag")
                 .commit()
         }
-
-
         return root
     }
-
 }

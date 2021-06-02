@@ -98,7 +98,7 @@ class OpenListsFriendsAdapter(
                                 .into(imgListH)
 
                         } catch (e: Exception) {
-                            Log.d("dbfav", "onDataChange: $e")
+                            Log.d("dataFavourite", "onDataChange: $e")
                         }
                     }
                 }
@@ -141,16 +141,12 @@ class OpenListsFriendsAdapter(
                             }
                         }
 
-                        override fun onCancelled(error: DatabaseError) {
-                            TODO("Not yet implemented")
-                        }
+                        override fun onCancelled(error: DatabaseError) {}
 
                     })
                 }
 
-                override fun onCancelled(error: DatabaseError) {
-                    TODO("Not yet implemented")
-                }
+                override fun onCancelled(error: DatabaseError) {}
             })
         }
 
