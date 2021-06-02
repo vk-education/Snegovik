@@ -13,9 +13,11 @@
             android:id="@+id/profilePic"
             android:layout_width="48dp"
             android:layout_height="48dp"
+            android:layout_marginBottom="8dp"
             tools:background="@drawable/ic_profile_circle_24"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            tools:ignore="ContentDescription" />
 
     <TextView
             android:id="@+id/author"
@@ -30,21 +32,12 @@
             android:textSize="16sp"
             android:layout_marginStart="@dimen/activity_horizontal_margin" />
 
-
-    <androidx.constraintlayout.widget.Barrier
-            android:id="@+id/higherBarrier"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:barrierDirection="bottom"
-            app:constraint_referenced_ids="profilePic" />
-
     <TextView
             android:id="@+id/actionDoneTV"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/higherBarrier"
-            app:layout_constraintBottom_toTopOf="@id/filmsList"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="8dp"
+            app:layout_constraintTop_toBottomOf="@id/profilePic"
             android:layout_marginBottom="10dp"
             android:text="@string/added_new_list"
             android:textColor="@color/another_white"
@@ -61,7 +54,7 @@
             tools:text="Sad"
             android:textColor="@color/another_white"
             android:textStyle="bold"
-            android:textSize="24sp"/>
+            android:textSize="24sp" />
 
     <LinearLayout
             android:id="@+id/filmsList"
@@ -78,21 +71,24 @@
                 android:layout_weight="1"
                 android:layout_width="0dp"
                 android:layout_height="150dp"
-                tools:src="@drawable/film1" />
+                tools:src="@drawable/film1"
+                tools:ignore="ContentDescription" />
 
         <ImageView
                 android:id="@+id/filmPoster2"
                 android:layout_weight="1"
                 android:layout_width="0dp"
                 android:layout_height="150dp"
-                tools:src="@drawable/film2" />
+                tools:src="@drawable/film2"
+                tools:ignore="ContentDescription" />
 
         <ImageView
                 android:id="@+id/filmPoster3"
                 android:layout_weight="1"
                 android:layout_width="0dp"
                 android:layout_height="150dp"
-                tools:src="@drawable/film3" />
+                tools:src="@drawable/film3"
+                tools:ignore="ContentDescription" />
 
     </LinearLayout>
 
@@ -121,7 +117,8 @@
             app:layout_constraintStart_toStartOf="@id/profilePic"
             app:layout_constraintEnd_toStartOf="@id/likesCount"
             app:layout_constraintTop_toTopOf="@id/likesCount"
-            app:layout_constraintBottom_toBottomOf="@id/likesCount" />
+            app:layout_constraintBottom_toBottomOf="@id/likesCount"
+            tools:ignore="ContentDescription" />
 
     <TextView
             android:id="@+id/likesCount"
@@ -144,6 +141,7 @@
             android:layout_marginTop="@dimen/activity_horizontal_margin"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/filmsList"
-            app:layout_constraintBottom_toBottomOf="parent" />
+            app:layout_constraintBottom_toBottomOf="parent"
+            tools:ignore="ContentDescription" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
