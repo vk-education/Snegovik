@@ -1,10 +1,12 @@
 package com.kinotech.kinotechappv1.ui.feed.recyclerview
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageButton
 import android.widget.ImageView
+import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
@@ -66,12 +68,82 @@ class PostNewListViewHolder(
                     deleteList(postNewList.actionDoneText)
                 }
             }
+            checkLikedStatus(like, postNewList.uid)
+            checkLikeCount(postNewList.uid, likesCount)
+            like.setOnClickListener {
+                if (like.tag == "button_not_liked"){
+                    user?.uid.let{it1 ->
+                        FirebaseDatabase.getInstance().reference
+                            .child("Posts")
+                            .child(postNewList.uid)
+                            .child("Likes")
+                            .child(postNewList.uid)
+                            .setValue(true)
+                    }
+                }
+                else{
+                    user?.uid.let{it1 ->
+                        FirebaseDatabase.getInstance().reference
+                            .child("Posts")
+                            .child(postNewList.uid)
+                            .child("Likes")
+                            .child(postNewList.uid)
+                            .removeValue()
+                    }
+                }
+
+            }
             //filmPoster1.setImageResource(postNewList.film1)
             //filmPoster2.setImageResource(postNewList.film2)
             //  filmPoster3.setImageResource(postNewList.film3)
 
 
         }
+    }
+
+    private fun checkLikeCount(id:String, count: TextView) {
+        user?.uid.let{it1 ->
+            FirebaseDatabase.getInstance().reference
+                .child("Posts")
+                .child(id)
+                .child("Likes")
+        }.addValueEventListener(object : ValueEventListener{
+            override fun onDataChange(snapshot: DataSnapshot) {
+                count.text = snapshot.childrenCount.toString()
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                TODO("Not yet implemented")
+            }
+
+        })
+    }
+
+    private fun checkLikedStatus(likeButton: ImageButton, id: String) {
+        val likedMoviesRef = user?.uid.let{it1 ->
+            FirebaseDatabase.getInstance().reference
+                .child("Posts")
+                .child(id)
+                .child("Likes")
+        }
+
+        likedMoviesRef.addValueEventListener(object: ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                if (snapshot.child(id).exists()){
+                    likeButton.setBackgroundResource(R.drawable.ic_liked)
+                    likeButton.tag = "button is liked"
+                }
+                else{
+                    likeButton.setBackgroundResource(R.drawable.ic_not_liked)
+                    likeButton.tag = "button_not_liked"
+                }
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                Log.d("error", "onCancelled: $error")
+            }
+
+        })
     }
 
     private fun setPhotosMovies(film:String, id:String, title:String, v: View, filmPoster : ImageView) {
