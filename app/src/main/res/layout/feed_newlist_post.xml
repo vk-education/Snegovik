@@ -46,10 +46,22 @@
             app:layout_constraintBottom_toTopOf="@id/filmsList"
             android:layout_marginTop="10dp"
             android:layout_marginBottom="10dp"
-            tools:text="Добавил новый список ''Хорошо похохотать''"
+            android:text="@string/added_new_list"
             android:textColor="@color/another_white"
             android:textStyle="bold"
             android:textSize="20sp" />
+
+    <TextView
+            android:id="@+id/listName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/actionDoneTV"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/filmsList"
+            tools:text="Sad"
+            android:textColor="@color/another_white"
+            android:textStyle="bold"
+            android:textSize="24sp"/>
 
     <LinearLayout
             android:id="@+id/filmsList"
@@ -57,7 +69,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintBottom_toTopOf="@id/lowerBarrier"
-            app:layout_constraintTop_toBottomOf="@id/actionDoneTV"
+            app:layout_constraintTop_toBottomOf="@id/listName"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent">
 
@@ -66,7 +78,7 @@
                 android:layout_weight="1"
                 android:layout_width="0dp"
                 android:layout_height="150dp"
-                tools:src="@drawable/film1"/>
+                tools:src="@drawable/film1" />
 
         <ImageView
                 android:id="@+id/filmPoster2"
@@ -90,7 +102,7 @@
             android:layout_height="wrap_content"
             app:barrierDirection="top"
             android:layout_marginBottom="16dp"
-            app:constraint_referenced_ids="like, likesCount, addBtn"/>
+            app:constraint_referenced_ids="like, likesCount, addBtn" />
 
     <androidx.constraintlayout.widget.Barrier
             android:id="@+id/evenLowerBarrier"
@@ -98,7 +110,7 @@
             android:layout_height="wrap_content"
             app:barrierDirection="bottom"
             android:layout_marginBottom="16dp"
-            app:constraint_referenced_ids="like, likesCount, addBtn"/>
+            app:constraint_referenced_ids="like, likesCount, addBtn" />
 
     <ImageButton
             android:id="@+id/like"
@@ -109,7 +121,7 @@
             app:layout_constraintStart_toStartOf="@id/profilePic"
             app:layout_constraintEnd_toStartOf="@id/likesCount"
             app:layout_constraintTop_toTopOf="@id/likesCount"
-            app:layout_constraintBottom_toBottomOf="@id/likesCount"/>
+            app:layout_constraintBottom_toBottomOf="@id/likesCount" />
 
     <TextView
             android:id="@+id/likesCount"
@@ -132,6 +144,6 @@
             android:layout_marginTop="@dimen/activity_horizontal_margin"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/filmsList"
-            app:layout_constraintBottom_toBottomOf="parent"/>
+            app:layout_constraintBottom_toBottomOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
