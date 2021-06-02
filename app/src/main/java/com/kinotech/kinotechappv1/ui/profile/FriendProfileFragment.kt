@@ -67,13 +67,13 @@ class FriendProfileFragment(private val subsInfo: SubsInfo) : Fragment() {
                         FirebaseDatabase.getInstance().reference
                             .child("Follow").child(uid)
                             .child("Following").child(subsInfo.uid)
-                            .setValue(subsInfo).addOnCompleteListener { task ->
+                            .setValue(subsInfo.uid).addOnCompleteListener { task ->
                                 if (task.isSuccessful) {
                                     user.uid.let { uid ->
                                         FirebaseDatabase.getInstance().reference
                                             .child("Follow").child(subsInfo.uid)
                                             .child("Followers").child(uid)
-                                            .setValue(subsInfo).addOnCompleteListener { task ->
+                                            .setValue(subsInfo.uid).addOnCompleteListener { task ->
                                                 if (task.isSuccessful) {
                                                     Log.i("follow", "Подписан")
                                                 }
@@ -289,8 +289,12 @@ class FriendProfileFragment(private val subsInfo: SubsInfo) : Fragment() {
                 .child(it1)
         }.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
-//                lists.text = (snapshot.childrenCount - 1).toString() + "\nсписки"
-                ((snapshot.childrenCount - 1).toString() + "\nсписки").also { lists.text = it }
+                if (snapshot.childrenCount - 1 < 0){
+                lists.text = snapshot.childrenCount.toString()+ "\nсписки"
+                }
+                else{
+                    ((snapshot.childrenCount - 1).toString() + "\nсписки").also { lists.text = it }
+                }
 
             }
 

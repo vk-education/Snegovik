@@ -110,8 +110,13 @@ class ProfileFragment : Fragment() {
                 .child(it1.toString())
         }.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
-//                lists.text = (snapshot.childrenCount - 1).toString() + "\nсписки"
-                ((snapshot.childrenCount - 1).toString() + "\nсписки").also { lists.text = it }
+                if (snapshot.childrenCount - 1 < 0){
+                    lists.text = snapshot.childrenCount.toString()+ "\nсписки"
+                }
+                else{
+                    ((snapshot.childrenCount - 1).toString() + "\nсписки").also { lists.text = it }
+                }
+
 
             }
 
