@@ -17,6 +17,7 @@ import com.kinotech.kinotechappv1.databinding.SearchUserItemBinding
 import com.kinotech.kinotechappv1.AndroidUtils
 import com.kinotech.kinotechappv1.ui.profile.FriendProfileFragment
 import com.kinotech.kinotechappv1.ui.profile.SubsInfo
+import java.util.*
 
 private val firebaseUser: FirebaseUser? = FirebaseAuth.getInstance().currentUser
 
@@ -42,11 +43,15 @@ class FriendSearchAdapter(
         return users.size
     }
 
-    class ViewHolder(private val binding: SearchUserItemBinding, private val subscribeString: String) :
+    class ViewHolder(
+        private val binding: SearchUserItemBinding,
+        private val subscribeString: String
+    ) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(subsInfo: SubsInfo) {
             binding.apply {
-                profileName.text = subsInfo.fullName
+                profileName.text = subsInfo.fullName.split(" ")
+                    .joinToString(" ") { it.capitalize(Locale.getDefault()) }
 
                 root.setOnClickListener {
                     AndroidUtils.hideKeyboard(it)

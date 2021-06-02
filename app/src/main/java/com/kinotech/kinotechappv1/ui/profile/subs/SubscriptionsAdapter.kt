@@ -18,9 +18,12 @@ import com.kinotech.kinotechappv1.R
 import com.kinotech.kinotechappv1.databinding.SubscriptionItemBinding
 import com.kinotech.kinotechappv1.ui.profile.FriendProfileFragment
 import com.kinotech.kinotechappv1.ui.profile.SubsInfo
+import java.util.*
+import kotlin.collections.ArrayList
 
 class SubscriptionsAdapter(
-    private val subscription: ArrayList<SubsInfo>) :
+    private val subscription: ArrayList<SubsInfo>
+) :
     RecyclerView.Adapter<SubscriptionsViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SubscriptionsViewHolder {
         val binding = SubscriptionItemBinding.inflate(
@@ -46,7 +49,8 @@ class SubscriptionsViewHolder(
     private val firebaseUser: FirebaseUser? = FirebaseAuth.getInstance().currentUser
     fun bind(subsInfo: SubsInfo) {
         binding.apply {
-            profileName.text = subsInfo.fullName
+            profileName.text = subsInfo.fullName.split(" ")
+                .joinToString(" ") { it.capitalize(Locale.getDefault()) }
             Glide
                 .with(binding.root)
                 .load(subsInfo.photo)
@@ -120,6 +124,7 @@ class SubscriptionsViewHolder(
             }
         }
     }
+
     private fun checkFollowingStatus(uid: String, likeProfile: ImageButton) {
         val followingRef = firebaseUser?.uid.let {
             FirebaseDatabase.getInstance().reference
@@ -144,8 +149,3 @@ class SubscriptionsViewHolder(
         })
     }
 }
-
-
-
-
-

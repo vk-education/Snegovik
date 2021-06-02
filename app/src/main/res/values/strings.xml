@@ -12,7 +12,8 @@
     <string name="find_button">Найти!</string>
     <string name="guide_text_search">Ищите любимые фильмы
 и сериалы с помощью поиска  наверху!</string>
-    <string name="server_client_id" translatable="false">1096042858796-qtkubuc2p5adcpbiq5utv9vnasnamksr.apps.googleusercontent.com</string>
+    <string name="server_client_id" translatable="false">
+        1096042858796-qtkubuc2p5adcpbiq5utv9vnasnamksr.apps.googleusercontent.com</string>
     <string name="director">Режиссёр:</string>
     <string name="roles">В главных ролях:</string>
     <string name="kinopoisk">Кинопоиск:</string>
@@ -31,9 +32,9 @@
     <string name="change_photo_string">Изменить фото профиля</string>
     <string name="change_name_string">Новое имя профиля</string>
     <string name="save_string">Сохранить</string>
-    <string name="subscribers">0 подписчиков</string>
+    <string name="subscribers">Подписчики</string>
     <string name="zero" translatable="false">0</string>
-    <string name="subscriptions">0 подписок</string>
+<!--    <string name="subscriptions">0 подписок</string>-->
     <string name="search_friends">Ищите друзей и знакомых с помощью поиска наверху!</string>
     <string name="input_friend_name">Введите имя друга</string>
     <string name="subscribe_string">Подписаться</string>

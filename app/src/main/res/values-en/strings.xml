@@ -26,8 +26,8 @@
     <string name="change_photo_string">Change profile picture</string>
     <string name="change_name_string">New profile name</string>
     <string name="save_string">Save</string>
-    <string name="subscribers">0 subscribers</string>
-    <string name="subscriptions">0 subscriptions</string>
+    <string name="subscribers">Subscribers</string>
+<!--    <string name="subscriptions">0 subscriptions</string>-->
     <string name="search_friends">Search friends with the search above!</string>
     <string name="input_friend_name">Print friend name</string>
     <string name="subscribe_string">Subscribe</string>

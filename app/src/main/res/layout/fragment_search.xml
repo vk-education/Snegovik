@@ -22,6 +22,7 @@
             android:textSize="20sp"
             android:textColor="@color/white_full"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="@id/frameLayout"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/groupPic"/>
 
@@ -35,6 +36,7 @@
             android:src="@drawable/ic_search_black_124dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/text_search"
             app:layout_constraintTop_toTopOf="@id/frameLayout" />
 
     <FrameLayout

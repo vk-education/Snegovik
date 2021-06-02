@@ -48,6 +48,7 @@
             app:layout_constraintTop_toBottomOf="@id/backBtn"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/listIcon"
             android:fontFamily="@font/rubik_bold"
             android:textSize="24sp"
             android:textColor="@color/another_white" />
@@ -74,9 +75,8 @@
             android:layout_height="0dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/listIcon"
             tools:listitem="@layout/list_menu_film"
-            app:layout_constraintHeight_percent="0.65"
-            app:layout_constraintVertical_bias="1.0"
             android:layout_marginBottom="55dp"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

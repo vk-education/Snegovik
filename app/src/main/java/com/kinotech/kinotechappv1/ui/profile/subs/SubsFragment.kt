@@ -4,8 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.google.android.material.tabs.TabLayoutMediator
 import com.kinotech.kinotechappv1.R
@@ -13,35 +11,37 @@ import com.kinotech.kinotechappv1.databinding.SubscribersPageBinding
 import com.kinotech.kinotechappv1.ui.profile.ProfileFragment
 import com.kinotech.kinotechappv1.ui.profile.friendssearch.FriendsSearchFragment
 
-class SubsFragment : Fragment() {
+class SubsFragment(private val item: Int) : Fragment() {
 
-    private lateinit var binding: SubscribersPageBinding
+    lateinit var binding: SubscribersPageBinding
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
-        savedInstanceState: Bundle?
+        savedInstanceState: Bundle?,
     ): View {
         binding = SubscribersPageBinding.inflate(inflater, container, false)
 
         val adapter = SubsAdapter(childFragmentManager, lifecycle)
         adapter.addFragment(SubscribersFragment(), getString(R.string.subscribers))
-        adapter.addFragment(SubscriptionsFragment(), getString(R.string.subscriptions))
+        adapter.addFragment(SubscriptionsFragment(), getString(R.string.subscribed))
         val arg = this.arguments
 
+        binding.apply {
+            viewPager.adapter = adapter
+            viewPager.setCurrentItem(item, false)
 
-        binding.viewPager.adapter = adapter
+            backBtn.setOnClickListener {
+                loadFragment()
+            }
 
-        binding.backBtn.setOnClickListener {
-            loadFragment()
-        }
+            search.setOnClickListener {
+                loadSearchFragment()
+            }
 
-        binding.search.setOnClickListener {
-            loadSearchFragment()
-        }
-
-        if (arg != null) {
-            binding.profileName.text = arg.getString("keyForNickName", "")
+            if (arg != null) {
+                profileName.text = arg.getString("keyForNickName", "")
+            }
         }
 
         return binding.root
@@ -49,10 +49,10 @@ class SubsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         with(binding) {
-            TabLayoutMediator(tabLayout, viewPager) {tab, position ->
+            TabLayoutMediator(tabLayout, viewPager) { tab, position ->
                 when (position) {
                     0 -> tab.text = getString(R.string.subscribers)
-                    1 -> tab.text = getString(R.string.subscriptions)
+                    1 -> tab.text = getString(R.string.subscribed)
                 }
             }.attach()
         }

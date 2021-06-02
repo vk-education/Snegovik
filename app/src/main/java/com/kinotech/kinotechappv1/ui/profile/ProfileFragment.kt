@@ -25,6 +25,8 @@ import com.kinotech.kinotechappv1.R
 import com.kinotech.kinotechappv1.databinding.FragmentProfileBinding
 import com.kinotech.kinotechappv1.ui.lists.AnyItemInAdapterList
 import com.kinotech.kinotechappv1.ui.profile.subs.SubsFragment
+import java.util.*
+import kotlin.collections.ArrayList
 
 class ProfileFragment : Fragment() {
 
@@ -32,10 +34,8 @@ class ProfileFragment : Fragment() {
     private lateinit var profileViewModel: ProfileViewModel
     private lateinit var binding: FragmentProfileBinding
     private lateinit var firebaseUser: FirebaseUser
-
     private var user: FirebaseUser? = FirebaseAuth.getInstance().currentUser
     val args = Bundle()
-
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -59,7 +59,7 @@ class ProfileFragment : Fragment() {
             getSubscriptions(subscriptions)
             loadRecyclerView(listsRV)
             changeProfileButton.setOnClickListener {
-                loadfragment()
+                loadFragment()
             }
         }
         return binding.root
@@ -71,15 +71,16 @@ class ProfileFragment : Fragment() {
                 .child("Follow")
                 .child(it1.toString())
                 .child("Following")
-        }.addValueEventListener(object : ValueEventListener{
+        }.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
-                subscriptions.text = (snapshot.childrenCount).toString() + "\nподписки"
+                ((snapshot.childrenCount).toString() + "\nподписки").also {
+                    subscriptions.text = it
+                }
             }
 
             override fun onCancelled(error: DatabaseError) {
 
             }
-
         })
     }
 
@@ -89,32 +90,34 @@ class ProfileFragment : Fragment() {
                 .child("Follow")
                 .child(it1.toString())
                 .child("Followers")
-        }.addValueEventListener(object : ValueEventListener{
+        }.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
-                subscribers.text = (snapshot.childrenCount).toString() + "\nподписчики"
+                ((snapshot.childrenCount).toString() + "\nподписчики").also {
+                    subscribers.text = it
+                }
             }
 
             override fun onCancelled(error: DatabaseError) {
 
             }
-
         })
     }
 
     private fun getListsCount(lists: TextView) {
-         user?.uid.let { it1 ->
+        user?.uid.let { it1 ->
             FirebaseDatabase.getInstance().reference
                 .child("Lists")
                 .child(it1.toString())
-        }.addValueEventListener(object : ValueEventListener{
+        }.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
-                lists.text = (snapshot.childrenCount - 1).toString() + "\nсписки"
+//                lists.text = (snapshot.childrenCount - 1).toString() + "\nсписки"
+                ((snapshot.childrenCount - 1).toString() + "\nсписки").also { lists.text = it }
+
             }
 
             override fun onCancelled(error: DatabaseError) {
 
             }
-
         })
     }
 
@@ -162,11 +165,9 @@ class ProfileFragment : Fragment() {
                             }
                         }
 
-
                         override fun onCancelled(error: DatabaseError) {
                             Toast.makeText(context, "$error", Toast.LENGTH_LONG).show()
                         }
-
                     })
                 }
                 Log.d("profileRecycler", "$list")
@@ -175,7 +176,6 @@ class ProfileFragment : Fragment() {
             override fun onCancelled(error: DatabaseError) {
                 Toast.makeText(context, "$error", Toast.LENGTH_LONG).show()
             }
-
         })
         listsRV.apply {
             setHasFixedSize(true)
@@ -184,8 +184,7 @@ class ProfileFragment : Fragment() {
         }
     }
 
-
-    private fun loadfragment() {
+    private fun loadFragment() {
         val transaction = activity?.supportFragmentManager?.beginTransaction()
         if (transaction != null) {
             transaction.replace(R.id.container, ChangeProfileFragment())
@@ -196,7 +195,7 @@ class ProfileFragment : Fragment() {
 
     private fun loadSubscribers() {
         val transaction = activity?.supportFragmentManager?.beginTransaction()
-        val subsFragment = SubsFragment()
+        val subsFragment = SubsFragment(0)
         subsFragment.arguments = args
         if (transaction != null) {
             transaction.replace(R.id.container, subsFragment)
@@ -206,9 +205,9 @@ class ProfileFragment : Fragment() {
     }
 
     private fun loadSubscriptions() {
-        loadfragment()
+        loadFragment()
         val transaction = activity?.supportFragmentManager?.beginTransaction()
-        val subsFragment = SubsFragment()
+        val subsFragment = SubsFragment(1)
         subsFragment.arguments = args
         if (transaction != null) {
             transaction.replace(R.id.container, subsFragment)// Поменять на второй лист SubsFragment
@@ -219,7 +218,7 @@ class ProfileFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        val buffAcc = GoogleSignIn.getLastSignedInAccount(context)
+        //val buffAcc = GoogleSignIn.getLastSignedInAccount(context)
         //bind(buffAcc)
         val gso: GoogleSignInOptions =
             GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
@@ -234,50 +233,16 @@ class ProfileFragment : Fragment() {
         }
     }
 
-
-    //    private fun bind(acc: GoogleSignInAccount?) {
-//        if (acc == null) {
-//            Log.d("check", "null")
-//        } else {
-//            nickName.text = acc.displayName
-//            Glide
-//                .with(this)
-//                .load(acc.photoUrl)
-//                .error(R.drawable.ic_like_40dp)
-//                .into(photoAcc)
-//        }
-//    }
-//    private fun userInfo(){
-//        val usersRef = FirebaseDatabase.getInstance().reference.child("Users").child(profileId)
-//        usersRef.addValueEventListener(object : ValueEventListener
-//        {
-//            override fun onDataChange(p0: DataSnapshot){
-//                val user = p0.getValue<User>(User::class.java)
-//                //Picasso.get().load(user!!.getPhoto()).placeholder(R.drawable.ic_like_40dp).into(photoAcc)
-//                view?. = user!!.getFullName()
-//            }
-//
-//            override fun onCancelled(error: DatabaseError) {
-//                TODO("Not yet implemented")
-//            }
-//        })
-//    }
-//    private fun userInfo()
-//    {
-//        nickName.text = firebaseUser.displayName
-//        Glide
-//            .with(this)
-//            .load(firebaseUser.photoUrl)
-//            .error(R.drawable.ic_like_40dp)
-//            .into(photoAcc)
-//    }
     private fun userInfo(nickName: TextView, v: View, img: ImageView) {
         val usersRef =
-            user?.uid?.let { FirebaseDatabase.getInstance().reference.child("Users").child(it) }
+            user?.uid?.let {
+                FirebaseDatabase.getInstance().reference.child("Users").child(it)
+            }
         usersRef?.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(p0: DataSnapshot) {
-                nickName.text = p0.child("fullName").value.toString()
-                args.putString("keyForNickName", nickName.text as String)
+                nickName.text = p0.child("fullName").value.toString().split(" ")
+                    .joinToString(" ") { it.capitalize(Locale.getDefault()) }
+                args.putString("keyForNickName", nickName.text.toString())
                 Glide
                     .with(v.context)
                     .load(p0.child("photo").value.toString())

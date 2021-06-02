@@ -17,6 +17,8 @@ import com.kinotech.kinotechappv1.R
 import com.kinotech.kinotechappv1.databinding.SubscribersItemBinding
 import com.kinotech.kinotechappv1.ui.profile.FriendProfileFragment
 import com.kinotech.kinotechappv1.ui.profile.SubsInfo
+import java.util.*
+import kotlin.collections.ArrayList
 
 class SubscribersAdapter(
     private val subscriber: ArrayList<SubsInfo>
@@ -45,7 +47,8 @@ class SubscribersAdapter(
 
         fun bind(subsInfo: SubsInfo) {
             binding.apply {
-                profileName.text = subsInfo.fullName
+                profileName.text = subsInfo.fullName.split(" ")
+                    .joinToString(" ") { it.capitalize(Locale.getDefault()) }
                 Glide
                     .with(binding.root)
                     .load(subsInfo.photo)

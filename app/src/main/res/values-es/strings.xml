@@ -26,8 +26,8 @@
     <string name="change_photo_string">Cambiar foto de perfil</string>
     <string name="change_name_string">Nuevo nombre de perfil</string>
     <string name="save_string">Guardar</string>
-    <string name="subscribers">0 suscriptores</string>
-    <string name="subscriptions">0 suscripciones</string>
+    <string name="subscribers">Suscritores</string>
+<!--    <string name="subscriptions">0 suscripciones</string>-->
     <string name="search_friends">Busca amigos usando busca arriba!</string>
     <string name="input_friend_name">Escribe nombre de amigo</string>
     <string name="subscribe_string">Suscribir</string>

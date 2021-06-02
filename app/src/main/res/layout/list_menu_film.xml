@@ -16,8 +16,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:src="@drawable/pobeg"
-            android:scaleType="centerCrop"
-            android:layout_marginLeft="8dp"/>
+            android:layout_marginStart="8dp"/>
 
     <TextView
             android:id="@+id/lmFilmTitle"

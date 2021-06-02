@@ -25,6 +25,8 @@ import com.kinotech.kinotechappv1.databinding.FriendsProfileBinding
 import com.kinotech.kinotechappv1.ui.lists.AnyItemInAdapterList
 import com.kinotech.kinotechappv1.ui.profile.friendssearch.FriendsSearchFragment
 import com.kinotech.kinotechappv1.ui.profile.subs.SubsFragment
+import java.util.*
+import kotlin.collections.ArrayList
 
 class FriendProfileFragment(private val subsInfo: SubsInfo) : Fragment() {
 
@@ -40,7 +42,7 @@ class FriendProfileFragment(private val subsInfo: SubsInfo) : Fragment() {
         profileViewModel =
             ViewModelProvider(this).get(ProfileViewModel::class.java)
         binding = FriendsProfileBinding.inflate(inflater, container, false)
-        user = FirebaseAuth.getInstance().currentUser!!
+        user = FirebaseAuth.getInstance().currentUser!! // не друг
         binding.friendSubscribers.setOnClickListener {
             loadSubscribers()
         }
@@ -49,6 +51,10 @@ class FriendProfileFragment(private val subsInfo: SubsInfo) : Fragment() {
         }
         binding.apply {
             userInfo(friendTextProfile, root, friendPhoto)
+            getListsCount(friendLists)
+            getSubscribers(friendSubscribers)
+            getSubscriptions(friendSubscriptions)
+            loadRecyclerView(friendListsRV)
 
             backBtnCh.setOnClickListener {
                 loadFragment()
@@ -61,13 +67,13 @@ class FriendProfileFragment(private val subsInfo: SubsInfo) : Fragment() {
                         FirebaseDatabase.getInstance().reference
                             .child("Follow").child(uid)
                             .child("Following").child(subsInfo.uid)
-                            .setValue(null).addOnCompleteListener { task ->
+                            .setValue(subsInfo).addOnCompleteListener { task ->
                                 if (task.isSuccessful) {
                                     user.uid.let { uid ->
                                         FirebaseDatabase.getInstance().reference
                                             .child("Follow").child(subsInfo.uid)
                                             .child("Followers").child(uid)
-                                            .setValue(true).addOnCompleteListener { task ->
+                                            .setValue(subsInfo).addOnCompleteListener { task ->
                                                 if (task.isSuccessful) {
                                                     Log.i("follow", "Подписан")
                                                 }
@@ -99,30 +105,32 @@ class FriendProfileFragment(private val subsInfo: SubsInfo) : Fragment() {
                     }
                 }
             }
-           loadRecyclerView(friendListsRV)
+            loadRecyclerView(friendListsRV)
         }
         return binding.root
     }
+
     private fun loadRecyclerView(listsRV: RecyclerView) {
         var list: ArrayList<AnyItemInAdapterList.ButtonShowList> = arrayListOf()
         val listsNamesRef = subsInfo.uid.let { it1 ->
             FirebaseDatabase.getInstance().reference
                 .child("Lists")
-                .child(it1.toString())
-                .child("UserLists")}
-        listsNamesRef.addValueEventListener(object : ValueEventListener{
+                .child(it1)
+                .child("UserLists")
+        }
+        listsNamesRef.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
-                for(snap in snapshot.children){
+                for (snap in snapshot.children) {
                     val openedRef = subsInfo.uid.let { it1 ->
                         FirebaseDatabase.getInstance().reference
                             .child("Lists")
-                            .child(it1.toString())
+                            .child(it1)
                             .child(snap.value.toString())
                             .child("IsOpened")
                     }
-                    openedRef.addValueEventListener(object : ValueEventListener{
+                    openedRef.addValueEventListener(object : ValueEventListener {
                         override fun onDataChange(snapshot: DataSnapshot) {
-                            if (snapshot.value == true){
+                            if (snapshot.value == true) {
                                 snap.getValue(String::class.java)
                                     ?.let {
                                         Log.d("lox", "onDataChange: $it")
@@ -141,7 +149,7 @@ class FriendProfileFragment(private val subsInfo: SubsInfo) : Fragment() {
                                 listsRV.apply {
                                     setHasFixedSize(true)
                                     layoutManager = LinearLayoutManager(context)
-                                    adapter =  OpenListsFriendsAdapter(list, context, subsInfo)
+                                    adapter = OpenListsFriendsAdapter(list, context, subsInfo)
                                 }
                             }
                         }
@@ -164,7 +172,7 @@ class FriendProfileFragment(private val subsInfo: SubsInfo) : Fragment() {
         listsRV.apply {
             setHasFixedSize(true)
             layoutManager = LinearLayoutManager(context)
-            adapter =  OpenListsFriendsAdapter(list, context, subsInfo)
+            adapter = OpenListsFriendsAdapter(list, context, subsInfo)
         }
     }
 
@@ -201,7 +209,7 @@ class FriendProfileFragment(private val subsInfo: SubsInfo) : Fragment() {
     private fun loadSubscribers() {
         val transaction = activity?.supportFragmentManager?.beginTransaction()
         if (transaction != null) {
-            transaction.replace(R.id.container, SubsFragment())
+            transaction.replace(R.id.container, SubsFragment(0))
             transaction.disallowAddToBackStack()
             transaction.commit()
         }
@@ -210,10 +218,7 @@ class FriendProfileFragment(private val subsInfo: SubsInfo) : Fragment() {
     private fun loadSubscriptions() {
         val transaction = activity?.supportFragmentManager?.beginTransaction()
         if (transaction != null) {
-            transaction.replace(
-                R.id.container,
-                SubsFragment()
-            ) // Поменять на второй лист SubsFragment
+            transaction.replace(R.id.container, SubsFragment(1))
             transaction.disallowAddToBackStack()
             transaction.commit()
         }
@@ -225,7 +230,8 @@ class FriendProfileFragment(private val subsInfo: SubsInfo) : Fragment() {
         }
         usersRef.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(p0: DataSnapshot) {
-                nickName.text = p0.child("fullName").value.toString()
+                nickName.text = p0.child("fullName").value.toString().split(" ")
+                    .joinToString(" ") { it.capitalize(Locale.getDefault()) }
                 Glide
                     .with(v.context)
                     .load(p0.child("photo").value.toString())
@@ -237,4 +243,61 @@ class FriendProfileFragment(private val subsInfo: SubsInfo) : Fragment() {
             }
         })
     }
+
+    private fun getSubscriptions(subscriptions: TextView) {
+        subsInfo.uid.let { it1 ->
+            FirebaseDatabase.getInstance().reference
+                .child("Follow")
+                .child(it1)
+                .child("Following")
+        }.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                ((snapshot.childrenCount).toString() + "\nподписки").also {
+                    subscriptions.text = it
+                }
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+
+            }
+        })
+    }
+
+    private fun getSubscribers(subscribers: TextView) {
+        subsInfo.uid.let { it1 ->
+            FirebaseDatabase.getInstance().reference
+                .child("Follow")
+                .child(it1)
+                .child("Followers")
+        }.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                ((snapshot.childrenCount).toString() + "\nподписчики").also {
+                    subscribers.text = it
+                }
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+
+            }
+        })
+    }
+
+    private fun getListsCount(lists: TextView) {
+        subsInfo.uid.let { it1 ->
+            FirebaseDatabase.getInstance().reference
+                .child("Lists")
+                .child(it1)
+        }.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+//                lists.text = (snapshot.childrenCount - 1).toString() + "\nсписки"
+                ((snapshot.childrenCount - 1).toString() + "\nсписки").also { lists.text = it }
+
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+
+            }
+        })
+    }
+
 }

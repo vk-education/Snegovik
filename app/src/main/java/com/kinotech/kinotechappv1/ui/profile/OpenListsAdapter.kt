@@ -1,12 +1,10 @@
 package com.kinotech.kinotechappv1.ui.profile
 
-import android.annotation.SuppressLint
 import android.content.Context
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
@@ -19,18 +17,14 @@ import com.google.firebase.database.*
 import com.kinotech.kinotechappv1.R
 import com.kinotech.kinotechappv1.ui.lists.AnyItemInAdapterList
 import com.kinotech.kinotechappv1.ui.lists.ListOfMovieFragment
-import com.kinotech.kinotechappv1.ui.search.FilmPageFragment
-import com.kinotech.kinotechappv1.ui.search.Genres
 import com.kinotech.kinotechappv1.ui.search.SimpleResult
-
 
 class OpenListsAdapter(
     private val mData: ArrayList<AnyItemInAdapterList.ButtonShowList>,
     val context: Context
 ) :
     RecyclerView.Adapter<OpenListsAdapter.MyViewHolder>() {
-    var mInflater: LayoutInflater = LayoutInflater.from(context)
-
+    private var mInflater: LayoutInflater = LayoutInflater.from(context)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
         val view = mInflater.inflate(R.layout.open_list_film, parent, false)
@@ -55,7 +49,7 @@ class OpenListsAdapter(
             var count: Int
 //            Log.d("dbfav", "bind: ${movie.nameRu}")
             val options = RequestOptions()
-            itemTitle.text = (lists as AnyItemInAdapterList.ButtonShowList).itemTitle
+            itemTitle.text = (lists).itemTitle
             user?.uid.let{ it1 ->
                 FirebaseDatabase.getInstance().reference
                     .child("Lists")
@@ -66,7 +60,7 @@ class OpenListsAdapter(
                 override fun onDataChange(snapshot: DataSnapshot) {
                     count = snapshot.childrenCount.toInt()
                     Log.d("dbfav", "onDataChange: $count ")
-                    filmCount.text = "$count фильмов"
+                    "$count фильмов".also { filmCount.text = it }
                     if (filmCount.text == "0 фильмов"){
                         Glide
                             .with(itemView.context)
