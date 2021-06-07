@@ -19,6 +19,8 @@ import com.google.firebase.database.ValueEventListener
 import com.kinotech.kinotechappv1.R
 import com.kinotech.kinotechappv1.databinding.FeedNewListPostBinding
 import com.kinotech.kinotechappv1.ui.search.SimpleResult
+import java.util.*
+import kotlin.collections.ArrayList
 
 class PostNewListAdapter(private val posts: ArrayList<PostNewList>) :
     RecyclerView.Adapter<PostNewListViewHolder>() {
@@ -47,7 +49,8 @@ class PostNewListViewHolder(
 
     fun bind(postNewList: PostNewList) {
         binding.apply {
-            author.text = postNewList.fullName
+            author.text = postNewList.fullName.split(" ")
+                .joinToString(" ") { it.capitalize(Locale.getDefault()) }
             val options = RequestOptions()
             Glide
                 .with(root)
@@ -87,9 +90,8 @@ class PostNewListViewHolder(
                             .child(user?.uid.toString())
                             .setValue(true)
                     }
-                }
-                else{
-                    user?.uid.let{
+                } else {
+                    user?.uid.let {
                         FirebaseDatabase.getInstance().reference
                             .child("Likes")
                             .child(postNewList.actionDoneText)
@@ -102,11 +104,11 @@ class PostNewListViewHolder(
     }
 
     private fun checkLikeCount(count: TextView, title: String) {
-        user?.uid.let{
+        user?.uid.let {
             FirebaseDatabase.getInstance().reference
                 .child("Likes")
                 .child(title)
-        }.addValueEventListener(object : ValueEventListener{
+        }.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 count.text = snapshot.childrenCount.toString()
             }
