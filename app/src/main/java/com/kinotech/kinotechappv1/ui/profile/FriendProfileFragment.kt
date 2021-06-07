@@ -133,9 +133,7 @@ class FriendProfileFragment(private val subsInfo: SubsInfo) : Fragment() {
                                                 AnyItemInAdapterList.ButtonShowList(
                                                     it,
                                                     "0 фильмов",
-                                                    "https://cdn25.img.ria.ru/images/156087/28/156087280" +
-                                                        ".2_0:778:1536:1642_600x0_80_0_0_606c2d47b6d37951adc9eaf7" +
-                                                        ".50de22f0.jpg"
+                                                    ""
                                                 )
                                             )
                                         }

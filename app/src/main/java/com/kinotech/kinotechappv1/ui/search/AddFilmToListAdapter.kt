@@ -82,7 +82,7 @@ class AddFilmToListViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView
                         override fun onDataChange(snapshot: DataSnapshot) {
                             for (snap in snapshot.children) {
                                 try {
-                                    Log.d("img", "onDataChange2: ${snapshot.child("genres").value}")
+
                                     val result = snap.getValue(SimpleResult::class.java)!!
                                     val imgList: String = result.posterUrlPreview
 
@@ -93,7 +93,9 @@ class AddFilmToListViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView
                                         .into(imgListH)
                                 } catch (e: Exception) {
                                     Log.d("dataFavourite", "onDataChange: $e")
-                                    Toast.makeText(context, "Error $e", Toast.LENGTH_LONG).show()
+                                    Toast.makeText(
+                                        context, "Error $e", Toast.LENGTH_LONG
+                                    ).show()
                                 }
                             }
                         }
