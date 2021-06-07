@@ -19,7 +19,7 @@ import com.google.firebase.database.ValueEventListener
 import com.kinotech.kinotechappv1.R
 import com.kinotech.kinotechappv1.databinding.FeedNewListPostBinding
 import com.kinotech.kinotechappv1.ui.search.SimpleResult
-import java.util.*
+import java.util.Locale
 import kotlin.collections.ArrayList
 
 class PostNewListAdapter(private val posts: ArrayList<PostNewList>) :

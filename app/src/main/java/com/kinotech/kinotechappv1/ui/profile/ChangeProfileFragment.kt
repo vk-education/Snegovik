@@ -26,7 +26,7 @@ import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 import com.kinotech.kinotechappv1.R
 import com.kinotech.kinotechappv1.databinding.ChangeProfileBinding
-import java.util.*
+import java.util.Locale
 import kotlin.collections.HashMap
 
 class ChangeProfileFragment : Fragment() {
@@ -61,12 +61,13 @@ class ChangeProfileFragment : Fragment() {
             checker = "clicked"
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                 if (context?.let { it1 ->
-                        PermissionChecker.checkSelfPermission(
+                    PermissionChecker.checkSelfPermission(
                             it1,
                             Manifest.permission.READ_EXTERNAL_STORAGE
                         )
-                    } ==
-                    PackageManager.PERMISSION_DENIED) {
+                } ==
+                    PackageManager.PERMISSION_DENIED
+                ) {
 
                     val permissions = arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE)
                     requestPermissions(permissions, PERMISSION_CODE)

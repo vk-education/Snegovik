@@ -10,7 +10,11 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
-import com.google.firebase.database.*
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.Query
+import com.google.firebase.database.ValueEventListener
 import com.kinotech.kinotechappv1.R
 import com.kinotech.kinotechappv1.ui.search.SimpleResult
 import kotlin.reflect.KClass
@@ -196,7 +200,6 @@ class RecyclerAdapterLists(val context: Context, private val clickListener: MyCl
                                     .load(imgList)
                                     .error(R.drawable.ic_baseline_movie_creation_24)
                                     .into(imgListH)
-
                             } catch (e: Exception) {
                                 Log.d("dataFavourite", "onDataChange: $e")
                             }

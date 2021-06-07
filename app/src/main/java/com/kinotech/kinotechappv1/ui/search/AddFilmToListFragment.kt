@@ -2,7 +2,10 @@ package com.kinotech.kinotechappv1.ui.search
 
 import android.os.Bundle
 import android.util.Log
-import android.view.*
+import android.view.KeyEvent
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -39,15 +42,17 @@ class AddFilmToListFragment(
         root.isFocusableInTouchMode = true
         root.requestFocus()
         Log.d(android.R.attr.tag.toString(), "keyCode:")
-        root!!.setOnKeyListener(View.OnKeyListener { _, keyCode, event ->
-            if (keyCode == KeyEvent.KEYCODE_BACK && event.action == KeyEvent.ACTION_DOWN) {
-                fragmentManager?.popBackStack()
-                val fr = FilmPageFragment(movie, movie.nameRu, 2)
-                openFragment(fr)
-                return@OnKeyListener true
+        root!!.setOnKeyListener(
+            View.OnKeyListener { _, keyCode, event ->
+                if (keyCode == KeyEvent.KEYCODE_BACK && event.action == KeyEvent.ACTION_DOWN) {
+                    fragmentManager?.popBackStack()
+                    val fr = FilmPageFragment(movie, movie.nameRu, 2)
+                    openFragment(fr)
+                    return@OnKeyListener true
+                }
+                false
             }
-            false
-        })
+        )
         listsRef.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 list.clear()

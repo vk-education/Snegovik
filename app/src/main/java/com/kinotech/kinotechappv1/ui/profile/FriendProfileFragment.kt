@@ -24,7 +24,7 @@ import com.kinotech.kinotechappv1.databinding.FriendsProfileBinding
 import com.kinotech.kinotechappv1.ui.lists.AnyItemInAdapterList
 import com.kinotech.kinotechappv1.ui.profile.friendssearch.FriendsSearchFragment
 import com.kinotech.kinotechappv1.ui.profile.subs.SubsFragment
-import java.util.*
+import java.util.Locale
 
 class FriendProfileFragment(private val subsInfo: SubsInfo) : Fragment() {
 
@@ -72,7 +72,6 @@ class FriendProfileFragment(private val subsInfo: SubsInfo) : Fragment() {
                                                 if (task.isSuccessful) {
                                                     Log.i("follow", "Подписан")
                                                 }
-
                                             }
                                     }
                                 }
@@ -152,7 +151,6 @@ class FriendProfileFragment(private val subsInfo: SubsInfo) : Fragment() {
                         override fun onCancelled(error: DatabaseError) {
                             Toast.makeText(context, "$error", Toast.LENGTH_LONG).show()
                         }
-
                     })
                 }
                 Log.d("profileRecycler", "$list")
@@ -161,7 +159,6 @@ class FriendProfileFragment(private val subsInfo: SubsInfo) : Fragment() {
             override fun onCancelled(error: DatabaseError) {
                 Toast.makeText(context, "$error", Toast.LENGTH_LONG).show()
             }
-
         })
         listsRV.apply {
             setHasFixedSize(true)

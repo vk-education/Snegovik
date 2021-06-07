@@ -2,7 +2,10 @@ package com.kinotech.kinotechappv1.ui.lists
 
 import android.os.Bundle
 import android.util.Log
-import android.view.*
+import android.view.LayoutInflater
+import android.view.MenuItem
+import android.view.View
+import android.view.ViewGroup
 import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
@@ -16,7 +19,11 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
-import com.google.firebase.database.*
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.Query
+import com.google.firebase.database.ValueEventListener
 import com.kinotech.kinotechappv1.R
 import com.kinotech.kinotechappv1.ui.search.SimpleResult
 
@@ -177,7 +184,6 @@ class ListOfMovieFragment(private val listTitleDB: String) : Fragment() {
 
                 override fun onCancelled(error: DatabaseError) {}
             })
-
         } else {
             Toast.makeText(
                 context,
@@ -270,7 +276,6 @@ class ListOfMovieFragment(private val listTitleDB: String) : Fragment() {
                                         .load(imgList)
                                         .error(R.drawable.ic_baseline_movie_creation_24)
                                         .into(img)
-
                                 } catch (e: Exception) {
                                     Log.d("dataFavourite", "onDataChange: $e")
                                 }

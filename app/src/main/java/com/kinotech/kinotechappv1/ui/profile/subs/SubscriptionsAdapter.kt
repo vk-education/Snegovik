@@ -17,7 +17,7 @@ import com.kinotech.kinotechappv1.R
 import com.kinotech.kinotechappv1.databinding.SubscriptionItemBinding
 import com.kinotech.kinotechappv1.ui.profile.FriendProfileFragment
 import com.kinotech.kinotechappv1.ui.profile.SubsInfo
-import java.util.*
+import java.util.Locale
 
 class SubscriptionsAdapter(
     private val subscription: ArrayList<SubsInfo>
@@ -87,9 +87,7 @@ class SubscriptionsViewHolder(
                                                 if (task.isSuccessful) {
                                                     Log.i("follow", "Подписан")
                                                 }
-
                                             }
-
                                     }
                                 }
                             }

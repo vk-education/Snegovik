@@ -12,7 +12,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.kinotech.kinotechappv1.R
-import kotlinx.coroutines.*
+import kotlinx.coroutines.launch
 
 class SearchResultFragment(s: String) : Fragment() {
     private val result = s

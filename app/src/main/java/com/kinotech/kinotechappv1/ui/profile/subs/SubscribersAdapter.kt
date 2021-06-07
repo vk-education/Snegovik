@@ -17,7 +17,7 @@ import com.kinotech.kinotechappv1.R
 import com.kinotech.kinotechappv1.databinding.SubscribersItemBinding
 import com.kinotech.kinotechappv1.ui.profile.FriendProfileFragment
 import com.kinotech.kinotechappv1.ui.profile.SubsInfo
-import java.util.*
+import java.util.Locale
 import kotlin.collections.ArrayList
 
 class SubscribersAdapter(
@@ -40,7 +40,8 @@ class SubscribersAdapter(
     }
 
     class SubscribersViewHolder(
-        private val binding: SubscribersItemBinding, private val subscriber: ArrayList<SubsInfo>
+        private val binding: SubscribersItemBinding,
+        private val subscriber: ArrayList<SubsInfo>
     ) : RecyclerView.ViewHolder(binding.root) {
 
         private val firebaseUser: FirebaseUser? = FirebaseAuth.getInstance().currentUser
@@ -61,7 +62,7 @@ class SubscribersAdapter(
                         R.id.container,
                         FriendProfileFragment(subsInfo)
                     )
-                    transaction.addToBackStack(null) //возвращается не туда
+                    transaction.addToBackStack(null) // возвращается не туда
                     transaction.commit()
                 }
 
@@ -91,7 +92,6 @@ class SubscribersAdapter(
                                                     if (task.isSuccessful) {
                                                         Log.i("follow", "Подписан")
                                                     }
-
                                                 }
                                         }
                                     }

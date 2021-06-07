@@ -60,7 +60,6 @@ class DatabaseAdder {
             override fun onCancelled(error: DatabaseError) {
                 Log.d("error", "onCancelled: $error")
             }
-
         })
     }
 }

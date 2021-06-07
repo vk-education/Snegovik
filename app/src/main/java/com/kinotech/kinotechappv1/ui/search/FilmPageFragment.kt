@@ -5,9 +5,16 @@ import android.os.Bundle
 import android.text.InputType
 import android.text.method.DigitsKeyListener
 import android.util.Log
-import android.view.*
+import android.view.KeyEvent
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
-import android.widget.*
+import android.widget.EditText
+import android.widget.ImageButton
+import android.widget.ImageView
+import android.widget.ProgressBar
+import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import androidx.lifecycle.lifecycleScope
@@ -43,15 +50,17 @@ class FilmPageFragment(movie: SimpleResult, s: String, mode: Int) : Fragment() {
             root.isFocusableInTouchMode = true
             root.requestFocus()
             Log.d(attr.tag.toString(), "keyCode:")
-            root!!.setOnKeyListener(View.OnKeyListener { _, keyCode, event ->
-                if (keyCode == KeyEvent.KEYCODE_BACK && event.action == KeyEvent.ACTION_UP) {
-                    fragmentManager?.popBackStack()
-                    val fr = SearchResultFragment(result)
-                    openFragment(fr)
-                    return@OnKeyListener true
+            root!!.setOnKeyListener(
+                View.OnKeyListener { _, keyCode, event ->
+                    if (keyCode == KeyEvent.KEYCODE_BACK && event.action == KeyEvent.ACTION_UP) {
+                        fragmentManager?.popBackStack()
+                        val fr = SearchResultFragment(result)
+                        openFragment(fr)
+                        return@OnKeyListener true
+                    }
+                    false
                 }
-                false
-            })
+            )
             backButton.setOnClickListener {
                 root.isFocusableInTouchMode = true
                 root.requestFocus()

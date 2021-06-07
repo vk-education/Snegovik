@@ -4,7 +4,10 @@ import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
-import android.view.*
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.view.WindowManager
 import android.view.inputmethod.EditorInfo
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -15,7 +18,7 @@ import com.google.firebase.database.ValueEventListener
 import com.kinotech.kinotechappv1.R
 import com.kinotech.kinotechappv1.databinding.FriendsSearchBinding
 import com.kinotech.kinotechappv1.ui.profile.SubsInfo
-import java.util.*
+import java.util.Locale
 
 class FriendsSearchFragment : Fragment() {
 
@@ -64,7 +67,7 @@ class FriendsSearchFragment : Fragment() {
                 } else false
             }
         }
-            return binding.root
+        return binding.root
     }
 
     private fun searchUser(input: String) {
