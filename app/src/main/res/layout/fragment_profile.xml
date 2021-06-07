@@ -18,7 +18,7 @@
             android:layout_marginBottom="50dp"
             app:layout_constraintTop_toTopOf="@id/dashed"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"/>
+            app:layout_constraintBottom_toBottomOf="parent" />
 
     <TextView
             android:id="@+id/textProfile"
@@ -93,7 +93,7 @@
             app:layout_constraintEnd_toEndOf="@id/changeProfileButton"
             android:layout_marginTop="28dp"
             android:foreground="@drawable/photo"
-            tools:ignore="ContentDescription"
+            tools:ignore="ContentDescription,UnusedAttribute"
             app:layout_constraintHorizontal_bias="0.489" />
 
     <androidx.appcompat.widget.AppCompatButton
@@ -131,6 +131,5 @@
             app:layout_constraintLeft_toLeftOf="parent"
             android:layout_marginTop="175dp"
             android:layout_marginStart="7dp" />
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

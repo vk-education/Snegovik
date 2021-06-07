@@ -1,4 +1,4 @@
-package com.kinotech.kinotechappv1.ui.feed.recyclerview
+package com.kinotech.kinotechappv1.ui.feed
 
 import android.util.Log
 import android.view.LayoutInflater
@@ -17,15 +17,14 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.kinotech.kinotechappv1.R
-import com.kinotech.kinotechappv1.databinding.FeedNewlistPostBinding
-import com.kinotech.kinotechappv1.ui.feed.PostNewList
+import com.kinotech.kinotechappv1.databinding.FeedNewListPostBinding
 import com.kinotech.kinotechappv1.ui.search.SimpleResult
 
 class PostNewListAdapter(private val posts: ArrayList<PostNewList>) :
     RecyclerView.Adapter<PostNewListViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PostNewListViewHolder {
-        val binding = FeedNewlistPostBinding.inflate(
+        val binding = FeedNewListPostBinding.inflate(
             LayoutInflater.from(parent.context), parent, false
         )
         return PostNewListViewHolder(binding, posts)
@@ -41,7 +40,7 @@ class PostNewListAdapter(private val posts: ArrayList<PostNewList>) :
 }
 
 class PostNewListViewHolder(
-    private val binding: FeedNewlistPostBinding,
+    private val binding: FeedNewListPostBinding,
     private val posts: ArrayList<PostNewList>
 ) : RecyclerView.ViewHolder(binding.root) {
     private var user: FirebaseUser? = FirebaseAuth.getInstance().currentUser

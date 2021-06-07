@@ -160,7 +160,7 @@ class RecyclerAdapterLists(val context: Context, private val clickListener: MyCl
                 }.addValueEventListener(object : ValueEventListener {
                     override fun onDataChange(snapshot: DataSnapshot) {
                         count = snapshot.childrenCount.toInt()
-                        Log.d("dbfav", "onDataChange: $count ")
+                        Log.d("dataFavourite", "onDataChange: $count ")
                         "$count фильмов".also { filmCount.text = it }
                         if (filmCount.text == "0 фильмов") {
                             Glide

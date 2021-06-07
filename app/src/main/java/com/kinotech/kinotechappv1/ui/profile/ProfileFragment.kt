@@ -10,7 +10,6 @@ import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -31,7 +30,6 @@ import kotlin.collections.ArrayList
 class ProfileFragment : Fragment() {
 
     private lateinit var mSignInClient: GoogleSignInClient
-    private lateinit var profileViewModel: ProfileViewModel
     private lateinit var binding: FragmentProfileBinding
     private lateinit var firebaseUser: FirebaseUser
     private var user: FirebaseUser? = FirebaseAuth.getInstance().currentUser
@@ -42,8 +40,6 @@ class ProfileFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        profileViewModel =
-            ViewModelProvider(this).get(ProfileViewModel::class.java)
         firebaseUser = FirebaseAuth.getInstance().currentUser!!
         binding = FragmentProfileBinding.inflate(inflater, container, false)
         binding.subscribers.setOnClickListener {
@@ -207,7 +203,7 @@ class ProfileFragment : Fragment() {
         val subsFragment = SubsFragment(1)
         subsFragment.arguments = args
         if (transaction != null) {
-            transaction.replace(R.id.container, subsFragment)// Поменять на второй лист SubsFragment
+            transaction.replace(R.id.container, subsFragment)
             transaction.disallowAddToBackStack()
             transaction.commit()
         }

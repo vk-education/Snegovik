@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         tools:ignore="MissingConstraints"
         app:cardCornerRadius="10dp"
         android:layout_marginTop="16dp">
@@ -29,7 +28,7 @@
                 app:layout_constraintStart_toEndOf="@id/img_list"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toTopOf="@id/film_count"/>
+                app:layout_constraintBottom_toTopOf="@id/film_count" />
 
         <TextView
                 android:id="@+id/film_count"
@@ -38,13 +37,12 @@
                 tools:text="5 фильмов"
                 android:textColor="@color/white_text"
                 android:layout_marginBottom="28dp"
-                android:layout_marginRight="16dp"
+                android:layout_marginEnd="16dp"
                 android:textSize="16sp"
                 app:layout_constraintStart_toStartOf="@id/item_title"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/item_title"
-                app:layout_constraintBottom_toBottomOf="parent"/>
-
+                app:layout_constraintBottom_toBottomOf="parent" />
 
         <ImageView
                 android:id="@+id/img_list"
@@ -54,13 +52,13 @@
                 tools:srcCompat="@tools:sample/avatars"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                android:layout_marginLeft="16dp"
+                android:layout_marginStart="16dp"
                 android:layout_marginTop="20dp"
                 android:layout_marginBottom="20dp"
                 app:layout_constraintCircleRadius="180dp"
                 android:background="@color/red_200"
-                android:foreground="@drawable/rounded_fg_light"/>
-
+                android:foreground="@drawable/rounded_fg_light"
+                tools:ignore="ContentDescription,UnusedAttribute" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

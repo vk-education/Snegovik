@@ -22,7 +22,7 @@ class MoviesAdapter(
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MoviesViewHolder {
         val view = LayoutInflater.from(parent.context)
             .inflate(R.layout.fragment_search_recycler_view_item_layout, parent, false)
-        Log.d("cout", "in adapter")
+        Log.d("count", "in adapter")
         return MoviesViewHolder(view, s)
     }
 
@@ -44,7 +44,7 @@ class MoviesViewHolder(itemView: View, s: String) : RecyclerView.ViewHolder(item
     val context: Context = itemView.context
     fun bind(movie: SimpleResult) {
         Glide.with(itemView.context).load(movie.posterUrlPreview).into(filmPhoto)
-        Log.d("cout", "near bind")
+        Log.d("count", "near bind")
         filmTitle.text = movie.nameRu
         filmYear.text = movie.year
         filmGenres.text = movie.genres.joinToString { genres: Genres ->

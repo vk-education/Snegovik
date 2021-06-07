@@ -10,7 +10,6 @@ import android.widget.Toast
 import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.auth.FirebaseAuth
@@ -21,7 +20,6 @@ import com.kinotech.kinotechappv1.ui.lists.CustomDialog.FullNameListener
 
 class ListsFragment : Fragment(), RecyclerAdapterLists.MyClickListener {
 
-    private lateinit var listsViewModel: ListsViewModel
     lateinit var recyclerView: RecyclerView
     lateinit var recyclerAdapter: RecyclerAdapterLists
     private var user: FirebaseUser? = FirebaseAuth.getInstance().currentUser
@@ -34,8 +32,6 @@ class ListsFragment : Fragment(), RecyclerAdapterLists.MyClickListener {
         savedInstanceState: Bundle?
     ): View? {
 
-        listsViewModel =
-            ViewModelProvider(this).get(ListsViewModel::class.java)
         val root = inflater.inflate(R.layout.fragment_lists, container, false)
         val activity: AppCompatActivity = root.context as AppCompatActivity
         val toolbar: ActionBar = activity.supportActionBar!!

@@ -16,7 +16,8 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:src="@drawable/pobeg"
-            android:layout_marginLeft="8dp"/>
+            android:layout_marginStart="8dp"
+            tools:ignore="ContentDescription" />
 
     <TextView
             android:id="@+id/lmFilmTitle"
@@ -39,22 +40,23 @@
             app:layout_constraintStart_toStartOf="@id/lmFilmTitle"
             app:layout_constraintTop_toBottomOf="@id/lmFilmTitle"
             tools:text="Драма"
+            android:maxLines="1"
+            android:ellipsize="end"
             android:fontFamily="@font/rubik_bold"
             android:textSize="14sp"
             android:textColor="@color/another_white" />
 
     <TextView
+            android:id="@+id/yourRating"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/yourRating"
             app:layout_constraintBottom_toBottomOf="@id/lmFilmPoster"
             app:layout_constraintStart_toEndOf="@id/lmFilmGenre"
             app:layout_constraintTop_toBottomOf="@id/lmFilmTitle"
             android:layout_marginStart="20dp"
             android:textSize="14sp"
             android:fontFamily="@font/rubik_bold"
-            android:textColor="@color/red_500"
-            />
+            android:textColor="@color/red_500" />
 
     <TextView
             android:id="@+id/lmFilmYear"
@@ -72,8 +74,12 @@
             android:id="@+id/like_in_adapter"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginEnd="4dp"
+            app:layout_constraintStart_toEndOf="@id/yourRating"
             android:background="@android:color/transparent"
             app:layout_constraintTop_toTopOf="@id/lmFilmGenre"
-            app:layout_constraintEnd_toEndOf="parent" />
+            app:layout_constraintBottom_toBottomOf="@id/lmFilmGenre"
+            app:layout_constraintEnd_toEndOf="parent"
+            tools:ignore="ContentDescription" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

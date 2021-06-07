@@ -34,7 +34,7 @@ class SearchResultFragment(s: String) : Fragment() {
                     recyclerView.apply {
                         setHasFixedSize(true)
                         layoutManager = LinearLayoutManager(context)
-                        Log.d("cout", "response is $filmsT")
+                        Log.d("count", "response is $filmsT")
                         adapter = MoviesAdapter(filmsT, result)
                     }
                 }

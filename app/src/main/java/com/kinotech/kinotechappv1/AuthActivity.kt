@@ -167,6 +167,7 @@ class AuthActivity : AppCompatActivity() {
                     saveUserInfo(currAcc.displayName, currAcc.email, currAcc.photoUrl)
                 }
             }
+
             override fun onCancelled(error: DatabaseError) {
             }
         })

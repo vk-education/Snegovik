@@ -8,7 +8,7 @@ data class SimpleResult(
     val nameRu: String = "",
     val genres: List<Genres> = arrayListOf(),
     val year: String = "",
-    val posterUrlPreview: String ="",
+    val posterUrlPreview: String = "",
     val filmId: Int = 0,
     val countries: List<Countries> = arrayListOf()
 )

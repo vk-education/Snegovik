@@ -27,7 +27,6 @@
     <string name="change_name_string">Nuevo nombre de perfil</string>
     <string name="save_string">Guardar</string>
     <string name="subscribers">Suscritores</string>
-<!--    <string name="subscriptions">0 suscripciones</string>-->
     <string name="search_friends">Busca amigos usando busca arriba!</string>
     <string name="input_friend_name">Escribe nombre de amigo</string>
     <string name="subscribe_string">Suscribir</string>
@@ -38,4 +37,9 @@
     <string name="subscribed">Suscribido</string>
     <string name="close_list">Cerrar lista</string>
     <string name="delete_movie">Borrar película</string>
+    <string name="added_new_list">Agregó nueva lista</string>
+    <string name="enter_list_name">Escribe nombre de lista</string>
+    <string name="create">"Crear "</string>
+    <string name="cancel">Cancelar</string>
+    <string name="friends_search">Busca de amigos</string>
 </resources>

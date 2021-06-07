@@ -8,8 +8,6 @@ import android.util.Log
 import android.view.*
 import android.view.inputmethod.EditorInfo
 import android.widget.*
-import androidx.appcompat.app.ActionBar
-import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import androidx.lifecycle.lifecycleScope
@@ -26,7 +24,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-
 class FilmPageFragment(movie: SimpleResult, s: String, mode: Int) : Fragment() {
     private val result = s
     private val movieInfo = movie
@@ -42,12 +39,12 @@ class FilmPageFragment(movie: SimpleResult, s: String, mode: Int) : Fragment() {
         val progressBar: ProgressBar = root.findViewById(R.id.progress_bar)
         val backButton: ImageButton = root.findViewById(R.id.backBtnFilmPage)
         val viewModel = ViewModelProviders.of(this).get(RequestViewModel::class.java)
-        if (modeState == 1){
-            root.isFocusableInTouchMode=true
+        if (modeState == 1) {
+            root.isFocusableInTouchMode = true
             root.requestFocus()
             Log.d(attr.tag.toString(), "keyCode:")
-            root!!.setOnKeyListener(View.OnKeyListener { v, keyCode, event ->
-                if (keyCode == KeyEvent.KEYCODE_BACK && event.action === KeyEvent.ACTION_UP) {
+            root!!.setOnKeyListener(View.OnKeyListener { _, keyCode, event ->
+                if (keyCode == KeyEvent.KEYCODE_BACK && event.action == KeyEvent.ACTION_UP) {
                     fragmentManager?.popBackStack()
                     val fr = SearchResultFragment(result)
                     openFragment(fr)
@@ -56,22 +53,19 @@ class FilmPageFragment(movie: SimpleResult, s: String, mode: Int) : Fragment() {
                 false
             })
             backButton.setOnClickListener {
-                root.isFocusableInTouchMode=true
+                root.isFocusableInTouchMode = true
                 root.requestFocus()
                 fragmentManager?.popBackStack()
-                val fr  = SearchResultFragment(result)
+                val fr = SearchResultFragment(result)
                 openFragment(fr)
             }
-        }
-        else{
+        } else {
             backButton.setOnClickListener {
                 fragmentManager?.popBackStack()
             }
         }
 
-
-
-        Log.d("cout2", "movieId: $movieId")
+        Log.d("count2", "movieId: $movieId")
         lifecycleScope.launch {
             viewModel.searchDescriptionRating(movieId)
             viewModel.getDescriptionRatingResults().observe(
@@ -103,7 +97,7 @@ class FilmPageFragment(movie: SimpleResult, s: String, mode: Int) : Fragment() {
                     lifecycleScope.launch {
                         setStaff(root, directors, actors)
                     }
-                    Log.d("cout2", "$actors")
+                    Log.d("count2", "$actors")
                 }
             )
         }
@@ -111,10 +105,10 @@ class FilmPageFragment(movie: SimpleResult, s: String, mode: Int) : Fragment() {
             setMovieData(root)
         }
         progressBar.visibility = View.GONE
-        val likeButton:ImageButton = root.findViewById(R.id.likeFilm)
+        val likeButton: ImageButton = root.findViewById(R.id.likeFilm)
         val databaseAdder = DatabaseAdder()
         databaseAdder.addMovieToDB(movieInfo, likeButton)
-        val rateMovie :EditText = root.findViewById(R.id.userRate)
+        val rateMovie: EditText = root.findViewById(R.id.userRate)
         rateMovie.inputType = InputType.TYPE_CLASS_NUMBER
         rateMovie.keyListener = DigitsKeyListener.getInstance("0123456789")
         rateMovie.isSingleLine = true
@@ -122,9 +116,9 @@ class FilmPageFragment(movie: SimpleResult, s: String, mode: Int) : Fragment() {
         rateMovie.setOnEditorActionListener(object : TextView.OnEditorActionListener {
             override fun onEditorAction(v: TextView?, actionId: Int, event: KeyEvent?): Boolean {
                 if (event == null) {
-                    if (actionId == EditorInfo.IME_ACTION_DONE) {
+                    return if (actionId == EditorInfo.IME_ACTION_DONE) {
                         Log.d("rating", "${v?.text} ")
-                        if(v?.text.toString().toInt() > 10){
+                        if (v?.text.toString().toInt() > 10) {
                             v?.text = 10.toString()
                         }
                         user?.uid.let { it1 ->
@@ -135,23 +129,21 @@ class FilmPageFragment(movie: SimpleResult, s: String, mode: Int) : Fragment() {
                                 .child("Rating")
                                 .setValue(v?.text.toString())
                         }
-                        return false
-                    } else return false
+                        false
+                    } else false
                 } else return false
             }
-
         })
-        Log.d("cout2", "after checking rating ")
-        val addBtn : ImageButton = root.findViewById(R.id.addFilm)
+        Log.d("count2", "after checking rating ")
+        val addBtn: ImageButton = root.findViewById(R.id.addFilm)
         addBtn.setOnClickListener {
             val listAddFragment = AddFilmToListFragment(movieInfo)
-                openListsAddFragment(listAddFragment)
-            }
-
+            openListsAddFragment(listAddFragment)
+        }
         return root
     }
 
-    private fun checkRating(id: Int, editText : EditText) {
+    private fun checkRating(id: Int, editText: EditText) {
         val ratingRef = user?.uid.let { it1 ->
             FirebaseDatabase.getInstance().reference
                 .child("User Rating")
@@ -167,12 +159,9 @@ class FilmPageFragment(movie: SimpleResult, s: String, mode: Int) : Fragment() {
                 }
             }
 
-            override fun onCancelled(error: DatabaseError) {
-            }
-
+            override fun onCancelled(error: DatabaseError) {}
         })
     }
-
 
     private fun getStaff(
         staff: List<Staff>,
@@ -230,7 +219,7 @@ class FilmPageFragment(movie: SimpleResult, s: String, mode: Int) : Fragment() {
             countries.country
         }
         val yearCountry: String = arrayListOf(movieInfo.year, countries).joinToString(", ")
-        Log.d("cout", "near setting")
+        Log.d("count", "near setting")
         Glide.with(movieView.context).load(movieInfo.posterUrlPreview).into(filmPhoto)
         filmTitle.text = movieInfo.nameRu
         filmYearCountry.text = yearCountry
@@ -238,13 +227,14 @@ class FilmPageFragment(movie: SimpleResult, s: String, mode: Int) : Fragment() {
             genres.genre
         }
     }
+
     private fun openFragment(fragment: Fragment) {
         val transaction = activity?.supportFragmentManager?.beginTransaction()
         transaction?.replace(R.id.frameLayout, fragment)
         transaction?.commit()
     }
 
-    private fun openListsAddFragment(fragment: Fragment){
+    private fun openListsAddFragment(fragment: Fragment) {
         val transaction = activity?.supportFragmentManager?.beginTransaction()
         transaction?.add(R.id.container, fragment)
         transaction?.addToBackStack(null)
