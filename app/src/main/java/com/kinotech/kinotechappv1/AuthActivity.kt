@@ -165,16 +165,18 @@ class AuthActivity : AppCompatActivity() {
         val currentUserID = FirebaseAuth.getInstance().currentUser!!.uid
         val usersRef: DatabaseReference =
             FirebaseDatabase.getInstance().reference.child("Users")
-        usersRef.addValueEventListener(object : ValueEventListener {
-            override fun onDataChange(snapshot: DataSnapshot) {
-                if (!snapshot.child(currentUserID).exists()) {
-                    saveUserInfo(currAcc.displayName, currAcc.email, currAcc.photoUrl)
+        usersRef.addValueEventListener(
+            object : ValueEventListener {
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    if (!snapshot.child(currentUserID).exists()) {
+                        saveUserInfo(currAcc.displayName, currAcc.email, currAcc.photoUrl)
+                    }
+                }
+
+                override fun onCancelled(error: DatabaseError) {
                 }
             }
-
-            override fun onCancelled(error: DatabaseError) {
-            }
-        })
+        )
     }
 
     private fun firebaseAuthWithGoogle(idToken: String) {
