@@ -36,7 +36,7 @@ class FeedFragment : Fragment() {
                 .child("Follow")
                 .child(it1.toString())
                 .child("Following")
-        }.addValueEventListener(object: ValueEventListener{
+        }.addListenerForSingleValueEvent(object: ValueEventListener{
             override fun onDataChange(snapshot: DataSnapshot) {
                 posts.clear()
                 for (snap in snapshot.children){
@@ -46,6 +46,7 @@ class FeedFragment : Fragment() {
                             .child(snap.value.toString())
                     }.addValueEventListener(object : ValueEventListener{
                         override fun onDataChange(snapshot: DataSnapshot) {
+
                             for (s in snapshot.children){
                                 s.getValue(PostNewList::class.java)?.let { posts.add(it) }
                             }

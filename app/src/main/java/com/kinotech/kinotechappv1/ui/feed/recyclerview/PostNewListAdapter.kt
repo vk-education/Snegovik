@@ -70,49 +70,35 @@ class PostNewListViewHolder(
                 }
             }
             checkLikedStatus(like, postNewList.uid, postNewList.actionDoneText)
-            checkLikeCount(postNewList.uid, likesCount, postNewList.actionDoneText)
+            checkLikeCount(likesCount, postNewList.actionDoneText)
             like.setOnClickListener {
                 if (like.tag == "button_not_liked"){
                     user?.uid.let{it1 ->
                         FirebaseDatabase.getInstance().reference
-                            .child("Posts")
-                            .child(postNewList.uid)
-                            .child(postNewList.actionDoneText)
                             .child("Likes")
+                            .child(postNewList.actionDoneText)
                             .child(user?.uid.toString())
                             .setValue(true)
                     }
-                    posts.clear()
                 }
                 else{
                     user?.uid.let{it1 ->
                         FirebaseDatabase.getInstance().reference
-                            .child("Posts")
-                            .child(postNewList.uid)
-                            .child(postNewList.actionDoneText)
                             .child("Likes")
+                            .child(postNewList.actionDoneText)
                             .child(user?.uid.toString())
                             .removeValue()
                     }
-                    posts.clear()
                 }
-
             }
-            //filmPoster1.setImageResource(postNewList.film1)
-            //filmPoster2.setImageResource(postNewList.film2)
-            //  filmPoster3.setImageResource(postNewList.film3)
-
-
         }
     }
 
-    private fun checkLikeCount(id:String, count: TextView, title: String) {
-        user?.uid.let{it1 ->
+    private fun checkLikeCount(count: TextView, title: String) {
+        user?.uid.let{
             FirebaseDatabase.getInstance().reference
-                .child("Posts")
-                .child(id)
-                .child(title)
                 .child("Likes")
+                .child(title)
         }.addValueEventListener(object : ValueEventListener{
             override fun onDataChange(snapshot: DataSnapshot) {
                 count.text = snapshot.childrenCount.toString()
@@ -128,10 +114,8 @@ class PostNewListViewHolder(
     private fun checkLikedStatus(likeButton: ImageButton, id: String, title: String) {
         val likedMoviesRef = user?.uid.let{it1 ->
             FirebaseDatabase.getInstance().reference
-                .child("Posts")
-                .child(id)
-                .child(title)
                 .child("Likes")
+                .child(title)
         }
 
         likedMoviesRef.addValueEventListener(object: ValueEventListener {
