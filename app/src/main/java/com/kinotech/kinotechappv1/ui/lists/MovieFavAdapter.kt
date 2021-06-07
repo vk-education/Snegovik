@@ -138,22 +138,24 @@ class MovieFavAdapter(
                     .child("User Rating")
                     .child(it1.toString())
             }
-            ratingRef.addValueEventListener(object : ValueEventListener {
-                @SuppressLint("SetTextI18n")
-                override fun onDataChange(snapshot: DataSnapshot) {
-                    if (snapshot.child(id.toString()).exists()) {
-                        textView.text = snapshot
-                            .child(id.toString())
-                            .child("Rating").value as String + "/10"
+            ratingRef.addValueEventListener(
+                object : ValueEventListener {
+                    @SuppressLint("SetTextI18n")
+                    override fun onDataChange(snapshot: DataSnapshot) {
+                        if (snapshot.child(id.toString()).exists()) {
+                            textView.text = snapshot
+                                .child(id.toString())
+                                .child("Rating").value as String + "/10"
 
-                        Log.d("rating", "onDataChange:${textView.text} ")
-                    } else {
-                        textView.text = ""
+                            Log.d("rating", "onDataChange:${textView.text} ")
+                        } else {
+                            textView.text = ""
+                        }
                     }
-                }
 
-                override fun onCancelled(error: DatabaseError) {}
-            })
+                    override fun onCancelled(error: DatabaseError) {}
+                }
+            )
         }
     }
 }

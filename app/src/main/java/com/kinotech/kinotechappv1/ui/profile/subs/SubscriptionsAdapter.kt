@@ -25,7 +25,9 @@ class SubscriptionsAdapter(
     RecyclerView.Adapter<SubscriptionsViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SubscriptionsViewHolder {
         val binding = SubscriptionItemBinding.inflate(
-            LayoutInflater.from(parent.context), parent, false
+            LayoutInflater.from(parent.context),
+            parent,
+            false
         )
         return SubscriptionsViewHolder(binding, subscription)
     }

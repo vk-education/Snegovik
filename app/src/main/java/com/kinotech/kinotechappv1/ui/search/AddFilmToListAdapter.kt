@@ -96,7 +96,9 @@ class AddFilmToListViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView
                                         } catch (e: Exception) {
                                             Log.d("dataFavourite", "onDataChange: $e")
                                             Toast.makeText(
-                                                context, "Error $e", Toast.LENGTH_LONG
+                                                context,
+                                                "Error $e",
+                                                Toast.LENGTH_LONG
                                             ).show()
                                         }
                                     }

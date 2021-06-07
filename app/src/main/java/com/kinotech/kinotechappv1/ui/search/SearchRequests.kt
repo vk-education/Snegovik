@@ -56,7 +56,8 @@ class SearchRequests {
                         Log.d("count2", "on response2 $staff")
                     }
                 }
-            })
+            }
+        )
     }
 
     suspend fun searchDescriptionRating(movieId: Int) = withContext(Dispatchers.IO) {

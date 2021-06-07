@@ -144,34 +144,35 @@ class ProfileFragment : Fragment() {
                                 .child(snap.value.toString())
                                 .child("IsOpened")
                         }
-                        openedRef.addValueEventListener(object : ValueEventListener {
-                            override fun onDataChange(snapshot: DataSnapshot) {
-                                if (snapshot.value == true) {
-                                    snap.getValue(String::class.java)
-                                        ?.let {
-                                            Log.d("lox", "onDataChange: $it")
-                                            list = list.apply {
-                                                add(
-                                                    AnyItemInAdapterList.ButtonShowList(
-                                                        it,
-                                                        "0 фильмов",
-                                                        ""
+                        openedRef.addValueEventListener(
+                            object : ValueEventListener {
+                                override fun onDataChange(snapshot: DataSnapshot) {
+                                    if (snapshot.value == true) {
+                                        snap.getValue(String::class.java)
+                                            ?.let {
+                                                Log.d("lox", "onDataChange: $it")
+                                                list = list.apply {
+                                                    add(
+                                                        AnyItemInAdapterList.ButtonShowList(
+                                                            it,
+                                                            "0 фильмов",
+                                                            ""
+                                                        )
                                                     )
-                                                )
+                                                }
                                             }
+                                        listsRV.apply {
+                                            setHasFixedSize(true)
+                                            layoutManager = LinearLayoutManager(context)
+                                            adapter = OpenListsAdapter(list, context)
                                         }
-                                    listsRV.apply {
-                                        setHasFixedSize(true)
-                                        layoutManager = LinearLayoutManager(context)
-                                        adapter = OpenListsAdapter(list, context)
                                     }
                                 }
-                            }
 
-                            override fun onCancelled(error: DatabaseError) {
-                                Toast.makeText(context, "$error", Toast.LENGTH_LONG).show()
+                                override fun onCancelled(error: DatabaseError) {
+                                    Toast.makeText(context, "$error", Toast.LENGTH_LONG).show()
+                                }
                             }
-                        }
                         )
                     }
                     Log.d("profileRecycler", "$list")
@@ -180,7 +181,8 @@ class ProfileFragment : Fragment() {
                 override fun onCancelled(error: DatabaseError) {
                     Toast.makeText(context, "$error", Toast.LENGTH_LONG).show()
                 }
-            })
+            }
+        )
         listsRV.apply {
             setHasFixedSize(true)
             layoutManager = LinearLayoutManager(context)

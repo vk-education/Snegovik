@@ -135,24 +135,26 @@ class OpenListsFriendsAdapter(
                                 .child("Lists")
                                 .child(it1.toString())
                                 .child("UserLists")
-                        }.addValueEventListener(object : ValueEventListener {
-                            override fun onDataChange(snap: DataSnapshot) {
-                                if (snap.child(itemTitle.text.toString()).exists()) {
-                                    addButton.tag = "button is added"
-                                    addButton.setBackgroundResource(R.drawable.ic_check)
-                                } else {
-                                    addButton.tag = "button not added"
-                                    addButton.setBackgroundResource(R.drawable.ic_add)
+                        }.addValueEventListener(
+                            object : ValueEventListener {
+                                override fun onDataChange(snap: DataSnapshot) {
+                                    if (snap.child(itemTitle.text.toString()).exists()) {
+                                        addButton.tag = "button is added"
+                                        addButton.setBackgroundResource(R.drawable.ic_check)
+                                    } else {
+                                        addButton.tag = "button not added"
+                                        addButton.setBackgroundResource(R.drawable.ic_add)
+                                    }
                                 }
-                            }
 
-                            override fun onCancelled(error: DatabaseError) {}
-                        }
+                                override fun onCancelled(error: DatabaseError) {}
+                            }
                         )
                     }
 
                     override fun onCancelled(error: DatabaseError) {}
-                })
+                }
+            )
         }
 
         private fun addList() {
