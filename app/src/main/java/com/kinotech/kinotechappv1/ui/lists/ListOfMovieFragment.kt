@@ -217,7 +217,9 @@ class ListOfMovieFragment(private val listTitleDB: String) : Fragment() {
 
     private fun deleteList() {
         Toast.makeText(
-            context, "Список удален", Toast.LENGTH_SHORT
+            context,
+            "Список удален",
+            Toast.LENGTH_SHORT
         ).show()
         user?.uid.let { it1 ->
             FirebaseDatabase.getInstance().reference

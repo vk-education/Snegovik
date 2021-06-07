@@ -42,21 +42,28 @@ class FriendsSearchFragment : Fragment() {
             Log.d("users", "onCreateView: $users")
             recyclerView.adapter = adapter
             activity?.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN)
-            searchText.addTextChangedListener(object : TextWatcher {
-                override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
+            searchText.addTextChangedListener(
+                object : TextWatcher {
+                    override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
 
-                override fun onTextChanged(c: CharSequence?, start: Int, before: Int, count: Int) {
-                    if (binding.searchText.text.toString() != "") {
-                        recyclerView.visibility = View.VISIBLE
-                        retrieveUsers()
-                        searchUser(c.toString().toLowerCase(Locale.getDefault()))
+                    override fun onTextChanged(
+                        c: CharSequence?,
+                        start: Int,
+                        before: Int,
+                        count: Int
+                    ) {
+                        if (binding.searchText.text.toString() != "") {
+                            recyclerView.visibility = View.VISIBLE
+                            retrieveUsers()
+                            searchUser(c.toString().toLowerCase(Locale.getDefault()))
+                        }
+                    }
+
+                    override fun afterTextChanged(c: Editable?) {
+                        searchUser(c.toString())
                     }
                 }
-
-                override fun afterTextChanged(c: Editable?) {
-                    searchUser(c.toString())
-                }
-            })
+            )
             searchText.isSingleLine = true
             searchText.setOnEditorActionListener { _, actionId, event ->
                 if (event == null) {
