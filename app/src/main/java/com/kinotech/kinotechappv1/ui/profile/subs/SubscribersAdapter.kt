@@ -78,7 +78,6 @@ class SubscribersAdapter(
                                 .child(subsInfo.uid)
                                 .setValue(subsInfo.uid)
                                 .addOnCompleteListener { task ->
-                                    Log.d("double trouble", "перед успехом подписки $subscriber")
                                     if (task.isSuccessful) {
                                         firebaseUser?.uid.let { uid ->
                                             FirebaseDatabase.getInstance().reference
@@ -88,7 +87,6 @@ class SubscribersAdapter(
                                                 .child(uid.toString())
                                                 .setValue(uid.toString())
                                                 .addOnCompleteListener { task ->
-                                                    Log.d("double trouble", "перед успехом успехом $subscriber")
                                                     if (task.isSuccessful) {
                                                         Log.i("follow", "Подписан")
                                                     }
