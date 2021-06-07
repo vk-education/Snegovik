@@ -61,7 +61,7 @@ class ChangeProfileFragment : Fragment() {
             checker = "clicked"
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                 if (context?.let { it1 ->
-                        PermissionChecker.checkSelfPermission(
+                    PermissionChecker.checkSelfPermission(
                             it1,
                             Manifest.permission.READ_EXTERNAL_STORAGE
                         )
