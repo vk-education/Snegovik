@@ -4,8 +4,6 @@ import android.os.Bundle
 import android.util.Log
 import android.view.*
 import android.widget.Toast
-import androidx.appcompat.app.ActionBar
-import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -18,7 +16,6 @@ import com.google.firebase.database.ValueEventListener
 import com.kinotech.kinotechappv1.R
 import com.kinotech.kinotechappv1.ui.lists.AnyItemInAdapterList
 
-
 class AddFilmToListFragment(
     private val movie: SimpleResult
 ) : Fragment() {
@@ -29,7 +26,7 @@ class AddFilmToListFragment(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         Log.d("debugging shit", "here 1 ")
         val root = inflater.inflate(R.layout.fragment_add_film_to_list, container, false)
         val recyclerView: RecyclerView = root.findViewById(R.id.recyclerview_lists_film_page)
@@ -39,13 +36,13 @@ class AddFilmToListFragment(
                 .child(it1.toString())
                 .child("UserLists")
         }
-        root.isFocusableInTouchMode=true
+        root.isFocusableInTouchMode = true
         root.requestFocus()
         Log.d(android.R.attr.tag.toString(), "keyCode:")
-        root!!.setOnKeyListener(View.OnKeyListener { v, keyCode, event ->
-            if (keyCode == KeyEvent.KEYCODE_BACK && event.action === KeyEvent.ACTION_DOWN) {
+        root!!.setOnKeyListener(View.OnKeyListener { _, keyCode, event ->
+            if (keyCode == KeyEvent.KEYCODE_BACK && event.action == KeyEvent.ACTION_DOWN) {
                 fragmentManager?.popBackStack()
-                val fr = FilmPageFragment(movie, movie.nameRu,2 )
+                val fr = FilmPageFragment(movie, movie.nameRu, 2)
                 openFragment(fr)
                 return@OnKeyListener true
             }
@@ -73,7 +70,7 @@ class AddFilmToListFragment(
                                 }
                             }
                     } catch (e: Exception) {
-                        Log.d("oshibka", "onDataChange: $e")
+                        Log.d("error", "onDataChange: $e")
                         Toast.makeText(context, "Error $e", Toast.LENGTH_LONG)
                             .show()
                     }
@@ -83,7 +80,6 @@ class AddFilmToListFragment(
                     recyclerView.layoutManager = LinearLayoutManager(context)
                     recyclerAdapter = AddFilmToListAdapter(list, movie)
                 }
-
             }
 
             override fun onCancelled(error: DatabaseError) {
@@ -96,13 +92,12 @@ class AddFilmToListFragment(
             recyclerView.layoutManager = LinearLayoutManager(context)
             recyclerView.adapter = recyclerAdapter
         }
-
         return root
     }
+
     private fun openFragment(fragment: Fragment) {
         val transaction = activity?.supportFragmentManager?.beginTransaction()
         transaction?.replace(R.id.container, fragment)
         transaction?.commit()
     }
-
 }

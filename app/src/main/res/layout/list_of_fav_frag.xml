@@ -6,7 +6,8 @@
         android:layout_height="match_parent"
         android:id="@+id/listFavFrag"
         android:background="@color/red_200"
-        android:clickable="true">
+        android:clickable="true"
+        android:focusable="true">
 
     <ImageButton
             android:id="@+id/backFavBtn"
@@ -16,19 +17,8 @@
             android:background="@android:color/transparent"
             android:layout_margin="16dp"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
-
-   <!-- <ImageButton
-            android:id="@+id/addBtn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ic_add_without_circle"
-            android:background="@android:color/transparent"
-            android:layout_marginTop="16dp"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/higherDots" />-->
-
-
+            app:layout_constraintStart_toStartOf="parent"
+            tools:ignore="ContentDescription" />
 
     <TextView
             android:id="@+id/listFavTitle"
@@ -44,7 +34,6 @@
             android:textSize="24sp"
             android:textColor="@color/another_white" />
 
-
     <ImageView
             android:id="@+id/listIconFav"
             android:layout_width="0dp"
@@ -59,7 +48,8 @@
             app:layout_constraintEnd_toEndOf="parent"
             android:foreground="@drawable/round"
             app:layout_constraintDimensionRatio="1:1"
-            app:layout_constraintHeight_percent="0.15"/>
+            app:layout_constraintHeight_percent="0.15"
+            tools:ignore="ContentDescription,UnusedAttribute" />
 
     <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/filmFavListRecyclerView"
@@ -70,6 +60,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             tools:listitem="@layout/list_menu_film"
-            android:layout_marginBottom="55dp"/>
+            android:layout_marginBottom="55dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

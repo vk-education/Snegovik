@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
@@ -36,7 +35,8 @@
                 android:src="@drawable/ic_arrow_back"
                 android:background="@android:color/transparent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintStart_toStartOf="parent" />
+                app:layout_constraintStart_toStartOf="parent"
+                tools:ignore="ContentDescription" />
 
         <TextView
                 android:id="@+id/filmTitle"
@@ -64,7 +64,8 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/backBtnFilmPage"
                 android:layout_margin="16dp"
-                android:background="@drawable/border" />
+                android:background="@drawable/border"
+                tools:ignore="ContentDescription" />
 
         <TextView
                 android:id="@+id/whenWhere"
@@ -278,14 +279,14 @@
                     android:textSize="18sp"
                     android:textColor="@color/red_700"
                     android:textColorHint="@color/red_700"
-                    android:hint=""
                     android:inputType="number"
                     android:maxLength="2"
                     android:layout_marginTop="6dp"
                     app:layout_constraintHorizontal_chainStyle="packed"
                     app:layout_constraintTop_toBottomOf="@id/rateFilm"
                     app:layout_constraintStart_toStartOf="@id/rateFilm"
-                    app:layout_constraintEnd_toStartOf="@id/outOfTen" />
+                    app:layout_constraintEnd_toStartOf="@id/outOfTen"
+                    tools:ignore="Autofill,LabelFor" />
 
             <TextView
                     android:id="@+id/outOfTen"
@@ -309,7 +310,8 @@
                     android:layout_marginBottom="16dp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/userRate"
-                    app:layout_constraintEnd_toStartOf="@id/addFilm" />
+                    app:layout_constraintEnd_toStartOf="@id/addFilm"
+                    tools:ignore="ContentDescription" />
 
             <ImageButton
                     android:id="@+id/addFilm"
@@ -319,7 +321,8 @@
                     android:background="@android:color/transparent"
                     app:layout_constraintTop_toTopOf="@id/likeFilm"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@id/likeFilm" />
+                    app:layout_constraintStart_toEndOf="@id/likeFilm"
+                    tools:ignore="ContentDescription" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -1,19 +1,15 @@
 package com.kinotech.kinotechappv1.ui.lists
 
-import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
-import android.widget.Button
 import android.widget.Toast
-import androidx.annotation.RequiresApi
 import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.auth.FirebaseAuth
@@ -24,10 +20,8 @@ import com.kinotech.kinotechappv1.ui.lists.CustomDialog.FullNameListener
 
 class ListsFragment : Fragment(), RecyclerAdapterLists.MyClickListener {
 
-    private lateinit var listsViewModel: ListsViewModel
     lateinit var recyclerView: RecyclerView
     lateinit var recyclerAdapter: RecyclerAdapterLists
-    lateinit var buttonOpenDialog: Button
     private var user: FirebaseUser? = FirebaseAuth.getInstance().currentUser
     private var listsRef: DatabaseReference = FirebaseDatabase.getInstance().reference
     var list: ArrayList<AnyItemInAdapterList> = arrayListOf()
@@ -38,15 +32,11 @@ class ListsFragment : Fragment(), RecyclerAdapterLists.MyClickListener {
         savedInstanceState: Bundle?
     ): View? {
 
-
-        listsViewModel =
-            ViewModelProvider(this).get(ListsViewModel::class.java)
         val root = inflater.inflate(R.layout.fragment_lists, container, false)
         val activity: AppCompatActivity = root.context as AppCompatActivity
         val toolbar: ActionBar = activity.supportActionBar!!
         toolbar.hide()
         recyclerView = root.findViewById(R.id.recyclerview_lists)
-
 
         listsRef = user?.uid.let { it1 ->
             FirebaseDatabase.getInstance().reference
@@ -55,12 +45,12 @@ class ListsFragment : Fragment(), RecyclerAdapterLists.MyClickListener {
                 .child("UserLists")
         }
 
-        Log.d("list", "mytyt: ")
+        Log.d("list", "we are here: ")
         listsRef.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
 
                 list.clear()
-                list.addAll(0,listOfMovie)
+                list.addAll(0, listOfMovie)
 
                 for (snap in snapshot.children) {
                     try {
@@ -69,7 +59,8 @@ class ListsFragment : Fragment(), RecyclerAdapterLists.MyClickListener {
                                 Log.d("lox", "onDataChange: $it")
 
                                 list = list.apply {
-                                    add(2,
+                                    add(
+                                        2,
                                         AnyItemInAdapterList.ButtonShowList(
                                             it,
                                             "0 фильмов",
@@ -81,19 +72,15 @@ class ListsFragment : Fragment(), RecyclerAdapterLists.MyClickListener {
                                 }
                             }
                     } catch (e: Exception) {
-                        Log.d("oshibka", "onDataChange: $e")
+                        Log.d("error", "onDataChange: $e")
                         Toast.makeText(context, "Error $e", Toast.LENGTH_LONG)
                             .show()
                     }
                 }
 
-
                 recyclerView.apply {
-                    //setHasFixedSize(true)
                     recyclerAdapter.setMovieListItems(list)
                 }
-
-
             }
 
             override fun onCancelled(error: DatabaseError) {
@@ -101,19 +88,16 @@ class ListsFragment : Fragment(), RecyclerAdapterLists.MyClickListener {
             }
         })
 
-        context?.let { normalnyContext ->
-            recyclerAdapter = RecyclerAdapterLists(normalnyContext, this@ListsFragment)
+        context?.let { normalContext ->
+            recyclerAdapter = RecyclerAdapterLists(normalContext, this@ListsFragment)
             recyclerView.layoutManager = LinearLayoutManager(context)
             recyclerView.adapter = recyclerAdapter
         }
         recyclerAdapter.setMovieListItems(listOfMovie)
 
-        activity?.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN)
-
-
+        activity.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN)
         return root
     }
-
 
     val listOfMovie: ArrayList<AnyItemInAdapterList> = arrayListOf(
         AnyItemInAdapterList.ButtonCreateList(
@@ -127,15 +111,12 @@ class ListsFragment : Fragment(), RecyclerAdapterLists.MyClickListener {
         )
     )
 
-
     override fun onItemClick(item: AnyItemInAdapterList?) {
         Log.d("tag14536", "chek $item")
         when (item) {
             is AnyItemInAdapterList.ButtonCreateList -> {
                 val listener: FullNameListener = object : FullNameListener {
-                    override fun fullNameEntered(fullName: String) {
-
-                    }
+                    override fun fullNameEntered(fullName: String) {}
                 }
                 val dialog = context?.let { CustomDialog(it, listener) }
                 dialog?.show()

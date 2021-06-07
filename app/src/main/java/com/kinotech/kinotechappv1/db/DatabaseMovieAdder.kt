@@ -13,11 +13,11 @@ import com.kinotech.kinotechappv1.ui.search.SimpleResult
 
 class DatabaseAdder {
     private var user: FirebaseUser? = FirebaseAuth.getInstance().currentUser
-    fun addMovieToDB(movie : SimpleResult, likeButton: ImageButton){
+    fun addMovieToDB(movie: SimpleResult, likeButton: ImageButton) {
         user?.let { checkLikedStatus(it.uid, likeButton, movie) }
         likeButton.setOnClickListener {
-            if (likeButton.tag == "button_not_liked"){
-                user?.uid.let{it1 ->
+            if (likeButton.tag == "button_not_liked") {
+                user?.uid.let { it1 ->
                     FirebaseDatabase.getInstance().reference
                         .child("Liked Movies")
                         .child(it1.toString())
@@ -25,9 +25,8 @@ class DatabaseAdder {
                         .child(movie.filmId.toString())
                         .setValue(movie)
                 }
-            }
-            else{
-                user?.uid.let{it1 ->
+            } else {
+                user?.uid.let { it1 ->
                     FirebaseDatabase.getInstance().reference
                         .child("Liked Movies")
                         .child(it1.toString())
@@ -38,21 +37,21 @@ class DatabaseAdder {
             }
         }
     }
-    private fun checkLikedStatus(uid: String, likeButton: ImageButton, movie : SimpleResult) {
-        val likedMoviesRef = user?.uid.let{it1 ->
+
+    private fun checkLikedStatus(uid: String, likeButton: ImageButton, movie: SimpleResult) {
+        val likedMoviesRef = user?.uid.let { it1 ->
             FirebaseDatabase.getInstance().reference
                 .child("Liked Movies")
                 .child(it1.toString())
                 .child("Movies")
         }
 
-        likedMoviesRef.addValueEventListener(object: ValueEventListener {
+        likedMoviesRef.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
-                if (snapshot.child(movie.filmId.toString()).exists()){
+                if (snapshot.child(movie.filmId.toString()).exists()) {
                     likeButton.setBackgroundResource(R.drawable.ic_liked)
                     likeButton.tag = "button is liked"
-                }
-                else{
+                } else {
                     likeButton.setBackgroundResource(R.drawable.ic_not_liked)
                     likeButton.tag = "button_not_liked"
                 }

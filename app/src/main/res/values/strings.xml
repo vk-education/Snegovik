@@ -8,7 +8,7 @@
     <string name="next">Далее</string>
     <string name="share_movies">Делитесь любимыми фильмами и сериалами!</string>
     <string name="login_with_google">Войти с помощью Google</string>
-    <string name="input_film_name">Введите название фильма/сериала...</string>
+    <string name="input_film_name">Введите название фильма/сериала…</string>
     <string name="find_button">Найти!</string>
     <string name="guide_text_search">Ищите любимые фильмы
 и сериалы с помощью поиска  наверху!</string>
@@ -34,7 +34,6 @@
     <string name="save_string">Сохранить</string>
     <string name="subscribers">Подписчики</string>
     <string name="zero" translatable="false">0</string>
-<!--    <string name="subscriptions">0 подписок</string>-->
     <string name="search_friends">Ищите друзей и знакомых с помощью поиска наверху!</string>
     <string name="input_friend_name">Введите имя друга</string>
     <string name="subscribe_string">Подписаться</string>
@@ -46,4 +45,8 @@
     <string name="delete_list">Удалить список</string>
     <string name="delete_movie">Удалить фильм</string>
     <string name="added_new_list">Добавил новый список</string>
+    <string name="enter_list_name">Введите название списка</string>
+    <string name="create">Создать</string>
+    <string name="cancel">Отмена</string>
+    <string name="friends_search">Поиск друзей</string>
 </resources>

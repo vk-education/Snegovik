@@ -20,7 +20,7 @@ import com.google.firebase.database.*
 import com.kinotech.kinotechappv1.R
 import com.kinotech.kinotechappv1.ui.search.SimpleResult
 
-class ListOfMovieFragment(private val listTitleDB:String) : Fragment() {
+class ListOfMovieFragment(private val listTitleDB: String) : Fragment() {
     private var user: FirebaseUser? = FirebaseAuth.getInstance().currentUser
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -35,7 +35,7 @@ class ListOfMovieFragment(private val listTitleDB:String) : Fragment() {
         val higherDots = root.findViewById<ImageButton>(R.id.higherDots)
         val toolbar: ActionBar = activity.supportActionBar!!
         val listTitle = root.findViewById<TextView>(R.id.listTitle)
-        val listPhoto : ImageView = root.findViewById(R.id.listIcon)
+        val listPhoto: ImageView = root.findViewById(R.id.listIcon)
         val arg = this.arguments
         listTitle.text = listTitleDB
         if (arg != null) {
@@ -57,16 +57,16 @@ class ListOfMovieFragment(private val listTitleDB:String) : Fragment() {
                     try {
                         snap.getValue(SimpleResult::class.java)?.let { result.add(it) }
                     } catch (e: Exception) {
-                        Log.d("dbfav", "onDataChange: $e")
+                        Log.d("dataFavourite", "onDataChange: $e")
                         Toast.makeText(context, "Error $e", Toast.LENGTH_LONG).show()
                     }
                 }
                 recyclerView.apply {
                     setHasFixedSize(true)
                     layoutManager = LinearLayoutManager(context)
-                    adapter =  MovieListAdapter(result, context, listTitleDB)
+                    adapter = MovieListAdapter(result, context, listTitleDB)
                 }
-                Log.d("dbfav", "onDataChange: $result")
+                Log.d("dataFavourite", "onDataChange: $result")
             }
 
             override fun onCancelled(error: DatabaseError) {
@@ -76,14 +76,14 @@ class ListOfMovieFragment(private val listTitleDB:String) : Fragment() {
 
         btnBack.setOnClickListener {
             val listsFrag = ListsFragment()
-            activity.supportFragmentManager?.beginTransaction()
+            activity.supportFragmentManager.beginTransaction()
                 .add(R.id.list_of_movie, listsFrag, "fragTag")
                 .commit()
         }
         val popupMenu: PopupMenu? = context?.let { it1 -> PopupMenu(it1, higherDots) }
         popupMenu?.menuInflater?.inflate(R.menu.dot_list_menu, popupMenu.menu)
         val itemTitle: MenuItem? = popupMenu?.menu?.getItem(0)
-        val listOpenStatusRef = user?.uid.let{it1 ->
+        val listOpenStatusRef = user?.uid.let { it1 ->
             FirebaseDatabase.getInstance().reference
                 .child("Lists")
                 .child(it1.toString())
@@ -93,9 +93,9 @@ class ListOfMovieFragment(private val listTitleDB:String) : Fragment() {
         listOpenStatusRef.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 if (snapshot.child("IsOpened").value == true) {
-                    Log.d("openstatus", "onDataChange: ${itemTitle?.title}")
+                    Log.d("openStatus", "onDataChange: ${itemTitle?.title}")
                     itemTitle?.title = getString(R.string.close_list)
-                    Log.d("openstatus", "onDataChange: ${itemTitle?.title}")
+                    Log.d("openStatus", "onDataChange: ${itemTitle?.title}")
                 } else {
                     itemTitle?.title = getString(R.string.open_list)
                 }
@@ -119,8 +119,9 @@ class ListOfMovieFragment(private val listTitleDB:String) : Fragment() {
         })
         return root
     }
-    private fun setOpenList(item: MenuItem?){
-        if (item?.title == getString(R.string.open_list)){
+
+    private fun setOpenList(item: MenuItem?) {
+        if (item?.title == getString(R.string.open_list)) {
             Toast.makeText(
                 context,
                 "Список виден для других пользователей",
@@ -134,8 +135,8 @@ class ListOfMovieFragment(private val listTitleDB:String) : Fragment() {
                     .child("IsOpened")
                     .setValue(true)
             }
-            val userInfo : HashMap<String, Any?> = HashMap()
-            val films : ArrayList<String> = arrayListOf()
+            val userInfo: HashMap<String, Any?> = HashMap()
+            val films: ArrayList<String> = arrayListOf()
 
             user?.uid.let { it1 ->
                 FirebaseDatabase.getInstance().reference
@@ -143,17 +144,17 @@ class ListOfMovieFragment(private val listTitleDB:String) : Fragment() {
                     .child(it1.toString())
                     .child(listTitleDB)
                     .child("Movies")
-            }.addValueEventListener(object : ValueEventListener{
+            }.addValueEventListener(object : ValueEventListener {
                 override fun onDataChange(snapshot: DataSnapshot) {
-                    if(snapshot.childrenCount >= 3){
-                        for(snap in snapshot.children){
+                    if (snapshot.childrenCount >= 3) {
+                        for (snap in snapshot.children) {
                             films.add(snap.key.toString())
                         }
                         user?.uid.let { it1 ->
                             FirebaseDatabase.getInstance().reference
                                 .child("Users")
                                 .child(it1.toString())
-                        }.addValueEventListener(object : ValueEventListener{
+                        }.addValueEventListener(object : ValueEventListener {
                             override fun onDataChange(snapshot: DataSnapshot) {
                                 userInfo["uid"] = snapshot.child("uid").value
                                 userInfo["fullName"] = snapshot.child("fullName").value
@@ -169,23 +170,15 @@ class ListOfMovieFragment(private val listTitleDB:String) : Fragment() {
                                 }
                             }
 
-                            override fun onCancelled(error: DatabaseError) {
-                            }
-
+                            override fun onCancelled(error: DatabaseError) {}
                         })
-
                     }
-
                 }
 
-                override fun onCancelled(error: DatabaseError) {
-                    TODO("Not yet implemented")
-                }
-
+                override fun onCancelled(error: DatabaseError) {}
             })
 
-        }
-        else{
+        } else {
             Toast.makeText(
                 context,
                 "Список закрыт для остальных пользователей",
@@ -206,11 +199,10 @@ class ListOfMovieFragment(private val listTitleDB:String) : Fragment() {
                     .child(listTitleDB)
                     .removeValue()
             }
-
         }
     }
 
-    private fun deleteList(){
+    private fun deleteList() {
         Toast.makeText(
             context, "Список удален", Toast.LENGTH_SHORT
         ).show()
@@ -242,9 +234,9 @@ class ListOfMovieFragment(private val listTitleDB:String) : Fragment() {
             ?.commit()
     }
 
-    private fun setPhoto(img : ImageView, v : View){
+    private fun setPhoto(img: ImageView, v: View) {
         val defaultPhoto = "https://cdn25.img.ria.ru/images/156087/28/156087280" +
-        ".2_0:778:1536:1642_600x0_80_0_0_606c2d47b6d37951adc9eaf7" +
+            ".2_0:778:1536:1642_600x0_80_0_0_606c2d47b6d37951adc9eaf7" +
             ".50de22f0.jpg"
         val listedMoviesRef = user?.uid.let { it1 ->
             FirebaseDatabase.getInstance().reference
@@ -257,7 +249,6 @@ class ListOfMovieFragment(private val listTitleDB:String) : Fragment() {
             override fun onDataChange(snapshot: DataSnapshot) {
                 if (snapshot.childrenCount.toInt() == 0) {
                     Glide
-                        // .with(itemView.context)
                         .with(v.context)
                         .load(defaultPhoto)
                         .error(R.drawable.ic_baseline_movie_creation_24)
@@ -281,21 +272,17 @@ class ListOfMovieFragment(private val listTitleDB:String) : Fragment() {
                                         .into(img)
 
                                 } catch (e: Exception) {
-                                    Log.d("dbfav", "onDataChange: $e")
+                                    Log.d("dataFavourite", "onDataChange: $e")
                                 }
                             }
                         }
 
-                        override fun onCancelled(error: DatabaseError) {
-                            TODO("Not yet implemented")
-                        }
+                        override fun onCancelled(error: DatabaseError) {}
                     })
                 }
             }
 
-            override fun onCancelled(error: DatabaseError) {
-
-            }
+            override fun onCancelled(error: DatabaseError) {}
         })
     }
 }

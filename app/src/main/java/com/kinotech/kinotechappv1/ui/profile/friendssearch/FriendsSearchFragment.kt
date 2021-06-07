@@ -6,19 +6,16 @@ import android.text.TextWatcher
 import android.util.Log
 import android.view.*
 import android.view.inputmethod.EditorInfo
-import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
-import com.kinotech.kinotechappv1.AndroidUtils
 import com.kinotech.kinotechappv1.R
 import com.kinotech.kinotechappv1.databinding.FriendsSearchBinding
 import com.kinotech.kinotechappv1.ui.profile.SubsInfo
 import java.util.*
-import kotlin.collections.ArrayList
 
 class FriendsSearchFragment : Fragment() {
 
@@ -39,7 +36,7 @@ class FriendsSearchFragment : Fragment() {
             recyclerView.layoutManager = LinearLayoutManager(context)
             val subscribeString = getString(R.string.subscribe_string)
             adapter = context?.let { FriendSearchAdapter(users, subscribeString) }
-            Log.d("userss", "onCreateView: $users")
+            Log.d("users", "onCreateView: $users")
             recyclerView.adapter = adapter
             activity?.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN)
             searchText.addTextChangedListener(object : TextWatcher {
@@ -58,20 +55,14 @@ class FriendsSearchFragment : Fragment() {
                 }
             })
             searchText.isSingleLine = true
-            searchText.setOnEditorActionListener(object : TextView.OnEditorActionListener {
-                override fun onEditorAction(
-                    v: TextView?,
-                    actionId: Int,
-                    event: KeyEvent?
-                ): Boolean {
-                    if (event == null) {
-                        if (actionId == EditorInfo.IME_ACTION_DONE) {
+            searchText.setOnEditorActionListener { _, actionId, event ->
+                if (event == null) {
+                    if (actionId == EditorInfo.IME_ACTION_DONE) {
 
-                            return false
-                        } else return false
-                    } else return false
-                }
-            })
+                        false
+                    } else false
+                } else false
+            }
         }
             return binding.root
     }

@@ -1,13 +1,11 @@
 package com.kinotech.kinotechappv1.ui.lists
 
-
 import android.annotation.SuppressLint
 import android.content.Context
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
@@ -27,14 +25,13 @@ import com.kinotech.kinotechappv1.ui.search.FilmPageFragment
 import com.kinotech.kinotechappv1.ui.search.Genres
 import com.kinotech.kinotechappv1.ui.search.SimpleResult
 
-
 class MovieListAdapter(
     private val mData: ArrayList<SimpleResult>,
     val context: Context,
     private val listTitle: String
 ) :
     RecyclerView.Adapter<MovieListAdapter.MyViewHolder>() {
-    var mInflater: LayoutInflater = LayoutInflater.from(context)
+    private var mInflater: LayoutInflater = LayoutInflater.from(context)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
         val view = mInflater.inflate(R.layout.list_menu_film, parent, false)
@@ -49,7 +46,12 @@ class MovieListAdapter(
         return holder.bind(mData[position])
     }
 
-    class MyViewHolder(itemView: View, context: Context, private val listTitle: String, private val mData: ArrayList<SimpleResult>) :
+    class MyViewHolder(
+        itemView: View,
+        context: Context,
+        private val listTitle: String,
+        private val mData: ArrayList<SimpleResult>
+    ) :
         RecyclerView.ViewHolder(itemView) {
         private val filmPhoto: ImageView = itemView.findViewById(R.id.lmFilmPoster)
         private val filmTitle: TextView = itemView.findViewById(R.id.lmFilmTitle)
@@ -60,14 +62,14 @@ class MovieListAdapter(
         private var user: FirebaseUser? = FirebaseAuth.getInstance().currentUser
         private val popupMenu: PopupMenu = PopupMenu(context, higherDots)
         fun bind(movie: SimpleResult) {
-            Log.d("dbfav", "bind: ${movie.nameRu}")
+            Log.d("dataFavourite", "bind: ${movie.nameRu}")
             val options = RequestOptions()
             Glide
                 .with(itemView.context)
                 .load(movie.posterUrlPreview)
                 .apply(options.optionalCircleCrop())
                 .into(filmPhoto)
-            Log.d("cout", "near bind")
+            Log.d("count", "near bind")
             filmTitle.text = movie.nameRu
             filmYear.text = movie.year
             filmGenres.text = movie.genres.joinToString { genres: Genres ->
@@ -87,7 +89,8 @@ class MovieListAdapter(
                                     .child("Movies")
                                     .child(movie.filmId.toString())
                                     .removeValue()
-                                Toast.makeText(itemView.context, "Удалено", Toast.LENGTH_LONG).show()
+                                Toast.makeText(itemView.context, "Удалено", Toast.LENGTH_LONG)
+                                    .show()
                                 mData.clear()
                             }
                     }
@@ -102,9 +105,7 @@ class MovieListAdapter(
                 transaction.addToBackStack(null)
                 transaction.commit()
             }
-
         }
-
 
         private fun checkRating(id: Int, textView: TextView) {
             val ratingRef = user?.uid.let { it1 ->
@@ -126,11 +127,8 @@ class MovieListAdapter(
                     }
                 }
 
-                override fun onCancelled(error: DatabaseError) {
-                }
-
+                override fun onCancelled(error: DatabaseError) {}
             })
         }
     }
-
 }

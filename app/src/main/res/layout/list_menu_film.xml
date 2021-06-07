@@ -16,7 +16,8 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:src="@drawable/pobeg"
-            android:layout_marginStart="8dp"/>
+            android:layout_marginStart="8dp"
+            tools:ignore="ContentDescription" />
 
     <TextView
             android:id="@+id/lmFilmTitle"
@@ -53,8 +54,7 @@
             android:layout_marginStart="20dp"
             android:textSize="14sp"
             android:fontFamily="@font/rubik_bold"
-            android:textColor="@color/red_500"
-            />
+            android:textColor="@color/red_500" />
 
     <TextView
             android:id="@+id/lmFilmYear"
@@ -75,6 +75,7 @@
             android:src="@drawable/ic_menu_dots"
             android:background="@android:color/transparent"
             app:layout_constraintTop_toTopOf="@id/lmFilmPoster"
-            app:layout_constraintEnd_toEndOf="parent" />
+            app:layout_constraintEnd_toEndOf="parent"
+            tools:ignore="ContentDescription" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

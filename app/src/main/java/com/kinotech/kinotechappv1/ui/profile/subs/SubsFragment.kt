@@ -43,7 +43,6 @@ class SubsFragment(private val item: Int) : Fragment() {
                 profileName.text = arg.getString("keyForNickName", "")
             }
         }
-
         return binding.root
     }
 

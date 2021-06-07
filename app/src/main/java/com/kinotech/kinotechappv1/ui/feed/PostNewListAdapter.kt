@@ -1,4 +1,4 @@
-package com.kinotech.kinotechappv1.ui.feed.recyclerview
+package com.kinotech.kinotechappv1.ui.feed
 
 import android.util.Log
 import android.view.LayoutInflater
@@ -17,15 +17,14 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.kinotech.kinotechappv1.R
-import com.kinotech.kinotechappv1.databinding.FeedNewlistPostBinding
-import com.kinotech.kinotechappv1.ui.feed.PostNewList
+import com.kinotech.kinotechappv1.databinding.FeedNewListPostBinding
 import com.kinotech.kinotechappv1.ui.search.SimpleResult
 
-class PostNewListAdapter(private val posts : ArrayList<PostNewList>) :
-    RecyclerView.Adapter<PostNewListViewHolder>(){
+class PostNewListAdapter(private val posts: ArrayList<PostNewList>) :
+    RecyclerView.Adapter<PostNewListViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PostNewListViewHolder {
-        val binding = FeedNewlistPostBinding.inflate(
+        val binding = FeedNewListPostBinding.inflate(
             LayoutInflater.from(parent.context), parent, false
         )
         return PostNewListViewHolder(binding, posts)
@@ -41,7 +40,7 @@ class PostNewListAdapter(private val posts : ArrayList<PostNewList>) :
 }
 
 class PostNewListViewHolder(
-    private val binding: FeedNewlistPostBinding,
+    private val binding: FeedNewListPostBinding,
     private val posts: ArrayList<PostNewList>
 ) : RecyclerView.ViewHolder(binding.root) {
     private var user: FirebaseUser? = FirebaseAuth.getInstance().currentUser
@@ -57,11 +56,19 @@ class PostNewListViewHolder(
                 .error(R.drawable.ic_profile_circle_24)
                 .into(profilePic)
             listName.text = postNewList.actionDoneText
-            val films = postNewList.films
-            setPhotosMovies(postNewList.films[0], postNewList.uid, postNewList.actionDoneText, root, filmPoster1)
-            setPhotosMovies(postNewList.films[1], postNewList.uid, postNewList.actionDoneText, root, filmPoster2)
-            setPhotosMovies(postNewList.films[2], postNewList.uid, postNewList.actionDoneText, root, filmPoster3)
-            checkAddedButton(addBtn, postNewList.uid, postNewList.actionDoneText )
+            setPhotosMovies(
+                postNewList.films[0], postNewList.uid, postNewList.actionDoneText,
+                root, filmPoster1
+            )
+            setPhotosMovies(
+                postNewList.films[1], postNewList.uid, postNewList.actionDoneText,
+                root, filmPoster2
+            )
+            setPhotosMovies(
+                postNewList.films[2], postNewList.uid, postNewList.actionDoneText,
+                root, filmPoster3
+            )
+            checkAddedButton(addBtn, postNewList.uid, postNewList.actionDoneText)
             addBtn.setOnClickListener {
                 if (addBtn.tag == "button not added") {
                     addList(postNewList.uid, postNewList.actionDoneText)
@@ -72,8 +79,8 @@ class PostNewListViewHolder(
             checkLikedStatus(like, postNewList.uid, postNewList.actionDoneText)
             checkLikeCount(likesCount, postNewList.actionDoneText)
             like.setOnClickListener {
-                if (like.tag == "button_not_liked"){
-                    user?.uid.let{it1 ->
+                if (like.tag == "button_not_liked") {
+                    user?.uid.let {
                         FirebaseDatabase.getInstance().reference
                             .child("Likes")
                             .child(postNewList.actionDoneText)
@@ -82,7 +89,7 @@ class PostNewListViewHolder(
                     }
                 }
                 else{
-                    user?.uid.let{it1 ->
+                    user?.uid.let{
                         FirebaseDatabase.getInstance().reference
                             .child("Likes")
                             .child(postNewList.actionDoneText)
@@ -104,27 +111,23 @@ class PostNewListViewHolder(
                 count.text = snapshot.childrenCount.toString()
             }
 
-            override fun onCancelled(error: DatabaseError) {
-                TODO("Not yet implemented")
-            }
-
+            override fun onCancelled(error: DatabaseError) {}
         })
     }
 
     private fun checkLikedStatus(likeButton: ImageButton, id: String, title: String) {
-        val likedMoviesRef = user?.uid.let{it1 ->
+        val likedMoviesRef = user?.uid.let {
             FirebaseDatabase.getInstance().reference
                 .child("Likes")
                 .child(title)
         }
 
-        likedMoviesRef.addValueEventListener(object: ValueEventListener {
+        likedMoviesRef.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
-                if (snapshot.child(user?.uid.toString()).exists()){
+                if (snapshot.child(user?.uid.toString()).exists()) {
                     likeButton.setBackgroundResource(R.drawable.ic_liked)
                     likeButton.tag = "button is liked"
-                }
-                else{
+                } else {
                     likeButton.setBackgroundResource(R.drawable.ic_not_liked)
                     likeButton.tag = "button_not_liked"
                 }
@@ -133,19 +136,24 @@ class PostNewListViewHolder(
             override fun onCancelled(error: DatabaseError) {
                 Log.d("error", "onCancelled: $error")
             }
-
         })
     }
 
-    private fun setPhotosMovies(film:String, id:String, title:String, v: View, filmPoster : ImageView) {
-        user?.uid.let { it1 ->
+    private fun setPhotosMovies(
+        film: String,
+        id: String,
+        title: String,
+        v: View,
+        filmPoster: ImageView
+    ) {
+        user?.uid.let {
             FirebaseDatabase.getInstance().reference
                 .child("Lists")
                 .child(id)
                 .child(title)
                 .child("Movies")
                 .child(film)
-        }.addValueEventListener(object : ValueEventListener{
+        }.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 Glide
                     .with(v)
@@ -154,15 +162,12 @@ class PostNewListViewHolder(
                     .into(filmPoster)
             }
 
-            override fun onCancelled(error: DatabaseError) {
-                TODO("Not yet implemented")
-            }
-
+            override fun onCancelled(error: DatabaseError) {}
         })
-
     }
-    private fun checkAddedButton(addButton: ImageButton, id:String, itemTitle:String) {
-        user?.uid.let { it1 ->
+
+    private fun checkAddedButton(addButton: ImageButton, id: String, itemTitle: String) {
+        user?.uid.let {
             FirebaseDatabase.getInstance().reference
                 .child("Lists")
                 .child(id)
@@ -185,21 +190,16 @@ class PostNewListViewHolder(
                         }
                     }
 
-                    override fun onCancelled(error: DatabaseError) {
-                        TODO("Not yet implemented")
-                    }
-
+                    override fun onCancelled(error: DatabaseError) {}
                 })
             }
 
-            override fun onCancelled(error: DatabaseError) {
-                TODO("Not yet implemented")
-            }
+            override fun onCancelled(error: DatabaseError) {}
         })
     }
 
     private fun addList(id: String, itemTitle: String) {
-        user?.uid.let { it1 ->
+        user?.uid.let {
             FirebaseDatabase.getInstance().reference
                 .child("Lists")
                 .child(id)
@@ -237,10 +237,7 @@ class PostNewListViewHolder(
                 }
             }
 
-            override fun onCancelled(error: DatabaseError) {
-                TODO("Not yet implemented")
-            }
-
+            override fun onCancelled(error: DatabaseError) {}
         })
     }
 
@@ -262,6 +259,3 @@ class PostNewListViewHolder(
         }
     }
 }
-
-
-

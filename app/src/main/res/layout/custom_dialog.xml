@@ -7,13 +7,12 @@
         android:layout_height="wrap_content"
         android:background="@color/red_50">
 
-
     <TextView
             android:id="@+id/dia_text"
-            android:text="Введите название списка"
+            android:text="@string/enter_list_name"
             android:textColor="@color/white_text"
             android:fontFamily="@font/rubik_bold"
-            android:textSize="20dp"
+            android:textSize="20sp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             card_view:layout_constraintTop_toTopOf="parent"
@@ -34,10 +33,11 @@
             card_view:layout_constraintStart_toStartOf="parent"
             card_view:layout_constraintEnd_toEndOf="parent"
             card_view:layout_constraintHorizontal_bias="0.5"
-            card_view:layout_constraintBottom_toTopOf="@+id/create_list" />
+            card_view:layout_constraintBottom_toTopOf="@+id/create_list"
+            tools:ignore="Autofill,LabelFor" />
 
     <androidx.appcompat.widget.AppCompatButton
-            android:text="Создать"
+            android:text="@string/create"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/create_list"
@@ -47,11 +47,11 @@
             card_view:layout_constraintEnd_toEndOf="parent"
             card_view:layout_constraintStart_toEndOf="@+id/cancel_list"
             card_view:layout_constraintHorizontal_bias="0.5"
-            android:layout_marginBottom="8dp"/>
+            android:layout_marginBottom="8dp" />
 
     <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/cancel_list"
-            android:text="Отмена"
+            android:text="@string/cancel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/rubik_bold"

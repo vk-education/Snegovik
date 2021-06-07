@@ -16,12 +16,12 @@ class SearchRequests {
 
     suspend fun searchMovie(result: String) = withContext(Dispatchers.IO) {
         val call = request.findMovies(result, "1")
-        Log.d("cout", call.toString())
+        Log.d("count", call.toString())
         call.enqueue(
             object : Callback<SearchResults> {
                 override fun onFailure(call: Call<SearchResults>, t: Throwable) {
-                    Log.d("cout", "onFailure: ")
-                    Log.d("cout", "onFailure:$t ")
+                    Log.d("count", "onFailure: ")
+                    Log.d("count", "onFailure:$t ")
                 }
 
                 override fun onResponse(
@@ -29,20 +29,21 @@ class SearchRequests {
                     response: Response<SearchResults>
                 ) {
                     if (response.isSuccessful) {
-                        Log.d("cout", "on response")
-                        Log.d("cout", "response is ${response.body()}")
+                        Log.d("count", "on response")
+                        Log.d("count", "response is ${response.body()}")
                         films.postValue(response.body()!!.films)
                     }
                 }
             }
         )
     }
+
     suspend fun searchStaff(movieId: Int) = withContext(Dispatchers.IO) {
         val callStaff = request.findMovieStaff(movieId)
         callStaff.enqueue(
             object : Callback<List<Staff>> {
                 override fun onFailure(call: Call<List<Staff>>, t: Throwable) {
-                    Log.d("cout", "onFailure: $t")
+                    Log.d("count", "onFailure: $t")
                 }
 
                 override fun onResponse(
@@ -50,20 +51,21 @@ class SearchRequests {
                     response: Response<List<Staff>>
                 ) {
                     if (response.isSuccessful) {
-                        Log.d("cout", "on response")
+                        Log.d("count", "on response")
                         staff.postValue(response.body()!!)
-                        Log.d("cout2", "on response2 $staff")
+                        Log.d("count2", "on response2 $staff")
                     }
                 }
             })
     }
+
     suspend fun searchDescriptionRating(movieId: Int) = withContext(Dispatchers.IO) {
         val filmData = request.findMovieById(movieId, "RATING")
-        Log.d("cout2", "on response$movieId")
+        Log.d("count2", "on response$movieId")
         filmData.enqueue(
             object : Callback<DescriptionRatingResults> {
                 override fun onFailure(call: Call<DescriptionRatingResults>, t: Throwable) {
-                    Log.d("cout2", "onFailure: $t")
+                    Log.d("count2", "onFailure: $t")
                 }
 
                 override fun onResponse(
@@ -71,7 +73,7 @@ class SearchRequests {
                     response2: Response<DescriptionRatingResults>
                 ) {
                     if (response2.isSuccessful) {
-                        Log.d("cout2", "on response ${response2.body()!!}")
+                        Log.d("count2", "on response ${response2.body()!!}")
                         descriptionRatingResults.postValue(response2.body()!!)
                     }
                 }

@@ -10,7 +10,6 @@ import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -26,11 +25,9 @@ import com.kinotech.kinotechappv1.ui.lists.AnyItemInAdapterList
 import com.kinotech.kinotechappv1.ui.profile.friendssearch.FriendsSearchFragment
 import com.kinotech.kinotechappv1.ui.profile.subs.SubsFragment
 import java.util.*
-import kotlin.collections.ArrayList
 
 class FriendProfileFragment(private val subsInfo: SubsInfo) : Fragment() {
 
-    private lateinit var profileViewModel: ProfileViewModel
     private lateinit var binding: FriendsProfileBinding
     private lateinit var user: FirebaseUser
 
@@ -39,8 +36,6 @@ class FriendProfileFragment(private val subsInfo: SubsInfo) : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        profileViewModel =
-            ViewModelProvider(this).get(ProfileViewModel::class.java)
         binding = FriendsProfileBinding.inflate(inflater, container, false)
         user = FirebaseAuth.getInstance().currentUser!! // не друг
         binding.friendSubscribers.setOnClickListener {
@@ -154,7 +149,6 @@ class FriendProfileFragment(private val subsInfo: SubsInfo) : Fragment() {
                             }
                         }
 
-
                         override fun onCancelled(error: DatabaseError) {
                             Toast.makeText(context, "$error", Toast.LENGTH_LONG).show()
                         }
@@ -192,8 +186,7 @@ class FriendProfileFragment(private val subsInfo: SubsInfo) : Fragment() {
                 }
             }
 
-            override fun onCancelled(error: DatabaseError) {
-            }
+            override fun onCancelled(error: DatabaseError) {}
         })
     }
 
@@ -238,9 +231,7 @@ class FriendProfileFragment(private val subsInfo: SubsInfo) : Fragment() {
                     .into(img)
             }
 
-            override fun onCancelled(error: DatabaseError) {
-                TODO("Not yet implemented")
-            }
+            override fun onCancelled(error: DatabaseError) {}
         })
     }
 
@@ -257,9 +248,7 @@ class FriendProfileFragment(private val subsInfo: SubsInfo) : Fragment() {
                 }
             }
 
-            override fun onCancelled(error: DatabaseError) {
-
-            }
+            override fun onCancelled(error: DatabaseError) {}
         })
     }
 
@@ -276,9 +265,7 @@ class FriendProfileFragment(private val subsInfo: SubsInfo) : Fragment() {
                 }
             }
 
-            override fun onCancelled(error: DatabaseError) {
-
-            }
+            override fun onCancelled(error: DatabaseError) {}
         })
     }
 
@@ -289,19 +276,14 @@ class FriendProfileFragment(private val subsInfo: SubsInfo) : Fragment() {
                 .child(it1)
         }.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
-                if (snapshot.childrenCount - 1 < 0){
-                lists.text = snapshot.childrenCount.toString()+ "\nсписки"
-                }
-                else{
+                if (snapshot.childrenCount - 1 < 0) {
+                    (snapshot.childrenCount.toString() + "\nсписки").also { lists.text = it }
+                } else {
                     ((snapshot.childrenCount - 1).toString() + "\nсписки").also { lists.text = it }
                 }
-
             }
 
-            override fun onCancelled(error: DatabaseError) {
-
-            }
+            override fun onCancelled(error: DatabaseError) {}
         })
     }
-
 }

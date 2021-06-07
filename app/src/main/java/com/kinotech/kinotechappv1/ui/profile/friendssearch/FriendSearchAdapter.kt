@@ -59,14 +59,17 @@ class FriendSearchAdapter(
                     .error(R.drawable.ic_add)
                     .into(binding.profilePic)
 
+                Glide
+                    .with(binding.root)
+                    .load(subsInfo.photo)
+                    .error(R.drawable.ic_add)
+                    .into(binding.profilePic)
+
                 root.setOnClickListener {
                     AndroidUtils.hideKeyboard(it)
                     val activity: AppCompatActivity = root.context as AppCompatActivity
                     val transaction = activity.supportFragmentManager.beginTransaction()
-                    transaction.replace(
-                        R.id.container,
-                        FriendProfileFragment(subsInfo)
-                    ) // поменять юзера с сабинфо
+                    transaction.replace(R.id.container, FriendProfileFragment(subsInfo))
                     transaction.addToBackStack(null)
                     transaction.commit()
                 }

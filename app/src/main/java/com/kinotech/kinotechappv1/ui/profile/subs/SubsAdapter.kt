@@ -6,7 +6,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.viewpager2.adapter.FragmentStateAdapter
 
 class SubsAdapter(manager: FragmentManager, lifecycle: Lifecycle) :
-    FragmentStateAdapter(manager, lifecycle){
+    FragmentStateAdapter(manager, lifecycle) {
 
     companion object {
         private const val PAGE_COUNT = 2
@@ -25,13 +25,4 @@ class SubsAdapter(manager: FragmentManager, lifecycle: Lifecycle) :
         fragmentList.add(fragment)
         titleList.add(title)
     }
-
-    fun getFragment(position: Int): Fragment {
-        return fragmentList[position]
-    }
-
-//    fun getPageTitle(position: Int): CharSequence {
-//        return titleList[position]
-//    }
-
 }

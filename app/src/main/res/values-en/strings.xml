@@ -27,7 +27,6 @@
     <string name="change_name_string">New profile name</string>
     <string name="save_string">Save</string>
     <string name="subscribers">Subscribers</string>
-<!--    <string name="subscriptions">0 subscriptions</string>-->
     <string name="search_friends">Search friends with the search above!</string>
     <string name="input_friend_name">Print friend name</string>
     <string name="subscribe_string">Subscribe</string>
@@ -38,4 +37,9 @@
     <string name="subscribed">Subscribed</string>
     <string name="close_list">Close list</string>
     <string name="delete_movie">Delete film</string>
+    <string name="added_new_list">Added new list</string>
+    <string name="enter_list_name">Enter list name</string>
+    <string name="create">Create</string>
+    <string name="cancel">Cancel</string>
+    <string name="friends_search">Friends search</string>
 </resources>

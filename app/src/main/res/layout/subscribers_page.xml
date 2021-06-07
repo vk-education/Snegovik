@@ -13,11 +13,11 @@
             android:layout_height="wrap_content"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            android:background="@color/red_200" >
+            android:background="@color/red_200">
 
         <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize" >
+                android:layout_height="?attr/actionBarSize">
 
             <ImageButton
                     android:id="@+id/backBtn"
@@ -27,7 +27,8 @@
                     android:background="@android:color/transparent"
                     android:layout_margin="8dp"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:ignore="ContentDescription" />
 
             <TextView
                     android:id="@+id/profileName"
@@ -51,7 +52,8 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="@id/backBtn"
                     app:layout_constraintBottom_toBottomOf="@id/backBtn"
-                    android:layout_marginEnd="16dp" />
+                    android:layout_marginEnd="16dp"
+                    tools:ignore="ContentDescription" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

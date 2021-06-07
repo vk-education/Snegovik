@@ -1,4 +1,5 @@
 package com.kinotech.kinotechappv1.ui.search
+
 import android.content.Context
 import android.util.Log
 import android.view.LayoutInflater
@@ -16,7 +17,6 @@ import com.google.firebase.database.*
 import com.kinotech.kinotechappv1.R
 import com.kinotech.kinotechappv1.ui.lists.AnyItemInAdapterList
 
-
 class AddFilmToListAdapter(
     private var lists: List<AnyItemInAdapterList> = listOf(),
     private val movie: SimpleResult
@@ -24,7 +24,7 @@ class AddFilmToListAdapter(
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AddFilmToListViewHolder {
         val view = LayoutInflater.from(parent.context)
             .inflate(R.layout.item_show_list, parent, false)
-        Log.d("cout", "in adapter")
+        Log.d("count", "in adapter")
         return AddFilmToListViewHolder(view)
     }
 
@@ -44,10 +44,10 @@ class AddFilmToListViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView
         val itemTitle: TextView = itemView.findViewById(R.id.item_title)
         val filmCount: TextView = itemView.findViewById(R.id.film_count)
         val imgListH: ImageView = itemView.findViewById(R.id.img_list)
-        var count = 0
+        var count: Int
         itemTitle.text = (lists as AnyItemInAdapterList.ButtonShowList).itemTitle
         Log.d("debugging shit", "here 1 ")
-        user?.uid.let{ it1 ->
+        user?.uid.let { it1 ->
             FirebaseDatabase.getInstance().reference
                 .child("Lists")
                 .child(it1.toString())
@@ -56,7 +56,7 @@ class AddFilmToListViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView
         }.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 count = snapshot.childrenCount.toInt()
-                filmCount.text = "$count фильмов"
+                "$count фильмов".also { filmCount.text = it }
                 Log.d("img", "onDataChange: $count")
                 if (count == 0) {
                     val imgList: String = lists.imgList
@@ -89,23 +89,18 @@ class AddFilmToListViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView
                                         .into(imgListH)
 
                                 } catch (e: Exception) {
-                                    Log.d("dbfav", "onDataChange: $e")
+                                    Log.d("dataFavourite", "onDataChange: $e")
                                     Toast.makeText(context, "Error $e", Toast.LENGTH_LONG).show()
                                 }
                             }
-
                         }
 
-                        override fun onCancelled(error: DatabaseError) {
-                        }
-
+                        override fun onCancelled(error: DatabaseError) {}
                     })
                 }
             }
 
-            override fun onCancelled(error: DatabaseError) {
-
-            }
+            override fun onCancelled(error: DatabaseError) {}
         })
         itemView.setOnClickListener {
             user?.uid.let { it1 ->
@@ -122,7 +117,4 @@ class AddFilmToListViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView
 
         }
     }
-
-
-
 }

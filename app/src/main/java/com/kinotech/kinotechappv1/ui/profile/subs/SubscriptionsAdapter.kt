@@ -13,13 +13,11 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
-import com.kinotech.kinotechappv1.AndroidUtils
 import com.kinotech.kinotechappv1.R
 import com.kinotech.kinotechappv1.databinding.SubscriptionItemBinding
 import com.kinotech.kinotechappv1.ui.profile.FriendProfileFragment
 import com.kinotech.kinotechappv1.ui.profile.SubsInfo
 import java.util.*
-import kotlin.collections.ArrayList
 
 class SubscriptionsAdapter(
     private val subscription: ArrayList<SubsInfo>
@@ -44,7 +42,6 @@ class SubscriptionsAdapter(
 class SubscriptionsViewHolder(
     private val binding: SubscriptionItemBinding,
     private val subscription: ArrayList<SubsInfo>
-    // private val subsOnInteractionListener: SubsOnInteractionListener
 ) : RecyclerView.ViewHolder(binding.root) {
     private val firebaseUser: FirebaseUser? = FirebaseAuth.getInstance().currentUser
     fun bind(subsInfo: SubsInfo) {
@@ -63,7 +60,7 @@ class SubscriptionsViewHolder(
                     R.id.container,
                     FriendProfileFragment(subsInfo)
                 )
-                transaction.addToBackStack(null) //возвращается не туда
+                transaction.addToBackStack(null)
                 transaction.commit()
             }
 
@@ -144,8 +141,7 @@ class SubscriptionsViewHolder(
                 }
             }
 
-            override fun onCancelled(error: DatabaseError) {
-            }
+            override fun onCancelled(error: DatabaseError) {}
         })
     }
 }

@@ -43,7 +43,7 @@ class SearchFragment : Fragment() {
             override fun onQueryTextSubmit(query: String?): Boolean {
                 searchView.clearFocus()
                 if (query != null) {
-                    Log.d("cout", "onQueryTextSubmit: $query")
+                    Log.d("count", "onQueryTextSubmit: $query")
                     openSearchResultFragment(SearchResultFragment(query))
                 }
                 return false
