@@ -60,15 +60,19 @@ class ChangeProfileFragment : Fragment() {
         }
         binding.changePhotoButton.setOnClickListener {
             checker = "clicked"
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && context?.let { it1 ->
-                PermissionChecker.checkSelfPermission(
-                        it1,
-                        Manifest.permission.READ_EXTERNAL_STORAGE
-                    )
-            } == PackageManager.PERMISSION_DENIED
-            ) {
-                val permissions = arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE)
-                requestPermissions(permissions, PERMISSION_CODE)
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                if (context?.let { it1 ->
+                    PermissionChecker.checkSelfPermission(
+                            it1,
+                            Manifest.permission.READ_EXTERNAL_STORAGE
+                        )
+                } == PackageManager.PERMISSION_DENIED
+                ) {
+                    val permissions = arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE)
+                    requestPermissions(permissions, PERMISSION_CODE)
+                } else {
+                    openGallery()
+                }
             } else {
                 openGallery()
             }

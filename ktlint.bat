@@ -1,7 +1,7 @@
 @ECHO OFF
 TITLE Check style with KtLint
 SET ROOT_FOLDER=build\bin
-SET VERSION=0.38.1
+SET VERSION=0.41.0
 SET KTLINT_BIN=%ROOT_FOLDER%\ktlint-%VERSION%.jar
 if not exist %KTLINT_BIN% (
   ECHO Please wait, first download...
