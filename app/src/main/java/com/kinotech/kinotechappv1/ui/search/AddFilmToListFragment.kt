@@ -53,42 +53,44 @@ class AddFilmToListFragment(
                 false
             }
         )
-        listsRef.addValueEventListener(object : ValueEventListener {
-            override fun onDataChange(snapshot: DataSnapshot) {
-                list.clear()
-                for (snap in snapshot.children) {
-                    try {
-                        snap.getValue(String::class.java)
-                            ?.let {
-                                Log.d("lox", "onDataChange: $it")
+        listsRef.addValueEventListener(
+            object : ValueEventListener {
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    list.clear()
+                    for (snap in snapshot.children) {
+                        try {
+                            snap.getValue(String::class.java)
+                                ?.let {
+                                    Log.d("lox", "onDataChange: $it")
 
-                                list = list.apply {
-                                    add(
-                                        AnyItemInAdapterList.ButtonShowList(
-                                            it,
-                                            "0 фильмов",
-                                            ""
+                                    list = list.apply {
+                                        add(
+                                            AnyItemInAdapterList.ButtonShowList(
+                                                it,
+                                                "0 фильмов",
+                                                ""
+                                            )
                                         )
-                                    )
+                                    }
                                 }
-                            }
-                    } catch (e: Exception) {
-                        Log.d("error", "onDataChange: $e")
-                        Toast.makeText(context, "Error $e", Toast.LENGTH_LONG)
-                            .show()
+                        } catch (e: Exception) {
+                            Log.d("error", "onDataChange: $e")
+                            Toast.makeText(context, "Error $e", Toast.LENGTH_LONG)
+                                .show()
+                        }
+                    }
+
+                    recyclerView.apply {
+                        recyclerView.layoutManager = LinearLayoutManager(context)
+                        recyclerAdapter = AddFilmToListAdapter(list, movie)
                     }
                 }
 
-                recyclerView.apply {
-                    recyclerView.layoutManager = LinearLayoutManager(context)
-                    recyclerAdapter = AddFilmToListAdapter(list, movie)
+                override fun onCancelled(error: DatabaseError) {
+                    Log.d("error", "onCancelled: $error")
                 }
             }
-
-            override fun onCancelled(error: DatabaseError) {
-                Log.d("error", "onCancelled: $error")
-            }
-        })
+        )
 
         context?.let {
             recyclerAdapter = AddFilmToListAdapter(list, movie)

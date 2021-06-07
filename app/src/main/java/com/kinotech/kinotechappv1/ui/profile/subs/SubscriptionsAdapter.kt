@@ -128,18 +128,20 @@ class SubscriptionsViewHolder(
                 .child("Following")
         }
 
-        followingRef.addValueEventListener(object : ValueEventListener {
-            override fun onDataChange(snapshot: DataSnapshot) {
-                if (snapshot.child(uid).exists()) {
-                    likeProfile.setImageResource(R.drawable.ic_liked_40)
-                    likeProfile.tag = "liked"
-                } else {
-                    likeProfile.setImageResource(R.drawable.ic_like_40dp)
-                    likeProfile.tag = "not liked"
+        followingRef.addValueEventListener(
+            object : ValueEventListener {
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    if (snapshot.child(uid).exists()) {
+                        likeProfile.setImageResource(R.drawable.ic_liked_40)
+                        likeProfile.tag = "liked"
+                    } else {
+                        likeProfile.setImageResource(R.drawable.ic_like_40dp)
+                        likeProfile.tag = "not liked"
+                    }
                 }
-            }
 
-            override fun onCancelled(error: DatabaseError) {}
-        })
+                override fun onCancelled(error: DatabaseError) {}
+            }
+        )
     }
 }

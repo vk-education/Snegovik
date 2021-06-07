@@ -122,34 +122,36 @@ class FriendProfileFragment(private val subsInfo: SubsInfo) : Fragment() {
                             .child(snap.value.toString())
                             .child("IsOpened")
                     }
-                    openedRef.addValueEventListener(object : ValueEventListener {
-                        override fun onDataChange(snapshot: DataSnapshot) {
-                            if (snapshot.value == true) {
-                                snap.getValue(String::class.java)
-                                    ?.let {
-                                        Log.d("lox", "onDataChange: $it")
-                                        list = list.apply {
-                                            add(
-                                                AnyItemInAdapterList.ButtonShowList(
-                                                    it,
-                                                    "0 фильмов",
-                                                    ""
+                    openedRef.addValueEventListener(
+                        object : ValueEventListener {
+                            override fun onDataChange(snapshot: DataSnapshot) {
+                                if (snapshot.value == true) {
+                                    snap.getValue(String::class.java)
+                                        ?.let {
+                                            Log.d("lox", "onDataChange: $it")
+                                            list = list.apply {
+                                                add(
+                                                    AnyItemInAdapterList.ButtonShowList(
+                                                        it,
+                                                        "0 фильмов",
+                                                        ""
+                                                    )
                                                 )
-                                            )
+                                            }
                                         }
+                                    listsRV.apply {
+                                        setHasFixedSize(true)
+                                        layoutManager = LinearLayoutManager(context)
+                                        adapter = OpenListsFriendsAdapter(list, context, subsInfo)
                                     }
-                                listsRV.apply {
-                                    setHasFixedSize(true)
-                                    layoutManager = LinearLayoutManager(context)
-                                    adapter = OpenListsFriendsAdapter(list, context, subsInfo)
                                 }
                             }
-                        }
 
-                        override fun onCancelled(error: DatabaseError) {
-                            Toast.makeText(context, "$error", Toast.LENGTH_LONG).show()
+                            override fun onCancelled(error: DatabaseError) {
+                                Toast.makeText(context, "$error", Toast.LENGTH_LONG).show()
+                            }
                         }
-                    })
+                    )
                 }
                 Log.d("profileRecycler", "$list")
             }
@@ -236,15 +238,17 @@ class FriendProfileFragment(private val subsInfo: SubsInfo) : Fragment() {
                 .child("Follow")
                 .child(it1)
                 .child("Following")
-        }.addValueEventListener(object : ValueEventListener {
-            override fun onDataChange(snapshot: DataSnapshot) {
-                ((snapshot.childrenCount).toString() + "\nподписки").also {
-                    subscriptions.text = it
+        }.addValueEventListener(
+            object : ValueEventListener {
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    ((snapshot.childrenCount).toString() + "\nподписки").also {
+                        subscriptions.text = it
+                    }
                 }
-            }
 
-            override fun onCancelled(error: DatabaseError) {}
-        })
+                override fun onCancelled(error: DatabaseError) {}
+            }
+        )
     }
 
     private fun getSubscribers(subscribers: TextView) {
@@ -253,15 +257,17 @@ class FriendProfileFragment(private val subsInfo: SubsInfo) : Fragment() {
                 .child("Follow")
                 .child(it1)
                 .child("Followers")
-        }.addValueEventListener(object : ValueEventListener {
-            override fun onDataChange(snapshot: DataSnapshot) {
-                ((snapshot.childrenCount).toString() + "\nподписчики").also {
-                    subscribers.text = it
+        }.addValueEventListener(
+            object : ValueEventListener {
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    ((snapshot.childrenCount).toString() + "\nподписчики").also {
+                        subscribers.text = it
+                    }
                 }
-            }
 
-            override fun onCancelled(error: DatabaseError) {}
-        })
+                override fun onCancelled(error: DatabaseError) {}
+            }
+        )
     }
 
     private fun getListsCount(lists: TextView) {
@@ -269,16 +275,20 @@ class FriendProfileFragment(private val subsInfo: SubsInfo) : Fragment() {
             FirebaseDatabase.getInstance().reference
                 .child("Lists")
                 .child(it1)
-        }.addValueEventListener(object : ValueEventListener {
-            override fun onDataChange(snapshot: DataSnapshot) {
-                if (snapshot.childrenCount - 1 < 0) {
-                    (snapshot.childrenCount.toString() + "\nсписки").also { lists.text = it }
-                } else {
-                    ((snapshot.childrenCount - 1).toString() + "\nсписки").also { lists.text = it }
+        }.addValueEventListener(
+            object : ValueEventListener {
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    if (snapshot.childrenCount - 1 < 0) {
+                        (snapshot.childrenCount.toString() + "\nсписки").also { lists.text = it }
+                    } else {
+                        ((snapshot.childrenCount - 1).toString() + "\nсписки").also {
+                            lists.text = it
+                        }
+                    }
                 }
-            }
 
-            override fun onCancelled(error: DatabaseError) {}
-        })
+                override fun onCancelled(error: DatabaseError) {}
+            }
+        )
     }
 }

@@ -50,45 +50,45 @@ class ListsFragment : Fragment(), RecyclerAdapterLists.MyClickListener {
         }
 
         Log.d("list", "we are here: ")
-        listsRef.addValueEventListener(object : ValueEventListener {
-            override fun onDataChange(snapshot: DataSnapshot) {
+        listsRef.addValueEventListener(
+            object : ValueEventListener {
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    list.clear()
+                    list.addAll(0, listOfMovie)
+                    for (snap in snapshot.children) {
+                        try {
+                            snap.getValue(String::class.java)
+                                ?.let {
+                                    Log.d("lox", "onDataChange: $it")
 
-                list.clear()
-                list.addAll(0, listOfMovie)
-
-                for (snap in snapshot.children) {
-                    try {
-                        snap.getValue(String::class.java)
-                            ?.let {
-                                Log.d("lox", "onDataChange: $it")
-
-                                list = list.apply {
-                                    add(
-                                        2,
-                                        AnyItemInAdapterList.ButtonShowList(
-                                            it,
-                                            "0 фильмов",
-                                            ""
+                                    list = list.apply {
+                                        add(
+                                            2,
+                                            AnyItemInAdapterList.ButtonShowList(
+                                                it,
+                                                "0 фильмов",
+                                                ""
+                                            )
                                         )
-                                    )
+                                    }
                                 }
-                            }
-                    } catch (e: Exception) {
-                        Log.d("error", "onDataChange: $e")
-                        Toast.makeText(context, "Error $e", Toast.LENGTH_LONG)
-                            .show()
+                        } catch (e: Exception) {
+                            Log.d("error", "onDataChange: $e")
+                            Toast.makeText(context, "Error $e", Toast.LENGTH_LONG)
+                                .show()
+                        }
+                    }
+
+                    recyclerView.apply {
+                        recyclerAdapter.setMovieListItems(list)
                     }
                 }
 
-                recyclerView.apply {
-                    recyclerAdapter.setMovieListItems(list)
+                override fun onCancelled(error: DatabaseError) {
+                    Log.d("error", "onCancelled: $error")
                 }
             }
-
-            override fun onCancelled(error: DatabaseError) {
-                Log.d("error", "onCancelled: $error")
-            }
-        })
+        )
 
         context?.let { normalContext ->
             recyclerAdapter = RecyclerAdapterLists(normalContext, this@ListsFragment)

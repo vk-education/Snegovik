@@ -77,46 +77,50 @@ class FriendsSearchFragment : Fragment() {
             .startAt(input)
             .endAt(input + "\uf8ff")
 
-        userRef.addValueEventListener(object : ValueEventListener {
-            override fun onDataChange(snapshot: DataSnapshot) {
-                users.clear()
+        userRef.addValueEventListener(
+            object : ValueEventListener {
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    users.clear()
 
-                for (snap in snapshot.children) {
-                    val friend = snap.getValue(SubsInfo::class.java)
-                    Log.d("friend", "onDataChange: $friend")
-                    if (friend != null) {
-                        users.add(friend)
+                    for (snap in snapshot.children) {
+                        val friend = snap.getValue(SubsInfo::class.java)
+                        Log.d("friend", "onDataChange: $friend")
+                        if (friend != null) {
+                            users.add(friend)
+                        }
                     }
+                    adapter?.notifyDataSetChanged()
                 }
-                adapter?.notifyDataSetChanged()
-            }
 
-            override fun onCancelled(error: DatabaseError) {
-                Log.e("User search", "error: $error")
+                override fun onCancelled(error: DatabaseError) {
+                    Log.e("User search", "error: $error")
+                }
             }
-        })
+        )
     }
 
     private fun retrieveUsers() {
         val userRef = FirebaseDatabase.getInstance().reference.child("Users")
-        userRef.addValueEventListener(object : ValueEventListener {
-            override fun onDataChange(snapshot: DataSnapshot) {
-                if (binding.searchText.text.toString() == "") {
-                    users.clear()
+        userRef.addValueEventListener(
+            object : ValueEventListener {
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    if (binding.searchText.text.toString() == "") {
+                        users.clear()
 
-                    for (snap in snapshot.children) {
-                        val user = snap.getValue(SubsInfo::class.java)
-                        if (user != null) {
-                            users.add(user)
+                        for (snap in snapshot.children) {
+                            val user = snap.getValue(SubsInfo::class.java)
+                            if (user != null) {
+                                users.add(user)
+                            }
                         }
                     }
+                    adapter?.notifyDataSetChanged()
                 }
-                adapter?.notifyDataSetChanged()
-            }
 
-            override fun onCancelled(error: DatabaseError) {
-                Log.e("Retrieve user", "error: $error")
+                override fun onCancelled(error: DatabaseError) {
+                    Log.e("Retrieve user", "error: $error")
+                }
             }
-        })
+        )
     }
 }

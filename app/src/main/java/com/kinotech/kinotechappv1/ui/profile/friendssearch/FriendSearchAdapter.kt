@@ -138,18 +138,20 @@ class FriendSearchAdapter(
                     .child("Following")
             }
 
-            followingRef.addValueEventListener(object : ValueEventListener {
-                override fun onDataChange(snapshot: DataSnapshot) {
-                    if (snapshot.child(uid).exists()) {
-                        followBtn.setText(R.string.subscribed)
-                    } else {
-                        followBtn.setText(R.string.subscribe_string)
+            followingRef.addValueEventListener(
+                object : ValueEventListener {
+                    override fun onDataChange(snapshot: DataSnapshot) {
+                        if (snapshot.child(uid).exists()) {
+                            followBtn.setText(R.string.subscribed)
+                        } else {
+                            followBtn.setText(R.string.subscribe_string)
+                        }
+                    }
+
+                    override fun onCancelled(error: DatabaseError) {
                     }
                 }
-
-                override fun onCancelled(error: DatabaseError) {
-                }
-            })
+            )
         }
     }
 }

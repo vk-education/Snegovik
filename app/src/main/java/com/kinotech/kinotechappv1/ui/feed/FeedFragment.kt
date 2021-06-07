@@ -34,32 +34,36 @@ class FeedFragment : Fragment() {
                 .child("Follow")
                 .child(it1.toString())
                 .child("Following")
-        }.addListenerForSingleValueEvent(object : ValueEventListener {
-            override fun onDataChange(snapshot: DataSnapshot) {
-                posts.clear()
-                for (snap in snapshot.children) {
-                    user?.uid.let {
-                        FirebaseDatabase.getInstance().reference
-                            .child("Posts")
-                            .child(snap.value.toString())
-                    }.addValueEventListener(object : ValueEventListener {
-                        override fun onDataChange(snapshot: DataSnapshot) {
-                            for (s in snapshot.children) {
-                                s.getValue(PostNewList::class.java)?.let { posts.add(it) }
-                            }
-                            Log.d("post", "$posts")
-                            binding.feedRV.apply {
-                                adapter?.notifyDataSetChanged()
-                            }
-                        }
+        }.addListenerForSingleValueEvent(
+            object : ValueEventListener {
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    posts.clear()
+                    for (snap in snapshot.children) {
+                        user?.uid.let {
+                            FirebaseDatabase.getInstance().reference
+                                .child("Posts")
+                                .child(snap.value.toString())
+                        }.addValueEventListener(
+                            object : ValueEventListener {
+                                override fun onDataChange(snapshot: DataSnapshot) {
+                                    for (s in snapshot.children) {
+                                        s.getValue(PostNewList::class.java)?.let { posts.add(it) }
+                                    }
+                                    Log.d("post", "$posts")
+                                    binding.feedRV.apply {
+                                        adapter?.notifyDataSetChanged()
+                                    }
+                                }
 
-                        override fun onCancelled(error: DatabaseError) {}
-                    })
+                                override fun onCancelled(error: DatabaseError) {}
+                            }
+                        )
+                    }
                 }
-            }
 
-            override fun onCancelled(error: DatabaseError) {}
-        })
+                override fun onCancelled(error: DatabaseError) {}
+            }
+        )
         binding.feedRV.apply {
             adapter = PostNewListAdapter(posts)
             setHasFixedSize(true)

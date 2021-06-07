@@ -117,16 +117,18 @@ class RecyclerAdapterLists(val context: Context, private val clickListener: MyCl
                         .child("Liked Movies")
                         .child(it1.toString())
                         .child("Movies")
-                }.addValueEventListener(object : ValueEventListener {
-                    override fun onDataChange(snapshot: DataSnapshot) {
-                        count = snapshot.childrenCount.toInt()
-                        Log.d("dataFavourite", "onDataChange: $count ")
-                        "$count фильмов".also { filmCount.text = it }
-                        Log.d("dataFavourite", "onDataChange: ${filmCount.text} ")
-                    }
+                }.addValueEventListener(
+                    object : ValueEventListener {
+                        override fun onDataChange(snapshot: DataSnapshot) {
+                            count = snapshot.childrenCount.toInt()
+                            Log.d("dataFavourite", "onDataChange: $count ")
+                            "$count фильмов".also { filmCount.text = it }
+                            Log.d("dataFavourite", "onDataChange: ${filmCount.text} ")
+                        }
 
-                    override fun onCancelled(error: DatabaseError) {}
-                })
+                        override fun onCancelled(error: DatabaseError) {}
+                    }
+                )
                 itemTitle.text = (lists as AnyItemInAdapterList.ButtonFavList).itemTitle
                 val imgList: String = lists.imgList
                 Log.d("tag", "carCar$imgList")

@@ -70,15 +70,17 @@ class ProfileFragment : Fragment() {
                 .child("Follow")
                 .child(it1.toString())
                 .child("Following")
-        }.addValueEventListener(object : ValueEventListener {
-            override fun onDataChange(snapshot: DataSnapshot) {
-                ((snapshot.childrenCount).toString() + "\nподписки").also {
-                    subscriptions.text = it
+        }.addValueEventListener(
+            object : ValueEventListener {
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    ((snapshot.childrenCount).toString() + "\nподписки").also {
+                        subscriptions.text = it
+                    }
                 }
-            }
 
-            override fun onCancelled(error: DatabaseError) {}
-        })
+                override fun onCancelled(error: DatabaseError) {}
+            }
+        )
     }
 
     private fun getSubscribers(subscribers: TextView) {
@@ -87,15 +89,17 @@ class ProfileFragment : Fragment() {
                 .child("Follow")
                 .child(it1.toString())
                 .child("Followers")
-        }.addValueEventListener(object : ValueEventListener {
-            override fun onDataChange(snapshot: DataSnapshot) {
-                ((snapshot.childrenCount).toString() + "\nподписчики").also {
-                    subscribers.text = it
+        }.addValueEventListener(
+            object : ValueEventListener {
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    ((snapshot.childrenCount).toString() + "\nподписчики").also {
+                        subscribers.text = it
+                    }
                 }
-            }
 
-            override fun onCancelled(error: DatabaseError) {}
-        })
+                override fun onCancelled(error: DatabaseError) {}
+            }
+        )
     }
 
     private fun getListsCount(lists: TextView) {
@@ -103,18 +107,22 @@ class ProfileFragment : Fragment() {
             FirebaseDatabase.getInstance().reference
                 .child("Lists")
                 .child(it1.toString())
-        }.addValueEventListener(object : ValueEventListener {
-            override fun onDataChange(snapshot: DataSnapshot) {
-                ((snapshot.childrenCount - 1).toString() + "\nсписки").also { lists.text = it }
-                if (snapshot.childrenCount - 1 < 0) {
-                    (snapshot.childrenCount.toString() + "\nсписки").also { lists.text = it }
-                } else {
+        }.addValueEventListener(
+            object : ValueEventListener {
+                override fun onDataChange(snapshot: DataSnapshot) {
                     ((snapshot.childrenCount - 1).toString() + "\nсписки").also { lists.text = it }
+                    if (snapshot.childrenCount - 1 < 0) {
+                        (snapshot.childrenCount.toString() + "\nсписки").also { lists.text = it }
+                    } else {
+                        ((snapshot.childrenCount - 1).toString() + "\nсписки").also {
+                            lists.text = it
+                        }
+                    }
                 }
-            }
 
-            override fun onCancelled(error: DatabaseError) {}
-        })
+                override fun onCancelled(error: DatabaseError) {}
+            }
+        )
     }
 
     private fun loadRecyclerView(listsRV: RecyclerView) {
@@ -125,52 +133,54 @@ class ProfileFragment : Fragment() {
                 .child(it1.toString())
                 .child("UserLists")
         }
-        listsNamesRef.addValueEventListener(object : ValueEventListener {
-            override fun onDataChange(snapshot: DataSnapshot) {
-                for (snap in snapshot.children) {
-                    val openedRef = user?.uid.let { it1 ->
-                        FirebaseDatabase.getInstance().reference
-                            .child("Lists")
-                            .child(it1.toString())
-                            .child(snap.value.toString())
-                            .child("IsOpened")
-                    }
-                    openedRef.addValueEventListener(object : ValueEventListener {
-                        override fun onDataChange(snapshot: DataSnapshot) {
-                            if (snapshot.value == true) {
-                                snap.getValue(String::class.java)
-                                    ?.let {
-                                        Log.d("lox", "onDataChange: $it")
-                                        list = list.apply {
-                                            add(
-                                                AnyItemInAdapterList.ButtonShowList(
-                                                    it,
-                                                    "0 фильмов",
-                                                    ""
+        listsNamesRef.addValueEventListener(
+            object : ValueEventListener {
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    for (snap in snapshot.children) {
+                        val openedRef = user?.uid.let { it1 ->
+                            FirebaseDatabase.getInstance().reference
+                                .child("Lists")
+                                .child(it1.toString())
+                                .child(snap.value.toString())
+                                .child("IsOpened")
+                        }
+                        openedRef.addValueEventListener(object : ValueEventListener {
+                            override fun onDataChange(snapshot: DataSnapshot) {
+                                if (snapshot.value == true) {
+                                    snap.getValue(String::class.java)
+                                        ?.let {
+                                            Log.d("lox", "onDataChange: $it")
+                                            list = list.apply {
+                                                add(
+                                                    AnyItemInAdapterList.ButtonShowList(
+                                                        it,
+                                                        "0 фильмов",
+                                                        ""
+                                                    )
                                                 )
-                                            )
+                                            }
                                         }
+                                    listsRV.apply {
+                                        setHasFixedSize(true)
+                                        layoutManager = LinearLayoutManager(context)
+                                        adapter = OpenListsAdapter(list, context)
                                     }
-                                listsRV.apply {
-                                    setHasFixedSize(true)
-                                    layoutManager = LinearLayoutManager(context)
-                                    adapter = OpenListsAdapter(list, context)
                                 }
                             }
-                        }
 
-                        override fun onCancelled(error: DatabaseError) {
-                            Toast.makeText(context, "$error", Toast.LENGTH_LONG).show()
+                            override fun onCancelled(error: DatabaseError) {
+                                Toast.makeText(context, "$error", Toast.LENGTH_LONG).show()
+                            }
                         }
-                    })
+                        )
+                    }
+                    Log.d("profileRecycler", "$list")
                 }
-                Log.d("profileRecycler", "$list")
-            }
 
-            override fun onCancelled(error: DatabaseError) {
-                Toast.makeText(context, "$error", Toast.LENGTH_LONG).show()
-            }
-        })
+                override fun onCancelled(error: DatabaseError) {
+                    Toast.makeText(context, "$error", Toast.LENGTH_LONG).show()
+                }
+            })
         listsRV.apply {
             setHasFixedSize(true)
             layoutManager = LinearLayoutManager(context)
@@ -230,18 +240,20 @@ class ProfileFragment : Fragment() {
             user?.uid?.let {
                 FirebaseDatabase.getInstance().reference.child("Users").child(it)
             }
-        usersRef?.addValueEventListener(object : ValueEventListener {
-            override fun onDataChange(p0: DataSnapshot) {
-                nickName.text = p0.child("fullName").value.toString().split(" ")
-                    .joinToString(" ") { it.capitalize(Locale.getDefault()) }
-                args.putString("keyForNickName", nickName.text.toString())
-                Glide
-                    .with(v.context)
-                    .load(p0.child("photo").value.toString())
-                    .into(img)
-            }
+        usersRef?.addValueEventListener(
+            object : ValueEventListener {
+                override fun onDataChange(p0: DataSnapshot) {
+                    nickName.text = p0.child("fullName").value.toString().split(" ")
+                        .joinToString(" ") { it.capitalize(Locale.getDefault()) }
+                    args.putString("keyForNickName", nickName.text.toString())
+                    Glide
+                        .with(v.context)
+                        .load(p0.child("photo").value.toString())
+                        .into(img)
+                }
 
-            override fun onCancelled(error: DatabaseError) {}
-        })
+                override fun onCancelled(error: DatabaseError) {}
+            }
+        )
     }
 }

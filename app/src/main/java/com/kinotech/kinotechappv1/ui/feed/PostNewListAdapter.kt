@@ -27,7 +27,9 @@ class PostNewListAdapter(private val posts: ArrayList<PostNewList>) :
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PostNewListViewHolder {
         val binding = FeedNewListPostBinding.inflate(
-            LayoutInflater.from(parent.context), parent, false
+            LayoutInflater.from(parent.context),
+            parent,
+            false
         )
         return PostNewListViewHolder(binding, posts)
     }
@@ -60,16 +62,25 @@ class PostNewListViewHolder(
                 .into(profilePic)
             listName.text = postNewList.actionDoneText
             setPhotosMovies(
-                postNewList.films[0], postNewList.uid, postNewList.actionDoneText,
-                root, filmPoster1
+                postNewList.films[0],
+                postNewList.uid,
+                postNewList.actionDoneText,
+                root,
+                filmPoster1
             )
             setPhotosMovies(
-                postNewList.films[1], postNewList.uid, postNewList.actionDoneText,
-                root, filmPoster2
+                postNewList.films[1],
+                postNewList.uid,
+                postNewList.actionDoneText,
+                root,
+                filmPoster2
             )
             setPhotosMovies(
-                postNewList.films[2], postNewList.uid, postNewList.actionDoneText,
-                root, filmPoster3
+                postNewList.films[2],
+                postNewList.uid,
+                postNewList.actionDoneText,
+                root,
+                filmPoster3
             )
             checkAddedButton(addBtn, postNewList.uid, postNewList.actionDoneText)
             addBtn.setOnClickListener {

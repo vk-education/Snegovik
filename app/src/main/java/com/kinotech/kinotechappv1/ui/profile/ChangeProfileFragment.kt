@@ -61,11 +61,11 @@ class ChangeProfileFragment : Fragment() {
             checker = "clicked"
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                 if (context?.let { it1 ->
-                    PermissionChecker.checkSelfPermission(
+                        PermissionChecker.checkSelfPermission(
                             it1,
                             Manifest.permission.READ_EXTERNAL_STORAGE
                         )
-                } ==
+                    } ==
                     PackageManager.PERMISSION_DENIED
                 ) {
 
@@ -100,17 +100,19 @@ class ChangeProfileFragment : Fragment() {
             FirebaseDatabase.getInstance().reference
                 .child("Users").child(it)
         }
-        usersRef?.addValueEventListener(object : ValueEventListener {
-            override fun onDataChange(p0: DataSnapshot) {
-                nickName.text = p0.child("fullName").value.toString()
-                Glide
-                    .with(v.context)
-                    .load(p0.child("photo").value.toString())
-                    .into(img)
-            }
+        usersRef?.addValueEventListener(
+            object : ValueEventListener {
+                override fun onDataChange(p0: DataSnapshot) {
+                    nickName.text = p0.child("fullName").value.toString()
+                    Glide
+                        .with(v.context)
+                        .load(p0.child("photo").value.toString())
+                        .into(img)
+                }
 
-            override fun onCancelled(error: DatabaseError) {}
-        })
+                override fun onCancelled(error: DatabaseError) {}
+            }
+        )
     }
 
     private fun updateUserInfoOnly() {

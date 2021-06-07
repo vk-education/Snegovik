@@ -122,27 +122,33 @@ class FilmPageFragment(movie: SimpleResult, s: String, mode: Int) : Fragment() {
         rateMovie.keyListener = DigitsKeyListener.getInstance("0123456789")
         rateMovie.isSingleLine = true
         checkRating(movieId, rateMovie)
-        rateMovie.setOnEditorActionListener(object : TextView.OnEditorActionListener {
-            override fun onEditorAction(v: TextView?, actionId: Int, event: KeyEvent?): Boolean {
-                if (event == null) {
-                    return if (actionId == EditorInfo.IME_ACTION_DONE) {
-                        Log.d("rating", "${v?.text} ")
-                        if (v?.text.toString().toInt() > 10) {
-                            v?.text = 10.toString()
-                        }
-                        user?.uid.let { it1 ->
-                            FirebaseDatabase.getInstance().reference
-                                .child("User Rating")
-                                .child(it1.toString())
-                                .child(movieId.toString())
-                                .child("Rating")
-                                .setValue(v?.text.toString())
-                        }
-                        false
-                    } else false
-                } else return false
+        rateMovie.setOnEditorActionListener(
+            object : TextView.OnEditorActionListener {
+                override fun onEditorAction(
+                    v: TextView?,
+                    actionId: Int,
+                    event: KeyEvent?
+                ): Boolean {
+                    if (event == null) {
+                        return if (actionId == EditorInfo.IME_ACTION_DONE) {
+                            Log.d("rating", "${v?.text} ")
+                            if (v?.text.toString().toInt() > 10) {
+                                v?.text = 10.toString()
+                            }
+                            user?.uid.let { it1 ->
+                                FirebaseDatabase.getInstance().reference
+                                    .child("User Rating")
+                                    .child(it1.toString())
+                                    .child(movieId.toString())
+                                    .child("Rating")
+                                    .setValue(v?.text.toString())
+                            }
+                            false
+                        } else false
+                    } else return false
+                }
             }
-        })
+        )
         Log.d("count2", "after checking rating ")
         val addBtn: ImageButton = root.findViewById(R.id.addFilm)
         addBtn.setOnClickListener {
@@ -158,18 +164,21 @@ class FilmPageFragment(movie: SimpleResult, s: String, mode: Int) : Fragment() {
                 .child("User Rating")
                 .child(it1.toString())
         }
-        ratingRef.addValueEventListener(object : ValueEventListener {
-            override fun onDataChange(snapshot: DataSnapshot) {
-                if (snapshot.child(id.toString()).exists()) {
-                    editText.hint = snapshot.child(id.toString()).child("Rating").value as String
-                    Log.d("rating", "onDataChange:${editText.hint} ")
-                } else {
-                    editText.hint = ""
+        ratingRef.addValueEventListener(
+            object : ValueEventListener {
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    if (snapshot.child(id.toString()).exists()) {
+                        editText.hint =
+                            snapshot.child(id.toString()).child("Rating").value as String
+                        Log.d("rating", "onDataChange:${editText.hint} ")
+                    } else {
+                        editText.hint = ""
+                    }
                 }
-            }
 
-            override fun onCancelled(error: DatabaseError) {}
-        })
+                override fun onCancelled(error: DatabaseError) {}
+            }
+        )
     }
 
     private fun getStaff(

@@ -57,29 +57,30 @@ class ListOfMovieFragment(private val listTitleDB: String) : Fragment() {
                 .child(listTitleDB)
                 .child("Movies")
         }
-        listedMoviesRef.addValueEventListener(object : ValueEventListener {
-            override fun onDataChange(snapshot: DataSnapshot) {
-
-                for (snap in snapshot.children) {
-                    try {
-                        snap.getValue(SimpleResult::class.java)?.let { result.add(it) }
-                    } catch (e: Exception) {
-                        Log.d("dataFavourite", "onDataChange: $e")
-                        Toast.makeText(context, "Error $e", Toast.LENGTH_LONG).show()
+        listedMoviesRef.addValueEventListener(
+            object : ValueEventListener {
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    for (snap in snapshot.children) {
+                        try {
+                            snap.getValue(SimpleResult::class.java)?.let { result.add(it) }
+                        } catch (e: Exception) {
+                            Log.d("dataFavourite", "onDataChange: $e")
+                            Toast.makeText(context, "Error $e", Toast.LENGTH_LONG).show()
+                        }
                     }
+                    recyclerView.apply {
+                        setHasFixedSize(true)
+                        layoutManager = LinearLayoutManager(context)
+                        adapter = MovieListAdapter(result, context, listTitleDB)
+                    }
+                    Log.d("dataFavourite", "onDataChange: $result")
                 }
-                recyclerView.apply {
-                    setHasFixedSize(true)
-                    layoutManager = LinearLayoutManager(context)
-                    adapter = MovieListAdapter(result, context, listTitleDB)
-                }
-                Log.d("dataFavourite", "onDataChange: $result")
-            }
 
-            override fun onCancelled(error: DatabaseError) {
-                Log.d("error", "onCancelled: $error")
+                override fun onCancelled(error: DatabaseError) {
+                    Log.d("error", "onCancelled: $error")
+                }
             }
-        })
+        )
 
         btnBack.setOnClickListener {
             val listsFrag = ListsFragment()
