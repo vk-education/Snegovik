@@ -2,6 +2,7 @@ package com.kinotech.kinotechappv1.ui.profile
 
 import android.Manifest
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
@@ -61,11 +62,10 @@ class ChangeProfileFragment : Fragment() {
             checker = "clicked"
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                 if (context?.let { it1 ->
-                        PermissionChecker.checkSelfPermission(
-                            it1,
-                            Manifest.permission.READ_EXTERNAL_STORAGE
+                    PermissionChecker.checkSelfPermission(
+                        it1, Manifest.permission.READ_EXTERNAL_STORAGE
                         )
-                    } == PackageManager.PERMISSION_DENIED
+                } == PackageManager.PERMISSION_DENIED
                 ) {
                     val permissions = arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE)
                     requestPermissions(permissions, PERMISSION_CODE)
@@ -91,6 +91,12 @@ class ChangeProfileFragment : Fragment() {
             loadFragment()
         }
         return binding.root
+    }
+    private fun cErr(v: Context) {
+        PermissionChecker.checkSelfPermission(
+            v,
+            Manifest.permission.READ_EXTERNAL_STORAGE
+        )
     }
 
     private fun userInfo(nickName: TextView, v: View, img: ImageView) {
