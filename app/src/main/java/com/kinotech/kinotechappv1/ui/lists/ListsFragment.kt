@@ -14,7 +14,11 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
-import com.google.firebase.database.*
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
 import com.kinotech.kinotechappv1.R
 import com.kinotech.kinotechappv1.ui.lists.CustomDialog.FullNameListener
 
@@ -46,47 +50,45 @@ class ListsFragment : Fragment(), RecyclerAdapterLists.MyClickListener {
         }
 
         Log.d("list", "we are here: ")
-        listsRef.addValueEventListener(object : ValueEventListener {
-            override fun onDataChange(snapshot: DataSnapshot) {
+        listsRef.addValueEventListener(
+            object : ValueEventListener {
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    list.clear()
+                    list.addAll(0, listOfMovie)
+                    for (snap in snapshot.children) {
+                        try {
+                            snap.getValue(String::class.java)
+                                ?.let {
+                                    Log.d("lox", "onDataChange: $it")
 
-                list.clear()
-                list.addAll(0, listOfMovie)
-
-                for (snap in snapshot.children) {
-                    try {
-                        snap.getValue(String::class.java)
-                            ?.let {
-                                Log.d("lox", "onDataChange: $it")
-
-                                list = list.apply {
-                                    add(
-                                        2,
-                                        AnyItemInAdapterList.ButtonShowList(
-                                            it,
-                                            "0 фильмов",
-                                            "https://cdn25.img.ria.ru/images/156087/28/156087280" +
-                                                ".2_0:778:1536:1642_600x0_80_0_0_606c2d47b6d37951adc9eaf7" +
-                                                ".50de22f0.jpg"
+                                    list = list.apply {
+                                        add(
+                                            2,
+                                            AnyItemInAdapterList.ButtonShowList(
+                                                it,
+                                                "0 фильмов",
+                                                ""
+                                            )
                                         )
-                                    )
+                                    }
                                 }
-                            }
-                    } catch (e: Exception) {
-                        Log.d("error", "onDataChange: $e")
-                        Toast.makeText(context, "Error $e", Toast.LENGTH_LONG)
-                            .show()
+                        } catch (e: Exception) {
+                            Log.d("error", "onDataChange: $e")
+                            Toast.makeText(context, "Error $e", Toast.LENGTH_LONG)
+                                .show()
+                        }
+                    }
+
+                    recyclerView.apply {
+                        recyclerAdapter.setMovieListItems(list)
                     }
                 }
 
-                recyclerView.apply {
-                    recyclerAdapter.setMovieListItems(list)
+                override fun onCancelled(error: DatabaseError) {
+                    Log.d("error", "onCancelled: $error")
                 }
             }
-
-            override fun onCancelled(error: DatabaseError) {
-                Log.d("error", "onCancelled: $error")
-            }
-        })
+        )
 
         context?.let { normalContext ->
             recyclerAdapter = RecyclerAdapterLists(normalContext, this@ListsFragment)

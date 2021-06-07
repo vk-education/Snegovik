@@ -10,7 +10,11 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
-import com.google.firebase.database.*
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.Query
+import com.google.firebase.database.ValueEventListener
 import com.kinotech.kinotechappv1.R
 import com.kinotech.kinotechappv1.ui.search.SimpleResult
 import kotlin.reflect.KClass
@@ -113,16 +117,18 @@ class RecyclerAdapterLists(val context: Context, private val clickListener: MyCl
                         .child("Liked Movies")
                         .child(it1.toString())
                         .child("Movies")
-                }.addValueEventListener(object : ValueEventListener {
-                    override fun onDataChange(snapshot: DataSnapshot) {
-                        count = snapshot.childrenCount.toInt()
-                        Log.d("dataFavourite", "onDataChange: $count ")
-                        "$count фильмов".also { filmCount.text = it }
-                        Log.d("dataFavourite", "onDataChange: ${filmCount.text} ")
-                    }
+                }.addValueEventListener(
+                    object : ValueEventListener {
+                        override fun onDataChange(snapshot: DataSnapshot) {
+                            count = snapshot.childrenCount.toInt()
+                            Log.d("dataFavourite", "onDataChange: $count ")
+                            "$count фильмов".also { filmCount.text = it }
+                            Log.d("dataFavourite", "onDataChange: ${filmCount.text} ")
+                        }
 
-                    override fun onCancelled(error: DatabaseError) {}
-                })
+                        override fun onCancelled(error: DatabaseError) {}
+                    }
+                )
                 itemTitle.text = (lists as AnyItemInAdapterList.ButtonFavList).itemTitle
                 val imgList: String = lists.imgList
                 Log.d("tag", "carCar$imgList")
@@ -157,22 +163,24 @@ class RecyclerAdapterLists(val context: Context, private val clickListener: MyCl
                         .child(it1.toString())
                         .child(itemTitle.text.toString())
                         .child("Movies")
-                }.addValueEventListener(object : ValueEventListener {
-                    override fun onDataChange(snapshot: DataSnapshot) {
-                        count = snapshot.childrenCount.toInt()
-                        Log.d("dataFavourite", "onDataChange: $count ")
-                        "$count фильмов".also { filmCount.text = it }
-                        if (filmCount.text == "0 фильмов") {
-                            Glide
-                                .with(itemView.context)
-                                .load(lists.imgList)
-                                .error(R.drawable.ic_baseline_movie_creation_24)
-                                .into(imgListH)
+                }.addValueEventListener(
+                    object : ValueEventListener {
+                        override fun onDataChange(snapshot: DataSnapshot) {
+                            count = snapshot.childrenCount.toInt()
+                            Log.d("dataFavourite", "onDataChange: $count ")
+                            "$count фильмов".also { filmCount.text = it }
+                            if (filmCount.text == "0 фильмов") {
+                                Glide
+                                    .with(itemView.context)
+                                    .load(lists.imgList)
+                                    .error(R.drawable.ic_baseline_movie_creation_24)
+                                    .into(imgListH)
+                            }
                         }
-                    }
 
-                    override fun onCancelled(error: DatabaseError) {}
-                })
+                        override fun onCancelled(error: DatabaseError) {}
+                    }
+                )
                 val photoRef = user?.uid.let { it1 ->
                     FirebaseDatabase.getInstance().reference
                         .child("Lists")
@@ -181,30 +189,31 @@ class RecyclerAdapterLists(val context: Context, private val clickListener: MyCl
                         .child("Movies")
                 }
                 val queryUid: Query = photoRef.orderByKey().limitToFirst(1)
-                queryUid.addValueEventListener(object : ValueEventListener {
-                    override fun onDataChange(snapshot: DataSnapshot) {
-                        for (snap in snapshot.children) {
-                            try {
-                                val result = snap.getValue(SimpleResult::class.java)!!
-                                val imgList: String = result.posterUrlPreview
-                                Log.d(
-                                    "dbImg",
-                                    "onDataChange3:${snapshot.childrenCount.toInt()} "
-                                )
-                                Glide
-                                    .with(itemView.context)
-                                    .load(imgList)
-                                    .error(R.drawable.ic_baseline_movie_creation_24)
-                                    .into(imgListH)
-
-                            } catch (e: Exception) {
-                                Log.d("dataFavourite", "onDataChange: $e")
+                queryUid.addValueEventListener(
+                    object : ValueEventListener {
+                        override fun onDataChange(snapshot: DataSnapshot) {
+                            for (snap in snapshot.children) {
+                                try {
+                                    val result = snap.getValue(SimpleResult::class.java)!!
+                                    val imgList: String = result.posterUrlPreview
+                                    Log.d(
+                                        "dbImg",
+                                        "onDataChange3:${snapshot.childrenCount.toInt()} "
+                                    )
+                                    Glide
+                                        .with(itemView.context)
+                                        .load(imgList)
+                                        .error(R.drawable.ic_baseline_movie_creation_24)
+                                        .into(imgListH)
+                                } catch (e: Exception) {
+                                    Log.d("dataFavourite", "onDataChange: $e")
+                                }
                             }
                         }
-                    }
 
-                    override fun onCancelled(error: DatabaseError) {}
-                })
+                        override fun onCancelled(error: DatabaseError) {}
+                    }
+                )
                 itemView.setOnClickListener {
                     clickListener.onItemClick(
                         lists

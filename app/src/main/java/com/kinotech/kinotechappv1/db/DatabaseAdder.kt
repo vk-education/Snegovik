@@ -14,7 +14,7 @@ import com.kinotech.kinotechappv1.ui.search.SimpleResult
 class DatabaseAdder {
     private var user: FirebaseUser? = FirebaseAuth.getInstance().currentUser
     fun addMovieToDB(movie: SimpleResult, likeButton: ImageButton) {
-        user?.let { checkLikedStatus(it.uid, likeButton, movie) }
+        user?.let { checkLikedStatus(likeButton, movie) }
         likeButton.setOnClickListener {
             if (likeButton.tag == "button_not_liked") {
                 user?.uid.let { it1 ->
@@ -38,7 +38,7 @@ class DatabaseAdder {
         }
     }
 
-    private fun checkLikedStatus(uid: String, likeButton: ImageButton, movie: SimpleResult) {
+    private fun checkLikedStatus(likeButton: ImageButton, movie: SimpleResult) {
         val likedMoviesRef = user?.uid.let { it1 ->
             FirebaseDatabase.getInstance().reference
                 .child("Liked Movies")
@@ -46,21 +46,22 @@ class DatabaseAdder {
                 .child("Movies")
         }
 
-        likedMoviesRef.addValueEventListener(object : ValueEventListener {
-            override fun onDataChange(snapshot: DataSnapshot) {
-                if (snapshot.child(movie.filmId.toString()).exists()) {
-                    likeButton.setBackgroundResource(R.drawable.ic_liked)
-                    likeButton.tag = "button is liked"
-                } else {
-                    likeButton.setBackgroundResource(R.drawable.ic_not_liked)
-                    likeButton.tag = "button_not_liked"
+        likedMoviesRef.addValueEventListener(
+            object : ValueEventListener {
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    if (snapshot.child(movie.filmId.toString()).exists()) {
+                        likeButton.setBackgroundResource(R.drawable.ic_liked)
+                        likeButton.tag = "button is liked"
+                    } else {
+                        likeButton.setBackgroundResource(R.drawable.ic_not_liked)
+                        likeButton.tag = "button_not_liked"
+                    }
+                }
+
+                override fun onCancelled(error: DatabaseError) {
+                    Log.d("error", "onCancelled: $error")
                 }
             }
-
-            override fun onCancelled(error: DatabaseError) {
-                Log.d("error", "onCancelled: $error")
-            }
-
-        })
+        )
     }
 }

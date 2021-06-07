@@ -21,15 +21,21 @@ class SplashActivity : AppCompatActivity() {
         gsa = GoogleSignIn.getLastSignedInAccount(this)
 
         if (gsa != null) {
-            Handler().postDelayed({
-                startActivity(Intent(this@SplashActivity, MainActivity::class.java))
-                finish()
-            }, SPLASH_DISPLAY_LENGTH.toLong())
+            Handler().postDelayed(
+                {
+                    startActivity(Intent(this@SplashActivity, MainActivity::class.java))
+                    finish()
+                },
+                SPLASH_DISPLAY_LENGTH.toLong()
+            )
         } else {
-            Handler().postDelayed({
-                startActivity(Intent(this@SplashActivity, AuthActivity::class.java))
-                finish()
-            }, SPLASH_DISPLAY_LENGTH.toLong())
+            Handler().postDelayed(
+                {
+                    startActivity(Intent(this@SplashActivity, AuthActivity::class.java))
+                    finish()
+                },
+                SPLASH_DISPLAY_LENGTH.toLong()
+            )
         }
     }
 }

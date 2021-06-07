@@ -17,7 +17,7 @@ import com.kinotech.kinotechappv1.R
 import com.kinotech.kinotechappv1.databinding.SubscribersItemBinding
 import com.kinotech.kinotechappv1.ui.profile.FriendProfileFragment
 import com.kinotech.kinotechappv1.ui.profile.SubsInfo
-import java.util.*
+import java.util.Locale
 import kotlin.collections.ArrayList
 
 class SubscribersAdapter(
@@ -26,7 +26,9 @@ class SubscribersAdapter(
     RecyclerView.Adapter<SubscribersAdapter.SubscribersViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SubscribersViewHolder {
         val binding = SubscribersItemBinding.inflate(
-            LayoutInflater.from(parent.context), parent, false
+            LayoutInflater.from(parent.context),
+            parent,
+            false
         )
         return SubscribersViewHolder(binding, subscriber)
     }
@@ -40,7 +42,8 @@ class SubscribersAdapter(
     }
 
     class SubscribersViewHolder(
-        private val binding: SubscribersItemBinding, private val subscriber: ArrayList<SubsInfo>
+        private val binding: SubscribersItemBinding,
+        private val subscriber: ArrayList<SubsInfo>
     ) : RecyclerView.ViewHolder(binding.root) {
 
         private val firebaseUser: FirebaseUser? = FirebaseAuth.getInstance().currentUser
@@ -61,7 +64,7 @@ class SubscribersAdapter(
                         R.id.container,
                         FriendProfileFragment(subsInfo)
                     )
-                    transaction.addToBackStack(null) //возвращается не туда
+                    transaction.addToBackStack(null) // возвращается не туда
                     transaction.commit()
                 }
 
@@ -77,7 +80,6 @@ class SubscribersAdapter(
                                 .child(subsInfo.uid)
                                 .setValue(subsInfo.uid)
                                 .addOnCompleteListener { task ->
-                                    Log.d("double trouble", "перед успехом подписки $subscriber")
                                     if (task.isSuccessful) {
                                         firebaseUser?.uid.let { uid ->
                                             FirebaseDatabase.getInstance().reference
@@ -87,11 +89,9 @@ class SubscribersAdapter(
                                                 .child(uid.toString())
                                                 .setValue(uid.toString())
                                                 .addOnCompleteListener { task ->
-                                                    Log.d("double trouble", "перед успехом успехом $subscriber")
                                                     if (task.isSuccessful) {
                                                         Log.i("follow", "Подписан")
                                                     }
-
                                                 }
                                         }
                                     }
@@ -133,20 +133,22 @@ class SubscribersAdapter(
                     .child("Following")
             }
 
-            followingRef.addValueEventListener(object : ValueEventListener {
-                override fun onDataChange(snapshot: DataSnapshot) {
-                    if (snapshot.child(uid).exists()) {
-                        likeProfile.setImageResource(R.drawable.ic_liked_40)
-                        likeProfile.tag = "liked"
-                    } else {
-                        likeProfile.setImageResource(R.drawable.ic_like_40dp)
-                        likeProfile.tag = "not liked"
+            followingRef.addValueEventListener(
+                object : ValueEventListener {
+                    override fun onDataChange(snapshot: DataSnapshot) {
+                        if (snapshot.child(uid).exists()) {
+                            likeProfile.setImageResource(R.drawable.ic_liked_40)
+                            likeProfile.tag = "liked"
+                        } else {
+                            likeProfile.setImageResource(R.drawable.ic_like_40dp)
+                            likeProfile.tag = "not liked"
+                        }
+                    }
+
+                    override fun onCancelled(error: DatabaseError) {
                     }
                 }
-
-                override fun onCancelled(error: DatabaseError) {
-                }
-            })
+            )
         }
     }
 }

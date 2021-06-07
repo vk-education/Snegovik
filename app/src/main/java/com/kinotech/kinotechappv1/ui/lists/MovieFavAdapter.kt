@@ -80,7 +80,7 @@ class MovieFavAdapter(
         }
 
         private fun addMovieToDB(movie: SimpleResult, likeButton: ImageButton) {
-            user?.let { checkLikedStatus(it.uid, likeButton, movie) }
+            user?.let { checkLikedStatus(likeButton, movie) }
             likeButton.setOnClickListener {
                 if (likeButton.tag == "button_not_liked") {
                     user?.uid.let { it1 ->
@@ -105,7 +105,7 @@ class MovieFavAdapter(
             }
         }
 
-        private fun checkLikedStatus(uid: String, likeButton: ImageButton, movie: SimpleResult) {
+        private fun checkLikedStatus(likeButton: ImageButton, movie: SimpleResult) {
             val likedMoviesRef = user?.uid.let { it1 ->
                 FirebaseDatabase.getInstance().reference
                     .child("Liked Movies")
@@ -113,21 +113,23 @@ class MovieFavAdapter(
                     .child("Movies")
             }
 
-            likedMoviesRef.addValueEventListener(object : ValueEventListener {
-                override fun onDataChange(snapshot: DataSnapshot) {
-                    if (snapshot.child(movie.filmId.toString()).exists()) {
-                        likeButton.setBackgroundResource(R.drawable.ic_liked)
-                        likeButton.tag = "button is liked"
-                    } else {
-                        likeButton.setBackgroundResource(R.drawable.ic_not_liked)
-                        likeButton.tag = "button_not_liked"
+            likedMoviesRef.addValueEventListener(
+                object : ValueEventListener {
+                    override fun onDataChange(snapshot: DataSnapshot) {
+                        if (snapshot.child(movie.filmId.toString()).exists()) {
+                            likeButton.setBackgroundResource(R.drawable.ic_liked)
+                            likeButton.tag = "button is liked"
+                        } else {
+                            likeButton.setBackgroundResource(R.drawable.ic_not_liked)
+                            likeButton.tag = "button_not_liked"
+                        }
+                    }
+
+                    override fun onCancelled(error: DatabaseError) {
+                        Log.d("error", "onCancelled: $error")
                     }
                 }
-
-                override fun onCancelled(error: DatabaseError) {
-                    Log.d("error", "onCancelled: $error")
-                }
-            })
+            )
         }
 
         private fun checkRating(id: Int, textView: TextView) {
@@ -136,22 +138,24 @@ class MovieFavAdapter(
                     .child("User Rating")
                     .child(it1.toString())
             }
-            ratingRef.addValueEventListener(object : ValueEventListener {
-                @SuppressLint("SetTextI18n")
-                override fun onDataChange(snapshot: DataSnapshot) {
-                    if (snapshot.child(id.toString()).exists()) {
-                        textView.text = snapshot
-                            .child(id.toString())
-                            .child("Rating").value as String + "/10"
+            ratingRef.addValueEventListener(
+                object : ValueEventListener {
+                    @SuppressLint("SetTextI18n")
+                    override fun onDataChange(snapshot: DataSnapshot) {
+                        if (snapshot.child(id.toString()).exists()) {
+                            textView.text = snapshot
+                                .child(id.toString())
+                                .child("Rating").value as String + "/10"
 
-                        Log.d("rating", "onDataChange:${textView.text} ")
-                    } else {
-                        textView.text = ""
+                            Log.d("rating", "onDataChange:${textView.text} ")
+                        } else {
+                            textView.text = ""
+                        }
                     }
-                }
 
-                override fun onCancelled(error: DatabaseError) {}
-            })
+                    override fun onCancelled(error: DatabaseError) {}
+                }
+            )
         }
     }
 }

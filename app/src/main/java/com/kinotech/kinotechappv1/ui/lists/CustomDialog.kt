@@ -40,7 +40,8 @@ class CustomDialog(context: Context, private var listener: FullNameListener) : D
             if (fullName.isEmpty()) {
                 Toast.makeText(
                     this.context,
-                    "Введите название", Toast.LENGTH_LONG
+                    "Введите название",
+                    Toast.LENGTH_LONG
                 ).show()
                 fullName = "Без названия"
             }

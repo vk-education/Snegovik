@@ -19,7 +19,7 @@ import com.google.firebase.database.ValueEventListener
 import com.kinotech.kinotechappv1.R
 import com.kinotech.kinotechappv1.databinding.FeedNewListPostBinding
 import com.kinotech.kinotechappv1.ui.search.SimpleResult
-import java.util.*
+import java.util.Locale
 import kotlin.collections.ArrayList
 
 class PostNewListAdapter(private val posts: ArrayList<PostNewList>) :
@@ -27,7 +27,9 @@ class PostNewListAdapter(private val posts: ArrayList<PostNewList>) :
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PostNewListViewHolder {
         val binding = FeedNewListPostBinding.inflate(
-            LayoutInflater.from(parent.context), parent, false
+            LayoutInflater.from(parent.context),
+            parent,
+            false
         )
         return PostNewListViewHolder(binding, posts)
     }
@@ -60,16 +62,25 @@ class PostNewListViewHolder(
                 .into(profilePic)
             listName.text = postNewList.actionDoneText
             setPhotosMovies(
-                postNewList.films[0], postNewList.uid, postNewList.actionDoneText,
-                root, filmPoster1
+                postNewList.films[0],
+                postNewList.uid,
+                postNewList.actionDoneText,
+                root,
+                filmPoster1
             )
             setPhotosMovies(
-                postNewList.films[1], postNewList.uid, postNewList.actionDoneText,
-                root, filmPoster2
+                postNewList.films[1],
+                postNewList.uid,
+                postNewList.actionDoneText,
+                root,
+                filmPoster2
             )
             setPhotosMovies(
-                postNewList.films[2], postNewList.uid, postNewList.actionDoneText,
-                root, filmPoster3
+                postNewList.films[2],
+                postNewList.uid,
+                postNewList.actionDoneText,
+                root,
+                filmPoster3
             )
             checkAddedButton(addBtn, postNewList.uid, postNewList.actionDoneText)
             addBtn.setOnClickListener {
@@ -108,13 +119,15 @@ class PostNewListViewHolder(
             FirebaseDatabase.getInstance().reference
                 .child("Likes")
                 .child(title)
-        }.addValueEventListener(object : ValueEventListener {
-            override fun onDataChange(snapshot: DataSnapshot) {
-                count.text = snapshot.childrenCount.toString()
-            }
+        }.addValueEventListener(
+            object : ValueEventListener {
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    count.text = snapshot.childrenCount.toString()
+                }
 
-            override fun onCancelled(error: DatabaseError) {}
-        })
+                override fun onCancelled(error: DatabaseError) {}
+            }
+        )
     }
 
     private fun checkLikedStatus(likeButton: ImageButton, id: String, title: String) {
@@ -124,21 +137,23 @@ class PostNewListViewHolder(
                 .child(title)
         }
 
-        likedMoviesRef.addValueEventListener(object : ValueEventListener {
-            override fun onDataChange(snapshot: DataSnapshot) {
-                if (snapshot.child(user?.uid.toString()).exists()) {
-                    likeButton.setBackgroundResource(R.drawable.ic_liked)
-                    likeButton.tag = "button is liked"
-                } else {
-                    likeButton.setBackgroundResource(R.drawable.ic_not_liked)
-                    likeButton.tag = "button_not_liked"
+        likedMoviesRef.addValueEventListener(
+            object : ValueEventListener {
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    if (snapshot.child(user?.uid.toString()).exists()) {
+                        likeButton.setBackgroundResource(R.drawable.ic_liked)
+                        likeButton.tag = "button is liked"
+                    } else {
+                        likeButton.setBackgroundResource(R.drawable.ic_not_liked)
+                        likeButton.tag = "button_not_liked"
+                    }
+                }
+
+                override fun onCancelled(error: DatabaseError) {
+                    Log.d("error", "onCancelled: $error")
                 }
             }
-
-            override fun onCancelled(error: DatabaseError) {
-                Log.d("error", "onCancelled: $error")
-            }
-        })
+        )
     }
 
     private fun setPhotosMovies(
@@ -155,17 +170,19 @@ class PostNewListViewHolder(
                 .child(title)
                 .child("Movies")
                 .child(film)
-        }.addValueEventListener(object : ValueEventListener {
-            override fun onDataChange(snapshot: DataSnapshot) {
-                Glide
-                    .with(v)
-                    .load(snapshot.child("posterUrlPreview").value.toString())
-                    .error(R.drawable.ic_profile_circle_24)
-                    .into(filmPoster)
-            }
+        }.addValueEventListener(
+            object : ValueEventListener {
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    Glide
+                        .with(v)
+                        .load(snapshot.child("posterUrlPreview").value.toString())
+                        .error(R.drawable.ic_profile_circle_24)
+                        .into(filmPoster)
+                }
 
-            override fun onCancelled(error: DatabaseError) {}
-        })
+                override fun onCancelled(error: DatabaseError) {}
+            }
+        )
     }
 
     private fun checkAddedButton(addButton: ImageButton, id: String, itemTitle: String) {
@@ -174,30 +191,34 @@ class PostNewListViewHolder(
                 .child("Lists")
                 .child(id)
                 .child("UserLists")
-        }.addValueEventListener(object : ValueEventListener {
-            override fun onDataChange(snapshot: DataSnapshot) {
-                user?.uid.let { it1 ->
-                    FirebaseDatabase.getInstance().reference
-                        .child("Lists")
-                        .child(it1.toString())
-                        .child("UserLists")
-                }.addValueEventListener(object : ValueEventListener {
-                    override fun onDataChange(snap: DataSnapshot) {
-                        if (snap.child(itemTitle).exists()) {
-                            addButton.tag = "button is added"
-                            addButton.setBackgroundResource(R.drawable.ic_check)
-                        } else {
-                            addButton.tag = "button not added"
-                            addButton.setBackgroundResource(R.drawable.ic_add)
+        }.addValueEventListener(
+            object : ValueEventListener {
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    user?.uid.let { it1 ->
+                        FirebaseDatabase.getInstance().reference
+                            .child("Lists")
+                            .child(it1.toString())
+                            .child("UserLists")
+                    }.addValueEventListener(
+                        object : ValueEventListener {
+                            override fun onDataChange(snap: DataSnapshot) {
+                                if (snap.child(itemTitle).exists()) {
+                                    addButton.tag = "button is added"
+                                    addButton.setBackgroundResource(R.drawable.ic_check)
+                                } else {
+                                    addButton.tag = "button not added"
+                                    addButton.setBackgroundResource(R.drawable.ic_add)
+                                }
+                            }
+
+                            override fun onCancelled(error: DatabaseError) {}
                         }
-                    }
+                    )
+                }
 
-                    override fun onCancelled(error: DatabaseError) {}
-                })
+                override fun onCancelled(error: DatabaseError) {}
             }
-
-            override fun onCancelled(error: DatabaseError) {}
-        })
+        )
     }
 
     private fun addList(id: String, itemTitle: String) {
@@ -207,40 +228,42 @@ class PostNewListViewHolder(
                 .child(id)
                 .child(itemTitle)
                 .child("Movies")
-        }.addValueEventListener(object : ValueEventListener {
-            override fun onDataChange(snapshot: DataSnapshot) {
-                user?.uid.let { it1 ->
-                    FirebaseDatabase.getInstance().reference
-                        .child("Lists")
-                        .child(it1.toString())
-                        .child("UserLists")
-                        .child(itemTitle)
-                        .setValue(itemTitle)
-                }
-                user?.uid.let { it1 ->
-                    FirebaseDatabase.getInstance().reference
-                        .child("Lists")
-                        .child(it1.toString())
-                        .child(itemTitle)
-                        .child("IsOpened")
-                        .setValue(false)
-                }
-                for (snap in snapshot.children) {
-                    val result = snap.getValue(SimpleResult::class.java)
+        }.addValueEventListener(
+            object : ValueEventListener {
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    user?.uid.let { it1 ->
+                        FirebaseDatabase.getInstance().reference
+                            .child("Lists")
+                            .child(it1.toString())
+                            .child("UserLists")
+                            .child(itemTitle)
+                            .setValue(itemTitle)
+                    }
                     user?.uid.let { it1 ->
                         FirebaseDatabase.getInstance().reference
                             .child("Lists")
                             .child(it1.toString())
                             .child(itemTitle)
-                            .child("Movies")
-                            .child(snap.key.toString())
-                            .setValue(result)
+                            .child("IsOpened")
+                            .setValue(false)
+                    }
+                    for (snap in snapshot.children) {
+                        val result = snap.getValue(SimpleResult::class.java)
+                        user?.uid.let { it1 ->
+                            FirebaseDatabase.getInstance().reference
+                                .child("Lists")
+                                .child(it1.toString())
+                                .child(itemTitle)
+                                .child("Movies")
+                                .child(snap.key.toString())
+                                .setValue(result)
+                        }
                     }
                 }
-            }
 
-            override fun onCancelled(error: DatabaseError) {}
-        })
+                override fun onCancelled(error: DatabaseError) {}
+            }
+        )
     }
 
     private fun deleteList(itemTitle: String) {

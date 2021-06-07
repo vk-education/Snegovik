@@ -2,7 +2,10 @@ package com.kinotech.kinotechappv1.ui.lists
 
 import android.os.Bundle
 import android.util.Log
-import android.view.*
+import android.view.LayoutInflater
+import android.view.MenuItem
+import android.view.View
+import android.view.ViewGroup
 import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
@@ -16,7 +19,11 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
-import com.google.firebase.database.*
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.Query
+import com.google.firebase.database.ValueEventListener
 import com.kinotech.kinotechappv1.R
 import com.kinotech.kinotechappv1.ui.search.SimpleResult
 
@@ -50,29 +57,30 @@ class ListOfMovieFragment(private val listTitleDB: String) : Fragment() {
                 .child(listTitleDB)
                 .child("Movies")
         }
-        listedMoviesRef.addValueEventListener(object : ValueEventListener {
-            override fun onDataChange(snapshot: DataSnapshot) {
-
-                for (snap in snapshot.children) {
-                    try {
-                        snap.getValue(SimpleResult::class.java)?.let { result.add(it) }
-                    } catch (e: Exception) {
-                        Log.d("dataFavourite", "onDataChange: $e")
-                        Toast.makeText(context, "Error $e", Toast.LENGTH_LONG).show()
+        listedMoviesRef.addValueEventListener(
+            object : ValueEventListener {
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    for (snap in snapshot.children) {
+                        try {
+                            snap.getValue(SimpleResult::class.java)?.let { result.add(it) }
+                        } catch (e: Exception) {
+                            Log.d("dataFavourite", "onDataChange: $e")
+                            Toast.makeText(context, "Error $e", Toast.LENGTH_LONG).show()
+                        }
                     }
+                    recyclerView.apply {
+                        setHasFixedSize(true)
+                        layoutManager = LinearLayoutManager(context)
+                        adapter = MovieListAdapter(result, context, listTitleDB)
+                    }
+                    Log.d("dataFavourite", "onDataChange: $result")
                 }
-                recyclerView.apply {
-                    setHasFixedSize(true)
-                    layoutManager = LinearLayoutManager(context)
-                    adapter = MovieListAdapter(result, context, listTitleDB)
-                }
-                Log.d("dataFavourite", "onDataChange: $result")
-            }
 
-            override fun onCancelled(error: DatabaseError) {
-                Log.d("error", "onCancelled: $error")
+                override fun onCancelled(error: DatabaseError) {
+                    Log.d("error", "onCancelled: $error")
+                }
             }
-        })
+        )
 
         btnBack.setOnClickListener {
             val listsFrag = ListsFragment()
@@ -90,33 +98,35 @@ class ListOfMovieFragment(private val listTitleDB: String) : Fragment() {
                 .child(listTitleDB)
         }
 
-        listOpenStatusRef.addValueEventListener(object : ValueEventListener {
-            override fun onDataChange(snapshot: DataSnapshot) {
-                if (snapshot.child("IsOpened").value == true) {
-                    Log.d("openStatus", "onDataChange: ${itemTitle?.title}")
-                    itemTitle?.title = getString(R.string.close_list)
-                    Log.d("openStatus", "onDataChange: ${itemTitle?.title}")
-                } else {
-                    itemTitle?.title = getString(R.string.open_list)
-                }
-                higherDots.setOnClickListener {
-                    popupMenu?.setOnMenuItemClickListener { item ->
-                        when (item.itemId) {
-                            R.id.item_open ->
-                                setOpenList(item)
-                            R.id.item_delete ->
-                                deleteList()
-                        }
-                        true
+        listOpenStatusRef.addValueEventListener(
+            object : ValueEventListener {
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    if (snapshot.child("IsOpened").value == true) {
+                        Log.d("openStatus", "onDataChange: ${itemTitle?.title}")
+                        itemTitle?.title = getString(R.string.close_list)
+                        Log.d("openStatus", "onDataChange: ${itemTitle?.title}")
+                    } else {
+                        itemTitle?.title = getString(R.string.open_list)
                     }
-                    popupMenu?.show()
+                    higherDots.setOnClickListener {
+                        popupMenu?.setOnMenuItemClickListener { item ->
+                            when (item.itemId) {
+                                R.id.item_open ->
+                                    setOpenList(item)
+                                R.id.item_delete ->
+                                    deleteList()
+                            }
+                            true
+                        }
+                        popupMenu?.show()
+                    }
+                }
+
+                override fun onCancelled(error: DatabaseError) {
+                    Log.d("error", "onCancelled: $error")
                 }
             }
-
-            override fun onCancelled(error: DatabaseError) {
-                Log.d("error", "onCancelled: $error")
-            }
-        })
+        )
         return root
     }
 
@@ -144,40 +154,43 @@ class ListOfMovieFragment(private val listTitleDB: String) : Fragment() {
                     .child(it1.toString())
                     .child(listTitleDB)
                     .child("Movies")
-            }.addValueEventListener(object : ValueEventListener {
-                override fun onDataChange(snapshot: DataSnapshot) {
-                    if (snapshot.childrenCount >= 3) {
-                        for (snap in snapshot.children) {
-                            films.add(snap.key.toString())
-                        }
-                        user?.uid.let { it1 ->
-                            FirebaseDatabase.getInstance().reference
-                                .child("Users")
-                                .child(it1.toString())
-                        }.addValueEventListener(object : ValueEventListener {
-                            override fun onDataChange(snapshot: DataSnapshot) {
-                                userInfo["uid"] = snapshot.child("uid").value
-                                userInfo["fullName"] = snapshot.child("fullName").value
-                                userInfo["photo"] = snapshot.child("photo").value
-                                userInfo["actionDoneText"] = listTitleDB
-                                userInfo["films"] = films
-                                user?.uid.let { it1 ->
-                                    FirebaseDatabase.getInstance().reference
-                                        .child("Posts")
-                                        .child(it1.toString())
-                                        .child(listTitleDB)
-                                        .setValue(userInfo)
-                                }
+            }.addValueEventListener(
+                object : ValueEventListener {
+                    override fun onDataChange(snapshot: DataSnapshot) {
+                        if (snapshot.childrenCount >= 3) {
+                            for (snap in snapshot.children) {
+                                films.add(snap.key.toString())
                             }
+                            user?.uid.let { it1 ->
+                                FirebaseDatabase.getInstance().reference
+                                    .child("Users")
+                                    .child(it1.toString())
+                            }.addValueEventListener(
+                                object : ValueEventListener {
+                                    override fun onDataChange(snapshot: DataSnapshot) {
+                                        userInfo["uid"] = snapshot.child("uid").value
+                                        userInfo["fullName"] = snapshot.child("fullName").value
+                                        userInfo["photo"] = snapshot.child("photo").value
+                                        userInfo["actionDoneText"] = listTitleDB
+                                        userInfo["films"] = films
+                                        user?.uid.let { it1 ->
+                                            FirebaseDatabase.getInstance().reference
+                                                .child("Posts")
+                                                .child(it1.toString())
+                                                .child(listTitleDB)
+                                                .setValue(userInfo)
+                                        }
+                                    }
 
-                            override fun onCancelled(error: DatabaseError) {}
-                        })
+                                    override fun onCancelled(error: DatabaseError) {}
+                                }
+                            )
+                        }
                     }
+
+                    override fun onCancelled(error: DatabaseError) {}
                 }
-
-                override fun onCancelled(error: DatabaseError) {}
-            })
-
+            )
         } else {
             Toast.makeText(
                 context,
@@ -204,7 +217,9 @@ class ListOfMovieFragment(private val listTitleDB: String) : Fragment() {
 
     private fun deleteList() {
         Toast.makeText(
-            context, "Список удален", Toast.LENGTH_SHORT
+            context,
+            "Список удален",
+            Toast.LENGTH_SHORT
         ).show()
         user?.uid.let { it1 ->
             FirebaseDatabase.getInstance().reference
@@ -245,44 +260,43 @@ class ListOfMovieFragment(private val listTitleDB: String) : Fragment() {
                 .child(listTitleDB)
                 .child("Movies")
         }
-        listedMoviesRef.addValueEventListener(object : ValueEventListener {
-            override fun onDataChange(snapshot: DataSnapshot) {
-                if (snapshot.childrenCount.toInt() == 0) {
-                    Glide
-                        .with(v.context)
-                        .load(defaultPhoto)
-                        .error(R.drawable.ic_baseline_movie_creation_24)
-                        .into(img)
-                } else {
-                    val queryUid: Query = listedMoviesRef.orderByKey().limitToFirst(1)
-                    queryUid.addValueEventListener(object : ValueEventListener {
-                        override fun onDataChange(snapshot: DataSnapshot) {
-                            for (snap in snapshot.children) {
-                                try {
-                                    val result = snap.getValue(SimpleResult::class.java)!!
-                                    val imgList: String = result.posterUrlPreview
-                                    Log.d(
-                                        "dbImg",
-                                        "onDataChange3:${snapshot.childrenCount.toInt()} "
-                                    )
-                                    Glide
-                                        .with(v.context)
-                                        .load(imgList)
-                                        .error(R.drawable.ic_baseline_movie_creation_24)
-                                        .into(img)
-
-                                } catch (e: Exception) {
-                                    Log.d("dataFavourite", "onDataChange: $e")
+        listedMoviesRef.addValueEventListener(
+            object : ValueEventListener {
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    if (snapshot.childrenCount.toInt() == 0) {
+                        Glide
+                            .with(v.context)
+                            .load(defaultPhoto)
+                            .error(R.drawable.ic_baseline_movie_creation_24)
+                            .into(img)
+                    } else {
+                        val queryUid: Query = listedMoviesRef.orderByKey().limitToFirst(1)
+                        queryUid.addValueEventListener(
+                            object : ValueEventListener {
+                                override fun onDataChange(snapshot: DataSnapshot) {
+                                    for (snap in snapshot.children) {
+                                        try {
+                                            val result = snap.getValue(SimpleResult::class.java)!!
+                                            val imgList: String = result.posterUrlPreview
+                                            Glide
+                                                .with(v.context)
+                                                .load(imgList)
+                                                .error(R.drawable.ic_baseline_movie_creation_24)
+                                                .into(img)
+                                        } catch (e: Exception) {
+                                            Log.d("dataFavourite", "onDataChange: $e")
+                                        }
+                                    }
                                 }
+
+                                override fun onCancelled(error: DatabaseError) {}
                             }
-                        }
-
-                        override fun onCancelled(error: DatabaseError) {}
-                    })
+                        )
+                    }
                 }
-            }
 
-            override fun onCancelled(error: DatabaseError) {}
-        })
+                override fun onCancelled(error: DatabaseError) {}
+            }
+        )
     }
 }

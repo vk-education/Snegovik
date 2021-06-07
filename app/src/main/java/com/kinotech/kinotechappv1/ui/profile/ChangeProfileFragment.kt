@@ -2,6 +2,7 @@ package com.kinotech.kinotechappv1.ui.profile
 
 import android.Manifest
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
@@ -26,7 +27,7 @@ import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 import com.kinotech.kinotechappv1.R
 import com.kinotech.kinotechappv1.databinding.ChangeProfileBinding
-import java.util.*
+import java.util.Locale
 import kotlin.collections.HashMap
 
 class ChangeProfileFragment : Fragment() {
@@ -61,13 +62,12 @@ class ChangeProfileFragment : Fragment() {
             checker = "clicked"
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                 if (context?.let { it1 ->
-                        PermissionChecker.checkSelfPermission(
+                    PermissionChecker.checkSelfPermission(
                             it1,
                             Manifest.permission.READ_EXTERNAL_STORAGE
                         )
-                    } ==
-                    PackageManager.PERMISSION_DENIED) {
-
+                } == PackageManager.PERMISSION_DENIED
+                ) {
                     val permissions = arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE)
                     requestPermissions(permissions, PERMISSION_CODE)
                 } else {
@@ -93,23 +93,31 @@ class ChangeProfileFragment : Fragment() {
         }
         return binding.root
     }
+    private fun cErr(v: Context) {
+        PermissionChecker.checkSelfPermission(
+            v,
+            Manifest.permission.READ_EXTERNAL_STORAGE
+        )
+    }
 
     private fun userInfo(nickName: TextView, v: View, img: ImageView) {
         val usersRef = user?.uid?.let {
             FirebaseDatabase.getInstance().reference
                 .child("Users").child(it)
         }
-        usersRef?.addValueEventListener(object : ValueEventListener {
-            override fun onDataChange(p0: DataSnapshot) {
-                nickName.text = p0.child("fullName").value.toString()
-                Glide
-                    .with(v.context)
-                    .load(p0.child("photo").value.toString())
-                    .into(img)
-            }
+        usersRef?.addValueEventListener(
+            object : ValueEventListener {
+                override fun onDataChange(p0: DataSnapshot) {
+                    nickName.text = p0.child("fullName").value.toString()
+                    Glide
+                        .with(v.context)
+                        .load(p0.child("photo").value.toString())
+                        .into(img)
+                }
 
-            override fun onCancelled(error: DatabaseError) {}
-        })
+                override fun onCancelled(error: DatabaseError) {}
+            }
+        )
     }
 
     private fun updateUserInfoOnly() {

@@ -32,36 +32,40 @@ class SubscribersFragment : Fragment() {
                 .child("Follow")
                 .child(it1.toString())
                 .child("Followers")
-        }.addValueEventListener(object : ValueEventListener {
-            override fun onDataChange(snapshot: DataSnapshot) {
-                result.clear()
-                for (snap in snapshot.children) {
-                    user?.uid.let {
-                        FirebaseDatabase.getInstance().reference
-                            .child("Users")
-                            .child(snap.value.toString())
-                    }.addValueEventListener(object : ValueEventListener {
-                        override fun onDataChange(snaps: DataSnapshot) {
-                            snaps.getValue(SubsInfo::class.java)?.let { result.add(it) }
-                            Log.d(
-                                "snapInfo",
-                                "onDataChange: ${snaps.getValue(SubsInfo::class.java)}"
-                            )
-                            binding.subscribersRV.apply {
-                                setHasFixedSize(true)
-                                layoutManager = LinearLayoutManager(context)
-                                adapter = SubscribersAdapter(result)
+        }.addValueEventListener(
+            object : ValueEventListener {
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    result.clear()
+                    for (snap in snapshot.children) {
+                        user?.uid.let {
+                            FirebaseDatabase.getInstance().reference
+                                .child("Users")
+                                .child(snap.value.toString())
+                        }.addValueEventListener(
+                            object : ValueEventListener {
+                                override fun onDataChange(snaps: DataSnapshot) {
+                                    snaps.getValue(SubsInfo::class.java)?.let { result.add(it) }
+                                    Log.d(
+                                        "snapInfo",
+                                        "onDataChange: ${snaps.getValue(SubsInfo::class.java)}"
+                                    )
+                                    binding.subscribersRV.apply {
+                                        setHasFixedSize(true)
+                                        layoutManager = LinearLayoutManager(context)
+                                        adapter = SubscribersAdapter(result)
+                                    }
+                                }
+
+                                override fun onCancelled(error: DatabaseError) {}
                             }
-                        }
-
-                        override fun onCancelled(error: DatabaseError) {}
-                    })
-                    Log.d("followerList", "onDataChange: $result")
+                        )
+                        Log.d("followerList", "onDataChange: $result")
+                    }
                 }
-            }
 
-            override fun onCancelled(error: DatabaseError) {}
-        })
+                override fun onCancelled(error: DatabaseError) {}
+            }
+        )
         return binding.root
     }
 }

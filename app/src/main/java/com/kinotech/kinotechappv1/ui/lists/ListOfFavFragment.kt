@@ -2,7 +2,9 @@ package com.kinotech.kinotechappv1.ui.lists
 
 import android.os.Bundle
 import android.util.Log
-import android.view.*
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import android.widget.ImageButton
 import android.widget.TextView
 import android.widget.Toast
@@ -48,28 +50,30 @@ class ListOfFavFragment : Fragment() {
                 .child(it1.toString())
                 .child("Movies")
         }
-        likedMoviesRef.addValueEventListener(object : ValueEventListener {
-            override fun onDataChange(snapshot: DataSnapshot) {
-                for (snap in snapshot.children) {
-                    try {
-                        snap.getValue(SimpleResult::class.java)?.let { result.add(it) }
-                    } catch (e: Exception) {
-                        Log.d("dataFavourite", "onDataChange: $e")
-                        Toast.makeText(context, "Error $e", Toast.LENGTH_LONG).show()
+        likedMoviesRef.addValueEventListener(
+            object : ValueEventListener {
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    for (snap in snapshot.children) {
+                        try {
+                            snap.getValue(SimpleResult::class.java)?.let { result.add(it) }
+                        } catch (e: Exception) {
+                            Log.d("dataFavourite", "onDataChange: $e")
+                            Toast.makeText(context, "Error $e", Toast.LENGTH_LONG).show()
+                        }
                     }
+                    recyclerView.apply {
+                        setHasFixedSize(true)
+                        layoutManager = LinearLayoutManager(context)
+                        adapter = MovieFavAdapter(result, context)
+                    }
+                    Log.d("dataFavourite", "onDataChange: $result")
                 }
-                recyclerView.apply {
-                    setHasFixedSize(true)
-                    layoutManager = LinearLayoutManager(context)
-                    adapter = MovieFavAdapter(result, context)
-                }
-                Log.d("dataFavourite", "onDataChange: $result")
-            }
 
-            override fun onCancelled(error: DatabaseError) {
-                Log.d("error", "onCancelled: $error")
+                override fun onCancelled(error: DatabaseError) {
+                    Log.d("error", "onCancelled: $error")
+                }
             }
-        })
+        )
         btnBack.setOnClickListener {
             val listsFrag = ListsFragment()
             activity.supportFragmentManager.beginTransaction()

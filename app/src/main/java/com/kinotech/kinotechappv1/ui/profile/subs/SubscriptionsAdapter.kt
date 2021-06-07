@@ -17,7 +17,7 @@ import com.kinotech.kinotechappv1.R
 import com.kinotech.kinotechappv1.databinding.SubscriptionItemBinding
 import com.kinotech.kinotechappv1.ui.profile.FriendProfileFragment
 import com.kinotech.kinotechappv1.ui.profile.SubsInfo
-import java.util.*
+import java.util.Locale
 
 class SubscriptionsAdapter(
     private val subscription: ArrayList<SubsInfo>
@@ -25,7 +25,9 @@ class SubscriptionsAdapter(
     RecyclerView.Adapter<SubscriptionsViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SubscriptionsViewHolder {
         val binding = SubscriptionItemBinding.inflate(
-            LayoutInflater.from(parent.context), parent, false
+            LayoutInflater.from(parent.context),
+            parent,
+            false
         )
         return SubscriptionsViewHolder(binding, subscription)
     }
@@ -87,9 +89,7 @@ class SubscriptionsViewHolder(
                                                 if (task.isSuccessful) {
                                                     Log.i("follow", "Подписан")
                                                 }
-
                                             }
-
                                     }
                                 }
                             }
@@ -130,18 +130,20 @@ class SubscriptionsViewHolder(
                 .child("Following")
         }
 
-        followingRef.addValueEventListener(object : ValueEventListener {
-            override fun onDataChange(snapshot: DataSnapshot) {
-                if (snapshot.child(uid).exists()) {
-                    likeProfile.setImageResource(R.drawable.ic_liked_40)
-                    likeProfile.tag = "liked"
-                } else {
-                    likeProfile.setImageResource(R.drawable.ic_like_40dp)
-                    likeProfile.tag = "not liked"
+        followingRef.addValueEventListener(
+            object : ValueEventListener {
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    if (snapshot.child(uid).exists()) {
+                        likeProfile.setImageResource(R.drawable.ic_liked_40)
+                        likeProfile.tag = "liked"
+                    } else {
+                        likeProfile.setImageResource(R.drawable.ic_like_40dp)
+                        likeProfile.tag = "not liked"
+                    }
                 }
-            }
 
-            override fun onCancelled(error: DatabaseError) {}
-        })
+                override fun onCancelled(error: DatabaseError) {}
+            }
+        )
     }
 }
