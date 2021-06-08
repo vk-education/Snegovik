@@ -22,6 +22,7 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
+import java.io.IOException
 import java.util.Locale
 import kotlin.collections.HashMap
 
@@ -101,7 +102,7 @@ class AuthActivity : AppCompatActivity() {
                 val intent = Intent(this, MainActivity::class.java)
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
                 startActivity(intent)
-            } catch (e: RuntimeException) {
+            } catch (e: IOException) {
                 Log.w("TAG", "Google sign in failed $e")
             }
         }
