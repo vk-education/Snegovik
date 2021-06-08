@@ -215,7 +215,6 @@ class FilmPageFragment(movie: SimpleResult, s: String, mode: Int) : Fragment() {
         }
     }
 
-
     private suspend fun setDescriptionRating(
         movieView: View,
         ratingKP: String,
