@@ -249,7 +249,7 @@ class FilmPageFragment(movie: SimpleResult, s: String, mode: Int) : Fragment() {
             countries.country
         }
         val yearCountry: String = arrayListOf(movieInfo.year, countries).joinToString(", ")
-        Log.d("count", "near setting")
+        Log.d("count", "near setting2")
         Glide.with(movieView.context).load(movieInfo.posterUrlPreview).into(filmPhoto)
         filmTitle.text = movieInfo.nameRu
         filmYearCountry.text = yearCountry
