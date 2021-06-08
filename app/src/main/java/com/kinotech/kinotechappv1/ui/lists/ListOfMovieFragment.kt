@@ -132,6 +132,7 @@ class ListOfMovieFragment(private val listTitleDB: String) : Fragment() {
     }
 
     private fun setOpenList(item: MenuItem?) {
+        val three = context?.resources?.getInteger(R.integer.three)
         if (item?.title == getString(R.string.open_list)) {
             Toast.makeText(
                 context,
@@ -158,7 +159,7 @@ class ListOfMovieFragment(private val listTitleDB: String) : Fragment() {
             }.addValueEventListener(
                 object : ValueEventListener {
                     override fun onDataChange(snapshot: DataSnapshot) {
-                        if (snapshot.childrenCount >= 3) {
+                        if (snapshot.childrenCount >= three!!) {
                             for (snap in snapshot.children) {
                                 films.add(snap.key.toString())
                             }

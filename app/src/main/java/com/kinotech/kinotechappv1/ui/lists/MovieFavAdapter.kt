@@ -30,10 +30,11 @@ class MovieFavAdapter(
 ) :
     RecyclerView.Adapter<MovieFavAdapter.MyViewHolder>() {
     private var mInflater: LayoutInflater = LayoutInflater.from(context)
+    private val mode = context.resources.getInteger(R.integer.three)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
         val view = mInflater.inflate(R.layout.list_fav_menu_film, parent, false)
-        return MyViewHolder(view, mData)
+        return MyViewHolder(view, mData, mode)
     }
 
     override fun getItemCount(): Int {
@@ -44,7 +45,8 @@ class MovieFavAdapter(
         return holder.bind(mData[position])
     }
 
-    class MyViewHolder(itemView: View, private val mData: ArrayList<SimpleResult>) :
+    class MyViewHolder(itemView: View, private val mData: ArrayList<SimpleResult>,
+                       private val mode: Int) :
         RecyclerView.ViewHolder(itemView) {
 
         private val filmPhoto: ImageView = itemView.findViewById(R.id.lmFilmPoster)
@@ -73,7 +75,7 @@ class MovieFavAdapter(
             itemView.setOnClickListener {
                 val activity: AppCompatActivity = itemView.context as AppCompatActivity
                 val transaction = activity.supportFragmentManager.beginTransaction()
-                transaction.replace(R.id.container, FilmPageFragment(movie, movie.nameRu, 3))
+                transaction.replace(R.id.container, FilmPageFragment(movie, movie.nameRu, mode))
                 transaction.addToBackStack(null)
                 transaction.commit()
             }

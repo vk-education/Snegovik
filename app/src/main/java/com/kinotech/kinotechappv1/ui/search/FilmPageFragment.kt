@@ -91,11 +91,12 @@ class FilmPageFragment(movie: SimpleResult, s: String, mode: Int) : Fragment() {
                     actionId: Int,
                     event: KeyEvent?
                 ): Boolean {
+                    val ten = context?.resources?.getInteger(R.integer.ten)
                     if (event == null) {
                         return if (actionId == EditorInfo.IME_ACTION_DONE) {
                             Log.d("rating", "${v?.text} ")
-                            if (v?.text.toString().toInt() > 10) {
-                                v?.text = 10.toString()
+                            if (v?.text.toString().toInt() > ten!!) {
+                                v?.text = ten.toString()
                             }
                             user?.uid.let { it1 ->
                                 FirebaseDatabase.getInstance().reference
@@ -193,19 +194,36 @@ class FilmPageFragment(movie: SimpleResult, s: String, mode: Int) : Fragment() {
     ) {
         var directorsCount = 0
         var actorsCount = 0
+        val four = context?.resources?.getInteger(R.integer.four)
         for (item in staff) {
-            if (item.professionKey == "DIRECTOR") {
-                directorsCount++
-                if (directorsCount == 4)
-                    continue
-                directors.add(item.nameRu)
-            } else if (item.professionKey == "ACTOR") {
-                actorsCount++
-                if (actorsCount == 4)
-                    break
-                actors.add(item.nameRu)
+            when (item.professionKey) {
+                "DIRECTOR" -> {
+                    directorsCount++
+                    if (directorsCount == four)
+                        continue
+                    directors.add(item.nameRu)
+                }
+                "ACTOR" -> {
+                    actorsCount++
+                    if (actorsCount == four)
+                        break
+                    actors.add(item.nameRu)
+                }
             }
         }
+//        for (item in staff) {
+//            if (item.professionKey == "DIRECTOR") {
+//                directorsCount++
+//                if (directorsCount == four)
+//                    continue
+//                directors.add(item.nameRu)
+//            } else if (item.professionKey == "ACTOR") {
+//                actorsCount++
+//                if (actorsCount == four)
+//                    break
+//                actors.add(item.nameRu)
+//            }
+//        }
     }
 
     private suspend fun setDescriptionRating(

@@ -3,6 +3,7 @@ package com.kinotech.kinotechappv1.ui.search
 import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
+import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -28,7 +29,9 @@ class SearchFragment : Fragment() {
         val closeBtn: ImageView =
             searchView.findViewById(R.id.search_close_btn)
         val submitBtn: AppCompatButton = root.findViewById(R.id.find_button)
-        val textSizeF = 16F
+        val outValue = TypedValue()
+        context?.resources?.getValue(R.dimen.sixteen, outValue, true)
+        val textSizeF = outValue.float
         val activity: AppCompatActivity = root.context as AppCompatActivity
         val toolbar: ActionBar = activity.supportActionBar!!
         toolbar.hide()
