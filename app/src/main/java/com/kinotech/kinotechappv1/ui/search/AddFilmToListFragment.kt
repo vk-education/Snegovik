@@ -18,6 +18,7 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.kinotech.kinotechappv1.R
 import com.kinotech.kinotechappv1.ui.lists.AnyItemInAdapterList
+import java.io.IOException
 
 class AddFilmToListFragment(
     private val movie: SimpleResult
@@ -73,7 +74,7 @@ class AddFilmToListFragment(
                                         )
                                     }
                                 }
-                        } catch (e: RuntimeException) {
+                        } catch (e: IOException) {
                             Log.d("error", "onDataChange: $e")
                             Toast.makeText(context, "Error $e", Toast.LENGTH_LONG)
                                 .show()

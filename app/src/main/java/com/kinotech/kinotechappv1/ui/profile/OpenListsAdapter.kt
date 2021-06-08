@@ -21,6 +21,7 @@ import com.kinotech.kinotechappv1.R
 import com.kinotech.kinotechappv1.ui.lists.AnyItemInAdapterList
 import com.kinotech.kinotechappv1.ui.lists.ListOfMovieFragment
 import com.kinotech.kinotechappv1.ui.search.SimpleResult
+import java.io.IOException
 
 class OpenListsAdapter(
     private val mData: ArrayList<AnyItemInAdapterList.ButtonShowList>,
@@ -99,7 +100,7 @@ class OpenListsAdapter(
                                     .load(imgList)
                                     .error(R.drawable.ic_baseline_movie_creation_24)
                                     .into(imgListH)
-                            } catch (e: RuntimeException) {
+                            } catch (e: IOException) {
                                 Log.d("dataFavourite", "onDataChange: $e")
                             }
                         }
