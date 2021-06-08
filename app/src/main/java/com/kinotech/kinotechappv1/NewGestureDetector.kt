@@ -16,7 +16,7 @@ class NewGestureDetector(
         velocityX: Float,
         velocityY: Float
     ): Boolean {
-        val sensitivity = 50
+        val sensitivity = context.resources.getInteger(R.integer.sensitivity)
         if ((e1.x - e2.x) > sensitivity) {
             swipeLeft()
         } else if ((e2.x - e1.x) > sensitivity) {

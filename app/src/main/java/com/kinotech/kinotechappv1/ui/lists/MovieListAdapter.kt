@@ -61,6 +61,7 @@ class MovieListAdapter(
         private val higherDots: ImageView = itemView.findViewById(R.id.lmMenu)
         private var user: FirebaseUser? = FirebaseAuth.getInstance().currentUser
         private val popupMenu: PopupMenu = PopupMenu(context, higherDots)
+        private val mode = context.resources.getInteger(R.integer.three)
         fun bind(movie: SimpleResult) {
             Log.d("dataFavourite", "bind: ${movie.nameRu}")
             val options = RequestOptions()
@@ -101,7 +102,7 @@ class MovieListAdapter(
             itemView.setOnClickListener {
                 val activity: AppCompatActivity = itemView.context as AppCompatActivity
                 val transaction = activity.supportFragmentManager.beginTransaction()
-                transaction.replace(R.id.container, FilmPageFragment(movie, movie.nameRu, 3))
+                transaction.replace(R.id.container, FilmPageFragment(movie, movie.nameRu, mode))
                 transaction.addToBackStack(null)
                 transaction.commit()
             }
