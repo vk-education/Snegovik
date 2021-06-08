@@ -63,7 +63,7 @@ class ListOfMovieFragment(private val listTitleDB: String) : Fragment() {
                     for (snap in snapshot.children) {
                         try {
                             snap.getValue(SimpleResult::class.java)?.let { result.add(it) }
-                        } catch (e: Exception) {
+                        } catch (e: RuntimeException) {
                             Log.d("dataFavourite", "onDataChange: $e")
                             Toast.makeText(context, "Error $e", Toast.LENGTH_LONG).show()
                         }
@@ -283,7 +283,7 @@ class ListOfMovieFragment(private val listTitleDB: String) : Fragment() {
                                                 .load(imgList)
                                                 .error(R.drawable.ic_baseline_movie_creation_24)
                                                 .into(img)
-                                        } catch (e: Exception) {
+                                        } catch (e: RuntimeException) {
                                             Log.d("dataFavourite", "onDataChange: $e")
                                         }
                                     }
