@@ -21,6 +21,7 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.kinotech.kinotechappv1.R
 import com.kinotech.kinotechappv1.ui.lists.CustomDialog.FullNameListener
+import java.io.IOException
 
 class ListsFragment : Fragment(), RecyclerAdapterLists.MyClickListener {
 
@@ -72,7 +73,7 @@ class ListsFragment : Fragment(), RecyclerAdapterLists.MyClickListener {
                                         )
                                     }
                                 }
-                        } catch (e: RuntimeException) {
+                        } catch (e: IOException) {
                             Log.d("error", "onDataChange: $e")
                             Toast.makeText(context, "Error $e", Toast.LENGTH_LONG)
                                 .show()

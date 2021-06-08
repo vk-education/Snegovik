@@ -20,6 +20,7 @@ import com.google.firebase.database.ValueEventListener
 import com.kinotech.kinotechappv1.R
 import com.kinotech.kinotechappv1.ui.lists.AnyItemInAdapterList
 import com.kinotech.kinotechappv1.ui.search.SimpleResult
+import java.io.IOException
 
 class OpenListsFriendsAdapter(
     private val mData: ArrayList<AnyItemInAdapterList.ButtonShowList>,
@@ -103,7 +104,7 @@ class OpenListsFriendsAdapter(
                                     .load(imgList)
                                     .error(R.drawable.ic_baseline_movie_creation_24)
                                     .into(imgListH)
-                            } catch (e: RuntimeException) {
+                            } catch (e: IOException) {
                                 Log.d("dataFavourite", "onDataChange: $e")
                             }
                         }

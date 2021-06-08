@@ -26,6 +26,7 @@ import com.google.firebase.database.Query
 import com.google.firebase.database.ValueEventListener
 import com.kinotech.kinotechappv1.R
 import com.kinotech.kinotechappv1.ui.search.SimpleResult
+import java.io.IOException
 
 class ListOfMovieFragment(private val listTitleDB: String) : Fragment() {
     private var user: FirebaseUser? = FirebaseAuth.getInstance().currentUser
@@ -63,7 +64,7 @@ class ListOfMovieFragment(private val listTitleDB: String) : Fragment() {
                     for (snap in snapshot.children) {
                         try {
                             snap.getValue(SimpleResult::class.java)?.let { result.add(it) }
-                        } catch (e: RuntimeException) {
+                        } catch (e: IOException) {
                             Log.d("dataFavourite", "onDataChange: $e")
                             Toast.makeText(context, "Error $e", Toast.LENGTH_LONG).show()
                         }
@@ -287,7 +288,7 @@ class ListOfMovieFragment(private val listTitleDB: String) : Fragment() {
                                                 .load(imgList)
                                                 .error(R.drawable.ic_baseline_movie_creation_24)
                                                 .into(img)
-                                        } catch (e: RuntimeException) {
+                                        } catch (e: IOException) {
                                             Log.d("dataFavourite", "onDataChange: $e")
                                         }
                                     }
