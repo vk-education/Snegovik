@@ -56,7 +56,7 @@ class ListOfFavFragment : Fragment() {
                     for (snap in snapshot.children) {
                         try {
                             snap.getValue(SimpleResult::class.java)?.let { result.add(it) }
-                        } catch (e: Exception) {
+                        } catch (e: RuntimeException) {
                             Log.d("dataFavourite", "onDataChange: $e")
                             Toast.makeText(context, "Error $e", Toast.LENGTH_LONG).show()
                         }

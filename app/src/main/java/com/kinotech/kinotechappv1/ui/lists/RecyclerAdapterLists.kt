@@ -22,7 +22,7 @@ import kotlin.reflect.KClass
 class RecyclerAdapterLists(val context: Context, private val clickListener: MyClickListener) :
     RecyclerView.Adapter<RecyclerAdapterLists.MyViewHolder>() {
 
-    private fun unreachable(): Nothing = throw Exception()
+    private fun unreachable(): Nothing = throw RuntimeException()
     private fun <E : Enum<E>> KClass<E>.enumValues(): Array<out E> =
         java.enumConstants ?: unreachable()
 
@@ -209,7 +209,7 @@ class RecyclerAdapterLists(val context: Context, private val clickListener: MyCl
                                         .load(imgList)
                                         .error(R.drawable.ic_baseline_movie_creation_24)
                                         .into(imgListH)
-                                } catch (e: Exception) {
+                                } catch (e: RuntimeException) {
                                     Log.d("dataFavourite", "onDataChange: $e")
                                 }
                             }

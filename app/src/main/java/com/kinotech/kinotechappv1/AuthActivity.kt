@@ -101,7 +101,7 @@ class AuthActivity : AppCompatActivity() {
                 val intent = Intent(this, MainActivity::class.java)
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
                 startActivity(intent)
-            } catch (e: Exception) {
+            } catch (e: RuntimeException) {
                 Log.w("TAG", "Google sign in failed $e")
             }
         }

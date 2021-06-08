@@ -101,7 +101,7 @@ class OpenListsAdapter(
                                     .load(imgList)
                                     .error(R.drawable.ic_baseline_movie_creation_24)
                                     .into(imgListH)
-                            } catch (e: Exception) {
+                            } catch (e: RuntimeException) {
                                 Log.d("dataFavourite", "onDataChange: $e")
                             }
                         }

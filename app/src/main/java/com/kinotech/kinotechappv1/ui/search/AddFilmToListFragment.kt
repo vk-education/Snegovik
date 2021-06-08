@@ -73,7 +73,7 @@ class AddFilmToListFragment(
                                         )
                                     }
                                 }
-                        } catch (e: Exception) {
+                        } catch (e: RuntimeException) {
                             Log.d("error", "onDataChange: $e")
                             Toast.makeText(context, "Error $e", Toast.LENGTH_LONG)
                                 .show()
