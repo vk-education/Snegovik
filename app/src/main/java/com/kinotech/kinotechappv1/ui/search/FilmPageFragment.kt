@@ -74,45 +74,7 @@ class FilmPageFragment(movie: SimpleResult, s: String, mode: Int) : Fragment() {
             }
         }
 
-        Log.d("count2", "movieId: $movieId")
-        lifecycleScope.launch {
-            viewModel.searchDescriptionRating(movieId)
-            viewModel.getDescriptionRatingResults().observe(
-                viewLifecycleOwner,
-                { descriptionRatingResults_t ->
-                    val description = descriptionRatingResults_t?.data?.description
-                    val ratingKP = descriptionRatingResults_t?.rating?.rating
-                    val ratingImdb = descriptionRatingResults_t?.rating?.ratingImdb
-                    lifecycleScope.launch {
-                        if (description != null) {
-                            setDescriptionRating(
-                                root,
-                                ratingKP.toString(),
-                                ratingImdb.toString(),
-                                description
-                            )
-                        }
-                    }
-                }
-            )
-
-            viewModel.searchStaff(movieId)
-            viewModel.getStaffResults().observe(
-                viewLifecycleOwner,
-                { staffT ->
-                    val directors = ArrayList<String>()
-                    val actors = ArrayList<String>()
-                    getStaff(staffT, directors, actors)
-                    lifecycleScope.launch {
-                        setStaff(root, directors, actors)
-                    }
-                    Log.d("count2", "$actors")
-                }
-            )
-        }
-        lifecycleScope.launch {
-            setMovieData(root)
-        }
+        getMovieInfo(viewModel, root)
         progressBar.visibility = View.GONE
         val likeButton: ImageButton = root.findViewById(R.id.likeFilm)
         val databaseAdder = DatabaseAdder()
@@ -156,6 +118,47 @@ class FilmPageFragment(movie: SimpleResult, s: String, mode: Int) : Fragment() {
             openListsAddFragment(listAddFragment)
         }
         return root
+    }
+
+    private fun getMovieInfo(viewModel: RequestViewModel, root: View) {
+        lifecycleScope.launch {
+            viewModel.searchDescriptionRating(movieId)
+            viewModel.getDescriptionRatingResults().observe(
+                viewLifecycleOwner,
+                { descriptionRatingResults_t ->
+                    val description = descriptionRatingResults_t?.data?.description
+                    val ratingKP = descriptionRatingResults_t?.rating?.rating
+                    val ratingImdb = descriptionRatingResults_t?.rating?.ratingImdb
+                    lifecycleScope.launch {
+                        if (description != null) {
+                            setDescriptionRating(
+                                root,
+                                ratingKP.toString(),
+                                ratingImdb.toString(),
+                                description
+                            )
+                        }
+                    }
+                }
+            )
+
+            viewModel.searchStaff(movieId)
+            viewModel.getStaffResults().observe(
+                viewLifecycleOwner,
+                { staffT ->
+                    val directors = ArrayList<String>()
+                    val actors = ArrayList<String>()
+                    getStaff(staffT, directors, actors)
+                    lifecycleScope.launch {
+                        setStaff(root, directors, actors)
+                    }
+                    Log.d("count2", "$actors")
+                }
+            )
+        }
+        lifecycleScope.launch {
+            setMovieData(root)
+        }
     }
 
     private fun checkRating(id: Int, editText: EditText) {
