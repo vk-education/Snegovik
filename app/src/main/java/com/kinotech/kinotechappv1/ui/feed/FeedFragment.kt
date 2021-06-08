@@ -55,13 +55,17 @@ class FeedFragment : Fragment() {
                                     }
                                 }
 
-                                override fun onCancelled(error: DatabaseError) {}
+                                override fun onCancelled(error: DatabaseError) {
+                                    Log.d("dbError", "$error")
+                                }
                             }
                         )
                     }
                 }
 
-                override fun onCancelled(error: DatabaseError) {}
+                override fun onCancelled(error: DatabaseError) {
+                    Log.d("dbError", "$error")
+                }
             }
         )
         binding.feedRV.apply {

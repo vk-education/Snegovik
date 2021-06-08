@@ -118,7 +118,9 @@ class ListsFragment : Fragment(), RecyclerAdapterLists.MyClickListener {
         when (item) {
             is AnyItemInAdapterList.ButtonCreateList -> {
                 val listener: FullNameListener = object : FullNameListener {
-                    override fun fullNameEntered(fullName: String) {}
+                    override fun fullNameEntered(fullName: String) {
+                        Log.d("fullName", fullName)
+                    }
                 }
                 val dialog = context?.let { CustomDialog(it, listener) }
                 dialog?.show()

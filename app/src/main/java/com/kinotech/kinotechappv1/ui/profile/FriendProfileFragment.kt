@@ -197,7 +197,9 @@ class FriendProfileFragment(private val subsInfo: SubsInfo) : Fragment() {
                     }
                 }
 
-                override fun onCancelled(error: DatabaseError) {}
+                override fun onCancelled(error: DatabaseError) {
+                    Log.d("dbError", "$error")
+                }
             }
         )
     }
@@ -244,68 +246,10 @@ class FriendProfileFragment(private val subsInfo: SubsInfo) : Fragment() {
                         .into(img)
                 }
 
-                override fun onCancelled(error: DatabaseError) {}
+                override fun onCancelled(error: DatabaseError) {
+                    Log.d("dbError", "$error")
+                }
             }
         )
     }
-
-//    private fun getSubscriptions(subscriptions: TextView) {
-//        subsInfo.uid.let { it1 ->
-//            FirebaseDatabase.getInstance().reference
-//                .child("Follow")
-//                .child(it1)
-//                .child("Following")
-//        }.addValueEventListener(
-//            object : ValueEventListener {
-//                override fun onDataChange(snapshot: DataSnapshot) {
-//                    ((snapshot.childrenCount).toString() + "\nподписки").also {
-//                        subscriptions.text = it
-//                    }
-//                }
-//
-//                override fun onCancelled(error: DatabaseError) {}
-//            }
-//        )
-//    }
-
-//    private fun getSubscribers(subscribers: TextView) {
-//        subsInfo.uid.let { it1 ->
-//            FirebaseDatabase.getInstance().reference
-//                .child("Follow")
-//                .child(it1)
-//                .child("Followers")
-//        }.addValueEventListener(
-//            object : ValueEventListener {
-//                override fun onDataChange(snapshot: DataSnapshot) {
-//                    ((snapshot.childrenCount).toString() + "\nподписчики").also {
-//                        subscribers.text = it
-//                    }
-//                }
-//
-//                override fun onCancelled(error: DatabaseError) {}
-//            }
-//        )
-//    }
-
-//    private fun getListsCount(lists: TextView) {
-//        subsInfo.uid.let { it1 ->
-//            FirebaseDatabase.getInstance().reference
-//                .child("Lists")
-//                .child(it1)
-//        }.addValueEventListener(
-//            object : ValueEventListener {
-//                override fun onDataChange(snapshot: DataSnapshot) {
-//                    if (snapshot.childrenCount - 1 < 0) {
-//                        (snapshot.childrenCount.toString() + "\nсписки").also { lists.text = it }
-//                    } else {
-//                        ((snapshot.childrenCount - 1).toString() + "\nсписки").also {
-//                            lists.text = it
-//                        }
-//                    }
-//                }
-//
-//                override fun onCancelled(error: DatabaseError) {}
-//            }
-//        )
-//    }
 }

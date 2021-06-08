@@ -153,6 +153,7 @@ class SubscribersAdapter(
                     }
 
                     override fun onCancelled(error: DatabaseError) {
+                        Log.d("dbError", "$error")
                     }
                 }
             )

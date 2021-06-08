@@ -179,7 +179,9 @@ class FilmPageFragment(movie: SimpleResult, s: String, mode: Int) : Fragment() {
                     }
                 }
 
-                override fun onCancelled(error: DatabaseError) {}
+                override fun onCancelled(error: DatabaseError) {
+                    Log.d("dbError", "$error")
+                }
             }
         )
     }

@@ -128,7 +128,9 @@ class MovieListAdapter(
                         }
                     }
 
-                    override fun onCancelled(error: DatabaseError) {}
+                    override fun onCancelled(error: DatabaseError) {
+                        Log.d("dbError", "$error")
+                    }
                 }
             )
         }

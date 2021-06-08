@@ -56,14 +56,18 @@ class SubscribersFragment : Fragment() {
                                     }
                                 }
 
-                                override fun onCancelled(error: DatabaseError) {}
+                                override fun onCancelled(error: DatabaseError) {
+                                    Log.d("dbError", "$error")
+                                }
                             }
                         )
                         Log.d("followerList", "onDataChange: $result")
                     }
                 }
 
-                override fun onCancelled(error: DatabaseError) {}
+                override fun onCancelled(error: DatabaseError) {
+                    Log.d("dbError", "$error")
+                }
             }
         )
         return binding.root

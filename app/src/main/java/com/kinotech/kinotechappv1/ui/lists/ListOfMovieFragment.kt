@@ -182,13 +182,17 @@ class ListOfMovieFragment(private val listTitleDB: String) : Fragment() {
                                         }
                                     }
 
-                                    override fun onCancelled(error: DatabaseError) {}
+                                    override fun onCancelled(error: DatabaseError) {
+                                        Log.d("dbError", "$error")
+                                    }
                                 }
                             )
                         }
                     }
 
-                    override fun onCancelled(error: DatabaseError) {}
+                    override fun onCancelled(error: DatabaseError) {
+                        Log.d("dbError", "$error")
+                    }
                 }
             )
         } else {
@@ -289,13 +293,17 @@ class ListOfMovieFragment(private val listTitleDB: String) : Fragment() {
                                     }
                                 }
 
-                                override fun onCancelled(error: DatabaseError) {}
+                                override fun onCancelled(error: DatabaseError) {
+                                    Log.d("dbError", "$error")
+                                }
                             }
                         )
                     }
                 }
 
-                override fun onCancelled(error: DatabaseError) {}
+                override fun onCancelled(error: DatabaseError) {
+                    Log.d("dbError", "$error")
+                }
             }
         )
     }

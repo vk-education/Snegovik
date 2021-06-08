@@ -126,7 +126,9 @@ class RecyclerAdapterLists(val context: Context, private val clickListener: MyCl
                             Log.d("dataFavourite", "onDataChange: ${filmCount.text} ")
                         }
 
-                        override fun onCancelled(error: DatabaseError) {}
+                        override fun onCancelled(error: DatabaseError) {
+                            Log.d("dbError", "$error")
+                        }
                     }
                 )
                 itemTitle.text = (lists as AnyItemInAdapterList.ButtonFavList).itemTitle
@@ -178,7 +180,9 @@ class RecyclerAdapterLists(val context: Context, private val clickListener: MyCl
                             }
                         }
 
-                        override fun onCancelled(error: DatabaseError) {}
+                        override fun onCancelled(error: DatabaseError) {
+                            Log.d("dbError", "$error")
+                        }
                     }
                 )
                 val photoRef = user?.uid.let { it1 ->
@@ -211,7 +215,9 @@ class RecyclerAdapterLists(val context: Context, private val clickListener: MyCl
                             }
                         }
 
-                        override fun onCancelled(error: DatabaseError) {}
+                        override fun onCancelled(error: DatabaseError) {
+                            Log.d("dbError", "$error")
+                        }
                     }
                 )
                 itemView.setOnClickListener {

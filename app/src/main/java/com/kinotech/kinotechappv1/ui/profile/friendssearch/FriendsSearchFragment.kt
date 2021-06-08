@@ -44,7 +44,9 @@ class FriendsSearchFragment : Fragment() {
             activity?.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN)
             searchText.addTextChangedListener(
                 object : TextWatcher {
-                    override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
+                    override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                        Log.d("beforeTextChanged", "YES")
+                    }
 
                     override fun onTextChanged(
                         c: CharSequence?,

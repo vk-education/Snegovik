@@ -72,7 +72,9 @@ class OpenListsAdapter(
                         }
                     }
 
-                    override fun onCancelled(error: DatabaseError) {}
+                    override fun onCancelled(error: DatabaseError) {
+                        Log.d("dbError", "$error")
+                    }
                 }
             )
             val photoRef = user?.uid.let { it1 ->
@@ -105,7 +107,9 @@ class OpenListsAdapter(
                         }
                     }
 
-                    override fun onCancelled(error: DatabaseError) {}
+                    override fun onCancelled(error: DatabaseError) {
+                        Log.d("dbError", "$error")
+                    }
                 }
             )
             Log.d("recyclerView  ", "${itemTitle.text}")

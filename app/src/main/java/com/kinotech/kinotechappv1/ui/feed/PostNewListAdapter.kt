@@ -133,7 +133,9 @@ class PostNewListViewHolder(
                     count.text = snapshot.childrenCount.toString()
                 }
 
-                override fun onCancelled(error: DatabaseError) {}
+                override fun onCancelled(error: DatabaseError) {
+                    Log.d("dbError", "$error")
+                }
             }
         )
     }
@@ -188,7 +190,9 @@ class PostNewListViewHolder(
                         .into(filmPoster)
                 }
 
-                override fun onCancelled(error: DatabaseError) {}
+                override fun onCancelled(error: DatabaseError) {
+                    Log.d("dbError", "$error")
+                }
             }
         )
     }
@@ -219,12 +223,16 @@ class PostNewListViewHolder(
                                 }
                             }
 
-                            override fun onCancelled(error: DatabaseError) {}
+                            override fun onCancelled(error: DatabaseError) {
+                                Log.d("dbError", "$error")
+                            }
                         }
                     )
                 }
 
-                override fun onCancelled(error: DatabaseError) {}
+                override fun onCancelled(error: DatabaseError) {
+                    Log.d("dbError", "$error")
+                }
             }
         )
     }
@@ -269,7 +277,9 @@ class PostNewListViewHolder(
                     }
                 }
 
-                override fun onCancelled(error: DatabaseError) {}
+                override fun onCancelled(error: DatabaseError) {
+                    Log.d("dbError", "$error")
+                }
             }
         )
     }

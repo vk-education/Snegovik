@@ -74,7 +74,9 @@ class OpenListsFriendsAdapter(
                         }
                     }
 
-                    override fun onCancelled(error: DatabaseError) {}
+                    override fun onCancelled(error: DatabaseError) {
+                        Log.d("dbError", "$error")
+                    }
                 }
             )
             val photoRef = subsInfo.uid.let { it1 ->
@@ -107,7 +109,9 @@ class OpenListsFriendsAdapter(
                         }
                     }
 
-                    override fun onCancelled(error: DatabaseError) {}
+                    override fun onCancelled(error: DatabaseError) {
+                        Log.d("dbError", "$error")
+                    }
                 }
             )
             Log.d("recyclerView  ", "${itemTitle.text}")
@@ -147,12 +151,16 @@ class OpenListsFriendsAdapter(
                                     }
                                 }
 
-                                override fun onCancelled(error: DatabaseError) {}
+                                override fun onCancelled(error: DatabaseError) {
+                                    Log.d("dbError", "$error")
+                                }
                             }
                         )
                     }
 
-                    override fun onCancelled(error: DatabaseError) {}
+                    override fun onCancelled(error: DatabaseError) {
+                        Log.d("dbError", "$error")
+                    }
                 }
             )
         }
@@ -197,7 +205,9 @@ class OpenListsFriendsAdapter(
                         }
                     }
 
-                    override fun onCancelled(error: DatabaseError) {}
+                    override fun onCancelled(error: DatabaseError) {
+                        Log.d("dbError", "$error")
+                    }
                 }
             )
         }

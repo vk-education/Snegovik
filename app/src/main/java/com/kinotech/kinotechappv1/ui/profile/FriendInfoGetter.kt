@@ -1,5 +1,6 @@
 package com.kinotech.kinotechappv1.ui.profile
 
+import android.util.Log
 import android.widget.TextView
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -21,7 +22,9 @@ class FriendInfoGetter(private val subsInfo: SubsInfo) {
                     }
                 }
 
-                override fun onCancelled(error: DatabaseError) {}
+                override fun onCancelled(error: DatabaseError) {
+                    Log.d("dbError", "$error")
+                }
             }
         )
     }
@@ -40,7 +43,9 @@ class FriendInfoGetter(private val subsInfo: SubsInfo) {
                     }
                 }
 
-                override fun onCancelled(error: DatabaseError) {}
+                override fun onCancelled(error: DatabaseError) {
+                    Log.d("dbError", "$error")
+                }
             }
         )
     }
@@ -62,7 +67,9 @@ class FriendInfoGetter(private val subsInfo: SubsInfo) {
                     }
                 }
 
-                override fun onCancelled(error: DatabaseError) {}
+                override fun onCancelled(error: DatabaseError) {
+                    Log.d("dbError", "$error")
+                }
             }
         )
     }

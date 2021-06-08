@@ -104,13 +104,17 @@ class AddFilmToListViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView
                                     }
                                 }
 
-                                override fun onCancelled(error: DatabaseError) {}
+                                override fun onCancelled(error: DatabaseError) {
+                                    Log.d("dbError", "$error")
+                                }
                             }
                         )
                     }
                 }
 
-                override fun onCancelled(error: DatabaseError) {}
+                override fun onCancelled(error: DatabaseError) {
+                    Log.d("dbError", "$error")
+                }
             }
         )
         itemView.setOnClickListener {

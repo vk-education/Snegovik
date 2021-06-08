@@ -116,7 +116,9 @@ class ChangeProfileFragment : Fragment() {
                         .into(img)
                 }
 
-                override fun onCancelled(error: DatabaseError) {}
+                override fun onCancelled(error: DatabaseError) {
+                    Log.d("dbError", "$error")
+                }
             }
         )
     }

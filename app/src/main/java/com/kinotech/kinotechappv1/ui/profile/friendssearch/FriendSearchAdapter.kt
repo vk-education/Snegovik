@@ -159,6 +159,7 @@ class FriendSearchAdapter(
                     }
 
                     override fun onCancelled(error: DatabaseError) {
+                        Log.d("dbError", "$error")
                     }
                 }
             )
