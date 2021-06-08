@@ -196,35 +196,25 @@ class FilmPageFragment(movie: SimpleResult, s: String, mode: Int) : Fragment() {
         var actorsCount = 0
         val four = context?.resources?.getInteger(R.integer.four)
         for (item in staff) {
-            when (item.professionKey) {
-                "DIRECTOR" -> {
-                    directorsCount++
-                    if (directorsCount == four)
-                        continue
-                    directors.add(item.nameRu)
+            if (item.professionKey == "DIRECTOR") {
+                directorsCount++
+                if (directorsCount == four) {
+                    break
                 }
-                "ACTOR" -> {
-                    actorsCount++
-                    if (actorsCount == four)
-                        break
-                    actors.add(item.nameRu)
-                }
+                directors.add(item.nameRu)
             }
         }
-//        for (item in staff) {
-//            if (item.professionKey == "DIRECTOR") {
-//                directorsCount++
-//                if (directorsCount == four)
-//                    continue
-//                directors.add(item.nameRu)
-//            } else if (item.professionKey == "ACTOR") {
-//                actorsCount++
-//                if (actorsCount == four)
-//                    break
-//                actors.add(item.nameRu)
-//            }
-//        }
+        for (item in staff) {
+            if (item.professionKey == "ACTOR") {
+                actorsCount++
+                if (actorsCount == four) {
+                    break
+                }
+                actors.add(item.nameRu)
+            }
+        }
     }
+
 
     private suspend fun setDescriptionRating(
         movieView: View,
