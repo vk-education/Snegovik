@@ -72,56 +72,63 @@ class SubscribersAdapter(
                 likeProfile.setOnClickListener {
                     Log.d("double trouble", "перед проверкой лайка $subscriber")
                     if (likeProfile.tag == "not liked") {
-                        firebaseUser?.uid.let { uid ->
-                            FirebaseDatabase.getInstance().reference
-                                .child("Follow")
-                                .child(uid.toString())
-                                .child("Following")
-                                .child(subsInfo.uid)
-                                .setValue(subsInfo.uid)
-                                .addOnCompleteListener { task ->
-                                    if (task.isSuccessful) {
-                                        firebaseUser?.uid.let { uid ->
-                                            FirebaseDatabase.getInstance().reference
-                                                .child("Follow")
-                                                .child(subsInfo.uid)
-                                                .child("Followers")
-                                                .child(uid.toString())
-                                                .setValue(uid.toString())
-                                                .addOnCompleteListener { task ->
-                                                    if (task.isSuccessful) {
-                                                        Log.i("follow", "Подписан")
-                                                    }
-                                                }
-                                        }
-                                    }
-                                }
-                        }
+                        setSubscribe(subsInfo)
                     } else {
-                        firebaseUser?.uid.let { uid ->
-                            FirebaseDatabase.getInstance().reference
-                                .child("Follow")
-                                .child(uid.toString())
-                                .child("Following")
-                                .child(subsInfo.uid)
-                                .removeValue()
-                                .addOnCompleteListener { task ->
-                                    if (task.isSuccessful) {
-                                        firebaseUser?.uid.let { uid ->
-                                            FirebaseDatabase.getInstance().reference
-                                                .child("Follow").child(subsInfo.uid)
-                                                .child("Followers").child(uid.toString())
-                                                .removeValue().addOnCompleteListener { task ->
-                                                    if (task.isSuccessful) {
-                                                        Log.i("follow", "Отписан")
-                                                    }
-                                                }
-                                        }
-                                    }
-                                }
-                        }
+                        setUnsubscribe(subsInfo)
                     }
                 }
+            }
+        }
+        private fun setSubscribe(subsInfo: SubsInfo) {
+            firebaseUser?.uid.let { uid ->
+                FirebaseDatabase.getInstance().reference
+                    .child("Follow")
+                    .child(uid.toString())
+                    .child("Following")
+                    .child(subsInfo.uid)
+                    .setValue(subsInfo.uid)
+                    .addOnCompleteListener { task ->
+                        if (task.isSuccessful) {
+                            firebaseUser?.uid.let { uid ->
+                                FirebaseDatabase.getInstance().reference
+                                    .child("Follow")
+                                    .child(subsInfo.uid)
+                                    .child("Followers")
+                                    .child(uid.toString())
+                                    .setValue(uid.toString())
+                                    .addOnCompleteListener { task ->
+                                        if (task.isSuccessful) {
+                                            Log.i("follow", "Подписан")
+                                        }
+                                    }
+                            }
+                        }
+                    }
+            }
+        }
+
+        private fun setUnsubscribe(subsInfo: SubsInfo) {
+            firebaseUser?.uid.let { uid ->
+                FirebaseDatabase.getInstance().reference
+                    .child("Follow")
+                    .child(uid.toString())
+                    .child("Following")
+                    .child(subsInfo.uid)
+                    .removeValue()
+                    .addOnCompleteListener { task ->
+                        if (task.isSuccessful) {
+                            firebaseUser?.uid.let { uid ->
+                                FirebaseDatabase.getInstance().reference
+                                    .child("Follow").child(subsInfo.uid)
+                                    .child("Followers").child(uid.toString())
+                                    .removeValue().addOnCompleteListener { task ->
+                                        if (task.isSuccessful) {
+                                            Log.i("follow", "Отписан")
+                                        }
+                                    }
+                            }
+                        }
+                    }
             }
         }
 
