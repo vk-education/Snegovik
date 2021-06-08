@@ -96,12 +96,13 @@ class PostNewListViewHolder(
                 if (like.tag == "button_not_liked") {
                     setLike(postNewList)
                 } else {
-                   setUnlike(postNewList)
+                    setUnlike(postNewList)
                 }
             }
         }
     }
-    private fun setLike(postNewList: PostNewList){
+
+    private fun setLike(postNewList: PostNewList) {
         user?.uid.let {
             FirebaseDatabase.getInstance().reference
                 .child("Likes")
@@ -110,6 +111,7 @@ class PostNewListViewHolder(
                 .setValue(true)
         }
     }
+
     private fun setUnlike(postNewList: PostNewList) {
         user?.uid.let {
             FirebaseDatabase.getInstance().reference
