@@ -6,12 +6,15 @@
         android:layout_height="match_parent"
         tools:context=".ui.lists.ListsFragment"
         android:background="#ED959E"
-        android:backgroundTint="@color/red_200">
+        android:backgroundTint="@color/red_200"
+        android:animateLayoutChanges="true"
+        android:id="@+id/fragment_lists">
 
     <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerview"
+            android:id="@+id/recyclerview_lists"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            android:layout_marginBottom="55dp" />
 
     <TextView
             android:id="@+id/text_lists"

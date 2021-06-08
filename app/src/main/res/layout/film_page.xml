@@ -1,0 +1,330 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:background="@color/red_400"
+        android:layout_width="match_parent"
+        android:id="@+id/film_page_scroll"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="55dp">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:id="@+id/film_page"
+            android:layout_height="wrap_content"
+            android:background="@color/red_400">
+
+        <ProgressBar
+                android:id="@+id/progress_bar"
+                style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="5dp"
+                android:scaleY="4"
+                android:indeterminateTint="@color/red_500"
+                android:indeterminateBehavior="repeat"
+                android:indeterminate="true"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+
+        <ImageButton
+                android:id="@+id/backBtnFilmPage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                android:src="@drawable/ic_arrow_back"
+                android:background="@android:color/transparent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                tools:ignore="ContentDescription" />
+
+        <TextView
+                android:id="@+id/filmTitle"
+                android:layout_width="0dp"
+                android:gravity="center"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toTopOf="@id/backBtnFilmPage"
+                app:layout_constraintBottom_toBottomOf="@id/backBtnFilmPage"
+                app:layout_constraintStart_toEndOf="@id/backBtnFilmPage"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginEnd="16dp"
+                tools:text="Побег из Шоушенка"
+                android:maxLines="1"
+                android:ellipsize="end"
+                android:singleLine="true"
+                android:fontFamily="@font/rubik_bold"
+                android:textSize="21sp"
+                android:textColor="@color/white_full" />
+
+        <ImageView
+                android:id="@+id/filmSearchPoster"
+                android:layout_width="130dp"
+                android:layout_height="175dp"
+                android:scaleType="centerCrop"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/backBtnFilmPage"
+                android:layout_margin="16dp"
+                android:background="@drawable/border"
+                tools:ignore="ContentDescription" />
+
+        <TextView
+                android:id="@+id/whenWhere"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toEndOf="@id/filmSearchPoster"
+                app:layout_constraintTop_toTopOf="@id/filmSearchPoster"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toTopOf="@id/genre"
+                app:layout_constraintVertical_chainStyle="packed"
+                tools:text="1994, США"
+                android:fontFamily="@font/rubik_bold"
+                android:textSize="14sp"
+                android:textColor="@color/grey_for_search_result"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:maxLines="1"
+                android:ellipsize="end"
+                android:singleLine="true" />
+
+        <TextView
+                android:id="@+id/genre"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toEndOf="@id/filmSearchPoster"
+                app:layout_constraintTop_toBottomOf="@id/whenWhere"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toTopOf="@id/director"
+                tools:text="Драма"
+                android:fontFamily="@font/rubik_bold"
+                android:textSize="14sp"
+                android:textColor="@color/grey_for_search_result"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:maxLines="1"
+                android:ellipsize="end"
+                android:singleLine="true" />
+
+        <TextView
+                android:id="@+id/director"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toEndOf="@id/filmSearchPoster"
+                app:layout_constraintTop_toBottomOf="@id/genre"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toTopOf="@id/directorName"
+                android:text="@string/director"
+                android:fontFamily="@font/rubik_bold"
+                android:textSize="14sp"
+                android:textColor="@color/white_full"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp" />
+
+        <TextView
+                android:id="@+id/directorName"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toEndOf="@id/filmSearchPoster"
+                app:layout_constraintTop_toBottomOf="@id/director"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toTopOf="@id/roles"
+                tools:text="Фрэнк Дарабонт"
+                android:fontFamily="@font/rubik_bold"
+                android:textSize="14sp"
+                android:textColor="@color/grey_for_search_result"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:maxLines="1"
+                android:ellipsize="end"
+                android:singleLine="true" />
+
+        <TextView
+                android:id="@+id/roles"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toEndOf="@id/filmSearchPoster"
+                app:layout_constraintTop_toBottomOf="@id/directorName"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toTopOf="@id/rolesList"
+                android:text="@string/roles"
+                android:fontFamily="@font/rubik_bold"
+                android:textSize="14sp"
+                android:textColor="@color/white_full"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp" />
+
+        <TextView
+                android:id="@+id/rolesList"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toEndOf="@id/filmSearchPoster"
+                app:layout_constraintTop_toBottomOf="@id/roles"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toBottomOf="@id/filmSearchPoster"
+                tools:text="Тим Роббинс \n Морган Фриман \n Боб Гантон"
+                android:fontFamily="@font/rubik_bold"
+                android:textSize="14sp"
+                android:textColor="@color/grey_for_search_result"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:maxLines="4"
+                android:ellipsize="end" />
+
+        <TextView
+                android:id="@+id/kinopoisk"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="@id/filmSearchPoster"
+                app:layout_constraintTop_toBottomOf="@id/filmSearchPoster"
+                app:layout_constraintEnd_toStartOf="@id/kpRanking"
+                app:layout_constraintHorizontal_chainStyle="packed"
+                android:text="@string/kinopoisk"
+                android:fontFamily="@font/rubik_bold"
+                android:textSize="14sp"
+                android:textColor="@color/white_full"
+                android:layout_marginTop="4dp" />
+
+        <TextView
+                android:id="@+id/imdb"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="@id/kinopoisk"
+                app:layout_constraintTop_toBottomOf="@id/kinopoisk"
+                android:text="@string/imdb"
+                android:fontFamily="@font/rubik_bold"
+                android:textSize="14sp"
+                android:textColor="@color/white_full"
+                android:layout_marginTop="4dp" />
+
+        <TextView
+                android:id="@+id/kpRanking"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:text="9.1"
+                android:fontFamily="@font/rubik_bold"
+                android:textSize="14sp"
+                android:textColor="@color/grey_for_search_result"
+                android:layout_marginStart="4dp"
+                app:layout_constraintStart_toEndOf="@id/kinopoisk"
+                app:layout_constraintTop_toTopOf="@id/kinopoisk"
+                app:layout_constraintEnd_toEndOf="@id/filmSearchPoster" />
+
+        <TextView
+                android:id="@+id/imdbRanking"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:text="9.3"
+                android:fontFamily="@font/rubik_bold"
+                android:textSize="14sp"
+                android:textColor="@color/grey_for_search_result"
+                app:layout_constraintStart_toEndOf="@id/imdb"
+                app:layout_constraintTop_toTopOf="@id/imdb"
+                android:layout_marginStart="4dp" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/red_200"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/imdb"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="16dp"
+                android:padding="16dp"
+                android:background="@drawable/border"
+                app:layout_constraintVertical_bias="0.1">
+
+            <TextView
+                    android:id="@+id/description"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/description"
+                    android:fontFamily="@font/rubik_bold"
+                    android:textSize="18sp"
+                    android:textColor="@color/white_full"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                    android:id="@+id/filmDescription"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginTop="16dp"
+                    app:layout_constraintStart_toStartOf="@id/description"
+                    tools:text="Бухгалтер Энди Дюфрейн обвинён в убийстве собственной жены и её любовника.
+            \nОказавшись в тюрьме под названием Шоушенк, он сталкивается с жестокостью и беззаконием, царящими по обе стороны решётки..."
+                    app:layout_constraintTop_toBottomOf="@id/description"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:fontFamily="@font/rubik_bold"
+                    android:textSize="14sp"
+                    android:textColor="@color/white_full" />
+
+            <TextView
+                    android:id="@+id/rateFilm"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toBottomOf="@id/filmDescription"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:text="@string/rate_film"
+                    android:fontFamily="@font/rubik_bold"
+                    android:textSize="18sp"
+                    android:textColor="@color/white_full"
+                    android:layout_margin="20dp" />
+
+            <EditText
+                    android:id="@+id/userRate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/rubik_bold"
+                    android:textSize="18sp"
+                    android:textColor="@color/red_700"
+                    android:textColorHint="@color/red_700"
+                    android:inputType="number"
+                    android:maxLength="2"
+                    android:layout_marginTop="6dp"
+                    app:layout_constraintHorizontal_chainStyle="packed"
+                    app:layout_constraintTop_toBottomOf="@id/rateFilm"
+                    app:layout_constraintStart_toStartOf="@id/rateFilm"
+                    app:layout_constraintEnd_toStartOf="@id/outOfTen"
+                    tools:ignore="Autofill,LabelFor" />
+
+            <TextView
+                    android:id="@+id/outOfTen"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/rubik_bold"
+                    android:textSize="18sp"
+                    android:textColor="@color/white_full"
+                    android:text="@string/ten"
+                    android:layout_marginTop="16dp"
+                    app:layout_constraintTop_toBottomOf="@id/rateFilm"
+                    app:layout_constraintStart_toEndOf="@id/userRate"
+                    app:layout_constraintEnd_toEndOf="@id/rateFilm" />
+
+            <ImageButton
+                    android:id="@+id/likeFilm"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_like_40dp"
+                    android:background="@android:color/transparent"
+                    android:layout_marginBottom="16dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/userRate"
+                    app:layout_constraintEnd_toStartOf="@id/addFilm"
+                    tools:ignore="ContentDescription" />
+
+            <ImageButton
+                    android:id="@+id/addFilm"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_add_40dp"
+                    android:background="@android:color/transparent"
+                    app:layout_constraintTop_toTopOf="@id/likeFilm"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/likeFilm"
+                    tools:ignore="ContentDescription" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>
