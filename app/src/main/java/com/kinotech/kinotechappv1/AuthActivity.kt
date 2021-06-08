@@ -103,7 +103,7 @@ class AuthActivity : AppCompatActivity() {
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
                 startActivity(intent)
             } catch (e: IOException) {
-                Log.w("TAG", "Google sign in failed $e")
+                Log.w("TAG", "Google sign in failed2 $e")
             }
         }
     }
