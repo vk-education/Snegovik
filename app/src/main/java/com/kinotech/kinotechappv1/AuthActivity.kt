@@ -120,6 +120,7 @@ class AuthActivity : AppCompatActivity() {
                 }
 
                 override fun onCancelled(error: DatabaseError) {
+                    Log.d("dbError", "$error")
                 }
             }
         )
