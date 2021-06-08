@@ -45,8 +45,11 @@ class MovieFavAdapter(
         return holder.bind(mData[position])
     }
 
-    class MyViewHolder(itemView: View, private val mData: ArrayList<SimpleResult>,
-                       private val mode: Int) :
+    class MyViewHolder(
+        itemView: View,
+        private val mData: ArrayList<SimpleResult>,
+        private val mode: Int
+    ) :
         RecyclerView.ViewHolder(itemView) {
 
         private val filmPhoto: ImageView = itemView.findViewById(R.id.lmFilmPoster)
