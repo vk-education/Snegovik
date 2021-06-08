@@ -93,6 +93,7 @@ class ChangeProfileFragment : Fragment() {
         }
         return binding.root
     }
+
     private fun cErr(v: Context) {
         PermissionChecker.checkSelfPermission(
             v,

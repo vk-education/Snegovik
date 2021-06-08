@@ -6,8 +6,6 @@ import android.os.Bundle
 import android.util.Log
 import android.view.GestureDetector
 import android.view.MotionEvent
-import android.view.animation.Animation
-import android.view.animation.AnimationUtils
 import android.widget.ImageButton
 import android.widget.ViewFlipper
 import androidx.appcompat.app.AppCompatActivity
@@ -40,10 +38,8 @@ class AuthActivity : AppCompatActivity() {
     private var currAcc: GoogleSignInAccount? = null
     private lateinit var idTokenAcc: String
     private lateinit var flipper: ViewFlipper
-    private lateinit var animFlipInForward: Animation
-    private lateinit var animFlipOutForward: Animation
-    private lateinit var animFlipInBackward: Animation
-    private lateinit var animFlipOutBackward: Animation
+    private lateinit var newGestureDetector: NewGestureDetector
+    private lateinit var gestureDetector: GestureDetector
     private lateinit var rightDot: ImageButton
     private lateinit var leftDot: ImageButton
 
@@ -54,12 +50,8 @@ class AuthActivity : AppCompatActivity() {
         supportActionBar!!.hide()
 
         flipper = findViewById(R.id.flipper)
-
-        animFlipInForward = AnimationUtils.loadAnimation(this, R.anim.flipin)
-        animFlipOutForward = AnimationUtils.loadAnimation(this, R.anim.flipout)
-        animFlipInBackward = AnimationUtils.loadAnimation(this, R.anim.flipin_reverse)
-        animFlipOutBackward = AnimationUtils.loadAnimation(this, R.anim.flipout_reverse)
-
+        newGestureDetector = NewGestureDetector(flipper, this)
+        gestureDetector = GestureDetector(baseContext, newGestureDetector)
         serverClientId = getString(R.string.server_client_id)
         val gso: GoogleSignInOptions =
             GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
@@ -76,60 +68,14 @@ class AuthActivity : AppCompatActivity() {
 
         leftDot = findViewById(R.id.left_dot)
         leftDot.setOnClickListener {
-            swipeLeft()
+            newGestureDetector.swipeLeft()
         }
 
         rightDot = findViewById(R.id.right_dot)
         rightDot.setOnClickListener {
-            swipeRight()
+            newGestureDetector.swipeRight()
         }
     }
-
-    private fun isFirst(): Boolean {
-        return flipper.displayedChild == 0
-    }
-
-    private fun isLast(): Boolean {
-        return flipper.displayedChild + 1 == flipper.childCount
-    }
-
-    private fun swipeLeft() {
-        if (!isLast()) {
-            flipper.inAnimation = animFlipInBackward
-            flipper.outAnimation = animFlipOutBackward
-            flipper.showPrevious()
-        }
-    }
-
-    private fun swipeRight() {
-        if (!isFirst()) {
-            flipper.inAnimation = animFlipInForward
-            flipper.outAnimation = animFlipOutForward
-            flipper.showNext()
-        }
-    }
-
-    private inner class NewGestureDetector : GestureDetector.SimpleOnGestureListener() {
-
-        override fun onFling(
-            e1: MotionEvent,
-            e2: MotionEvent,
-            velocityX: Float,
-            velocityY: Float
-        ): Boolean {
-            val sensitivity = 50
-            if ((e1.x - e2.x) > sensitivity) {
-                swipeLeft()
-            } else if ((e2.x - e1.x) > sensitivity) {
-                swipeRight()
-            }
-            return true
-        }
-    }
-
-    private val newGestureDetector: NewGestureDetector = NewGestureDetector()
-
-    private val gestureDetector = GestureDetector(baseContext, newGestureDetector)
 
     override fun onTouchEvent(event: MotionEvent?): Boolean {
         return gestureDetector.onTouchEvent(event)

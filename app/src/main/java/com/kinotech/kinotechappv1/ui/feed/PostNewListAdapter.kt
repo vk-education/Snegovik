@@ -94,23 +94,31 @@ class PostNewListViewHolder(
             checkLikeCount(likesCount, postNewList.actionDoneText)
             like.setOnClickListener {
                 if (like.tag == "button_not_liked") {
-                    user?.uid.let {
-                        FirebaseDatabase.getInstance().reference
-                            .child("Likes")
-                            .child(postNewList.actionDoneText)
-                            .child(user?.uid.toString())
-                            .setValue(true)
-                    }
+                    setLike(postNewList)
                 } else {
-                    user?.uid.let {
-                        FirebaseDatabase.getInstance().reference
-                            .child("Likes")
-                            .child(postNewList.actionDoneText)
-                            .child(user?.uid.toString())
-                            .removeValue()
-                    }
+                    setUnlike(postNewList)
                 }
             }
+        }
+    }
+
+    private fun setLike(postNewList: PostNewList) {
+        user?.uid.let {
+            FirebaseDatabase.getInstance().reference
+                .child("Likes")
+                .child(postNewList.actionDoneText)
+                .child(user?.uid.toString())
+                .setValue(true)
+        }
+    }
+
+    private fun setUnlike(postNewList: PostNewList) {
+        user?.uid.let {
+            FirebaseDatabase.getInstance().reference
+                .child("Likes")
+                .child(postNewList.actionDoneText)
+                .child(user?.uid.toString())
+                .removeValue()
         }
     }
 

@@ -46,9 +46,10 @@ class FriendProfileFragment(private val subsInfo: SubsInfo) : Fragment() {
         }
         binding.apply {
             userInfo(friendTextProfile, root, friendPhoto)
-            getListsCount(friendLists)
-            getSubscribers(friendSubscribers)
-            getSubscriptions(friendSubscriptions)
+            val friendInfoGetter = FriendInfoGetter(subsInfo)
+            friendInfoGetter.getListsCount(friendLists)
+            friendInfoGetter.getSubscribers(friendSubscribers)
+            friendInfoGetter.getSubscriptions(friendSubscriptions)
             loadRecyclerView(friendListsRV)
 
             backBtnCh.setOnClickListener {
@@ -56,52 +57,61 @@ class FriendProfileFragment(private val subsInfo: SubsInfo) : Fragment() {
             }
 
             checkFollowingStatus(subscribeButton)
+
             subscribeButton.setOnClickListener {
                 if (subscribeButton.text.toString() == "Подписаться") { // Расхардкодить
-                    user.uid.let { uid ->
-                        FirebaseDatabase.getInstance().reference
-                            .child("Follow").child(uid)
-                            .child("Following").child(subsInfo.uid)
-                            .setValue(subsInfo.uid).addOnCompleteListener { task ->
-                                if (task.isSuccessful) {
-                                    user.uid.let { uid ->
-                                        FirebaseDatabase.getInstance().reference
-                                            .child("Follow").child(subsInfo.uid)
-                                            .child("Followers").child(uid)
-                                            .setValue(user.uid).addOnCompleteListener { task ->
-                                                if (task.isSuccessful) {
-                                                    Log.i("follow", "Подписан")
-                                                }
-                                            }
-                                    }
-                                }
-                            }
-                    }
+                    setSubscribe()
                 } else {
-                    user.uid.let { uid ->
-                        FirebaseDatabase.getInstance().reference
-                            .child("Follow").child(uid)
-                            .child("Following").child(subsInfo.uid)
-                            .removeValue().addOnCompleteListener { task ->
-                                if (task.isSuccessful) {
-                                    user.uid.let { uid ->
-                                        FirebaseDatabase.getInstance().reference
-                                            .child("Follow").child(subsInfo.uid)
-                                            .child("Followers").child(uid)
-                                            .removeValue().addOnCompleteListener { task ->
-                                                if (task.isSuccessful) {
-                                                    Log.i("follow", "Отписан")
-                                                }
-                                            }
-                                    }
-                                }
-                            }
-                    }
+                    setUnsubscribe()
                 }
             }
             loadRecyclerView(friendListsRV)
         }
         return binding.root
+    }
+
+    private fun setSubscribe() {
+        user.uid.let { uid ->
+            FirebaseDatabase.getInstance().reference
+                .child("Follow").child(uid)
+                .child("Following").child(subsInfo.uid)
+                .setValue(subsInfo.uid).addOnCompleteListener { task ->
+                    if (task.isSuccessful) {
+                        user.uid.let { uid ->
+                            FirebaseDatabase.getInstance().reference
+                                .child("Follow").child(subsInfo.uid)
+                                .child("Followers").child(uid)
+                                .setValue(user.uid).addOnCompleteListener { task ->
+                                    if (task.isSuccessful) {
+                                        Log.i("follow", "Подписан")
+                                    }
+                                }
+                        }
+                    }
+                }
+        }
+    }
+
+    private fun setUnsubscribe() {
+        user.uid.let { uid ->
+            FirebaseDatabase.getInstance().reference
+                .child("Follow").child(uid)
+                .child("Following").child(subsInfo.uid)
+                .removeValue().addOnCompleteListener { task ->
+                    if (task.isSuccessful) {
+                        user.uid.let { uid ->
+                            FirebaseDatabase.getInstance().reference
+                                .child("Follow").child(subsInfo.uid)
+                                .child("Followers").child(uid)
+                                .removeValue().addOnCompleteListener { task ->
+                                    if (task.isSuccessful) {
+                                        Log.i("follow", "Отписан")
+                                    }
+                                }
+                        }
+                    }
+                }
+        }
     }
 
     private fun loadRecyclerView(listsRV: RecyclerView) {
@@ -239,63 +249,63 @@ class FriendProfileFragment(private val subsInfo: SubsInfo) : Fragment() {
         )
     }
 
-    private fun getSubscriptions(subscriptions: TextView) {
-        subsInfo.uid.let { it1 ->
-            FirebaseDatabase.getInstance().reference
-                .child("Follow")
-                .child(it1)
-                .child("Following")
-        }.addValueEventListener(
-            object : ValueEventListener {
-                override fun onDataChange(snapshot: DataSnapshot) {
-                    ((snapshot.childrenCount).toString() + "\nподписки").also {
-                        subscriptions.text = it
-                    }
-                }
+//    private fun getSubscriptions(subscriptions: TextView) {
+//        subsInfo.uid.let { it1 ->
+//            FirebaseDatabase.getInstance().reference
+//                .child("Follow")
+//                .child(it1)
+//                .child("Following")
+//        }.addValueEventListener(
+//            object : ValueEventListener {
+//                override fun onDataChange(snapshot: DataSnapshot) {
+//                    ((snapshot.childrenCount).toString() + "\nподписки").also {
+//                        subscriptions.text = it
+//                    }
+//                }
+//
+//                override fun onCancelled(error: DatabaseError) {}
+//            }
+//        )
+//    }
 
-                override fun onCancelled(error: DatabaseError) {}
-            }
-        )
-    }
+//    private fun getSubscribers(subscribers: TextView) {
+//        subsInfo.uid.let { it1 ->
+//            FirebaseDatabase.getInstance().reference
+//                .child("Follow")
+//                .child(it1)
+//                .child("Followers")
+//        }.addValueEventListener(
+//            object : ValueEventListener {
+//                override fun onDataChange(snapshot: DataSnapshot) {
+//                    ((snapshot.childrenCount).toString() + "\nподписчики").also {
+//                        subscribers.text = it
+//                    }
+//                }
+//
+//                override fun onCancelled(error: DatabaseError) {}
+//            }
+//        )
+//    }
 
-    private fun getSubscribers(subscribers: TextView) {
-        subsInfo.uid.let { it1 ->
-            FirebaseDatabase.getInstance().reference
-                .child("Follow")
-                .child(it1)
-                .child("Followers")
-        }.addValueEventListener(
-            object : ValueEventListener {
-                override fun onDataChange(snapshot: DataSnapshot) {
-                    ((snapshot.childrenCount).toString() + "\nподписчики").also {
-                        subscribers.text = it
-                    }
-                }
-
-                override fun onCancelled(error: DatabaseError) {}
-            }
-        )
-    }
-
-    private fun getListsCount(lists: TextView) {
-        subsInfo.uid.let { it1 ->
-            FirebaseDatabase.getInstance().reference
-                .child("Lists")
-                .child(it1)
-        }.addValueEventListener(
-            object : ValueEventListener {
-                override fun onDataChange(snapshot: DataSnapshot) {
-                    if (snapshot.childrenCount - 1 < 0) {
-                        (snapshot.childrenCount.toString() + "\nсписки").also { lists.text = it }
-                    } else {
-                        ((snapshot.childrenCount - 1).toString() + "\nсписки").also {
-                            lists.text = it
-                        }
-                    }
-                }
-
-                override fun onCancelled(error: DatabaseError) {}
-            }
-        )
-    }
+//    private fun getListsCount(lists: TextView) {
+//        subsInfo.uid.let { it1 ->
+//            FirebaseDatabase.getInstance().reference
+//                .child("Lists")
+//                .child(it1)
+//        }.addValueEventListener(
+//            object : ValueEventListener {
+//                override fun onDataChange(snapshot: DataSnapshot) {
+//                    if (snapshot.childrenCount - 1 < 0) {
+//                        (snapshot.childrenCount.toString() + "\nсписки").also { lists.text = it }
+//                    } else {
+//                        ((snapshot.childrenCount - 1).toString() + "\nсписки").also {
+//                            lists.text = it
+//                        }
+//                    }
+//                }
+//
+//                override fun onCancelled(error: DatabaseError) {}
+//            }
+//        )
+//    }
 }
